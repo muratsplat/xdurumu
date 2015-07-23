@@ -136,6 +136,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        
+        /**
+         * Added Extentions
+         */        
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
 
         /*
          * Application Service Providers...
