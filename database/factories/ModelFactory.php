@@ -19,3 +19,13 @@ $factory->define(App\User::class, function ($faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\City::class, function ($faker) {
+    return [
+        'name'                  => $faker->name,
+        'country'               => $faker->country,
+        'latitude'              => $faker->latitude,
+        'longitude'             => $faker->longitude,
+        'open_weather_map_id'   => rand(1, 200000),       
+    ];
+});
