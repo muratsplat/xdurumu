@@ -48,7 +48,10 @@ class CityModelTest extends TestCase
             $this->assertEquals($one->country, $city['country']);
             $this->assertEquals($one->coord->lat, $city['latitude']);
             $this->assertEquals($one->coord->lon, $city['longitude']);
-            $this->assertEquals($one->_id, $city['open_weather_map_id']);            
+            $this->assertEquals($one->_id, $city['open_weather_map_id']);  
+            // generating slug 
+            $city->sluggify();            
+            $this->assertEquals($city['slug'], 'laspi');
         }
         
 }
