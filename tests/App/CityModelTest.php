@@ -27,10 +27,8 @@ class CityModelTest extends TestCase
         }
         
         
-        public function testSimpleTwo() {
-            
-           
-            
+        public function testSimpleTwo() 
+        { 
             $one    = json_decode($this->cityJsonExampleData);           
             
             $attr = [
@@ -42,7 +40,9 @@ class CityModelTest extends TestCase
                 'open_weather_map_id' =>  $one->_id,        
             ];
             
-            $city = factory(City::class)->make($attr);           
+            $city = factory(City::class)->make($attr);   
+            
+            app('events')->fire('eluquent.saving.' . get_class($city), $city);
             
             $this->assertEquals($one->name, $city['name']);
             $this->assertEquals($one->country, $city['country']);
