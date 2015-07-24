@@ -15,7 +15,17 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         // $this->call(UserTableSeeder::class);
-
+        
+        /**
+         * Loading Cities
+         */
+        $this->call(SeedDefaultCities::class);    
+        
+        /**
+         * Loading Weather Forecast Resources
+         */
+        $this->call(SeedsWeaterForeCastResources::class);
+        
         Model::reguard();
     }
 }

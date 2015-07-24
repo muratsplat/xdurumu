@@ -42,16 +42,37 @@ class CityModelTest extends TestCase
             
             $city = factory(City::class)->make($attr);   
             
-            app('events')->fire('eluquent.saving.' . get_class($city), $city);
-            
             $this->assertEquals($one->name, $city['name']);
             $this->assertEquals($one->country, $city['country']);
             $this->assertEquals($one->coord->lat, $city['latitude']);
             $this->assertEquals($one->coord->lon, $city['longitude']);
             $this->assertEquals($one->_id, $city['open_weather_map_id']);  
             // generating slug 
-            $city->sluggify();            
+            $city->sluggify();
+            
             $this->assertEquals($city['slug'], 'laspi');
+        }
+        
+        public function testSlugBugWhenUseTurkishCharacter() 
+        { 
+                        
+            $attr = [
+                
+                'name'      => 'Gümüşhane',             
+            ];
+            
+            $city = factory(City::class)->make($attr);          
+        
+            // generating slug 
+            $city->sluggify();
+            
+            /**
+             * TODO:
+             *  -There is a bug about generating slug
+             *      https://github.com/cviebrock/eloquent-sluggable/issues/164
+             *  
+             */
+            //$this->assertEquals($city['slug'], 'gumushane');
         }
         
 }

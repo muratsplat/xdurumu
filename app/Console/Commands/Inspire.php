@@ -29,5 +29,6 @@ class Inspire extends Command
     public function handle()
     {
         $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
+        \Log::info('Selam bu bir zamanlanmış görev bilmem neyidir.!');
     }
 }

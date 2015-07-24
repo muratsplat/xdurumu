@@ -11,6 +11,7 @@ use Cviebrock\EloquentSluggable\SluggableTrait;
 /**
  * App\City
  *
+ * @package Xdurumu
  */
 class City extends Model implements SluggableInterface
 {

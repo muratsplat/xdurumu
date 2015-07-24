@@ -20,7 +20,7 @@ $factory->define(App\User::class, function ($faker) {
     ];
 });
 
-$factory->define(App\City::class, function ($faker) {
+$factory->define(App\City::class, function (Faker\Generator $faker) {
     return [
         'name'                  => $faker->name,
         'country'               => $faker->country,
@@ -29,3 +29,36 @@ $factory->define(App\City::class, function ($faker) {
         'open_weather_map_id'   => rand(1, 200000),       
     ];
 });
+
+//            WeatherForeCastResource  Migration
+        
+//            $t->increments('id');
+//            $t->string('name', 150);
+//            $t->mediumText('description')->nullable();
+//            $t->string('url', 250);
+//            $t->string('api_url', 150)->nullable();
+//            $t->boolen('apiable')->default(false);                   
+//            $t->tinyInteger('enable')->default(0);
+//            $t->tinyInteger('paid')->default(0);
+//            $t->mediumInteger('api_calls_count')->unsigned()->default(0);
+//            $t->timestamp('last_access_on')->nullable();   
+//            $t->softDeletes();            
+//            $t->timestamps();
+
+$factory->define(App\WeatherForeCastResource::class, function (Faker\Generator $faker) {
+    return [
+        'name'                  => $faker->name,
+        'description'           => $faker->paragraph,
+        'url'                   => $faker->url,
+        'api_url'               => $faker->url,
+        'apiable'               => true,
+        'last_access_on'        => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),
+        'enable'                => 1,
+        'paid'                  => 0,
+        'api_calls_count'       => rand(100, 999999),
+        'deleted_at'            => null,
+        'created_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),
+        'updated_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),     
+    ];
+});
+        
