@@ -10,7 +10,7 @@ use Cviebrock\EloquentSluggable\SluggableTrait;
 /**
  * Weather Conditions
  * 
- * @package WeatherForeCast
+ * @package WeatherForecast
  */
 class WeatherCondition extends Model implements SluggableInterface
 {

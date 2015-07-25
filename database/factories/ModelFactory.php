@@ -86,4 +86,88 @@ $factory->define(App\WeatherCondition::class, function (Faker\Generator $faker) 
         'updated_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),     
     ];
 });
+
+//    $t->increments('id');
+//    $t->integer('weather_current_id')->unsigned()->nullable();
+//    $t->integer('weather_hourly_id')->unsigned()->nullable();
+//    $t->integer('weather_daily_id')->unsigned()->nullable();
+//    $t->integer('all');
+$factory->define(App\WeatherCloud::class, function (Faker\Generator $faker) {
+    return [
+        
+        'weather_current_id'    => null,
+        'weather_hourly_id'     => null,   
+        'weather_daily_id'      => null,        
+        'all'                   => rand(1, 100),             
+    ];
+});
+
+//    $t->increments('id');
+//    $t->integer('weather_current_id')->unsigned()->nullable();
+//    $t->integer('weather_hourly_id')->unsigned()->nullable();
+//    $t->float('speed')->unsigned();
+//    $t->double('deg', 15, 8);       
+$factory->define(App\WeatherWind::class, function (Faker\Generator $faker) {
+    return [
+        
+        'weather_current_id'    => null,
+        'weather_hourly_id'     => null,           
+        'speed'                 => 7.31,
+        'deg'                   => 187.002,        
+    ];
+});
+
+//    $t->increments('id');
+//    $t->integer('weather_current_id')->unsigned()->nullable();
+//    $t->integer('weather_hourly_id')->unsigned()->nullable();
+//    $t->integer('weather_daily_id')->unsigned()->nullable();
+//    $t->double('3h', 15,8)->unsigned()->nullable();
+//    $t->double('rain', 15,8)->unsigned()->nullable();
+$factory->define(App\WeatherRain::class, function (Faker\Generator $faker) {
+    return [
+        
+        'weather_current_id'    => null,
+        'weather_hourly_id'     => null,   
+        'weather_daily_id'      => null,             
+        '3h'                    => 2.225,
+        'rain'                  => 187.002,        
+    ];
+});
+
+//    $t->increments('id');
+//    $t->integer('weather_current_id')->unsigned()->nullable();
+//    $t->integer('weather_hourly_id')->unsigned()->nullable();
+//    $t->integer('weather_daily_id')->unsigned()->nullable();
+//    $t->double('temp', 15,8);
+//    $t->double('temp_min', 15,8)->nullable();
+//    $t->double('temp_max', 15,8)->nullable();
+//    $t->double('temp_eve', 15,8)->nullable();
+//    $t->double('temp_night', 15,8)->nullable();
+//    $t->double('temp_morn', 15,8)->nullable(); 
+//    $t->double('pressure', 15,8)->unsigned()->nullable();
+//    $t->integer('humidity')->unsigned()->nullable();
+//    $t->double('sea_level', 15,8)->nullable();
+//    $t->double('grnd_level', 15,8)->nullable();
+//    $t->float('temp_kf')->nullable();   
+$factory->define(App\WeatherMain::class, function (Faker\Generator $faker) {
+    return [
+        
+
+        'weather_current_id'    => null,
+        'weather_hourly_id'     => null,   
+        'weather_daily_id'      => null,             
+        'temp'                  => (double) rand(-30, 60) * 0.21,        
+        'temp_min'              => (double) rand(-30, 60) * 0.65,             
+        'temp_max'              => (double) rand(-30, 60) * 0.65, 
+        'temp_eve'              => (double) rand(-30, 60) * 0.65, 
+        'temp_night'            => (double) rand(-30, 60) * 0.65, 
+        'temp_morn'             => (double) rand(-30, 60) * 0.65, 
+        'pressure'              => rand(500,1000),        
+        'humidity'              => rand(1,99),
+        'sea_level'             => (double) rand(500,1200) * 0.84,        
+        'grnd_level'            => (double) rand(500,1200) * 0.84,
+        'temp_kf'               => (double) rand(2,67),     
+    ];
+});
+
         
