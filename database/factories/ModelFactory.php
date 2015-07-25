@@ -61,4 +61,29 @@ $factory->define(App\WeatherForeCastResource::class, function (Faker\Generator $
         'updated_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),     
     ];
 });
+
+//       The Migration  For App\WeatherCondition
+//       
+//        $t->increments('id');
+//        $t->integer('open_weather_map_id')->unsigned()->nullable();            
+//        $t->string('name', 50);
+//        $t->string('description', 150);
+//        $t->string('icon', 50)->nullable(); 
+//        $t->boolean('enable')->default(true);
+//        $t->string('slug', 200)->nullable()->unique()->index();
+//        $t->integer('sort_order')->unsigned()->default(0);            
+//        $t->softDeletes();                       
+//        $t->timestamps();
+$factory->define(App\WeatherCondition::class, function (Faker\Generator $faker) {
+    return [
+        'name'                  => $faker->name,
+        'description'           => $faker->paragraph,   
+        'enable'                => 1,        
+        'icon'                  => str_random(4),        
+        'open_weather_map_id'   => rand(1, 5),          
+        'deleted_at'            => null,
+        'created_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),
+        'updated_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),     
+    ];
+});
         
