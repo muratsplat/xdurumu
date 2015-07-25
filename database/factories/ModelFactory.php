@@ -170,4 +170,18 @@ $factory->define(App\WeatherMain::class, function (Faker\Generator $faker) {
     ];
 });
 
+//    $t->increments('id');
+//    $t->integer('weather_current_id')->unsigned()->nullable();
+//    $t->string('country', 50)->nullable();
+//    $t->time('sunrise');
+//    $t->time('sunset');  
+
+$factory->define(App\WeatherSys::class, function (Faker\Generator $faker) {
+    return [
+        'weather_current_id'    => null,
+        'country'               => $faker->city,
+        'sunrise'               => $faker->unixTime,
+        'sunset'                => $faker->unixTime,
+    ];
+});
         

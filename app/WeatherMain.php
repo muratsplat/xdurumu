@@ -16,12 +16,26 @@ class WeatherMain extends Model
      *
      * @var string
      */
-    protected $table = 'weather_clouds';
+    protected $table = 'weather_main';
 
+                  
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */            
-    protected $fillable = ['all'];
+    protected $fillable = [
+            
+            'temp',
+            'temp_min',
+            'temp_max',
+            'temp_eve',
+            'temp_night',
+            'temp_morn',
+            'pressure',
+            'humidity',
+            'sea_level',
+            'grnd_level',
+            'temp_kf',
+        ];
 }

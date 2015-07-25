@@ -4,25 +4,25 @@
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\WeatherMain;
+use App\WeatherSys;
 
 
-class WeatherMainTest extends TestCase
+class WeatherSysTest extends TestCase
 {  
 
     
         public function testSimple()
         {           
-            $one = new WeatherMain();                     
+            $one = new WeatherSys();                     
         }       
         
         public function testWithFakerAttributes() 
         {                                  
-            $one = factory(App\WeatherMain::class)->make();    
+            $one = factory(App\WeatherSys::class)->make();    
             
-            $this->assertNull($one['weather_hourly_id']);            
-            $this->assertNotNull($one['temp']);     
-            $this->assertNotNull($one['temp_min']);     
+            $this->assertNotNull($one->sunset);
+            $this->assertNotNull($one->sunrise);
+            $this->assertNotNull($one->country);
         }    
         
 }
