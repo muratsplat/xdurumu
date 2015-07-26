@@ -74,6 +74,14 @@ return [
     |
     */
 
-    'prefix' => 'laravel',
+    'prefix' => 'xdurumu',
+    
+    /*
+     * Caching Durations
+     * 
+     * Time unit is minute.
+     */
+    'duration'  => 60,
+    
 
 ];
