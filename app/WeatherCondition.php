@@ -36,7 +36,7 @@ class WeatherCondition extends Model implements SluggableInterface
      *
      * @var array
      */            
-    protected $fillable = ['name', 'description', 'icon', 'slug'];
+    protected $fillable = ['name', 'description', 'orgin_name', 'orgin_description','icon', 'slug'];
     
     /**
      * The attributes excluded from the model's JSON form.
@@ -55,4 +55,13 @@ class WeatherCondition extends Model implements SluggableInterface
            return $query->where('enable', 1);
         }       
         
+        /**
+         * Defining one-to-many relations
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function currents()
+        {
+            return $this->hasMany('App\WeatherCurrent', 'weather_condition_id', 'id');            
+        }
 }

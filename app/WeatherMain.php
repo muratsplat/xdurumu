@@ -38,4 +38,14 @@ class WeatherMain extends Model
             'grnd_level',
             'temp_kf',
         ];
+    
+        /**
+         * TO define an  inverse one to one relation
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         */
+        public function current() {
+            
+            return $this->belongsTo('App\WeatherCurrent', 'weather_current_id','id');
+        }
 }

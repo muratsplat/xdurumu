@@ -66,6 +66,23 @@ class WeatherWindTest extends TestCase
             $this->assertNotNull($one['deg']);     
         }
         
+        /**
+         * 
+         * @param array $attributes
+         * @return App\WeatherWind
+         */
+        public function createNewWeatherWind(array $attributes=[])
+        {
+            return  factory(App\WeatherWind::class)->make($attributes);            
+        }
+        
+        public function testRelationSimle()
+        {
+            $one = $this->createNewWeatherWind();
+            
+            $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());            
+        }
+        
       
         
 }

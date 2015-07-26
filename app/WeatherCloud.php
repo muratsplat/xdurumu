@@ -36,6 +36,16 @@ class WeatherCloud extends Model
             'sea_level',
             'grnd_level',
             'temp_kf'
-        ];     
+        ];
+    
+        /**
+         * Defining an inverse one to one relation
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         */
+        public function current()
+        {
+            return $this->belongsTo('App\WeatherCurrent', 'weather_current_id', 'id');        
+        }
         
 }

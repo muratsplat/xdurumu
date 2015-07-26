@@ -23,6 +23,23 @@ class WeatherMainTest extends TestCase
             $this->assertNull($one['weather_hourly_id']);            
             $this->assertNotNull($one['temp']);     
             $this->assertNotNull($one['temp_min']);     
-        }    
+        } 
+        
+        /**
+         * 
+         * @param array $attributes
+         * @return App\WeatherMain
+         */
+        public function createNewWeatherMain(array $attributes=[])
+        {
+            return factory(App\WeatherMain::class)->make($attributes);            
+        }
+        
+        public function testRelationSimple()
+        {            
+            $one = $this->createNewWeatherMain();
+            
+            $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
+        }
         
 }

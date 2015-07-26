@@ -3,9 +3,15 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWeatherNamesTable extends Migration
+class CreateWeatherConditionsTable extends Migration
 {
     
+    /**
+     * Note: This file creates 'weather_conditions' table ! 
+     *       It is Not 'weather_names' !
+     *
+     * @var string 
+     */    
     private $table = 'weather_conditions';
       
     /**
@@ -20,7 +26,9 @@ class CreateWeatherNamesTable extends Migration
             $t->increments('id');
             $t->integer('open_weather_map_id')->unsigned()->nullable();            
             $t->string('name', 50);
-            $t->string('description', 150);
+            $t->string('orgin_name', 50);
+            $t->string('description', 200);           
+            $t->string('orgin_description', 200);
             $t->string('icon', 50)->nullable(); 
             $t->boolean('enable')->default(true);
             $t->string('slug', 200)->nullable()->unique()->index();

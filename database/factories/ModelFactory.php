@@ -78,6 +78,8 @@ $factory->define(App\WeatherCondition::class, function (Faker\Generator $faker) 
     return [
         'name'                  => $faker->name,
         'description'           => $faker->paragraph,   
+        'orgin_name'            => $faker->name,
+        'orgin_description'     => $faker->paragraph,   
         'enable'                => 1,        
         'icon'                  => str_random(4),        
         'open_weather_map_id'   => rand(1, 5),          
@@ -152,7 +154,7 @@ $factory->define(App\WeatherRain::class, function (Faker\Generator $faker) {
 $factory->define(App\WeatherMain::class, function (Faker\Generator $faker) {
     return [
         
-
+        
         'weather_current_id'    => null,
         'weather_hourly_id'     => null,   
         'weather_daily_id'      => null,             
@@ -182,6 +184,58 @@ $factory->define(App\WeatherSys::class, function (Faker\Generator $faker) {
         'country'               => $faker->city,
         'sunrise'               => $faker->unixTime,
         'sunset'                => $faker->unixTime,
+    ];
+});
+
+//    $t->increments('id');
+//    $t->integer('weather_current_id')->unsigned()->nullable();
+//    $t->integer('weather_hourly_id')->unsigned()->nullable();      
+//    $t->double('3h', 15,8)->unsigned()->nullable();
+//    $t->double('snow', 15,8)->unsigned()->nullable();
+$factory->define(App\WeatherSnow::class, function (Faker\Generator $faker) {
+    return [
+        'weather_current_id'    => null,
+        'weather_hourly_id'     => null,         
+        '3h'                    => 2.225,
+        'snow'                  => 187.002,    
+    ];
+});
+
+//    $t->increments('id');
+//    $t->integer('city_id')->unsigned();
+//    $t->integer('weather_conditions_id')->unsigned();     
+//    $t->integer('weather_forecast_resource_id')->unsigned()->nullable();
+//      $t->integer('weather_main_id')->unsigned();    
+//    $t->integer('weather_wind_id')->unsigned()->nullable();  
+//    $t->integer('weather_rain_id')->unsigned()->nullable();  
+//    $t->integer('weather_snow_id')->unsigned()->nullable(); 
+//    $t->integer('weather_cloud_id')->unsigned()->nullable(); 
+//    $t->boolean('enable')->default(true);
+//    $t->timestamp('source_update_at');
+//    $t->timestamps();             
+//
+//    $t->foreign('weather_conditions_id')->references('id')->on('weather_conditions');            
+//    $t->foreign('city_id')->references('id')->on('cities');             
+//    $t->foreign('weather_forecast_resource_id')->references('id')->on('weather_forecast_resources');   
+$factory->define(App\WeatherCurrent::class, function (Faker\Generator $faker) {
+    
+    $now        = \Carbon\Carbon::now();
+    $created_at = $now->format('Y-m-d H:m:s');
+    $updated_at = $now->addHour(1)->format('Y-m-d H:m:s');
+    
+    return [
+        'city_id'                       => factory(\App\City::class)->make(),
+        'weather_condition_id'          => factory(\App\WeatherCondition::class)->make(),
+        'weather_forecast_resource_id'  => factory(\App\WeatherForeCastResource::class)->make(), 
+        'weather_main_id'               => factory(\App\WeatherMain::class)->make(),     
+        'weather_wind_id'               => factory(\App\WeatherWind::class)->make(), 
+        'weather_rain_id'               => factory(\App\WeatherRain::class)->make(),  
+        'weather_snow_id'               => factory(\App\WeatherSnow::class)->make(), 
+        'weather_cloud_id'              => factory(\App\WeatherSnow::class)->make(), 
+        'enable'                        => (boolean) rand(0, 1),
+        'source_update_at'              => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
+        'created_at'                    => $created_at,
+        'updated_at'                    => $updated_at,       
     ];
 });
         

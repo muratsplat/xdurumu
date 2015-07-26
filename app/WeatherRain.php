@@ -5,7 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * Weather Rain
  * 
+ * @package WeatherForcast
  */
 class WeatherRain extends Model
 {
@@ -22,5 +24,16 @@ class WeatherRain extends Model
      *
      * @var array
      */            
-    protected $fillable = ['3h', 'rain'];
+    protected $fillable = ['3h', 'rain'];    
+    
+        /**
+         * Defining an inverse one to many relation
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         */
+        public function current()
+        {
+            return $this->belongsTo('App\WeatherCurrent', 'weather_current_id', 'id');        
+        }
+    
 }

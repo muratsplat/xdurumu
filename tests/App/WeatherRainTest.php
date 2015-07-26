@@ -41,8 +41,7 @@ class WeatherRainTest extends TestCase
         }
         
         public function testWithFakerAttributes() 
-        {            
-                       
+        {                      
             $one = factory(App\WeatherRain::class)->make();       
             
             $this->assertNull($one['weather_daily_id']);
@@ -50,6 +49,22 @@ class WeatherRainTest extends TestCase
             $this->assertNotNull($one['3h']);        
         }
         
-      
+        /**
+         * 
+         * @param array $attributes
+         * @return \App\WeatherRain
+         */
+        public function createNewWeatherRain(array $attributes=[])
+        {
+            return factory(App\WeatherRain::class)->make($attributes);           
+        }
+        
+        
+        public function testRelationSimple()
+        {
+            $one = $this->createNewWeatherRain();
+            
+            $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
+        }     
         
 }

@@ -43,7 +43,16 @@ class WeatherForeCastResource extends Model
      * @var array
      */
     protected $hidden = ['id', 'api_calls_count'];    
-
+        
+        /**
+         * Defining one to many relations 
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function currents()
+        {
+            return $this->hasMany('App\WeatherCurrent', 'weather_forecast_resource_id', 'id');
+        }
     
         /**
         * Scope a query to only enebled.

@@ -39,9 +39,20 @@ class WeatherForeCastResourceTest extends TestCase
 //            $t->softDeletes();            
 //            $t->timestamps();
         
-        public function testSimpleTwo() 
+        /**
+         * 
+         * @return \App\WeatherForeCastResource
+         */
+        protected function createNewWeatherForeCastResource(array $attributes=[])
         {            
-          
+            return factory(App\WeatherForeCastResource::class)->make($attributes);
+        }
+        
+        public function testRelationsSimple()
+        {
+            $one = $this->createNewWeatherForeCastResource();
+            
+            $this->assertInstanceOf('App\WeatherCurrent', $one->currents()->getRelated());            
         }
         
       

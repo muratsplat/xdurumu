@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateWeatherMainTable extends Migration
 {
     
-    private $table = 'weather_main';
+    private $table = 'weather_mains';
     /**
      * Run the migrations.
      *
