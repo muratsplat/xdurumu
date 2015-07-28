@@ -70,6 +70,5 @@ class WeatherCurrentTest extends TestCase
         protected function createNewWeatherCurrent(array $attributes=[])
         {            
             return factory(App\WeatherCurrent::class)->make($attributes);
-        }
-        
+        }       
 }

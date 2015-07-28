@@ -25,9 +25,9 @@ class CreateWeatherConditionsTable extends Migration
             
             $t->increments('id');
             $t->integer('open_weather_map_id')->unsigned()->nullable();            
-            $t->string('name', 50);
+            $t->string('name', 50)->nullable();
             $t->string('orgin_name', 50);
-            $t->string('description', 200);           
+            $t->string('description', 200)->nullable();           
             $t->string('orgin_description', 200);
             $t->string('icon', 50)->nullable(); 
             $t->boolean('enable')->default(true);

@@ -25,15 +25,15 @@ class CurrentRepository
         public function __construct(Current $current)
         {
             $this->current      = $current;        
-        }
-        
-        
+        }       
         
         public function create(){}        
         
         public function update(){}
         
         public function delete(){}
+        
+        public function find(){}
         
         public function findByCity(){}
         

@@ -57,52 +57,52 @@ class WeatherCurrent extends Model
         }
 
         /**
-         * TO define an one to one relation
+         * TO define an one to one relationship
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function main() {
-            
+        public function main() 
+        {            
             return $this->hasOne('App\WeatherMain', 'weather_current_id','id');
         }
         
         /**
-         * TO define an one to one relation
+         * TO define an one to one relationship
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function wind() {
-            
+        public function wind() 
+        {            
             return $this->hasOne('App\WeatherWind', 'weather_current_id','id');
         }
         
         /**
-         * TO define an one to one relation
+         * TO define an one to one relationship
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function rains() {
-            
+        public function rains() 
+        {            
             return $this->hasMany('App\WeatherRain', 'weather_current_id','id');
         }
         
         /**
-         * TO define an one to one relation
+         * TO define an one to one relationship
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function snows() {
-            
+        public function snows() 
+        {            
             return $this->hasMany('App\WeatherSnow', 'weather_current_id','id');
         }
         
         /**
-         * TO define an one to one relation
+         * TO define an one to one relationship
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function cloud() {
-            
+        public function cloud() 
+        {            
             return $this->hasOne('App\WeatherCloud', 'weather_current_id','id');
         }
         

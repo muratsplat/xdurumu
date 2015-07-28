@@ -211,7 +211,7 @@ $factory->define(App\WeatherSnow::class, function (Faker\Generator $faker) {
 //    $t->integer('weather_snow_id')->unsigned()->nullable(); 
 //    $t->integer('weather_cloud_id')->unsigned()->nullable(); 
 //    $t->boolean('enable')->default(true);
-//    $t->timestamp('source_update_at');
+//    $t->timestamp('source_updated_at');
 //    $t->timestamps();             
 //
 //    $t->foreign('weather_conditions_id')->references('id')->on('weather_conditions');            
@@ -224,16 +224,16 @@ $factory->define(App\WeatherCurrent::class, function (Faker\Generator $faker) {
     $updated_at = $now->addHour(1)->format('Y-m-d H:m:s');
     
     return [
-        'city_id'                       => factory(\App\City::class)->make(),
-        'weather_condition_id'          => factory(\App\WeatherCondition::class)->make(),
-        'weather_forecast_resource_id'  => factory(\App\WeatherForeCastResource::class)->make(), 
-        'weather_main_id'               => factory(\App\WeatherMain::class)->make(),     
-        'weather_wind_id'               => factory(\App\WeatherWind::class)->make(), 
-        'weather_rain_id'               => factory(\App\WeatherRain::class)->make(),  
-        'weather_snow_id'               => factory(\App\WeatherSnow::class)->make(), 
-        'weather_cloud_id'              => factory(\App\WeatherSnow::class)->make(), 
+        'city_id'                       => null,
+        'weather_condition_id'          => null,
+        'weather_forecast_resource_id'  => null,
+        'weather_main_id'               => null,   
+        'weather_wind_id'               => null,
+        'weather_rain_id'               => null,
+        'weather_snow_id'               => null,
+        'weather_cloud_id'              => null,
         'enable'                        => (boolean) rand(0, 1),
-        'source_update_at'              => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
+        'source_updated_at'              => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
         'created_at'                    => $created_at,
         'updated_at'                    => $updated_at,       
     ];

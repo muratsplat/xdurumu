@@ -75,4 +75,23 @@ class CityModelTest extends TestCase
             //$this->assertEquals($city['slug'], 'gumushane');
         }
         
+        /**
+         * 
+         * @param array $attributes
+         * @return \App\City
+         */
+        public function createNewCity(array $attributes = [])
+        {
+            return factory(City::class)->make($attributes);            
+        }
+        
+        
+        public function testRelationship()
+        {
+            $one = $this->createNewCity();
+            
+            $this->assertInstanceOf('App\WeatherCurrent', $one->weatherCurrent()->getRelated());
+            $this->assertInstanceOf('App\WeatherMain', $one->weatherCurrent()->getRelated()->main()->getRelated());  
+        }       
+        
 }

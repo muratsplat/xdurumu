@@ -68,7 +68,7 @@ class CurrentRepositoryTest  extends \TestCase
         }
         
         
-        public function testOpenWeatherMapApiCurrentJsonResponse()
+        public function testOpenWeatherMapCurrentJsonResponse()
         {   
             $json = '{
                     "coord":{"lon":139,"lat":35},
@@ -90,14 +90,9 @@ class CurrentRepositoryTest  extends \TestCase
                     "cod":200
                 }';
             
-           $stdClas = json_decode($json);
+           $stdObject = json_decode($json);
            
-           $this->assertInstanceOf('stdClass', $stdClas);           
-        }
-        
-        
-        
-    
-    
+           $this->assertInstanceOf('stdClass', $stdObject);          
+        } 
   
 }

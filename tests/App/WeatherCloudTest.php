@@ -76,7 +76,7 @@ class WeatherCloudTest extends TestCase
         public function testRelationSimle()
         {
             $one = $this->createNewWeatherCloud();
-            
+                        
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());            
         }
         
