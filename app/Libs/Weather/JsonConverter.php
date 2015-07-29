@@ -61,26 +61,6 @@ abstract class JsonConverter
     const DAILY     = 3;
     
     /**
-     * Weather Current Data 
-     * 
-     * All apies should implement this form !
-     *
-     * @var array 
-     */
-    protected $currentForm   = [
-   
-        'city'                          => null,
-        'weather_condition'             => null,
-        'weather_forecast_resource'     => null,
-        'weather_main'                  => null,   
-        'weather_wind'                  => null,
-        'weather_rain'                  => null,
-        'weather_snow'                  => null,
-        'weather_clouds'                => null,       
-        'source_updated_at'             => null,      
-    ];
-    
-    /**
      * Condition 
      *
      * @var array 
@@ -420,8 +400,8 @@ abstract class JsonConverter
          * @param array $words
          * @return mixed
          */
-        protected function callPickerMethod($method) {
-            
+        protected function callPickerMethod($method) 
+        {            
             return call_user_func_array([$this, $method], []);              
         }        
         

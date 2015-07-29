@@ -65,7 +65,7 @@ class OpenWeatherMapTest extends \TestCase
             $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMap', $converter);
         }
         
-        public function testSimpleExport()
+        public function testSimpleCurrentExport()
         {
             $converter  = new Open($this->current);
             
@@ -132,7 +132,7 @@ class OpenWeatherMapTest extends \TestCase
                
             // check weather clouds attributes
             $timestamp = \Carbon\Carbon::createFromTimestamp($jsonObject->dt)->format('Y-m-d H:m:s'); 
-            $this->assertEquals($timestamp, $exported['source_updated_at']);            
+            $this->assertEquals($timestamp, $exported['source_updated_at']);        
         }
         
   

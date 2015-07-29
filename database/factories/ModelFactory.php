@@ -22,6 +22,7 @@ $factory->define(App\User::class, function ($faker) {
 
 $factory->define(App\City::class, function (Faker\Generator $faker) {
     return [
+        
         'name'                  => $faker->name,
         'country'               => $faker->country,
         'latitude'              => $faker->latitude,

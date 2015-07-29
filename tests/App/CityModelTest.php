@@ -83,8 +83,7 @@ class CityModelTest extends TestCase
         public function createNewCity(array $attributes = [])
         {
             return factory(City::class)->make($attributes);            
-        }
-        
+        }        
         
         public function testRelationship()
         {
@@ -92,6 +91,7 @@ class CityModelTest extends TestCase
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->weatherCurrent()->getRelated());
             $this->assertInstanceOf('App\WeatherMain', $one->weatherCurrent()->getRelated()->main()->getRelated());  
-        }       
+        }
+
         
 }

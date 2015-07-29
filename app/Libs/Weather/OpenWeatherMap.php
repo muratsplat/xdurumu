@@ -10,7 +10,27 @@ use Carbon\Carbon;
  * @package WeatherForcast
  */
 class OpenWeatherMap extends JsonConverter
-{
+{    
+    
+    /**
+     * Weather Current Data 
+     * 
+     * All apies should implement this form !
+     *
+     * @var array 
+     */
+    protected $currentForm   = [
+   
+        'city'                          => null,
+        'weather_condition'             => null,
+        'weather_forecast_resource'     => null,
+        'weather_main'                  => null,   
+        'weather_wind'                  => null,
+        'weather_rain'                  => null,
+        'weather_snow'                  => null,
+        'weather_clouds'                => null,       
+        'source_updated_at'             => null,      
+    ];
 
         /**
          * To picker city attributes on JSON object
@@ -19,7 +39,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerCity()
         {           
-            $jsonObject         = $this->getJSONInObject();
+            $jsonObject     = $this->getJSONInObject();
             
             return [
                 
@@ -87,7 +107,7 @@ class OpenWeatherMap extends JsonConverter
                 return $this->mainForCurrent();           
             }           
          
-            throw new ErrorException('It should be selected a data type(current, hourly, daily)  to get "main" attributes !');
+            throw new ErrorException('It should be selected a data type(currently, hourly, daily)  to get "main" attributes !');
         }
         
         /**
@@ -161,6 +181,7 @@ class OpenWeatherMap extends JsonConverter
         /**
          * Example Data: 
          *      snow":{"3h":1}
+         * 
          * @return array
          */
         protected function pickerWeatherSnow()
@@ -179,6 +200,7 @@ class OpenWeatherMap extends JsonConverter
         /**
          * Example Data:
          *   "clouds":{"all":92},
+         * 
          * @return array
          */
         protected function pickerWeatherClouds()

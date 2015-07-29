@@ -28,7 +28,8 @@ class SeedDefaultCities extends Seeder
                 $city->country      = $cityJson->country;           
                 $city->latitude     = $cityJson->coord->lat;
                 $city->longitude    = $cityJson->coord->lon;        
-                $city->open_weather_map_id = $cityJson->_id;                
+                $city->open_weather_map_id = $cityJson->_id; 
+                $city->enable       = true;
                 $city->save();               
             }
             

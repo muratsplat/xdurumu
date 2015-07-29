@@ -11,7 +11,7 @@ use Cviebrock\EloquentSluggable\SluggableTrait;
 /**
  * App\City
  *
- * @package Xdurumu
+ * 
  */
 class City extends Model implements SluggableInterface
 {
@@ -57,16 +57,6 @@ class City extends Model implements SluggableInterface
             'save_to'    => 'slug',
     ];
     
-        /**
-         * Define one to one relationship
-         * 
-         * @return  \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function city()
-        {
-            return $this->hasOne('App\WeatherCurrent', 'city_id', 'id');
-        }
-
         /**
          * Defining one to one relationship
          * 
