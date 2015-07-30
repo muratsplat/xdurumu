@@ -256,8 +256,68 @@ class CurrentRepositoryTest extends \TestCase
             
             $one = new Repository($current, $cityModel,$condition); 
             
-            $one->selectCity($city)->create(array());
+            $one->selectCity($city);
         }
+        
+        public function testSimpleValidateWeatherCurrentDataWithMissingElements() 
+        {            
+            $current    = $this->getCurrentMock(); 
+            
+            $cityModel  = $this->getCityMock();
+            
+            $city       = m::mock('App\City');
+            
+            $city->shouldReceive('getAttribute')->andReturn(null);
+       
+            $condition  = $this->getConditionMock();
+            
+            $one = new Repository($current, $cityModel,$condition); 
+            
+            try{
+                $one->selectCity($city)->create(array());
+                
+            } catch (\UnexpectedValueException $e) {
+                
+                $this->assertTrue(True);
+                
+                return;
+            }
+            
+            // If the line is run, test is failed!!!
+            $this->assertTrue(false);          
+        }
+        
+        public function testSimpleValidateWeatherCurrentData() 
+        {            
+            $current    = $this->getCurrentMock(); 
+            
+            $cityModel  = $this->getCityMock();
+            
+            $city       = m::mock('App\City');
+            
+            $city->shouldReceive('getAttribute')->andReturn(null);
+       
+            $condition  = $this->getConditionMock();
+            
+            $one = new Repository($current, $cityModel,$condition); 
+            
+            $weatherCurrentData = [
+                    'city'                          => array(),
+                    'weather_condition'             => array(),
+                    'weather_forecast_resource'     => array(),
+                    'weather_main'                  => array(),   
+                    'weather_wind'                  => false,
+                    'weather_rain'                  => false,
+                    'weather_snow'                  => false,
+                    'weather_clouds'                => false,       
+                    'source_updated_at'             => false,      
+            ];
+           
+            $one->selectCity($city)->create($weatherCurrentData);
+        }
+                
+         
+            
         
         
         

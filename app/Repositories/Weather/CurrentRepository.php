@@ -194,6 +194,8 @@ class CurrentRepository
                 throw new LogicException('Fistly you should select a city via "selectCity()" method');         
             }
             
+            $this->checkNeededAttributes($current);
+            
             $current = $this->selectedCity->weatherCurrent;
             
             if (! is_null($current)) {
@@ -366,19 +368,49 @@ class CurrentRepository
          */
         private function checkNeededAttributes(array $attributes)
         {              
-            $requiredKeys   = $this->getRequiredKeys();
+            $requiredKeys       = $this->getRequiredKeys();
             
-            $notFounds      = array_filter($requiredKeys, function($key) use ($attributes) {
-                
-                return ! array_key_exists($key, $attributes);               
-            });           
+            $missingOrInvalid   = $this->filterInvalidOrMissingElement($requiredKeys, $attributes); 
             
-            if(empty($notFounds)) { return; }          
+            if(empty($missingOrInvalid)) { return; }          
             
-            $string = implode(',', $notFounds);                    
+            $string = implode(', ', $missingOrInvalid);                           
             
             throw new UnexpectedValueException("Required elements are missing: '$string'");    
         }
+        
+        /**
+         * To filter attributes by looking given required keys
+         * 
+         * @param array $requredKeys
+         * @param array $attributes
+         * @return array    missing and invalid elements
+         */
+        private function filterInvalidOrMissingElement(array $requredKeys, array $attributes)
+        {                     
+            return array_filter($requredKeys, function($key) use ($attributes) {
+                
+                if ( ! array_key_exists($key, $attributes) ) {
+                    
+                    return true;
+                }
+                
+                return $this->isElementNull($key, $attributes);
+            });           
+            
+        }
+        
+        /**
+         * To determine value of given element is null
+         * 
+         * @param mixed $key
+         * @param array $attributes
+         * @return bool
+         */
+        private function isElementNull($key, array $attributes)
+        {
+            return array_key_exists($key, $attributes) && is_null($attributes[$key]);       
+        }   
         
         /**
          * To get only required keys
@@ -389,7 +421,7 @@ class CurrentRepository
         {            
             $attributes     = $this->attributesOfWeatherCurrent;
             
-            $requiredElem   = array_filter($attributes, function($key, $value){
+            $requiredElem   = array_filter($attributes, function($value){
                 
                 return $value;
                 

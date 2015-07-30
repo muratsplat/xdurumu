@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Libs\Weather\DataType;
+
+use App\Libs\Weather\DataType\Base;
+
+
+/**
+ * Weather Condition 
+ * 
+ * @package WeatherForcast
+ */
+class WeatherCondition extends Base
+{    
+    
+    /**
+     * Required Elements
+     *
+     * @var array
+     */
+    protected $required = ['id', 'orgin_name', 'orgin_description'];
+    
+    /**
+     * All attributes
+     * 
+     * @var array 
+     */
+    protected $attributes = [
+        
+            'id'                => null,
+            'name'              => null,
+            'description'       => null,
+            'orgin_name'        => null,
+            'orgin_description' => null,  
+            'icon'              => null,
+        ]; 
+    
+}
+
