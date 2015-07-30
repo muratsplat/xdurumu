@@ -5,6 +5,7 @@ namespace App\Repositories\Weather;
 use App\WeatherCurrent as Current;
 use App\City;
 use App\WeatherCondition as Condition; 
+use App\WeatherForeCastResource as Resource;
 use LogicException;
 use UnexpectedValueException;
 
@@ -32,10 +33,15 @@ class CurrentRepository
     private $condition;
     
     /**
+     * @var \App\WeatherForeCastResource
+     */
+    private $resource;
+    
+    /**
      * For selected city
      * @var \App\City  
      */
-    private $selectedCity;
+    private $selectedCity;   
     
     /**
      * Weather Current Data 
@@ -166,46 +172,67 @@ class CurrentRepository
      * @var array
      */
     private $currentWeather;
+    
+    /**
+     * 
+     * @var array
+     */
+    private $tmpWeatherCurrent;
 
         /**
          * Constructer
          * 
-         * @param \App\WeatherCurrent   $current
-         * @param \App\City             $city
-         * @param \App\WeatherCondition $condition
+         * @param \App\WeatherCurrent           $current
+         * @param \App\City                     $city
+         * @param \App\WeatherCondition         $condition
+         * @param \App\WeatherForeCastResource  $resource
          */
-        public function __construct(Current $current, City $city, Condition $condition ) 
+        public function __construct(Current $current, City $city, Condition $condition, Resource $resource ) 
         {            
             $this->current      = $current;        
             
             $this->city         = $city;
             
             $this->condition    = $condition;
-        }     
+            
+            $this->resource     = $resource;
+        }
         
         
-
-
+        /**
+         * To set raw data to use inside of this object
+         * 
+         * @param array $attributes
+         * @return void
+         */
+        protected function setRawData(array $attributes)
+        {
+            $this->tmpWeatherCurrent = $attributes;
+        }
         
         public function create(array $current)
         {
             if (! $this->isCitySelected()) {                
                 
                 throw new LogicException('Fistly you should select a city via "selectCity()" method');         
-            }
+            }       
             
-            $this->checkNeededAttributes($current);
+            $existed = $this->selectedCity->weatherCurrent;
             
-            $current = $this->selectedCity->weatherCurrent;
-            
-            if (! is_null($current)) {
+            if (! is_null($existed)) {
                 
-                return $this->update($current);
-            }
+                return $this->update($existed);
+            }  
             
+            return $this->insert($current);
             
-            
-        }       
+        }
+        
+        protected function insert(array $current)
+        {
+            $this->setRawData($current);            
+        }
+        
 //        'city_id'                       => null,
 //        'weather_condition_id'          => null,
 //        'weather_forecast_resource_id'  => null,
@@ -218,24 +245,43 @@ class CurrentRepository
 //        'source_updated_at'             => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
 //        'created_at'                    => $created_at,
         
-        
-        protected function findOrCreateCondition($conditions)
-        { 
-           
 
-
-        }
         
         /**
-         * To find condition
+         * To find condition if it is not exists, create one 
+         * and return it.
          * 
          * @param int $id
-         * @return \App\WeatherCondition|null 
+         * @param array $columns
+         * @return \App\WeatherCondition
          */
-        private function findCondition($id)
+        private function findOrNewCondition($id, array $columns)
         {
-            return $this->getCondition()->query()->find($id);            
+            $model =  $this->getCondition()->OfOpenWetherMapId($id)->first();     
+            
+            if (! is_null($model)) { return $model; }
+            
+            return $this->getCondition()->create($columns);   
+        }        
+        
+        /**
+         * To find WeatherForeCastResource model 
+         * if it is not exists, create one and return it.
+         * 
+         * @param string $name
+         * @param array $columns
+         * @return \App\WeatherForeCastResource
+         */
+        private function findOrNewResource($name, array $columns)
+        {
+            $model =  $this->getWeatherForecastResource()->OfName($name)->first();     
+            
+            if (! is_null($model)) { return $model; }
+            
+            return $this->getWeatherForecastResource()->create($columns);   
         }
+        
+    
         
         
         
@@ -348,95 +394,13 @@ class CurrentRepository
         }
         
         /**
-         * To set data for Weather Current Model
+         * To get WatherForeCastResource
          * 
-         * @param array $weatherCurrent
+         * @return \App\WeatherForeCastResource
          */
-        public function setCurrentData(array $weatherCurrent)
-        {        
-            $this->checkNeededAttributes($weatherCurrent);
-            
-            $this->currentWeather = $weatherCurrent;
-        }        
-        
-        /**
-         * To check needed attributes to store it as Weather Currrent models
-         * 
-         * @param array $attributes
-         * @return void
-         * @throws \UnexpectedValueException
-         */
-        private function checkNeededAttributes(array $attributes)
-        {              
-            $requiredKeys       = $this->getRequiredKeys();
-            
-            $missingOrInvalid   = $this->filterInvalidOrMissingElement($requiredKeys, $attributes); 
-            
-            if(empty($missingOrInvalid)) { return; }          
-            
-            $string = implode(', ', $missingOrInvalid);                           
-            
-            throw new UnexpectedValueException("Required elements are missing: '$string'");    
-        }
-        
-        /**
-         * To filter attributes by looking given required keys
-         * 
-         * @param array $requredKeys
-         * @param array $attributes
-         * @return array    missing and invalid elements
-         */
-        private function filterInvalidOrMissingElement(array $requredKeys, array $attributes)
-        {                     
-            return array_filter($requredKeys, function($key) use ($attributes) {
-                
-                if ( ! array_key_exists($key, $attributes) ) {
-                    
-                    return true;
-                }
-                
-                return $this->isElementNull($key, $attributes);
-            });           
-            
-        }
-        
-        /**
-         * To determine value of given element is null
-         * 
-         * @param mixed $key
-         * @param array $attributes
-         * @return bool
-         */
-        private function isElementNull($key, array $attributes)
+        protected function getWeatherForecastResource()
         {
-            return array_key_exists($key, $attributes) && is_null($attributes[$key]);       
-        }   
-        
-        /**
-         * To get only required keys
-         * 
-         * @return array
-         */
-        private function getRequiredKeys()
-        {            
-            $attributes     = $this->attributesOfWeatherCurrent;
-            
-            $requiredElem   = array_filter($attributes, function($value){
-                
-                return $value;
-                
-            });
-            
-            return array_keys($requiredElem);
+            return $this->resource;
         }
-        
-        
-        
-        
-        
-        
-        
-    
-    
   
 }

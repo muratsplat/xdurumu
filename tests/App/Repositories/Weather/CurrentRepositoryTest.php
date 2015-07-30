@@ -98,6 +98,16 @@ class CurrentRepositoryTest extends \TestCase
             return m::mock('App\WeatherCondition');
         }
         
+        /**
+         * Mocked Resource Model
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getWeatherForeCastResourceMock()
+        {
+            return m::mock('App\WeatherForeCastResource');
+        }
+        
         
         public function testSimple()
         {   
@@ -107,7 +117,9 @@ class CurrentRepositoryTest extends \TestCase
             
             $condition  = $this->getConditionMock();
             
-            $one = new Repository($current, $city,$condition);
+            $resource   = $this->getWeatherForeCastResourceMock();
+            
+            $one = new Repository($current, $city,$condition, $resource);
           
         }
         
@@ -177,8 +189,10 @@ class CurrentRepositoryTest extends \TestCase
             $city->shouldReceive('all')->andReturn($cities);
             
             $condition  = $this->getConditionMock();
+                 
+            $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition);       
+            $one = new Repository($current, $city,$condition,$resource);       
             
             $founded = $one->findByCityID($cities->random());
             
@@ -198,7 +212,9 @@ class CurrentRepositoryTest extends \TestCase
             
             $condition  = $this->getConditionMock();
             
-            $one = new Repository($current, $city,$condition);       
+            $resource   = $this->getWeatherForeCastResourceMock();
+            
+            $one = new Repository($current, $city,$condition, $resource);       
             
             $founded = $one->findByCityID(99);
             
@@ -216,8 +232,10 @@ class CurrentRepositoryTest extends \TestCase
             $city->shouldReceive('findBySlug')->andReturn($cities->first());
             
             $condition  = $this->getConditionMock();
+                 
+            $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition);       
+            $one = new Repository($current, $city,$condition, $resource);       
             
             $founded = $one->findByCitySlug($cities->last()->id);
             
@@ -236,8 +254,10 @@ class CurrentRepositoryTest extends \TestCase
             $current->shouldReceive('all')->andReturn($currents);
             
             $condition  = $this->getConditionMock();
+                 
+            $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition); 
+            $one = new Repository($current, $city,$condition, $resource); 
             
             $this->assertCount($currents->count(), $one->all());                     
         }
@@ -252,40 +272,14 @@ class CurrentRepositoryTest extends \TestCase
             
             $city->shouldReceive('getAttribute')->andReturn(null);
        
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionMock();            
+                 
+            $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $cityModel,$condition); 
+            $one = new Repository($current, $cityModel,$condition, $resource); 
             
             $one->selectCity($city);
-        }
-        
-        public function testSimpleValidateWeatherCurrentDataWithMissingElements() 
-        {            
-            $current    = $this->getCurrentMock(); 
-            
-            $cityModel  = $this->getCityMock();
-            
-            $city       = m::mock('App\City');
-            
-            $city->shouldReceive('getAttribute')->andReturn(null);
-       
-            $condition  = $this->getConditionMock();
-            
-            $one = new Repository($current, $cityModel,$condition); 
-            
-            try{
-                $one->selectCity($city)->create(array());
-                
-            } catch (\UnexpectedValueException $e) {
-                
-                $this->assertTrue(True);
-                
-                return;
-            }
-            
-            // If the line is run, test is failed!!!
-            $this->assertTrue(false);          
-        }
+        }      
         
         public function testSimpleValidateWeatherCurrentData() 
         {            
@@ -297,9 +291,11 @@ class CurrentRepositoryTest extends \TestCase
             
             $city->shouldReceive('getAttribute')->andReturn(null);
        
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionMock();            
+                 
+            $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $cityModel,$condition); 
+            $one = new Repository($current, $cityModel,$condition, $resource); 
             
             $weatherCurrentData = [
                     'city'                          => array(),

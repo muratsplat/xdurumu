@@ -53,8 +53,19 @@ class WeatherCondition extends Model implements SluggableInterface
         public function scopeEnable($query)
         {
            return $query->where('enable', 1);
-        }       
+        } 
         
+       /**
+        * Scope a query to only enebled.
+        *
+        * @return \Illuminate\Database\Eloquent\Builder
+        */
+        public function scopeOfOpenWetherMapId($query, $id)
+        {
+           return $query->where('open_weather_map_id', $id);
+        } 
+
+
         /**
          * Defining one-to-many relations
          * 
@@ -64,4 +75,20 @@ class WeatherCondition extends Model implements SluggableInterface
         {
             return $this->hasMany('App\WeatherCurrent', 'weather_condition_id', 'id');            
         }
-}
+        
+       /**
+        * Find a model by its primary key or return new static.
+        *
+        * @param  mixed  $id
+        * @param  array  $columns
+        * @return \Illuminate\Support\Collection|static
+        */
+       public static function findOpenWeatherMapIdOrNew($id, $columns = ['*'])
+       {
+           if (!is_null($model = static::q)) {
+               return $model;
+           }
+
+           return new static;
+       }
+   }

@@ -85,6 +85,15 @@ class WeatherForeCastResource extends Model
         }
         
         /**
+         * Scope a query to only include users of a given type.
+         *
+         * @return \Illuminate\Database\Eloquent\Builder
+         */
+        public function scopeOfName($query, $name)
+        {
+            return $query->where('name', $name);
+        }
+        /**
          * Scope a query to only include resources of a apiable.
          *
          * @return \Illuminate\Database\Eloquent\Builder
