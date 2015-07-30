@@ -98,7 +98,7 @@ abstract class Base implements ArrayAccess, Arrayable
          */
         private function isRequiredElement($key)
         {
-            return array_key_exists($key, $this->attributes);
+            return array_key_exists($key, $this->required);
         }
         
         /**
