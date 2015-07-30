@@ -4,7 +4,6 @@ namespace App\Libs\Weather\DataType;
 
 use App\Libs\Weather\DataType\Base;
 
-
 /**
  * Weather Condition 
  * 

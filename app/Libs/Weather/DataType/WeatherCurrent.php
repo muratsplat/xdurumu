@@ -10,7 +10,7 @@ use App\Libs\Weather\DataType\Base;
  * 
  * @package WeatherForcast
  */
-class WeatherCurrent extends Base
+class WeatherCurrent extends Base 
 {    
     
     /**

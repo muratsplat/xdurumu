@@ -3,8 +3,7 @@
 namespace App\Libs\Weather\DataType;
 
 use UnexpectedValueException;
-use ArrayAccess;
-use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 
 
 /**
@@ -12,9 +11,8 @@ use Illuminate\Contracts\Support\Arrayable;
  * 
  * @package WeatherForcast
  */
-abstract class Base implements ArrayAccess, Arrayable
-{    
-    
+abstract class Base implements WeatherDataAble
+{   
     /**
      * Required Elements
      *
@@ -29,6 +27,12 @@ abstract class Base implements ArrayAccess, Arrayable
      */
     protected $attributes;
     
+    /**
+     * Not filled elements will be added this array
+     *
+     * @var \Illuminate\Support\Collection 
+     */
+    private $notFilledElements;   
 
         /**
          * Intance a City
@@ -38,8 +42,9 @@ abstract class Base implements ArrayAccess, Arrayable
         public function __construct(array $attributes)
         {
             $this->importAttributes($attributes);
-        }
-        
+            
+            $this->notFilledElements = new Collection();
+        }        
         
         /**
          * To import array element to this object
@@ -63,15 +68,23 @@ abstract class Base implements ArrayAccess, Arrayable
          * @throws UnexpectedValueException
          */
         public function setAttribute($key, $value=null)
-        {
+        {           
+            $name = get_class($this);
+            
             if (!$this->isKeyExist($key) ) {
                 
-                throw new UnexpectedValueException("'$key' element does not belong to City!");                
+                throw new UnexpectedValueException("'$key' element does not belong to '$name' !");                
             }
             
-            $this->checkRequiredElement($key, $value);                     
+            if ($this->isPassedRequiredElement($key, $value)) {
+                
+                $this->attributes[$key] = $value;    
+                 
+                return;
+            }                    
             
-            $this->attributes[$key] = $value;
+            throw new UnexpectedValueException("'$key' element is required. It can not be null!");     
+           
         }
         
         
@@ -83,10 +96,13 @@ abstract class Base implements ArrayAccess, Arrayable
          */
         public function getAttribute($key)
         {
-            if (!$this->isKeyExist($key) ) {
+            if (!$this->isKeyExist($key) ) {              
                 
-                throw new UnexpectedValueException("'$key' element does not belong to City!");                
+                $class = $this->getClassName();
+                
+                throw new UnexpectedValueException("'$key' element does not belong to '$class' !");                
             }              
+            
             return $this->attributes[$key];
         }
         
@@ -98,7 +114,7 @@ abstract class Base implements ArrayAccess, Arrayable
          */
         private function isRequiredElement($key)
         {
-            return array_key_exists($key, $this->required);
+            return in_array($key, $this->required);
         }
         
         /**
@@ -119,16 +135,29 @@ abstract class Base implements ArrayAccess, Arrayable
          */
         public function isFilledRequiredElements() 
         {
-            $nullElements = array_filter($this->required, function($elem) {
+            foreach ($this->required as $key) {
                 
-                $value  = $this->getAttribute($elem);
-                
-                return is_null($value);                
-            });            
+                $value  = $this->getAttribute($key);
             
-            return empty($nullElements);            
-        }
-        
+                if (! $this->isPassedRequiredElement($key, $value)) {                                      
+                  
+                    $this->addFailedKey($key);                         
+                }
+                // if it is not object, it is impossible be ant DataType object!
+                if( ! is_object($value)) { continue; }                
+                
+                // if the object is, it is impossible be ant DataType object!                
+             
+                if ( $value instanceof self && ! $value->isFilledRequiredElements()) {
+                    
+                    $this->addFailedKey($key);                          
+                }            
+                  
+            }
+            
+            return $this->isEmptyfailedCollection();
+        }        
+ 
         /**
 	 * Whether a offset exists
 	 *
@@ -187,8 +216,23 @@ abstract class Base implements ArrayAccess, Arrayable
        public function toArray()
        {
            $this->checkRequiredElements();
+           
+           $elems = []; 
+           
+           foreach ((array)$this->attributes as $key => $value) {
+               
+               if (is_object($value) && $value instanceof self) {
+                   
+                   $elems[$key] = $value->toArray();
+                   
+                   continue;
+               }
+               
+               $elems[$key] = $value;
+           }
+           
+           return $elems;
 
-           return $this->attributes;
        }
        
        /**
@@ -197,28 +241,88 @@ abstract class Base implements ArrayAccess, Arrayable
         * @throws UnexpectedValueException
         */
        protected function checkRequiredElements()
-       {           
-            foreach($this->required as $key => $value) {
-               
-                if ($this->checkRequiredElement($key, $value)) {
-                
-                    throw new UnexpectedValueException("'$key' element is required! Given value must not be null!");                
-                }
-           }
-           
+       {            
+            if (! $this->isFilledRequiredElements()) {
+
+                throw new UnexpectedValueException(
+                        "All required element is not filled! "
+                        . "The values of required elements must not be null!");                
+            }                       
        }
        
         /**
         * To check given element are filled
         * 
-        * @throws UnexpectedValueException
+        * @param mixed $key element key
+        * @param mixed $value element value
+        * @return bool if it is passed, return true, or not false 
         */
-        protected function checkRequiredElement($key, $value)
-        {               
-            if ($this->isRequiredElement($key) && is_null($value)) {
-
-                throw new UnexpectedValueException("'$key' element is required! Given value must not be null!");                
-            }
+        protected function isPassedRequiredElement($key, $value)
+        {          
+            return $this->isRequiredElement($key) && is_null($value) ? false : true;
         }
+        
+        /**
+         * To add failed key to collection
+         * 
+         * @param mixed $key
+         * @return void
+         */
+        private function addFailedKey($key)
+        {
+            $this->notFilledElements->push($key);
+        }
+        
+        /**
+         * To determine failed element collection is empty
+         * 
+         * @return bool
+         */
+        private function isEmptyfailedCollection()
+        {
+            return $this->notFilledElements->isEmpty();           
+        }
+        /**
+         * To failed elements key in a collection
+         * 
+         * @return  \Illuminate\Support\Collection 
+         */
+        public function getFailedElementKeys()
+        {
+            return $this->notFilledElements;
+        }
+        
+        /**
+         * Dynamically retrieve attributes on the object
+         * 
+         * @param mixed $key
+         * @return mixed
+         */
+        public function __get($key)
+        {
+           return $this->getAttribute($key);
+        }
+        
+        /**
+         * Dynamically set attribute on the object
+         * 
+         * @param mixed $name
+         * @param mixed $value
+         */
+        public function __set($name, $value)
+        {
+            $this->setAttribute($name, $value);
+        }
+        
+        /**
+         * Determine if the given attribute exists.
+         * 
+         * @param mixed $name
+         */
+        public function __isset($name)
+        {
+            $this->isKeyExist($name);
+        }
+
 }
 

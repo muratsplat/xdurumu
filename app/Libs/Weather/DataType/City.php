@@ -4,13 +4,12 @@ namespace App\Libs\Weather\DataType;
 
 use App\Libs\Weather\DataType\Base;
 
-
 /**
  * An converter for  the JSON responses Open Weather Map API
  * 
  * @package WeatherForcast
  */
-class City extends Base
+class City extends Base 
 {    
     
     /**

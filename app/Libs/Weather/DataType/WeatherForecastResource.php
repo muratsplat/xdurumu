@@ -4,7 +4,6 @@ namespace App\Libs\Weather\DataType;
 
 use App\Libs\Weather\DataType\Base;
 
-
 /**
  * WeatherForecastResource
  * 
@@ -18,7 +17,7 @@ class WeatherForecastResource extends Base
      *
      * @var array
      */
-    protected $required = ['id', 'name', 'url', 'apiable'];
+    protected $required = ['name', 'url', 'api_url', 'apiable'];
     
     /**
      * All attributes

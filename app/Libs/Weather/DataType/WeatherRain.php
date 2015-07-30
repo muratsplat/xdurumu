@@ -4,13 +4,12 @@ namespace App\Libs\Weather\DataType;
 
 use App\Libs\Weather\DataType\Base;
 
-
 /**
  * Weather Rain Class
  * 
  * @package WeatherForcast
  */
-class WeatherRain extends Base
+class WeatherRain extends Base 
 {    
     
     /**
