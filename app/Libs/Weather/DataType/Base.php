@@ -158,49 +158,49 @@ abstract class Base implements WeatherDataAble
             return $this->isEmptyfailedCollection();
         }        
  
-        /**
-	 * Whether a offset exists
-	 *
-	 * @param mixed $offset	  An offset to check for.
-	 *
-	 * @return boolean <b>TRUE</b> on success or <b>FALSE</b> on failure.
-	 *.
-	 */
-	public function offsetExists ($offset) 
+            /**
+         * Whether a offset exists
+         *
+         * @param mixed $offset	  An offset to check for.
+         *
+         * @return boolean <b>TRUE</b> on success or <b>FALSE</b> on failure.
+         *.
+         */
+        public function offsetExists ($offset) 
         {
             return $this->isKeyExist($offset);
         }
 
-	/** 
-	 * Offset to retrieve
-	 *
-	 * @param mixed $offset <p>The offset to retrieve.
-	 * @return mixed Can return all value types.
-	 */
-	public function offsetGet ($offset)
+        /** 
+         * Offset to retrieve
+         *
+         * @param mixed $offset <p>The offset to retrieve.
+         * @return mixed Can return all value types.
+         */
+        public function offsetGet ($offset)
         {
             return $this->getAttribute($offset);
         }
 
-	/**
-	 * Offset to set
-         * 
-	 * @param mixed $offset  The offset to assign the value to.	
-	 * @param mixed $value   The value to set.
-	 * @return void No value is returned.
-	 */
-	public function offsetSet ($offset, $value) 
+        /**
+         * Offset to set
+             * 
+         * @param mixed $offset  The offset to assign the value to.	
+         * @param mixed $value   The value to set.
+         * @return void No value is returned.
+         */
+        public function offsetSet ($offset, $value) 
         {            
             $this->setAttribute($offset, $value);            
         }
 
-	/**
-	 * Offset to unset
-         * 
-	 * @param mixed $offset  The offset to unset.
-	 * @return void No value is returned.
-	 */
-	public function offsetUnset ($offset) 
+        /**
+         * Offset to unset
+             * 
+         * @param mixed $offset  The offset to unset.
+         * @return void No value is returned.
+         */
+        public function offsetUnset ($offset) 
         {
             if ($this->isKeyExist($offset)) {
                 

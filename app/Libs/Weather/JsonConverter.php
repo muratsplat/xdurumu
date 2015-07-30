@@ -211,9 +211,7 @@ abstract class JsonConverter
         protected function isKeyExist($key=null)
         {
             return !is_null($key) && array_key_exists($key, $this->currentForm);
-        }
-
-        
+        }        
         
         /**
          * To check data is current

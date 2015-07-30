@@ -4,6 +4,18 @@ namespace App\Libs\Weather;
 
 use ErrorException;
 use Carbon\Carbon;
+
+
+use App\Libs\Weather\DataType\City;
+use App\Libs\Weather\DataType\WeatherMain;
+use App\Libs\Weather\DataType\WeatherWind;
+use App\Libs\Weather\DataType\WeatherRain;
+use App\Libs\Weather\DataType\WeatherSnow;
+use App\Libs\Weather\DataType\WeatherClouds;
+use App\Libs\Weather\DataType\WeatherCurrent;
+use App\Libs\Weather\DataType\WeatherCondition;
+use App\Libs\Weather\DataType\WeatherForecastResource;
+
 /**
  * An converter for  the JSON responses Open Weather Map API
  * 
@@ -41,14 +53,14 @@ class OpenWeatherMap extends JsonConverter
         {           
             $jsonObject     = $this->getJSONInObject();
             
-            return [
+            return new City([
                 
                 'id'        => $jsonObject->id,
                 'name'      => $jsonObject->name,
                 'country'   => isset($jsonObject->sys->country) ? $jsonObject->sys->country : null,
                 'latitude'  => isset($jsonObject->coord) ? $jsonObject->coord->lat : null,
                 'longitude' => isset($jsonObject->coord) ? $jsonObject->coord->lon : null,                 
-            ];     
+            ]);     
         }
         
         /**
@@ -65,7 +77,7 @@ class OpenWeatherMap extends JsonConverter
             if (empty($weather)) { return null; }
             
             $first      = head($weather);
-            return  [
+            return new WeatherCondition([
                 
                 'id'                => $first->id,
                 'name'              => $first->main,
@@ -73,7 +85,7 @@ class OpenWeatherMap extends JsonConverter
                 'orgin_name'        => $first->main,
                 'orgin_description' => $first->description,  
                 'icon'              => $first->icon,                   
-            ];
+            ]);
         }
         
         /**
@@ -83,7 +95,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerWeatherForecastResource()
         {
-            return [        
+            return new WeatherForecastResource([        
                 
                 'name'                  => 'openweathermap',
                 'description'           => 'Current weather conditions in cities for world wide',
@@ -92,7 +104,7 @@ class OpenWeatherMap extends JsonConverter
                 'enable'                => 1,
                 'paid'                  => 0,
                 'apiable'               => true,
-            ];            
+            ]);            
         }
         
         /**
@@ -104,7 +116,7 @@ class OpenWeatherMap extends JsonConverter
         {            
             if ( $this->isCurrent() ) {
                 
-                return $this->mainForCurrent();           
+                return new WeatherMain($this->mainForCurrent());           
             }           
          
             throw new ErrorException('It should be selected a data type(currently, hourly, daily)  to get "main" attributes !');
@@ -154,10 +166,10 @@ class OpenWeatherMap extends JsonConverter
             
             if (empty($wind)) { return null; }
             
-            return [
+            return new WeatherWind([
                 'speed'     => $wind->speed,
                 'deg'       => $wind->deg,        
-            ];  
+            ]);  
         }
         
         /**
@@ -172,10 +184,10 @@ class OpenWeatherMap extends JsonConverter
             
             if (empty($rain)) { return null; }
             
-            return [
+            return new WeatherRain([
                 '3h'        => $rain->{'3h'},
                 'rain'      => null,  
-            ];            
+            ]);            
         }        
         
         /**
@@ -190,10 +202,10 @@ class OpenWeatherMap extends JsonConverter
             
             if (empty($snow)) { return null; }
             
-            return [
+            return new WeatherSnow([
                 '3h'        => $snow->{'3h'},
                 'snow'      => null,  
-            ];   
+            ]);   
             
         }
         
@@ -209,10 +221,10 @@ class OpenWeatherMap extends JsonConverter
             
             if (empty($cloud)) { return null; }
             
-            return [
+            return new WeatherClouds([
                 
                 'all'       => $cloud->all,
-            ];          
+            ]);          
         }
         
         /**
@@ -227,6 +239,16 @@ class OpenWeatherMap extends JsonConverter
             if (empty($dt)) { return null; }
             
             return Carbon::createFromTimestamp($dt)->format('Y-m-d H:m:s');    
+        }
+        
+        /**
+         * To get WeatherCurrent Data Object
+         * 
+         * @return \App\Libs\Weather\DataType\WeatherCurrent
+         */
+        protected function getWeatherCurrent()
+        {            
+            return new WeatherCurrent($this->currentForm);
         }
 }
 
