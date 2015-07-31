@@ -34,7 +34,8 @@ class WeatherCurrent extends Base
         'weather_wind'                  => null,
         'weather_rain'                  => null,
         'weather_snow'                  => null,
-        'weather_clouds'                => null,       
+        'weather_clouds'                => null,
+        'weather_sys'                   => null,
         'source_updated_at'             => null,   
         ]; 
     

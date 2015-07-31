@@ -15,6 +15,7 @@ use App\Libs\Weather\DataType\WeatherClouds;
 use App\Libs\Weather\DataType\WeatherCurrent;
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
+use App\Libs\Weather\DataType\WeatherSys;
 
 /**
  * An converter for  the JSON responses Open Weather Map API
@@ -40,7 +41,8 @@ class OpenWeatherMap extends JsonConverter
         'weather_wind'                  => null,
         'weather_rain'                  => null,
         'weather_snow'                  => null,
-        'weather_clouds'                => null,       
+        'weather_clouds'                => null,
+        'weather_sys'                   => null,
         'source_updated_at'             => null,      
     ];
 
@@ -224,6 +226,26 @@ class OpenWeatherMap extends JsonConverter
             return new WeatherClouds([
                 
                 'all'       => $cloud->all,
+            ]);          
+        }
+        
+       /**
+         * Example Data:
+         *   sys: {"country":"JP","sunrise":1369769524,"sunset":1369821049}
+         * 
+         * @return array
+         */
+        protected function pickerWeatherSys()
+        {
+            $sys =  $this->getPropertyOnJSONObject('sys');
+            
+            if (empty($sys)) { return null; }
+            
+            return new WeatherSys([
+                
+                'country'    => $sys->country,
+                'sunrise'    => $sys->sunrise,
+                'sunset'     => $sys->sunset,
             ]);          
         }
         

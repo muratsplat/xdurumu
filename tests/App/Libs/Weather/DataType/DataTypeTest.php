@@ -156,7 +156,8 @@ class DataTypeTest extends \TestCase
                 'weather_wind'                  => 'foo',
                 'weather_rain'                  => null,
                 'weather_snow'                  => null,
-                'weather_clouds'                => 'bar',       
+                'weather_clouds'                => 'bar',    
+                'weather_sys'                   => null,      
                 'source_updated_at'             => null,   
                 ];            
             
@@ -166,6 +167,6 @@ class DataTypeTest extends \TestCase
             
             $toArray = $current->toArray();                  
             
-            $this->assertCount(9, $toArray);
+            $this->assertCount(10, $toArray);
         }
 }

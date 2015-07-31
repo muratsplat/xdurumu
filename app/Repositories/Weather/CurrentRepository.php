@@ -184,6 +184,8 @@ class CurrentRepository
             $this->weatherCurrentRawData = $attributes;
         }
         
+        
+        
         public function create(array $current)
         {
             if (! $this->isCitySelected()) {                
@@ -256,7 +258,7 @@ class CurrentRepository
          */
         private function addOtherAllRelationships(Current $current)
         {
-            list($main, $wind, $rain, $snow, $clouds ) = $this->getMainAndWindAndRainAndSnowAndClouds();
+            list($main, $wind, $rain, $snow, $clouds, $sys ) = $this->getMainAndWindAndRainAndSnowAndCloudsAndSys();
             
             return [
                 
@@ -265,12 +267,11 @@ class CurrentRepository
                 $current->rains()->create($rain),
                 $current->snows()->create($snow),
                 $current->cloud()->create($clouds),
-                $current->main()->create($main),     
+                $current->main()->create($main),  
+                $current->sys()->create($sys),
             ];
             
-        }
-        
-        
+        }       
         
         /**
          * To get weather forecast resource model and weather condition model
@@ -542,6 +543,16 @@ class CurrentRepository
         }
         
         /**
+         * To get Weather Clouds Raw Attributes
+         * 
+         * @return array|null 
+         */
+        private function getWeatherSysAttributes()
+        {          
+            return $this->getKeyInWeatherCurrentRawData('weather_sys');                            
+        }
+        
+        /**
          * To get Weather Current Source Update Date
          * 
          * @return string|null mysql timestamp format
@@ -553,11 +564,11 @@ class CurrentRepository
         
         
         /**
-         * To get main, wind, rain, snow, clouds attributes in one array
+         * To get main, wind, rain, snow, clouds and sys attributes in one array
          * 
          * @return array
          */
-        protected function getMainAndWindAndRainAndSnowAndClouds()
+        protected function getMainAndWindAndRainAndSnowAndCloudsAndSys()
         {
             return [
                 
@@ -565,7 +576,8 @@ class CurrentRepository
                 $this->getWeatherWindAttributes(),
                 $this->getWeatherRainAttributes(),
                 $this->getWeatherSnowAttributes(),
-                $this->getWeatherCloudsAttributes(),                
+                $this->getWeatherCloudsAttributes(),      
+                $this->getWeatherSysAttributes()
             ];
         }
                 
