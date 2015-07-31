@@ -46,6 +46,7 @@ class CreateWeatherCurrentsTable extends Migration
             $t->integer('weather_rain_id')->unsigned()->nullable();  
             $t->integer('weather_snow_id')->unsigned()->nullable(); 
             $t->integer('weather_cloud_id')->unsigned()->nullable(); 
+            $t->integer('weather_sys_id')->unsigned()->nullable(); 
             $t->boolean('enable')->default(true);
             $t->timestamp('source_updated_at');
             $t->timestamps();             
@@ -58,6 +59,7 @@ class CreateWeatherCurrentsTable extends Migration
             $t->foreign('weather_rain_id')->references('id')->on('weather_rains'); 
             $t->foreign('weather_snow_id')->references('id')->on('weather_snows'); 
             $t->foreign('weather_cloud_id')->references('id')->on('weather_clouds'); 
+            $t->foreign('weather_cloud_id')->references('id')->on('weather_sys'); 
         });
         
     }

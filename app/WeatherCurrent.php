@@ -106,6 +106,15 @@ class WeatherCurrent extends Model
             return $this->hasOne('App\WeatherCloud', 'weather_current_id','id');
         }
         
+        /**
+         * TO define an one to one relationship
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         */
+        public function sys() 
+        {            
+            return $this->hasOne('App\WeatherSys', 'weather_current_id','id');
+        }
        
     
     

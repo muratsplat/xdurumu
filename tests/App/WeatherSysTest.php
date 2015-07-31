@@ -25,4 +25,21 @@ class WeatherSysTest extends TestCase
             $this->assertNotNull($one->country);
         }    
         
+       /**
+         * 
+         * @param array $attributes
+         * @return \App\WeatherSys
+         */
+        public function createNewWeatherSys(array $attributes=[])
+        {
+            return factory(App\WeatherSys::class)->make($attributes);            
+        }
+        
+        public function testRelationSimple()
+        {            
+            $one = $this->createNewWeatherSys();
+            
+            $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
+        }
+        
 }
