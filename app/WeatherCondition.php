@@ -56,7 +56,7 @@ class WeatherCondition extends Model implements SluggableInterface
         } 
         
        /**
-        * Scope a query to only enebled.
+        * Scope a query to only include ones of the given open_weather_map_id
         *
         * @return \Illuminate\Database\Eloquent\Builder
         */
@@ -65,15 +65,14 @@ class WeatherCondition extends Model implements SluggableInterface
            return $query->where('open_weather_map_id', $id);
         } 
 
-
         /**
          * Defining one-to-many relations
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
          */
         public function currents()
         {
-            return $this->hasMany('App\WeatherCurrent', 'weather_condition_id', 'id');            
+            return $this->belongsTo('App\WeatherCurrent', 'weather_condition_id', 'id');            
         }
         
        /**

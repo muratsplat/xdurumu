@@ -135,6 +135,16 @@ class OpenWeatherMapTest extends \TestCase
             $this->assertEquals($timestamp, $exported['source_updated_at']);        
         }
         
+        public function testSimpleGetWeatherCurrent()
+        {
+            $weatherCurrent = (new Open($this->current))->current()->getWeatherCurrent(); 
+            
+            $this->assertTrue($weatherCurrent->isFilledRequiredElements());
+            
+            $this->assertNotEmpty($weatherCurrent->toArray());
+               
+        }
+        
   
         
         

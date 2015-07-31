@@ -6,6 +6,8 @@
 
 
 use App\Repositories\Weather\CurrentRepository as Repository;
+use App\Libs\Weather\OpenWeatherMap;
+
 use Mockery as m;
 
 /**
@@ -119,7 +121,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition, $resource);
+            $one = new Repository($city,$condition, $resource, $current);
           
         }
         
@@ -192,7 +194,7 @@ class CurrentRepositoryTest extends \TestCase
                  
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition,$resource);       
+            $one = new Repository($city,$condition,$resource, $current);       
             
             $founded = $one->findByCityID($cities->random());
             
@@ -214,7 +216,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition, $resource);       
+            $one = new Repository($city,$condition, $resource, $current);       
             
             $founded = $one->findByCityID(99);
             
@@ -235,7 +237,7 @@ class CurrentRepositoryTest extends \TestCase
                  
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition, $resource);       
+            $one = new Repository($city,$condition, $resource, $current);       
             
             $founded = $one->findByCitySlug($cities->last()->id);
             
@@ -257,7 +259,7 @@ class CurrentRepositoryTest extends \TestCase
                  
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $city,$condition, $resource); 
+            $one = new Repository($city,$condition, $resource, $current); 
             
             $this->assertCount($currents->count(), $one->all());                     
         }
@@ -276,13 +278,15 @@ class CurrentRepositoryTest extends \TestCase
                  
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $cityModel,$condition, $resource); 
+            $one = new Repository($cityModel,$condition, $resource,$current); 
             
             $one->selectCity($city);
-        }      
+        }
         
-        public function testSimpleValidateWeatherCurrentData() 
+        public function testSimpleInsertMethod() 
         {            
+            //$weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();            
+            
             $current    = $this->getCurrentMock(); 
             
             $cityModel  = $this->getCityMock();
@@ -295,27 +299,9 @@ class CurrentRepositoryTest extends \TestCase
                  
             $resource   = $this->getWeatherForeCastResourceMock();
             
-            $one = new Repository($current, $cityModel,$condition, $resource); 
+            $one = new Repository($cityModel,$condition, $resource,$current); 
             
-            $weatherCurrentData = [
-                    'city'                          => array(),
-                    'weather_condition'             => array(),
-                    'weather_forecast_resource'     => array(),
-                    'weather_main'                  => array(),   
-                    'weather_wind'                  => false,
-                    'weather_rain'                  => false,
-                    'weather_snow'                  => false,
-                    'weather_clouds'                => false,       
-                    'source_updated_at'             => false,      
-            ];
-           
-            $one->selectCity($city)->create($weatherCurrentData);
-        }
-                
-         
-            
-        
-        
-        
+            $one->selectCity($city);
+        }   
   
 }

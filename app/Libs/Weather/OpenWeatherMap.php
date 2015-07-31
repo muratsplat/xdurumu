@@ -246,8 +246,10 @@ class OpenWeatherMap extends JsonConverter
          * 
          * @return \App\Libs\Weather\DataType\WeatherCurrent
          */
-        protected function getWeatherCurrent()
+        public function getWeatherCurrent()
         {            
+            $this->callAllPickers();
+            
             return new WeatherCurrent($this->currentForm);
         }
 }
