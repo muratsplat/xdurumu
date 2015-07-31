@@ -317,12 +317,24 @@ abstract class JsonConverter
         }
         
         /**
+         * To get current form 
          * 
          * @return array
          */
         protected function getCurrentForm()
         {            
             return $this->currentForm;
+        }
+        
+        /**
+         * To get given property value
+         * 
+         * @param string $property
+         * @return mixed|null
+         */
+        protected function getPropertyOnJSONObject($property)
+        {
+            return  isset($this->getJSONInObject()->{$property}) ? $this->getJSONInObject()->{$property} : null ;
         }
     
 }

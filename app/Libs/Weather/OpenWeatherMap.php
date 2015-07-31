@@ -72,7 +72,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerWeatherCondition()
         {
-            $weather     = $this->getJSONInObject()->weather;
+            $weather     =  $this->getPropertyOnJSONObject('weather');
             
             if (empty($weather)) { return null; }
             
@@ -132,7 +132,7 @@ class OpenWeatherMap extends JsonConverter
          */        
         private function mainForCurrent() 
         {
-            $main = $this->getJSONInObject()->main;
+            $main =  $this->getPropertyOnJSONObject('main');
             
             if (empty($main)) { return null; }
             
@@ -162,7 +162,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerWeatherWind()
         {
-            $wind = $this->getJSONInObject()->wind;
+            $wind =  $this->getPropertyOnJSONObject('wind');
             
             if (empty($wind)) { return null; }
             
@@ -180,7 +180,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerWeatherRain()
         {
-            $rain = $this->getJSONInObject()->rain;
+            $rain =  $this->getPropertyOnJSONObject('rain');
             
             if (empty($rain)) { return null; }
             
@@ -198,7 +198,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerWeatherSnow()
         {
-            $snow = $this->getJSONInObject()->snow;
+            $snow = $this->getPropertyOnJSONObject('snow');
             
             if (empty($snow)) { return null; }
             
@@ -217,7 +217,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerWeatherClouds()
         {
-            $cloud = $this->getJSONInObject()->clouds;
+            $cloud =  $this->getPropertyOnJSONObject('clouds');
             
             if (empty($cloud)) { return null; }
             
@@ -234,7 +234,7 @@ class OpenWeatherMap extends JsonConverter
          */
         protected function pickerSourceUpdatedAt()
         {
-            $dt = $this->getJSONInObject()->dt;
+            $dt =  $this->getPropertyOnJSONObject('dt');
             
             if (empty($dt)) { return null; }
             

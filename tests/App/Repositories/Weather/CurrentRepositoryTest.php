@@ -285,7 +285,7 @@ class CurrentRepositoryTest extends \TestCase
         
         public function testSimpleInsertMethod() 
         {            
-            //$weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();            
+            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();            
             
             $current    = $this->getCurrentMock(); 
             
