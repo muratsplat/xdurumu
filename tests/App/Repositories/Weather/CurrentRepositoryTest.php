@@ -2,7 +2,7 @@
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
 use App\Repositories\Weather\CurrentRepository as Repository;
@@ -283,7 +283,7 @@ class CurrentRepositoryTest extends \TestCase
             $one->selectCity($city);
         }
         
-        public function testSimpleInsertMethod() 
+        public function testSimpleImportMethod() 
         {            
             $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();            
             
@@ -291,9 +291,15 @@ class CurrentRepositoryTest extends \TestCase
             
             $cityModel  = $this->getCityMock();
             
+            $weatherCurrentMock = m::mock('\App\WeatherCurrent');
+            
+            $weatherCurrentMock->shouldReceive('firstOrCreate')->andReturn(22);
+              
+          
             $city       = m::mock('App\City');
             
-            $city->shouldReceive('getAttribute')->andReturn(null);
+            $city->shouldReceive('weatherCurrent')->andReturn($weatherCurrentMock);
+          
        
             $condition  = $this->getConditionMock();            
                  
@@ -301,7 +307,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $one = new Repository($cityModel,$condition, $resource,$current); 
             
-            $one->selectCity($city);
+            $results = $one->selectCity($city)->import($weatherCurrent);
         }   
   
 }

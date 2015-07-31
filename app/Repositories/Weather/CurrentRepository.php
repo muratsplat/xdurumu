@@ -6,7 +6,9 @@ use App\WeatherCurrent as Current;
 use App\City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
+use App\Libs\Weather\DataType\WeatherDataAble; 
 use LogicException;
+use Closure;
 use UnexpectedValueException;
 use ErrorException;
 
@@ -42,6 +44,11 @@ class CurrentRepository
      * @var \App\City  
      */
     private $selectedCity;
+    
+    /**
+     * @var \App\Libs\Weather\DataType\WeatherDataAble
+     */
+    private $weatherCurrentDataObject;
     
     /**
      * Weather Currnet Data
@@ -170,65 +177,7 @@ class CurrentRepository
             $this->condition    = $condition;
             
             $this->resource     = $resource;
-        }
-        
-        
-        /**
-         * To set raw data to use inside of this object
-         * 
-         * @param array $attributes
-         * @return void
-         */
-        protected function setRawData(array $attributes)
-        {
-            $this->weatherCurrentRawData = $attributes;
-        }
-        
-        
-        
-        public function create(array $current)
-        {
-            if (! $this->isCitySelected()) {                
-                
-                throw new LogicException('Fistly you should select a city via "selectCity()" method');         
-            }       
-            
-            $existed = $this->selectedCity->weatherCurrent;
-            
-            if (! is_null($existed)) {
-                
-                return $this->update($existed);
-            }  
-            
-            return $this->insert($current);
-            
-        }
-        
-        /**
-         * To insert Weather Current Model
-         * 
-         * @param array $current
-         * @return array
-         */
-        protected function insert(array $current)
-        {
-            $this->setRawData($current);
-            
-            $new = $this->getCity()->weatherCurrent()->create();           
-            
-            $results    = $this->addResourceAndCondition($new);
-            $results2   = $this->addOtherAllRelationships($new);            
-            $merged     = array_merge($results, $results2);
-            
-            $new->source_updated_at = $this->getWeatherSourceUpdateDate();
-            
-            if (!in_array(null, $merged) && $new->save()) {
-                
-                return $new;            
-            }
-            
-            throw new ErrorException('Weather Current model can not be created !');       
-        }
+        }     
         
         /**
          * To add Weather ForeCast Model and Weather Condition model to given Weather Current model
@@ -257,21 +206,106 @@ class CurrentRepository
          * @return array    created models
          */
         private function addOtherAllRelationships(Current $current)
+        {           
+            return $this->callMethodsByPrefix('create', $current);      
+        }
+        
+        /**
+         * To create Instance WeatherMain
+         * 
+         * @param   \App\WeatherCurrent $current
+         * @param   \App\Libs\Weather\DataType\WeatherDataAble $main
+         * @return  \App\WeatherMain
+         */
+        private function createWeatherMain(Current $current, WeatherDataAble $main)
         {
-            list($main, $wind, $rain, $snow, $clouds, $sys ) = $this->getMainAndWindAndRainAndSnowAndCloudsAndSys();
+            $attributes = $main->getAttributes();
             
-            return [
-                
-                $current->main()->create($main),
-                $current->wind()->create($wind),
-                $current->rains()->create($rain),
-                $current->snows()->create($snow),
-                $current->cloud()->create($clouds),
-                $current->main()->create($main),  
-                $current->sys()->create($sys),
-            ];
+            $values     = $main->getValues();
             
-        }       
+            return $current->main()->updateOrCreate($attributes, $values);    
+        }
+        
+        /**
+         * To create Instance WeatherSys
+         * 
+         * @param   \App\WeatherCurrent $current
+         * @param   \App\Libs\Weather\DataType\WeatherDataAble $sys
+         * @return \App\WeatherSys
+         */
+        private function createWeatherSys(Current $current, WeatherDataAble $sys)
+        {
+            $attributes = $sys->getAttributes();
+            
+            $values     = $sys->getValues();
+            
+            return $current->sys()->updateOrCreate($attributes, $values);    
+        }
+        
+        /**
+         * To create Instance WeatherWind
+         * 
+         * @param   \App\WeatherCurrent $current
+         * @param   \App\Libs\Weather\DataType\WeatherDataAble $wind
+         * @return \App\WeatherWind
+         */
+        private function createWeatherWind(Current $current, WeatherDataAble $wind)
+        {
+            $attributes = $wind->getAttributes();
+            
+            $values     = $wind->getValues();
+            
+            return $current->sys()->updateOrCreate($attributes, $values);    
+        }
+        
+        /**
+         * To create Instance WeatherCloud
+         * 
+         * @param   \App\WeatherCurrent $current
+         * @param   \App\Libs\Weather\DataType\WeatherDataAble $clouds
+         * @return \App\WeatherCloud
+         */
+        private function createWeatherClouds(Current $current, WeatherDataAble $clouds)
+        {
+            $attributes = $clouds->getAttributes();
+            
+            $values     = $clouds->getValues();
+            
+            return $current->clouds()->updateOrCreate($attributes, $values);    
+        }
+        
+        
+       /**
+         * To create Instance WeatherRain
+         * 
+         * @param   \App\WeatherCurrent $current
+         * @param   \App\Libs\Weather\DataType\WeatherDataAble $rain
+         * @return \App\WeatherRain
+         */
+        private function createWeatherRain(Current $current, WeatherDataAble $rain)
+        {
+            $attributes = $rain->getAttributes();
+            
+            $values     = $rain->getValues();
+            
+            return $current->clouds()->updateOrCreate($attributes, $values);    
+        }      
+        
+        /**
+         * To create Instance WeatherSnow
+         * 
+         * @param   \App\WeatherCurrent $current
+         * @param   \App\Libs\Weather\DataType\WeatherDataAble $snow
+         * @return \App\WeatherRain
+         */
+        private function createWeatherSnow(Current $current, WeatherDataAble $snow)
+        {
+            $attributes = $snow->getAttributes();
+            
+            $values     = $snow->getValues();
+            
+            return $current->clouds()->updateOrCreate($attributes, $values);    
+        }   
         
         /**
          * To get weather forecast resource model and weather condition model
@@ -280,9 +314,9 @@ class CurrentRepository
          */
         private function getForcastResourceAndCondition()
         {
-            $resource   = $this->getWeatherForeCastResourceAttributes();
+            $resource   = $this->getAttributeOnInportedObject('weather_forecast_resource');
             
-            $condition  = $this->getWeatherConditionAttributes();
+            $condition  = $this->getAttributeOnInportedObject('weather_condition');
             
             return [$this->findOrNewResource($resource), $this->findOrNewCondition($condition)];
         }
@@ -460,138 +494,167 @@ class CurrentRepository
         }
         
         /**
-         * To get Weather ForeCast Resource Raw Attributes
+         * To import Weather Current data to data base
          * 
-         * @return array|null
+         * @param \App\Libs\Weather\DataType\WeatherDataAble $weaterCurrent
+         * @return 
          */
-        private function getWeatherForeCastResourceAttributes()
+        public function import(WeatherDataAble $weaterCurrent)
         {
-            $key = 'weather_forecast_resource';
-
-            $array =  $this->getKeyInWeatherCurrentRawData($key);
+            $this->weatherCurrentDataObject = $weaterCurrent; 
             
-            if (!is_null($array) && is_array($array) && ! empty($array)) { return $array; }
+            if ($this->isCitySelected()) {
+                
+                return $this->startImport();                              
+            }
             
-            throw new UnexpectedValueException('Wather ForeCast Resource data is empty or null !'); 
+            throw new LogicException('Fistly you should select a city via "selectCity()" method');   
         }
         
         /**
-         * To get Weather Condition Raw Attributes
+         * To start all import proccess
          * 
-         * @return array|null
-         * @throws \UnexpectedValueException
+         * @return App\WeatherCurrent
+         * @throws \ErrorException
          */
-        private function getWeatherConditionAttributes()
+        protected function startImport()
         {
-            $key = 'weather_condition';
-
-            $array =  $this->getKeyInWeatherCurrentRawData($key);        
+            $new        = $this->getSelectedCity()->weatherCurrent()->firstOrCreate(array());
             
-            if ( !is_null($array) && is_array($array) && ! empty($array)) { return $array; }
+            $results    = $this->importAllRelationships($new);         
             
-            throw new UnexpectedValueException('Wather Condition data is empty or null !'); 
-        } 
-        
-        /**
-         * To get Weather Main Raw Attributes
-         * 
-         * @return array|null 
-         */
-        private function getWeatherMainAttributes()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('weather_main');                            
-        }  
-        
-        /**
-         * To get Weather Wind Raw Attributes
-         * 
-         * @return array|null 
-         */
-        private function getWeatherWindAttributes()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('weather_wind');                            
-        }  
-        
-        /**
-         * To get Weather Rain Raw Attributes
-         * 
-         * @return array|null 
-         */
-        private function getWeatherRainAttributes()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('weather_rain');                            
-        } 
-        
-        /**
-         * To get Weather Snow Raw Attributes
-         * 
-         * @return array|null 
-         */
-        private function getWeatherSnowAttributes()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('weather_snow');                            
-        }  
-        
-        /**
-         * To get Weather Clouds Raw Attributes
-         * 
-         * @return array|null 
-         */
-        private function getWeatherCloudsAttributes()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('weather_clouds');                            
+            $new->source_updated_at = $this->getWeatherSourceUpdateDate();
+            
+            if ($new->save()) { return $new; }
+            
+            throw new ErrorException('Weather Current model can not be created !');   
         }
         
         /**
-         * To get Weather Clouds Raw Attributes
+         * to attach all childs model to App\WeatherCurrent model
          * 
-         * @return array|null 
+         * @param App\WeatherCurrent $current
+         * @return array    results
          */
-        private function getWeatherSysAttributes()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('weather_sys');                            
+        protected function importAllRelationships(Current $current)
+        {
+            $results    = $this->addResourceAndCondition($current);
+            $results2   = $this->addOtherAllRelationships($current);            
+            
+            return  array_merge($results, $results2);
         }
         
         /**
-         * To get Weather Current Source Update Date
+         * To get attributes on imported Weather Data object
+         * by given attribute name
          * 
-         * @return string|null mysql timestamp format
+         * @param string $name attribte name
+         * @return \App\Libs\Weather\DataType\WeatherDataAble|String
          */
-        private function getWeatherSourceUpdateDate()
-        {          
-            return $this->getKeyInWeatherCurrentRawData('source_updated_at');                            
+        protected function getAttributeOnInportedObject($name)
+        {
+            return $this->weatherCurrentDataObject->{$name};
         }
         
+        /**
+         * To get selected city
+         * 
+         * @return \App\City
+         * @throws \LogicException
+         */
+        private function getSelectedCity()
+        {
+            if (! is_null($this->selectedCity)) {
+                
+                return $this->selectedCity;
+            }
+            
+            throw new LogicException('Fistly you should select a city via "selectCity()" method');      
+        }
         
         /**
-         * To get main, wind, rain, snow, clouds and sys attributes in one array
+         * To fiter all methods by given prefix
          * 
          * @return array
          */
-        protected function getMainAndWindAndRainAndSnowAndCloudsAndSys()
+        protected function getFilterMethods($prefix=null) 
         {
-            return [
+            if (is_null($prefix)) { return array(); }
+            
+            $methods = get_class_methods($this);
+            
+            return array_filter($methods, function($item) use ($prefix) {
                 
-                $this->getWeatherMainAttributes(),
-                $this->getWeatherWindAttributes(),
-                $this->getWeatherRainAttributes(),
-                $this->getWeatherSnowAttributes(),
-                $this->getWeatherCloudsAttributes(),      
-                $this->getWeatherSysAttributes()
-            ];
+                if(strpos($item, $prefix) ===0) {
+                    
+                    return true;
+                }                
+            });           
         }
-                
         
         /**
-         * To get value in WeatherCurrent Raw Data by given key
+         * To call given methods with parameters
          * 
-         * @param string $key
-         * @param mixed $default
-         * @return mixed|null
+         * @param string    $prefix    such as 'foo'Bar() for 'fooBar()'
+         * @param array     $arg
+         * @param closure   a callback to manipulate passed argument finally
+         * @return array    returns of called methods
          */
-        private function getKeyInWeatherCurrentRawData($key, $default=null)
-        {
-            return array_get($this->weatherCurrentRawData, $key, $default);             
+        protected function callMethodsByPrefix($prefix, Current $current) 
+        {   
+            $results    = [];       
+            
+            foreach ($this->getFilterMethods($prefix) as $method) {
+                
+                $dataObject = $this->getAttributeOnInportedObject($dataName);
+                
+                if (is_null($dataName)) { continue; }
+                
+                $dataName   = $this->parserKeyInMethodName($method);              
+                
+                $results[] =  call_user_func_array([$this, $method], [$current, $dataObject]);         
+            }
+            
+            return $results;                       
         }
-
+        
+        /**
+         * To recognize 'key' in picker method name
+         * 
+         * @param string $name
+         * @return string
+         * @throws InvalidArgumentException
+         */
+        protected function parserKeyInMethodName($name='fooBar')
+        {
+            $snake_case     = snake_case($name);
+            
+            $segments       = explode('_', $snake_case);
+            
+            if (empty($segments)) {
+                
+               throw new InvalidArgumentException('Passed argument is not valid !');
+            }  
+            
+            unset($segments[0]);         
+        
+            return $this->convertArrayToStingSnakeCase($segments);            
+        }
+        
+       /**
+         * To convert array elements to string with snake('_') case
+         * 
+         * @param array $segments
+         * @return string
+         */
+        private function convertArrayToStingSnakeCase(array $segments)
+        {
+            if (count($segments) > 1) {
+             
+                
+                return implode('_', $segments);
+            }
+            
+            return last($segments);
+        }
 }

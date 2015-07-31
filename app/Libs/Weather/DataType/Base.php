@@ -322,6 +322,26 @@ abstract class Base implements WeatherDataAble
         public function __isset($name)
         {
             $this->isKeyExist($name);
+        }       
+        
+        /**
+         * To get only values
+         * 
+         * @return array
+         */
+        public function getValues()
+        {
+            return array_values($this->attributes);
+        }
+        
+        /**
+         * To get only values
+         * 
+         * @return array
+         */
+        public function getAttributes()
+        {
+            return array_keys($this->attributes);
         }
 
 }

@@ -21,7 +21,7 @@ class DataTypeTest extends \TestCase
             $this->assertFalse($current->isFilledRequiredElements());
         }
         
-        public function atestIsFilledRequiredElements()
+        public function testIsFilledRequiredElements()
         {   
             
             $city       = new City(array());
@@ -169,4 +169,32 @@ class DataTypeTest extends \TestCase
             
             $this->assertCount(10, $toArray);
         }
+        
+        public function testGetValuesAndGetAttributes()
+        {
+            $cityData = [
+                
+                'id'        => 1, 
+                'name'      => 'Gumushane', 
+                'country'   => 'TR', 
+                'latitude'  => 122.212, 
+                'longitude' => 3332.32323,                
+                ];
+            
+            $city       = new City($cityData);
+            
+            $attributes = $city->getAttributes();
+            
+            $values     = $city->getValues();
+            
+            $cityDataKeys = array_keys($cityData);
+            
+            $cityDataValues= array_values($cityData);
+            
+            $this->assertEquals($values, $cityDataValues);
+            
+            $this->assertEquals($attributes, $cityDataKeys);         
+        }
+        
+        
 }

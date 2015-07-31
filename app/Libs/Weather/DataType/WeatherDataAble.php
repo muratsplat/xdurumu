@@ -66,4 +66,18 @@ interface  WeatherDataAble extends ArrayAccess, Arrayable
          * @param mixed $name
          */
         public function __isset($name);
+        
+        /**
+         * To get only values
+         * 
+         * @return array
+         */
+        public function getValues();
+        
+        /**
+         * To get only values
+         * 
+         * @return array
+         */
+        public function getAttributes();
 }
