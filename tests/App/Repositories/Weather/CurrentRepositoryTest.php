@@ -272,9 +272,11 @@ class CurrentRepositoryTest extends \TestCase
             
             $current    = $this->getCurrentMock(); 
             
-            $cityModel  = $this->getCityMock();                 
-          
-            $city       = $this->getMock('App\City', ['weatherCurrent', 'firstOrCreate']);           
+            $newCurrent = m::mock('App\WeatherCurrent');
+            
+            $newCurrent->shouldReceive('firstOrCreate')->andReturnSelf();
+            
+            $cityModel  = $this->getCityMock();     
             
             $condition  = $this->getConditionMock();            
                  
@@ -282,7 +284,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $one = new Repository($cityModel,$condition, $resource,$current); 
             
-            $results = $one->selectCity($city)->import($weatherCurrent);
+            $results = $one->selectCity($cityModel)->import($weatherCurrent);
             
             $city->shouldHaveReceived('weatherCurrent')->times(1);
         }

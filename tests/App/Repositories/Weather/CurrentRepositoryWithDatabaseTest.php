@@ -4,16 +4,12 @@
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 use App\Repositories\Weather\CurrentRepository as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use App\City;
 use App\WeatherCurrent;
 use App\WeatherCondition;
 use App\WeatherForeCastResource;
-
-
-
 
 /**
  * Current Repository Test Class
@@ -59,9 +55,9 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
         }
         
         
-        private function createTwoCities()
+        private function createCities($count=2)
         {
-            return factory(App\City::class, 3)->create();   
+            return factory(App\City::class, $count)->create();   
         }
         
         /**
@@ -102,7 +98,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
 
         public function testSimple()
         {   
-            $cities = $this->createTwoCities();
+            $cities = $this->createCities(3);
             
             $this->assertCount(3, $cities);
             
@@ -121,7 +117,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
         
         public function testSelectCity()
         {   
-            $cities = $this->createTwoCities();
+            $cities = $this->createCities(3);
             
             $this->assertCount(3, $cities);
             
@@ -143,7 +139,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();     
             
-            $cities = $this->createTwoCities();
+            $cities = $this->createCities(3);
             
             $this->assertCount(3, $cities);
             
@@ -201,5 +197,60 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             $this->assertEquals($model->clouds->all, $weatherCurrent['weather_clouds']->all);            
             $this->assertEquals($model['source_updated_at'], $weatherCurrent['source_updated_at']);
             $this->assertEquals($model->city->name, $selectCity->name); 
-        }                
+        }
+        
+        public function testImportTwentyTimes()
+        {               
+            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();     
+            
+            $cities = $this->createCities(10);
+            
+            $this->assertCount(10, $cities);
+            
+            $city = $this->getCity();
+            
+            $condition = $this->getCondition();
+            
+            $resource = $this->getResource();
+            
+            $current  = $this->getCurrent();
+            
+            $one = new Repository($city,$condition, $resource, $current);
+            
+            $selectCity = $cities->random();
+            
+            $weatherCurrents = [];
+            
+            foreach ($cities as $eachCity) {                
+                
+                $weatherCurrents[] = $one->selectCity($eachCity)->import($weatherCurrent);                                
+            }
+            
+            $this->assertCount(10,$weatherCurrents);            
+            $this->assertCount(10, App\WeatherCurrent::all());
+            $this->assertCount(10, App\WeatherMain::all());
+            $this->assertCount(10, App\WeatherSnow::all());
+            $this->assertCount(10, App\WeatherRain::all());
+            $this->assertCount(10, App\WeatherSys::all());
+            $this->assertCount(1, App\WeatherCondition::all());
+            $this->assertCount(1, App\WeatherForeCastResource::all());
+            $this->assertCount(10, App\WeatherWind::all());
+            $this->assertCount(10, App\WeatherCloud::all());
+            
+            foreach ($cities as $eachCity) {                
+                
+                $weatherCurrents[] = $one->selectCity($eachCity)->import($weatherCurrent);                                
+            }
+            
+            $this->assertCount(20, $weatherCurrents);            
+            $this->assertCount(10, App\WeatherCurrent::all());
+            $this->assertCount(10, App\WeatherMain::all());
+            $this->assertCount(10, App\WeatherSnow::all());
+            $this->assertCount(10, App\WeatherRain::all());
+            $this->assertCount(10, App\WeatherSys::all());
+            $this->assertCount(1, App\WeatherCondition::all());
+            $this->assertCount(1, App\WeatherForeCastResource::all());
+            $this->assertCount(10, App\WeatherWind::all());
+            $this->assertCount(10, App\WeatherCloud::all());
+        }
 }
