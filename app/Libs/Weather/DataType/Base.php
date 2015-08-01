@@ -98,7 +98,7 @@ abstract class Base implements WeatherDataAble
         {
             if (!$this->isKeyExist($key) ) {              
                 
-                $class = $this->getClassName();
+                $class = get_class($this);
                 
                 throw new UnexpectedValueException("'$key' element does not belong to '$class' !");                
             }              

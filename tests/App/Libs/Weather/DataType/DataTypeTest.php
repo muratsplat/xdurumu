@@ -123,9 +123,9 @@ class DataTypeTest extends \TestCase
             
             $conditionData = [
                 
-                'id'                => 212,             
-                'orgin_name'        => 'yağmurlu',
-                'orgin_description' => 'hava açık',   
+                'open_weather_map_id'   => 212,             
+                'orgin_name'            => 'yağmurlu',
+                'orgin_description'     => 'hava açık',   
                 ];
             
             $condition  = new WeatherCondition($conditionData);           

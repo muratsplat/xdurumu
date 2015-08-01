@@ -11,7 +11,6 @@ use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
 
 use LogicException;
-use Closure;
 use UnexpectedValueException;
 use ErrorException;
 
@@ -253,7 +252,7 @@ class CurrentRepository
         {
             $attributes = $wind->toArray();
             
-            return $current->sys()->firstOrCreate($attributes);    
+            return $current->wind()->firstOrCreate($attributes);    
         }
         
         /**
@@ -282,8 +281,8 @@ class CurrentRepository
         {
             $attributes = $rain->toArray();          
             
-            return $current->clouds()->firstOrCreate($attributes);    
-        }      
+            return $current->rains()->firstOrCreate($attributes);    
+        }
         
         /**
          * To create Instance WeatherSnow
@@ -296,8 +295,8 @@ class CurrentRepository
         {
             $attributes = $snow->toArray();
             
-            return $current->clouds()->firstOrCreate($attributes);    
-        }   
+            return $current->snows()->firstOrCreate($attributes);    
+        } 
         
         /**
          * To get weather forecast resource model and weather condition model
@@ -336,7 +335,7 @@ class CurrentRepository
          */
         private function findOrNewCondition(WeatherCondition $condition)
         {
-            $opeWeatherMapID = $condition->id;
+            $opeWeatherMapID = $condition['open_weather_map_id'];
             
             $model =  $this->getCondition()->OfOpenWetherMapId($opeWeatherMapID)->first();     
             
@@ -450,9 +449,14 @@ class CurrentRepository
          */
         public function selectCity(City $city)
         {
-            $this->selectedCity = $city;
+            $this->selectedCity = $city;            
+          
+            if ($city->exists) {
+                
+                return $this;               
+            }
             
-            return $this;
+            throw new UnexpectedValueException("Given App\City model is not saved on db!");
         }
         
         /**
@@ -516,7 +520,7 @@ class CurrentRepository
             $results    = $this->importAllRelationships($new);         
             
             $new->source_updated_at = $this->getAttributeOnInportedObject('source_updated_at');
-            
+                        
             if ($new->save()) { return $new; }
             
             throw new ErrorException('Weather Current model can not be created !');   
@@ -587,9 +591,8 @@ class CurrentRepository
         /**
          * To call given methods with parameters
          * 
-         * @param string    $prefix    such as 'foo'Bar() for 'fooBar()'
-         * @param array     $arg
-         * @param closure   a callback to manipulate passed argument finally
+         * @param string                $prefix    such as 'foo'Bar() for 'fooBar()'
+         * @param \App\WeatherCurrent   $current
          * @return array    returns of called methods
          */
         protected function callMethodsByPrefix($prefix, Current $current) 
@@ -641,8 +644,7 @@ class CurrentRepository
          */
         private function convertArrayToStingSnakeCase(array $segments)
         {
-            if (count($segments) > 1) {
-             
+            if (count($segments) > 1) {             
                 
                 return implode('_', $segments);
             }

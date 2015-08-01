@@ -36,14 +36,14 @@ class WeatherCondition extends Model implements SluggableInterface
      *
      * @var array
      */            
-    protected $fillable = ['name', 'description', 'orgin_name', 'orgin_description','icon', 'slug'];
+    protected $fillable = ['name', 'description', 'orgin_name', 'orgin_description','icon', 'slug', 'open_weather_map_id'];
     
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['id', 'open_weather_map_id'];
+    protected $hidden = ['id', 'open_weather_map_id', 'updated_at', 'created_at'];
     
     /**
      * Slug options
@@ -52,7 +52,7 @@ class WeatherCondition extends Model implements SluggableInterface
      */
     protected $sluggable = [
             
-            'build_from' => 'name',
+            'build_from' => 'description',
             'save_to'    => 'slug',
     ];
     

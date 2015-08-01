@@ -18,26 +18,7 @@ use Mockery as m;
 class CurrentRepositoryTest extends \TestCase
 {
     
-    /**
-     * @var \App\WeatherCurrent 
-     */
-    private $current;
-    
-    /**
-     * @var \App\Repositories\Weather\CurrentRepository
-     */
-    private $repository;
-    
-    /**
-     * @var \App\WeatherCity 
-     */
-    private $city;
-    
-    /**
-     * @var \App\WeatherCondition 
-     */
-    private $condition; 
-    
+
     /**
      * Example of json response
      *
@@ -274,8 +255,8 @@ class CurrentRepositoryTest extends \TestCase
             
             $city       = m::mock('App\City');
             
-            $city->shouldReceive('getAttribute')->andReturn(null);
-       
+            $city->exists = true;
+            
             $condition  = $this->getConditionMock();            
                  
             $resource   = $this->getWeatherForeCastResourceMock();
@@ -293,10 +274,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $cityModel  = $this->getCityMock();                 
           
-            $city       = $this->getMock('App\City', ['weatherCurrent', 'firstOrCreate']);
-            
-            $city->
-            
+            $city       = $this->getMock('App\City', ['weatherCurrent', 'firstOrCreate']);           
             
             $condition  = $this->getConditionMock();            
                  

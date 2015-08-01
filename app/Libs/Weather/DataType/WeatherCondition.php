@@ -17,7 +17,7 @@ class WeatherCondition extends Base
      *
      * @var array
      */
-    protected $required = ['id', 'orgin_name', 'orgin_description'];
+    protected $required = ['open_weather_map_id', 'orgin_name', 'orgin_description'];
     
     /**
      * All attributes
@@ -26,12 +26,12 @@ class WeatherCondition extends Base
      */
     protected $attributes = [
         
-            'id'                => null,
-            'name'              => null,
-            'description'       => null,
-            'orgin_name'        => null,
-            'orgin_description' => null,  
-            'icon'              => null,
+            'open_weather_map_id'   => null,
+            'name'                  => null,
+            'description'           => null,
+            'orgin_name'            => null,
+            'orgin_description'     => null,  
+            'icon'                  => null,
         ]; 
     
 }

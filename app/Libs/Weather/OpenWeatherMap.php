@@ -81,12 +81,12 @@ class OpenWeatherMap extends JsonConverter
             $first      = head($weather);
             return new WeatherCondition([
                 
-                'id'                => $first->id,
-                'name'              => $first->main,
-                'description'       => $first->description,
-                'orgin_name'        => $first->main,
-                'orgin_description' => $first->description,  
-                'icon'              => $first->icon,                   
+                'open_weather_map_id'   => $first->id,
+                'name'                  => $first->main,
+                'description'           => $first->description,
+                'orgin_name'            => $first->main,
+                'orgin_description'     => $first->description,  
+                'icon'                  => $first->icon,                   
             ]);
         }
         

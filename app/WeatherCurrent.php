@@ -24,7 +24,8 @@ class WeatherCurrent extends Model
      *
      * @var array
      */            
-    protected $fillable = ['enable'];    
+    protected $fillable = ['enable', 'source_updated_at'];    
+    
     
         /**
          * To define an inverse one-to-one relationship 

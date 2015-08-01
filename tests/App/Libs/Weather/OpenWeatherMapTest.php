@@ -82,7 +82,7 @@ class OpenWeatherMapTest extends \TestCase
             $this->assertEquals($jsonObject->coord->lat, $exported['city']['latitude']);
             $this->assertEquals($jsonObject->coord->lon, $exported['city']['longitude']);            
             // check weather condition attributes
-            $this->assertEquals($jsonObject->weather[0]->id, $exported['weather_condition']['id']);
+            $this->assertEquals($jsonObject->weather[0]->id, $exported['weather_condition']['open_weather_map_id']);
             $this->assertEquals($jsonObject->weather[0]->main, $exported['weather_condition']['name']);
             $this->assertEquals($jsonObject->weather[0]->main, $exported['weather_condition']['orgin_name']);
             $this->assertEquals($jsonObject->weather[0]->description, $exported['weather_condition']['description']);

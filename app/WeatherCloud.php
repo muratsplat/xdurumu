@@ -34,17 +34,8 @@ class WeatherCloud extends Model
      * @var array
      */            
     protected $fillable = [
-            'temp', 
-            'temp_min', 
-            'temp_max', 
-            'temp_eve',
-            'temp_night',
-            'temp_morn',
-            'pressure',
-            'humidity',
-            'sea_level',
-            'grnd_level',
-            'temp_kf'
+            'all', 
+        
         ];
     
         /**
