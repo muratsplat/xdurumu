@@ -1,14 +1,23 @@
 <?php
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\WeatherSys;
 
 
 class WeatherSysTest extends TestCase
 {  
+    
+    use DatabaseMigrations, DatabaseTransactions;
+    
+        public function setUp()
+        {
+            parent::setUp();               
+            
+           \Config::set('database.default', 'sqlite');  
+        }
 
     
         public function testSimple()
@@ -40,6 +49,13 @@ class WeatherSysTest extends TestCase
             $one = $this->createNewWeatherSys();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
+        }
+        
+        public function testSimpleCRUD()
+        {
+            $wind = $this->createNewWeatherSys();
+            
+            $this->assertTrue($wind->save());
         }
         
 }

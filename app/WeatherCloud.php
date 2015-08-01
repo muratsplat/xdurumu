@@ -18,6 +18,15 @@ class WeatherCloud extends Model
      * @var string
      */
     protected $table = 'weather_clouds';
+    
+    
+    /**
+     * Disable default timestamps
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
 
     /**
      * The attributes that are mass assignable.

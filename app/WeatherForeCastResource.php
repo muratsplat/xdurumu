@@ -47,11 +47,11 @@ class WeatherForeCastResource extends Model
         /**
          * Defining one to many relations 
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
          */
         public function currents()
         {
-            return $this->belongsTo('App\WeatherCurrent', 'weather_forecast_resource_id', 'id');
+            return $this->hasMany('App\WeatherCurrent', 'weather_forecast_resource_id', 'id');
         }
     
         /**

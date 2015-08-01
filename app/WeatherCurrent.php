@@ -39,21 +39,21 @@ class WeatherCurrent extends Model
         /**
          * To define an inverse one-to-one relationship 
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
          */
         public function condition() 
         {
-            return $this->hasOne('App\WeatherCondition', 'weather_conditions_id', 'id');
+            return $this->belongsTo('App\WeatherCondition', 'weather_condition_id', 'id');
         }
 
         /**
          * To define an inverse one-to-one relationship 
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
          */
         public function foreCastResource() 
         {
-            return $this->hasOne('App\WeatherForeCastResource', 'weather_forecast_resource_id', 'id');
+            return $this->belongsTo('App\WeatherForeCastResource', 'weather_forecast_resource_id', 'id');
         }
 
         /**

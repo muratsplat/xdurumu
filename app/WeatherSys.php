@@ -18,6 +18,14 @@ class WeatherSys extends Model
      * @var string
      */
     protected $table = 'weather_sys';
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+     public $timestamps = false;
+
 
     /**
      * The attributes that are mass assignable.

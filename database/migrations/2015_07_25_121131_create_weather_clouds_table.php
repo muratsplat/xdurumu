@@ -23,7 +23,7 @@ class CreateWeatherCloudsTable extends Migration
             $t->integer('weather_current_id')->unsigned()->nullable();
             $t->integer('weather_hourly_id')->unsigned()->nullable();
             $t->integer('weather_daily_id')->unsigned()->nullable();
-            $t->integer('all');
+            $t->integer('all')->unsigned()->nullable();
                         
         });
     }

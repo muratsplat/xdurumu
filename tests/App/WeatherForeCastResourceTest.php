@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+//use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -10,7 +10,7 @@ use App\WeatherForeCastResource;
 class WeatherForeCastResourceTest extends TestCase
 {
     
-   // use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
     
         
         /**
@@ -53,6 +53,13 @@ class WeatherForeCastResourceTest extends TestCase
             $one = $this->createNewWeatherForeCastResource();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->currents()->getRelated());            
+        }
+        
+        public function testSimpleCRUD()
+        {
+            $one = $this->createNewWeatherForeCastResource();
+            
+            $this->assertTrue($one->save());            
         }
         
       

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+//use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -10,7 +10,7 @@ use App\WeatherCondition;
 class WeatherConditionTest extends TestCase
 {
     
-   // use DatabaseMigrations;
+   use DatabaseMigrations, DatabaseTransactions;
     
     
 //        $t->increments('id');
@@ -34,7 +34,6 @@ class WeatherConditionTest extends TestCase
         {           
             $weatherCondition = new WeatherCondition();                     
         }
-
 
         public function testSimpleTwo() 
         {            
@@ -73,6 +72,13 @@ class WeatherConditionTest extends TestCase
             $one = $this->createNewWeatherCondition();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->currents()->getRelated());            
+        }
+        
+        public function testSimpleCRUD()
+        {
+            $one = $this->createNewWeatherCondition();
+            
+            $this->assertTrue($one->save());
         }
         
       

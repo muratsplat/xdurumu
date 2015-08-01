@@ -9,6 +9,7 @@ use App\WeatherRain;
 
 class WeatherRainTest extends TestCase
 {
+        use DatabaseMigrations, DatabaseTransactions;
         
         /**
          * A basic functional test example.
@@ -65,6 +66,13 @@ class WeatherRainTest extends TestCase
             $one = $this->createNewWeatherRain();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
-        }     
+        } 
+        
+        public function testSimpleCRUD()
+        {
+            $one =  $this->createNewWeatherRain();
+            
+            $this->assertTrue($one->save());
+        }
         
 }

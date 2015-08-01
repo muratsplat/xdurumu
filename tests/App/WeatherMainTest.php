@@ -1,14 +1,16 @@
 <?php
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\WeatherMain;
 
 
 class WeatherMainTest extends TestCase
 {  
+    
+    use DatabaseMigrations, DatabaseTransactions;    
 
     
         public function testSimple()
@@ -40,6 +42,14 @@ class WeatherMainTest extends TestCase
             $one = $this->createNewWeatherMain();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
+        }
+        
+        public function testSimpleCRUD()
+        {
+            $one = $this->createNewWeatherMain();
+            
+            $this->assertTrue($one->save());
+            
         }
         
 }

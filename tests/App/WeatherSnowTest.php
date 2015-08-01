@@ -1,15 +1,16 @@
 <?php
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\WeatherSnow;
 
 
 class WeatherSnowTest extends TestCase
 {
-        
+        use DatabaseMigrations, DatabaseTransactions;
+
         /**
          * A basic functional test example.
          *
@@ -60,6 +61,14 @@ class WeatherSnowTest extends TestCase
             $one = $this->createNewWeatherSnow();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
-        }     
+        } 
+        
+        public function createSimpleCRUD()
+        {
+            $one = $this->createNewWeatherSnow();
+            
+            $this->assertTrue($one->save());            
+        }
+                
         
 }

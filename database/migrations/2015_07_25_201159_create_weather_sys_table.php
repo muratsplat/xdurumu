@@ -21,8 +21,8 @@ class CreateWeatherSysTable extends Migration
            $t->increments('id');
            $t->integer('weather_current_id')->unsigned()->nullable();
            $t->string('country', 50)->nullable();
-           $t->time('sunrise');
-           $t->time('sunset');          
+           $t->time('sunrise')->nullable();
+           $t->time('sunset')->nullable();          
        });
     }
 

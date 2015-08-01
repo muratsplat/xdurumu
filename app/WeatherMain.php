@@ -16,7 +16,14 @@ class WeatherMain extends Model
      *
      * @var string
      */
-    protected $table = 'weather_main';
+    protected $table = 'weather_mains';
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+     public $timestamps = false;
 
                   
     /**

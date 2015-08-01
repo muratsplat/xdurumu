@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+//use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -9,6 +9,20 @@ use App\WeatherCurrent;
 
 class WeatherCurrentTest extends TestCase
 {
+        use DatabaseMigrations, DatabaseTransactions;
+     
+        public function testSimpleCRUD()
+        {
+            
+            $current = factory(App\WeatherCurrent::class, 2)
+                        ->make()
+                        ->each(function(\App\WeatherCurrent $cur){
+                            
+                            $cur->city()->associate(factory(\App\City::class)->create());
+                        });
+            
+            $this->assertCount(2, $current);
+        }
         
         /**
          * A basic functional test example.

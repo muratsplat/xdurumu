@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+//use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -10,7 +10,7 @@ use App\WeatherCloud;
 class WeatherCloudTest extends TestCase
 {
     
-   // use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
     
     
 //        $t->increments('id');
@@ -24,7 +24,7 @@ class WeatherCloudTest extends TestCase
 //        $t->softDeletes();                       
 //        $t->timestamps();
     
-        
+       
         /**
          * A basic functional test example.
          *
@@ -80,6 +80,10 @@ class WeatherCloudTest extends TestCase
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());            
         }
         
-      
-        
+        public function testSimpleCrud()
+        {
+            $clouds = $this->createNewWeatherCloud();
+            
+            $this->assertTrue($clouds->save());
+        }      
 }

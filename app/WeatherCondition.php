@@ -45,6 +45,17 @@ class WeatherCondition extends Model implements SluggableInterface
      */
     protected $hidden = ['id', 'open_weather_map_id'];
     
+    /**
+     * Slug options
+     *
+     * @var array 
+     */
+    protected $sluggable = [
+            
+            'build_from' => 'name',
+            'save_to'    => 'slug',
+    ];
+    
         /**
         * Scope a query to only enebled.
         *

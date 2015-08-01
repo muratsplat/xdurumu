@@ -1,8 +1,8 @@
 <?php
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\City;
 
@@ -10,7 +10,7 @@ use App\City;
 class CityModelTest extends TestCase
 {
     
-   // use DatabaseMigrations;
+   use DatabaseMigrations, DatabaseTransactions;
     
     
     private $cityJsonExampleData = '{"_id":703363,"name":"Laspi","country":"UA","coord":{"lon":33.733334,"lat":44.416668}}';
@@ -91,6 +91,13 @@ class CityModelTest extends TestCase
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->weatherCurrent()->getRelated());
             $this->assertInstanceOf('App\WeatherMain', $one->weatherCurrent()->getRelated()->main()->getRelated());  
+        }
+        
+        public function testSimpleCRUD()
+        {
+            $one = $this->createNewCity();
+            
+            $this->assertTrue($one->save());
         }
 
         

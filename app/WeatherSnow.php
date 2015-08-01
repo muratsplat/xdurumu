@@ -18,6 +18,14 @@ class WeatherSnow extends Model
      * @var string
      */
     protected $table = 'weather_snows';
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+     public $timestamps = false;
+
 
     /**
      * The attributes that are mass assignable.

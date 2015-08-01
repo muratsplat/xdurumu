@@ -7,6 +7,9 @@ use App\City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble; 
+use App\Libs\Weather\DataType\WeatherCondition;
+use App\Libs\Weather\DataType\WeatherForecastResource;
+
 use LogicException;
 use Closure;
 use UnexpectedValueException;
@@ -185,7 +188,7 @@ class CurrentRepository
          * 
          * 
          * @param \App\WeatherCurrent $current
-         * @return array created models
+         * @return array    includes \App\WeatherCurrent 
          */
         private function addResourceAndCondition(Current $current)
         {                
@@ -193,8 +196,8 @@ class CurrentRepository
             
             return [ 
                 
-                $current->foreCastResource()->save($resource),
-                $current->condition()->save($condition),
+                $current->foreCastResource()->associate($resource),
+                $current->condition()->associate($condition),
             ];
         }
         
@@ -219,11 +222,10 @@ class CurrentRepository
          */
         private function createWeatherMain(Current $current, WeatherDataAble $main)
         {
-            $attributes = $main->getAttributes();
+           
+            $attributes = $main->toArray();            
             
-            $values     = $main->getValues();
-            
-            return $current->main()->updateOrCreate($attributes, $values);    
+            return $current->main()->firstOrCreate($attributes);
         }
         
         /**
@@ -235,11 +237,9 @@ class CurrentRepository
          */
         private function createWeatherSys(Current $current, WeatherDataAble $sys)
         {
-            $attributes = $sys->getAttributes();
+            $attributes = $sys->toArray();
             
-            $values     = $sys->getValues();
-            
-            return $current->sys()->updateOrCreate($attributes, $values);    
+            return $current->sys()->firstOrCreate($attributes);    
         }
         
         /**
@@ -251,11 +251,9 @@ class CurrentRepository
          */
         private function createWeatherWind(Current $current, WeatherDataAble $wind)
         {
-            $attributes = $wind->getAttributes();
+            $attributes = $wind->toArray();
             
-            $values     = $wind->getValues();
-            
-            return $current->sys()->updateOrCreate($attributes, $values);    
+            return $current->sys()->firstOrCreate($attributes);    
         }
         
         /**
@@ -267,11 +265,9 @@ class CurrentRepository
          */
         private function createWeatherClouds(Current $current, WeatherDataAble $clouds)
         {
-            $attributes = $clouds->getAttributes();
+            $attributes = $clouds->toArray();            
             
-            $values     = $clouds->getValues();
-            
-            return $current->clouds()->updateOrCreate($attributes, $values);    
+            return $current->clouds()->firstOrCreate($attributes);    
         }
         
         
@@ -284,11 +280,9 @@ class CurrentRepository
          */
         private function createWeatherRain(Current $current, WeatherDataAble $rain)
         {
-            $attributes = $rain->getAttributes();
+            $attributes = $rain->toArray();          
             
-            $values     = $rain->getValues();
-            
-            return $current->clouds()->updateOrCreate($attributes, $values);    
+            return $current->clouds()->firstOrCreate($attributes);    
         }      
         
         /**
@@ -300,17 +294,15 @@ class CurrentRepository
          */
         private function createWeatherSnow(Current $current, WeatherDataAble $snow)
         {
-            $attributes = $snow->getAttributes();
+            $attributes = $snow->toArray();
             
-            $values     = $snow->getValues();
-            
-            return $current->clouds()->updateOrCreate($attributes, $values);    
+            return $current->clouds()->firstOrCreate($attributes);    
         }   
         
         /**
          * To get weather forecast resource model and weather condition model
          * 
-         * @return array    [WeatherForeCastResource, WeatherCondition]
+         * @return array    [\App\Libs\Weather\DataType\WeatherForecastResource, \App\Libs\Weather\DataType\WeatherCondition]
          */
         private function getForcastResourceAndCondition()
         {
@@ -339,36 +331,36 @@ class CurrentRepository
          * To find condition if it is not exists, create one 
          * and return it. 
          *
-         * @param array $columns
-         * @return \App\WeatherCondition
+         * @param   \App\Libs\Weather\DataType\WeatherCondition $condition
+         * @return  \App\WeatherCondition
          */
-        private function findOrNewCondition(array $columns)
+        private function findOrNewCondition(WeatherCondition $condition)
         {
-            $opeWeatherMapID = array_get($columns, 'id', null);
+            $opeWeatherMapID = $condition->id;
             
             $model =  $this->getCondition()->OfOpenWetherMapId($opeWeatherMapID)->first();     
             
             if (! is_null($model)) { return $model; }
             
-            return $this->getCondition()->create($columns);   
+            return $this->getCondition()->create($condition->toArray());   
         }        
         
         /**
          * To find WeatherForeCastResource model 
          * if it is not exists, create one and return it.
          * 
-         * @param array $columns
+         * @param  \App\Libs\Weather\DataType\WeatherForecastResource $resource
          * @return \App\WeatherForeCastResource
          */
-        private function findOrNewResource(array $columns)
+        private function findOrNewResource(WeatherForecastResource $resource)
         {
-            $name = array_get($columns, 'name', null);
+            $name = $resource->name;
             
             $model =  $this->getWeatherForecastResource()->OfName($name)->first();     
             
             if (! is_null($model)) { return $model; }
             
-            return $this->getWeatherForecastResource()->create($columns);   
+            return $this->getWeatherForecastResource()->create($resource->toArray());   
         }
         
     
@@ -518,12 +510,12 @@ class CurrentRepository
          * @throws \ErrorException
          */
         protected function startImport()
-        {
+        {            
             $new        = $this->getSelectedCity()->weatherCurrent()->firstOrCreate(array());
             
             $results    = $this->importAllRelationships($new);         
             
-            $new->source_updated_at = $this->getWeatherSourceUpdateDate();
+            $new->source_updated_at = $this->getAttributeOnInportedObject('source_updated_at');
             
             if ($new->save()) { return $new; }
             
@@ -606,11 +598,11 @@ class CurrentRepository
             
             foreach ($this->getFilterMethods($prefix) as $method) {
                 
+                $dataName   = $this->parserKeyInMethodName($method);   
+                
                 $dataObject = $this->getAttributeOnInportedObject($dataName);
                 
-                if (is_null($dataName)) { continue; }
-                
-                $dataName   = $this->parserKeyInMethodName($method);              
+                if (is_null($dataObject)) { continue; }                        
                 
                 $results[] =  call_user_func_array([$this, $method], [$current, $dataObject]);         
             }

@@ -1,8 +1,8 @@
 <?php
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\WeatherWind;
 
@@ -10,7 +10,7 @@ use App\WeatherWind;
 class WeatherWindTest extends TestCase
 {
     
-   // use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
     
     
 //        $t->increments('id');
@@ -24,6 +24,13 @@ class WeatherWindTest extends TestCase
 //        $t->softDeletes();                       
 //        $t->timestamps();
     
+    
+        public function setUp()
+        {
+            parent::setUp();               
+            
+           \Config::set('database.default', 'sqlite');  
+        }
         
         /**
          * A basic functional test example.
@@ -81,6 +88,13 @@ class WeatherWindTest extends TestCase
             $one = $this->createNewWeatherWind();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());            
+        }
+        
+        public function testSimpleCRUD()
+        {
+            $wind = $this->createNewWeatherWind();
+            
+            $this->assertTrue($wind->save());
         }
         
       
