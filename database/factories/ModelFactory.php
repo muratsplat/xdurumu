@@ -56,6 +56,7 @@ $factory->define(App\WeatherForeCastResource::class, function (Faker\Generator $
         'last_access_on'        => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),
         'enable'                => 1,
         'paid'                  => 0,
+        'priority'              => rand(0, 10),
         'api_calls_count'       => rand(100, 999999),
         'deleted_at'            => null,
         'created_at'            => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),
