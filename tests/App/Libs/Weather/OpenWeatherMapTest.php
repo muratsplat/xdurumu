@@ -173,4 +173,17 @@ class OpenWeatherMapTest extends \TestCase
             
             $this->assertNotEmpty($weatherCurrent->toArray());               
         }
+        
+        public function testSimpleCreateNewInstance()
+        {
+            $openWeather    = new Open();
+            
+            $new            = $openWeather->createNewInstance($this->current);
+            
+            $current        = $new->current()->getWeatherCurrent();           
+            
+            $this->assertTrue($current->isFilledRequiredElements());
+            
+            $this->assertNotEmpty($current->toArray());               
+        } 
 }

@@ -23,7 +23,13 @@ use App\Libs\Weather\DataType\WeatherSys;
  * @package WeatherForcast
  */
 class OpenWeatherMap extends JsonConverter
-{    
+{          
+    /**
+     * Api Name
+     *
+     * @var string short version 
+     */
+    protected $apiName = 'openweathermap';
     
     /**
      * Weather Current Data 

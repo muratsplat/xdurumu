@@ -59,16 +59,37 @@ abstract class JsonConverter
      * @var int
      */    
     const DAILY     = 3;
+    
+    /**
+     * Api Name
+     *
+     * @var string short version 
+     */
+    protected $apiName;
 
 
         /**
+         * Create a new Instance
          * 
          * @param string $json JSON Object
-         * @param int $type
          */
         public function __construct($json=null)
         {
-            $this->setJSONString($json);                
+            if (! is_null($json)) {
+                
+                $this->setJSONString($json);           
+            }                        
+        }        
+        
+        /**
+         * Create a new Instance
+         * 
+         * @param string $json JSON Object
+         * @return \static
+         */
+        public function createNewInstance($json)
+        {
+            return new static($json);
         }
         
         /**
@@ -336,6 +357,14 @@ abstract class JsonConverter
         {
             return  isset($this->getJSONInObject()->{$property}) ? $this->getJSONInObject()->{$property} : null ;
         }
-    
+        
+        /**
+         * To get Api name
+         * 
+         * @return $string
+         */
+        public function getApiName()
+        {
+            return $this->apiName;           
+        }    
 }
-

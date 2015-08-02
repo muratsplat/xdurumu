@@ -6,12 +6,13 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Repositories\CityRepository as City;
 use App\Jobs\UpdateWeatherCurrent;
+use App\Libs\Weather\OpenWeatherMap;
 
 /**
  * This command make update to weather forecast current data of all cities
  *  
  */
-class UpdateWeather extends Command
+class WeatherUpdateCurrent extends Command
 {
     /**
      * The name and signature of the console command.
@@ -32,6 +33,7 @@ class UpdateWeather extends Command
      * @var App\Repositories\CityRepository
      */
     private $cityRepo;
+    
 
         /**
          * Create a new command instance.
@@ -55,7 +57,7 @@ class UpdateWeather extends Command
         {
             foreach ($this->cityRepo->enable()->all() as $city) {              
                  
-                $job    = new UpdateWeatherCurrent($city);
+                $job    = new \App\Jobs\WeatherUpdate($city);
 
                 \Queue::push($job);               
             }          
