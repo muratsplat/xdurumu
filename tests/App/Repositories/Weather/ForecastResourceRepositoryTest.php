@@ -4,9 +4,7 @@
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 use App\Repositories\Weather\ForecastResourceRepository as Repository;
-
 use Mockery as m;
 
 /**
@@ -73,20 +71,38 @@ class ForecastResourceRepositoryTest extends \TestCase
             $this->assertEquals($one->onModel(), $resource);           
         }  
         
-        public function testOnEnable()
+        public function testDisableCacheAndEnableCache()
         {
-            $cache      = $this->getMockedCache();        
+            $cache      = $this->getMockedCache();  
+            
+            $collection = factory(App\WeatherForeCastResource::class, 10)->make();
+            
+            $cache->shouldReceive('remember')->andReturn($collection);
             
             $config     = $this->getMockedConfig();
+            
             $config->shouldReceive('get')->andReturn(60);
             
-            $resource   = $this->getMockedResource();            
+            $resource   = $this->getMockedResource(); 
+            
+            $resource->shouldReceive('all')->andReturn($collection);
             
             $one = new Repository($cache, $config, $resource);
             
+            $one->enableCache();
             
+            $this->assertCount(10, $one->all());         
+            
+            $cache->shouldHaveReceived('remember');
+            
+            $resource->shouldNotHaveReceived('all');
+            
+            $one->disableCache();
+            
+            $this->assertCount(10, $one->all());  
+            
+            $resource->shouldReceive('all');
+            
+            $cache->shouldHaveReceived('remember')->times(1);         
         }  
-        
-
-  
 }

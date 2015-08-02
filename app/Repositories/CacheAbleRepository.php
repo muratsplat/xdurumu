@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Repositories\Weather;
+namespace App\Repositories;
 
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Database\Query\Builder; 
-
 
 /**
  * Weather ForeCast Resource Repository
  */
 abstract class CacheAbleRepository
-{
-    
+{    
     /**
      * @var \Illuminate\Contracts\Cache\Repository 
      */
@@ -24,8 +21,7 @@ abstract class CacheAbleRepository
     private $config;     
     
     /**
-     * Cache Duration.
-     * 
+     * Cache Duration. 
      * Time unit is minute.
      *
      * @var int 
@@ -85,7 +81,7 @@ abstract class CacheAbleRepository
          */
         final protected function getCachingParameters() 
         {            
-            $model      = $this->getMainModel();
+            $model      = $this->onModel();
             
             $key        = $this->makeUniqueKey($model);
             
@@ -106,15 +102,7 @@ abstract class CacheAbleRepository
          * 
          * return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        final protected function onCache()
-        {
-            list($key, $minitues) = $this->getCachingParameters();
-            
-            return $this->cache->remember($key, $minitues, function() {
-                
-                return $this->onModel()->all();
-            }); 
-        }
+        abstract public function onCache();      
         
         /**
          * To set enable caching
@@ -145,9 +133,26 @@ abstract class CacheAbleRepository
          * 
          * @return bool
          */
-        final protected function isEnabledCache()
+        final public function isEnabledCache()
         {
             return (boolean) $this->cacheEnable;
         }    
         
+        /**
+         * To get all models
+         * 
+         * @param bool $cache
+         * @return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        abstract public function all();     
+        
+        /**
+         * To get cache repository
+         * 
+         * @return \Illuminate\Contracts\Cache\Repository
+         */
+        final public function getCache()
+        {
+            return $this->cache;            
+        }
 }

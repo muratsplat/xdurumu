@@ -2,18 +2,17 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\CacheAbleEloquent as CacheAble;
 
 /**
  *  Weather Forecast Resources Model
  * 
  *  @package WeatherForeCast 
  */
-class WeatherForeCastResource extends Model
-{
- 
+class WeatherForeCastResource extends CacheAble
+{ 
     use SoftDeletes;
     
     /**
@@ -85,6 +84,16 @@ class WeatherForeCastResource extends Model
         }
         
         /**
+         * Scope a query to sort by priority attribute
+         *
+         * @return \Illuminate\Database\Eloquent\Builder
+         */
+        public function scopePriority($query)
+        {
+            return $query->orderBy('priority', 'asc');
+        }
+        
+        /**
          * Scope a query to only include users of a given type.
          *
          * @return \Illuminate\Database\Eloquent\Builder
@@ -101,7 +110,5 @@ class WeatherForeCastResource extends Model
         public function scopeApiable($query)
         {
             return $query->where('apiable', 1);
-        }
-        
-        
+        }       
 }

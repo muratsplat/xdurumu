@@ -18,7 +18,7 @@ class CreateWeatherForecastResourcesTable extends Migration
             $t->string('name', 150)->unique();
             $t->mediumText('description')->nullable();
             $t->string('url', 250)->unique();
-            $t->string('api_url', 150)->nullable();
+            $t->string('api_url', 150)->nullable()->unique();
             $t->boolean('apiable')->default(false);                   
             $t->tinyInteger('enable')->default(0);
             $t->tinyInteger('priority')->unsigned()->default(10);            

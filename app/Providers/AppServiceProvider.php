@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+     
     }
 
     /**
@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Weather Forecast Resource Repository
+        $this->app->bind(
+                'App\Contracts\Weather\IForecastResourceRepository', 
+                'App\Repositories\Weather\ForecastResourceRepository'
+                );
     }
 }

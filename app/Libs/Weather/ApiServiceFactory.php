@@ -6,8 +6,7 @@ namespace App\Libs\Weather;
  * This class injectes all weather api objects to Laravel IoC
  */
 class ApiServiceFactory
-{
-    
+{    
     /**
      * The IoC container instance.
      *
@@ -24,11 +23,6 @@ class ApiServiceFactory
         public function __construct(Container $container)
         {
             $this->container = $container;
-        }
-        
-        
-        
-        
-        
+        }        
         
 }

@@ -33,25 +33,25 @@ $factory->define(App\City::class, function (Faker\Generator $faker) {
 
 //            WeatherForeCastResource  Migration
         
-//            $t->increments('id');
-//            $t->string('name', 150);
-//            $t->mediumText('description')->nullable();
-//            $t->string('url', 250);
-//            $t->string('api_url', 150)->nullable();
-//            $t->boolen('apiable')->default(false);                   
-//            $t->tinyInteger('enable')->default(0);
-//            $t->tinyInteger('paid')->default(0);
-//            $t->mediumInteger('api_calls_count')->unsigned()->default(0);
-//            $t->timestamp('last_access_on')->nullable();   
-//            $t->softDeletes();            
-//            $t->timestamps();
-
+//        $t->increments('id');
+//        $t->string('name', 150)->unique();
+//        $t->mediumText('description')->nullable();
+//        $t->string('url', 250)->unique();
+//        $t->string('api_url', 150)->nullable()->unique();
+//        $t->boolean('apiable')->default(false);                   
+//        $t->tinyInteger('enable')->default(0);
+//        $t->tinyInteger('priority')->unsigned()->default(10);            
+//        $t->tinyInteger('paid')->default(0);
+//        $t->bigInteger('api_calls_count')->unsigned()->default(0);
+//        $t->timestamp('last_access_on')->nullable();   
+//        $t->softDeletes();            
+//        $t->timestamps();
 $factory->define(App\WeatherForeCastResource::class, function (Faker\Generator $faker) {
     return [
         'name'                  => $faker->name,
         'description'           => $faker->paragraph,
-        'url'                   => $faker->url,
-        'api_url'               => $faker->url,
+        'url'                   => $faker->unique()->url,
+        'api_url'               => $faker->unique()->url,
         'apiable'               => true,
         'last_access_on'        => $faker->date($format = 'Y-m-d H:m:s', $max = 'now'),
         'enable'                => 1,
