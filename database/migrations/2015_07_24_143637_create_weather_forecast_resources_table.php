@@ -15,9 +15,9 @@ class CreateWeatherForecastResourcesTable extends Migration
         Schema::create('weather_forecast_resources', function (Blueprint $t) {
             
             $t->increments('id');
-            $t->string('name', 150);
+            $t->string('name', 150)->unique();
             $t->mediumText('description')->nullable();
-            $t->string('url', 250);
+            $t->string('url', 250)->unique();
             $t->string('api_url', 150)->nullable();
             $t->boolean('apiable')->default(false);                   
             $t->tinyInteger('enable')->default(0);
