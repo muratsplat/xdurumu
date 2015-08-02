@@ -7,13 +7,6 @@
  */
 
 
-
-
-/**
- * This helper generates html unorder list
- * 
- * @author Murat Ödünç <murat.asya@gmail.com>
- */
 if (!function_exists('createUniqueKeyFromObj')) {
     
     /**
@@ -36,4 +29,3 @@ if (!function_exists('createUniqueKeyFromObj')) {
     }
 
 }
-

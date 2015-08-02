@@ -12,7 +12,7 @@ use App\Libs\Weather\DataType\WeatherForecastResource;
 
 use LogicException;
 use UnexpectedValueException;
-use ErrorException;
+
 
 /**
  * Weather Base Repository Class
@@ -46,8 +46,7 @@ abstract class BaseRepository
     /**
      * @var \App\Libs\Weather\DataType\WeatherDataAble
      */
-    protected $weatherDataObject;
-    
+    protected $weatherDataObject;    
   
         /**
          * Constructer

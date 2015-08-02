@@ -27,19 +27,19 @@ class SeedsWeaterForeCastResources extends Seeder
             'api_url'               => 'api.openweathermap.org/data/2.5/weather',            
             'enable'                => 1,
             'paid'                  => 0,
+            'priority'              => 0,
             'apiable'               => true,           
         ];
         
-        $reasource  = new WeatherForeCastResource($openWeatherMap);
+        $resource  = new WeatherForeCastResource($openWeatherMap);
         
-        if ($reasource->save()) {
+        if ($resource->save()) {
             
-            $this->command->info($openWeatherMap['name'] . ' weather forecast reaource is saved. ');
-            
+            $this->command->info($openWeatherMap['name'] . ' weather forecast resource is saved. ');            
             return true;
         }
         
-        $this->command->info($openWeatherMap['name'] . ' weather forecast reaource is not saved! ');
+        $this->command->info($openWeatherMap['name'] . ' weather forecast resource is not saved! ');
         
         return false;
     }

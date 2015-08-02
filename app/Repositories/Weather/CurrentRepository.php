@@ -56,7 +56,6 @@ class CurrentRepository extends BaseRepository
                 $current->condition()->associate($condition),
             ];
         }
-
         
         /**
          * To create Instance WeatherMain
@@ -65,7 +64,7 @@ class CurrentRepository extends BaseRepository
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $main
          * @return  \App\WeatherMain
          */
-        public function createWeatherMain(Current $current, WeatherDataAble $main)
+        protected function createWeatherMain(Current $current, WeatherDataAble $main)
         {
            
             $attributes = $main->toArray();            
@@ -80,7 +79,7 @@ class CurrentRepository extends BaseRepository
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $sys
          * @return \App\WeatherSys
          */
-        public function createWeatherSys(Current $current, WeatherDataAble $sys)
+        protected function createWeatherSys(Current $current, WeatherDataAble $sys)
         {
             $attributes = $sys->toArray();
             
@@ -94,7 +93,7 @@ class CurrentRepository extends BaseRepository
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $wind
          * @return \App\WeatherWind
          */
-        public function createWeatherWind(Current $current, WeatherDataAble $wind)
+        protected function createWeatherWind(Current $current, WeatherDataAble $wind)
         {
             $attributes = $wind->toArray();
             
@@ -108,7 +107,7 @@ class CurrentRepository extends BaseRepository
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $clouds
          * @return \App\WeatherCloud
          */
-        public function createWeatherClouds(Current $current, WeatherDataAble $clouds)
+        protected function createWeatherClouds(Current $current, WeatherDataAble $clouds)
         {
             $attributes = $clouds->toArray();            
             
@@ -123,7 +122,7 @@ class CurrentRepository extends BaseRepository
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $rain
          * @return \App\WeatherRain
          */
-        public function createWeatherRain(Current $current, WeatherDataAble $rain)
+        protected function createWeatherRain(Current $current, WeatherDataAble $rain)
         {
             $attributes = $rain->toArray();          
             
@@ -137,7 +136,7 @@ class CurrentRepository extends BaseRepository
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $snow
          * @return \App\WeatherRain
          */
-        public function createWeatherSnow(Current $current, WeatherDataAble $snow)
+        protected function createWeatherSnow(Current $current, WeatherDataAble $snow)
         {
             $attributes = $snow->toArray();
             
