@@ -6,9 +6,11 @@ use Illuminate\Contracts\Container\Container;
 use App\Contracts\Weather\IForecastResourceRepository as Resource;
 use App\WeatherForeCastResource as ResourceModel;
 use App\Libs\Weather\OpenWeatherMap;
+use App\Libs\Weather\OpenWeatherMapClient;
 use InvalidArgumentException;
 use LogicException;
 use UnexpectedValueException;
+
 //use Illuminate\Contracts\Logging\Log;
 
 /**
@@ -72,6 +74,7 @@ class ApiServiceFactory
         } 
         
         /**
+         * To get Default Weather Forecat Resource model
          * 
          * @return \App\WeatherForeCastResource
          */
@@ -88,26 +91,26 @@ class ApiServiceFactory
         }
         
         /**
-         * To get default accessor
+         * To get default client
          * 
-         * @return App\Libs\Weather\OpenWeatherMap
+         * @return \App\Contracts\Weather\ApiClient
          */
-        public function defaultAccessor()
+        public function defaultClient()
         {
             $resource   = $this->getDefaultResource();
             $name       = $resource->getAttribute('name');
             
             $this->setCurrentResourcePriority($resource);           
                 
-            return  $this->createAccessor($name);      
+            return  $this->createClient($name);      
         }
         
         /**
-         * To get next accessor
+         * To get next client
          * 
-         * @return App\Libs\Weather\OpenWeatherMap
+         * @return \App\Contracts\Weather\ApiClient
          */
-        public function nextAccessor($priority=1)
+        public function nextClient($priority=1)
         {
             try {            
                 
@@ -115,12 +118,12 @@ class ApiServiceFactory
                 
                 if (is_null($next)) {
                     
-                    return $this->defaultAccessor();
+                    return $this->defaultClient();
                 }              
                 
                 $name = $next->getAttribute('name');
                 
-                return $this->createAccessor($name);
+                return $this->createClient($name);
                 
             } catch (InvalidArgumentException $ex) {     
                 
@@ -128,8 +131,7 @@ class ApiServiceFactory
                 
                 $this->log()->alert("For next resource an accessor is not founded !", $context);
                         
-                return $this->defaultAccessor();
-
+                return $this->defaultClient();
             }        
         }
         
@@ -150,15 +152,15 @@ class ApiServiceFactory
          * To create accessor to access weather forecast datas.
          * 
          * @param string $name
-         * @return App\Libs\Weather\OpenWeatherMap
+         * @return \App\Contracts\Weather\ApiClient
          * @throws InvalidArgumentException
          */
-        public function createAccessor($name='openweathermap')
+        public function createClient($name='openweathermap')
         {            
             switch ($name)
             {
                 case 'openweathermap':                    
-                    return new OpenWeatherMap();
+                    return new OpenWeatherMapClient(new OpenWeatherMap());
             }
             
             throw new InvalidArgumentException("[$name] is not supported !");    
@@ -231,4 +233,16 @@ class ApiServiceFactory
         {
             return $this->log;
         }
-}
+        
+        /**
+        * Dynamically pass methods to the default client.
+        *
+        * @param  string  $method
+        * @param  array   $parameters
+        * @return mixed
+        */
+        public function __call($method, $parameters)
+        {
+          return call_user_func_array([$this->defaultClient(), $method], $parameters);
+        }
+} 

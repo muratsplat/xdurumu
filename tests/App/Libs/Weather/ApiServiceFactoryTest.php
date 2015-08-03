@@ -39,7 +39,7 @@ class ApiServiceFactoryTest extends \TestCase
         }
         
         /** 
-         * @return App\Libs\Weather\ApiServiceFactory
+         * @return \App\Libs\Weather\ApiServiceFactory
          */
         private function getAppWeatherFactory()
         {
@@ -82,7 +82,7 @@ class ApiServiceFactoryTest extends \TestCase
             $factory = $this->getAppWeatherFactory();
             try {
                
-                $accessor = $factory->defaultAccessor();
+                $client = $factory->defaultClient();
                 
             } catch (InvalidArgumentException  $ex) {
                 
@@ -113,7 +113,7 @@ class ApiServiceFactoryTest extends \TestCase
             $factory = $this->getAppWeatherFactory();
             try {
                
-                $accessor = $factory->defaultAccessor();
+                $client = $factory->defaultClient();
                 
             } catch (InvalidArgumentException  $ex) {
               
@@ -123,10 +123,12 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldHaveReceived('enableCache')->times(1);
             $repository->shouldHaveReceived('all')->times(1);            
             
-            $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMap', $accessor);          
+            $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMapClient', $client); 
+            $this->assertInstanceOf('\App\Contracts\Weather\ApiClient', $client); 
+            
         }
         
-        public function testNextAccessor()
+        public function testNextClient()
         {
             $app = app();
             
@@ -152,9 +154,9 @@ class ApiServiceFactoryTest extends \TestCase
             $factory = $this->getAppWeatherFactory();
             try {
                
-                $accessor   = $factory->defaultAccessor();
+                $client   = $factory->defaultClient();
                 
-                $nextAccesor= $factory->nextAccessor();
+                $nextAccesor= $factory->nextClient();
                 
             } catch (Exception  $ex) {           
               
@@ -164,9 +166,31 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldHaveReceived('enableCache')->times(2);
             $repository->shouldHaveReceived('all')->times(3); 
             
-         //   $log->shouldHaveReceived('alert')->times(1);
-                
-            $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMap', $nextAccesor);          
+            $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMapClient', $nextAccesor);          
+        }
+        
+        
+        public function testCallDynamicallyMethods()
+        {
+            $app = app();
+            
+            $repository = $this->getMockedRepository();
+            
+            $weatherForCastResourceCollection = factory(\App\WeatherForeCastResource::class, 4)->make();
+            
+            $weatherForCastResourceCollection->first()->name = "openweathermap";
+            $weatherForCastResourceCollection->first()->enable = true;
+            $weatherForCastResourceCollection->first()->priority = 0;            
+            
+            $repository->shouldReceive('enableCache')->andReturnSelf();            
+            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);           
+            
+            $app['App\Contracts\Weather\IForecastResourceRepository'] = $repository;
+      
+            $factory = $this->getAppWeatherFactory();
+            
+            $this->assertInstanceOf('App\Contracts\Weather\Accessor', $factory->getAccessor());
+                  
         }
         
         

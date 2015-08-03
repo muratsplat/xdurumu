@@ -5,7 +5,7 @@ namespace App\Libs\Weather;
 use ErrorException;
 use Carbon\Carbon;
 
-
+use App\Contracts\Weather\Accessor;
 use App\Libs\Weather\DataType\City;
 use App\Libs\Weather\DataType\WeatherMain;
 use App\Libs\Weather\DataType\WeatherWind;
@@ -17,12 +17,14 @@ use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
 use App\Libs\Weather\DataType\WeatherSys;
 
+
+
 /**
  * An converter for  the JSON responses Open Weather Map API
  * 
  * @package WeatherForcast
  */
-class OpenWeatherMap extends JsonConverter
+class OpenWeatherMap extends JsonConverter implements Accessor
 {          
     /**
      * Api Name
