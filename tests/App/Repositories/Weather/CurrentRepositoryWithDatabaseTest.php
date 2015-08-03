@@ -137,7 +137,9 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
         public function testImport()
         {   
             
-            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();     
+            $weatherData = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherData();  
+            
+            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current();  
             
             $cities = $this->createCities(3);
             
@@ -176,32 +178,32 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
 //                    "id":1851632,
 //                    "name":"Shuzenji",
 //                    "cod":200
-            $this->assertEquals($model->sys->sunrise, $weatherCurrent['weather_sys']->sunrise);
-            $this->assertEquals($model->sys->sunset, $weatherCurrent['weather_sys']->sunset);
-            $this->assertEquals($model->sys->country, $weatherCurrent->weather_sys->country);        
-            $this->assertEquals($model->condition->open_weather_map_id, $weatherCurrent['weather_condition']->open_weather_map_id);  
-            $this->assertEquals($model->condition->name, $weatherCurrent['weather_condition']->name);
-            $this->assertEquals($model->condition->description, $weatherCurrent['weather_condition']->description);
-            $this->assertEquals($model->condition->orgin_description, $weatherCurrent['weather_condition']->description);
-            $this->assertEquals($model->main->temp, $weatherCurrent['weather_main']->temp);
-            $this->assertEquals($model->main->temp, $weatherCurrent['weather_main']->temp);
-            $this->assertEquals($model->main->humidity, $weatherCurrent['weather_main']->humidity);
-            $this->assertEquals($model->main->pressure, $weatherCurrent['weather_main']->pressure);
-            $this->assertEquals($model->main->temp_min, $weatherCurrent['weather_main']->temp_min);
-            $this->assertEquals($model->main->temp_max, $weatherCurrent['weather_main']->temp_max);
+            $this->assertEquals($model->sys->sunrise, $weatherData['weather_sys']->sunrise);
+            $this->assertEquals($model->sys->sunset, $weatherData['weather_sys']->sunset);
+            $this->assertEquals($model->sys->country, $weatherData->weather_sys->country);        
+            $this->assertEquals($model->condition->open_weather_map_id, $weatherData['weather_condition']->open_weather_map_id);  
+            $this->assertEquals($model->condition->name, $weatherData['weather_condition']->name);
+            $this->assertEquals($model->condition->description, $weatherData['weather_condition']->description);
+            $this->assertEquals($model->condition->orgin_description, $weatherData['weather_condition']->description);
+            $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
+            $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
+            $this->assertEquals($model->main->humidity, $weatherData['weather_main']->humidity);
+            $this->assertEquals($model->main->pressure, $weatherData['weather_main']->pressure);
+            $this->assertEquals($model->main->temp_min, $weatherData['weather_main']->temp_min);
+            $this->assertEquals($model->main->temp_max, $weatherData['weather_main']->temp_max);
            
-            $this->assertEquals($model->wind->speed, $weatherCurrent['weather_wind']->speed);
-            $this->assertEquals($model->wind->deg, $weatherCurrent['weather_wind']->deg);
-            $this->assertEquals($model->rains->first()->{'3h'}, $weatherCurrent['weather_rain']['3h']);
-            $this->assertEquals($model->snows->first()->{'3h'}, $weatherCurrent['weather_snow']['3h']);            
-            $this->assertEquals($model->clouds->all, $weatherCurrent['weather_clouds']->all);            
-            $this->assertEquals($model['source_updated_at'], $weatherCurrent['source_updated_at']);
+            $this->assertEquals($model->wind->speed, $weatherData['weather_wind']->speed);
+            $this->assertEquals($model->wind->deg, $weatherData['weather_wind']->deg);
+            $this->assertEquals($model->rains->first()->{'3h'}, $weatherData['weather_rain']['3h']);
+            $this->assertEquals($model->snows->first()->{'3h'}, $weatherData['weather_snow']['3h']);            
+            $this->assertEquals($model->clouds->all, $weatherData['weather_clouds']->all);            
+            $this->assertEquals($model['source_updated_at'], $weatherData['source_updated_at']);
             $this->assertEquals($model->city->name, $selectCity->name); 
         }
         
         public function testImportTwentyTimes()
         {               
-            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();     
+            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current();         
             
             $cities = $this->createCities(10);
             

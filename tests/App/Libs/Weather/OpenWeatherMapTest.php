@@ -137,7 +137,7 @@ class OpenWeatherMapTest extends \TestCase
         
         public function testSimpleGetWeatherCurrent()
         {
-            $weatherCurrent = (new Open($this->current))->current()->getWeatherCurrent(); 
+            $weatherCurrent = (new Open($this->current))->current()->getWeatherData(); 
             
             $this->assertTrue($weatherCurrent->isFilledRequiredElements());
             
@@ -167,7 +167,7 @@ class OpenWeatherMapTest extends \TestCase
                     "cod":200
                 }';
             
-            $weatherCurrent = (new Open($this->current))->current()->getWeatherCurrent(); 
+            $weatherCurrent = (new Open($this->current))->current()->getWeatherData(); 
             
             $this->assertTrue($weatherCurrent->isFilledRequiredElements());
             
@@ -180,7 +180,7 @@ class OpenWeatherMapTest extends \TestCase
             
             $new            = $openWeather->createNewInstance($this->current);
             
-            $current        = $new->current()->getWeatherCurrent();           
+            $current        = $new->current()->getWeatherData();           
             
             $this->assertTrue($current->isFilledRequiredElements());
             

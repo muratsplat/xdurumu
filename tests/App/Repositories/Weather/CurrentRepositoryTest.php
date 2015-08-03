@@ -266,29 +266,7 @@ class CurrentRepositoryTest extends \TestCase
             $one->selectCity($city);
         }
         
-        public function atestSimpleImportMethod() 
-        {            
-            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherCurrent();            
-            
-            $current    = $this->getCurrentMock(); 
-            
-            $newCurrent = m::mock('App\WeatherCurrent');
-            
-            $newCurrent->shouldReceive('firstOrCreate')->andReturnSelf();
-            
-            $cityModel  = $this->getCityMock();     
-            
-            $condition  = $this->getConditionMock();            
-                 
-            $resource   = $this->getWeatherForeCastResourceMock();
-            
-            $one = new Repository($cityModel,$condition, $resource,$current); 
-            
-            $results = $one->selectCity($cityModel)->import($weatherCurrent);
-            
-            $city->shouldHaveReceived('weatherCurrent')->times(1);
-        }
-        
+
         
         
         public function tearDown()

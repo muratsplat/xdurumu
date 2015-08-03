@@ -4,9 +4,8 @@ namespace App\Console\Commands;
 
 
 use Illuminate\Console\Command;
-use App\Repositories\CityRepository as City;
-use App\Jobs\UpdateWeatherCurrent;
-use App\Libs\Weather\OpenWeatherMap;
+use App\Repositories\CityRepository as CityRepo;
+use App\Jobs\Weather\UpdateCurrent;
 
 /**
  * This command make update to weather forecast current data of all cities
@@ -30,22 +29,20 @@ class WeatherUpdateCurrent extends Command
     
     /**
      * 
-     * @var App\Repositories\CityRepository
+     * @var \App\Repositories\CityRepository
      */
-    private $cityRepo;
-    
+    private $cityRepo;    
 
         /**
          * Create a new command instance.
          *
          * @return void
          */
-        public function __construct(City $city)
+        public function __construct(CityRepo $city)
         {
             parent::__construct();
             
-            $this->cityRepo = $city;
-            
+            $this->cityRepo = $city;            
         }
 
         /**
@@ -54,12 +51,51 @@ class WeatherUpdateCurrent extends Command
          * @return mixed
          */
         public function handle()
-        {
-            foreach ($this->cityRepo->enable()->all() as $city) {              
-                 
-                $job    = new \App\Jobs\WeatherUpdate($city);
+        {            
+            $repo = $this->getCurrentRepo();
+            
+            $no   = 0;
+            
+            foreach ($this->getAllCities() as $city) {              
+                
+                $no++;
+                
+                $job    = new UpdateCurrent($city, $repo);
 
                 \Queue::push($job);               
-            }          
+            }
+            
+            $this->info(PHP_EOL . "$no number of city update request job is queued." . PHP_EOL );
+        }
+        
+        /**
+         * To get Weather Current Repository
+         * 
+         * @return \App\Repositories\CityRepository
+         */
+        protected function getCurrentRepo()
+        {
+            return $this->cityRepo;
+        }
+        
+        /**
+         * To get all enabled cities
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        protected function getAllCities()
+        {           
+            try {
+                
+                return $this->cityRepo->enable()->all();
+                
+            } catch (\Illuminate\Database\QueryException $ex) {            
+                
+                $this->error($ex->getMessage());
+          
+                $this->comment(PHP_EOL. 'Probably database connection is not ready or migration class and seeder class about App\City is not loaded!');
+                
+                return array();
+            }
         }
 }

@@ -87,5 +87,5 @@ interface Accessor
          * 
          * @return \App\Libs\Weather\DataType\WeatherCurrent
          */
-        public function getWeatherCurrent();     
+        public function getWeatherData();
 }

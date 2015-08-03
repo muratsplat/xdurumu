@@ -316,8 +316,7 @@ abstract class JsonConverter
         protected function callPickerMethod($method) 
         {            
             return call_user_func_array([$this, $method], []);              
-        }        
-        
+        }       
      
        /**
          * To get all picker methods in this object

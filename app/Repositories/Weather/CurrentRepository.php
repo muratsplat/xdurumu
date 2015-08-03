@@ -191,7 +191,7 @@ class CurrentRepository extends BaseRepository
         /**
          * To start all import proccess
          * 
-         * @return App\WeatherCurrent
+         * @return \App\WeatherCurrent
          * @throws \ErrorException
          */
         protected function startImport()

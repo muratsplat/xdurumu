@@ -9,9 +9,10 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\City;
 use App\Repositories\Weather\CurrentRepository as CurrentRepo;
+use App\Contracts\Weather\Accessor;
 
 /**
- * This Job updated weather current data for passed city
+ * This Job make update to weather current data each injected city
  * 
  */
 class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
@@ -26,25 +27,27 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
     /**
      * @var \App\Repositories\Weather\CurrentRepository
      */
-    private $currentRepo;
+    private $currentRepo;    
     
     /**
-     * JSON Response
-     *
-     * @var string 
+     * @var \App\Libs\Weather\ApiServiceFactory
      */
-    private $jSONResponse;            
+    private $weatherApiFactory;
 
         /**
          * Create a new job instance.
          *
+         * @param App\City  $city
+         * @param App\Repositories\Weather\CurrentRepository $current 
          * @return void
          */
         public function __construct(City $city, CurrentRepo $current)
         {
-            $this->city         = $city;
+            $this->city             = $city;
+        
+            $this->currentRepo      = $current;
             
-            $this->currentRepo  = $current;
+            $this->weatherApiFactory= app('app.weather.factory');         
         }
 
         /**
@@ -53,9 +56,58 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
          * @return void
          */
         public function handle()
-        {            
-                   
+        {
+            $client     = $this->getApiClient();
+            
+            $city       = $this->getCity();
+            
+            $accessor   = $client->selectCity($city)->current()->sendRequest();
+            
+            $model      = $this->importCurrentData($city, $accessor);
+            
+            return $model->exists;                      
         }
         
+        /**
+         * To get Weather Api Service Factory
+         * 
+         * @return App\Libs\Weather\ApiServiceFactory
+         */
+        protected function getApiServiceFactory()
+        {
+            return $this->weatherApiFactory;
+        }
+        
+        /**
+         * To get api client
+         * 
+         * @return \App\Contracts\Weather\ApiClient
+         */
+        protected function getApiClient()
+        {
+            return $this->getApiServiceFactory()->defaultClient();
+        }
+        
+        /**
+         * To get city
+         * 
+         * @return \App\City 
+         */
+        protected function getCity()
+        {
+            return $this->city;
+        }
+        
+        /**
+         * To import weather current data to the repository via Accessor 
+         * 
+         * @param   \App\City                           $city
+         * @param   \App\Contracts\Weather\Accessor     $accessor
+         * @return  \Illuminate\Database\Eloquent\Model 
+         */
+        protected function importCurrentData(City $city, Accessor $accessor)
+        {
+            return $this->currentRepo->selectCity($city)->import($accessor);
+        }        
      
 }

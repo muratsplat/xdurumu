@@ -7,6 +7,7 @@ use App\City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble; 
+use App\Contracts\Weather\Accessor;
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
 
@@ -46,7 +47,12 @@ abstract class BaseRepository
     /**
      * @var \App\Libs\Weather\DataType\WeatherDataAble
      */
-    protected $weatherDataObject;    
+    protected $weatherDataObject;  
+    
+    /**
+     * @var \App\Contracts\Weather\Accessor
+     */
+    protected $assessor; 
   
         /**
          * Constructer
@@ -250,12 +256,14 @@ abstract class BaseRepository
         /**
          * To import Weather Current data to data base
          * 
-         * @param \App\Libs\Weather\DataType\WeatherDataAble $weaterCurrent
-         * @return 
+         * @param \App\Libs\Weather\DataType\WeatherDataAble $accessor
+         * @return \Illuminate\Database\Eloquent\Model
          */
-        public function import(WeatherDataAble $weaterCurrent)
+        public function import(Accessor $accessor)
         {
-            $this->setWeatherDataObject($weaterCurrent);
+            $this->setAccessor($accessor);
+            
+            $this->setWeatherDataObject($accessor->getWeatherData());
             
             if ($this->isCitySelected()) {
                 
@@ -378,11 +386,21 @@ abstract class BaseRepository
         /**
          * To set Weather Data Object
          * 
-         * @param App\Libs\Weather\DataType\WeatherDataAble; $object
+         * @param \App\Libs\Weather\DataType\WeatherDataAble $object
          * @return void
          */
         protected function setWeatherDataObject(WeatherDataAble $object)
         {
             $this->weatherDataObject = $object;
+        }
+        
+        /**
+         * To set accessor
+         * 
+         * @param Accessor $accessor
+         */
+        protected function setAccessor(Accessor $accessor)
+        {
+            $this->assessor = $accessor;
         }
 }

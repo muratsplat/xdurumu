@@ -274,13 +274,20 @@ class OpenWeatherMap extends JsonConverter implements Accessor
         /**
          * To get WeatherCurrent Data Object
          * 
-         * @return \App\Libs\Weather\DataType\WeatherCurrent
+         * @return \App\Libs\Weather\DataType\WeatherDataAble
          */
-        public function getWeatherCurrent()
+        public function getWeatherData()
         {            
             $this->callAllPickers();
             
-            return new WeatherCurrent($this->currentForm);
+            switch (true) {
+                
+                case $this->isCurrent() : return new WeatherCurrent($this->currentForm);               
+            }            
+            
+            throw new ErrorException('It should be selected a data type(currently, hourly, daily)'
+                    . ' to get certain weather data object !');
+            
         }
 }
 
