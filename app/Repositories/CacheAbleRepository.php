@@ -107,7 +107,7 @@ abstract class CacheAbleRepository
         /**
          * To set enable caching
          * 
-         * @return \App\Repositories\Weather\CacheAbleRepository
+         * @return \App\Repositories\CacheAbleRepository
          */
         final public function enableCache()
         {
@@ -119,7 +119,7 @@ abstract class CacheAbleRepository
         /**
          * To set disable caching
          * 
-         * @return \App\Repositories\Weather\CacheAbleRepository
+         * @return \App\Repositories\CacheAbleRepository
          */
         final public function disableCache()
         {

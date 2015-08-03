@@ -24,7 +24,7 @@ interface ICacheAbleRepository
         /**
          * To set enable caching
          * 
-         * @return \App\Repositories\Weather\CacheAbleRepository
+         * @return \App\Repositories\CacheAbleRepository
          */
         public function enableCache();
       
@@ -32,7 +32,7 @@ interface ICacheAbleRepository
         /**
          * To set disable caching
          * 
-         * @return \App\Repositories\Weather\CacheAbleRepository
+         * @return \App\Repositories\CacheAbleRepository
          */
         public function disableCache();
         
