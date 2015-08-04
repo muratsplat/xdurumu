@@ -7,6 +7,7 @@ use App\City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble; 
+use App\Contracts\Weather\Repository\ICurrentRepository;
 
 use ErrorException;
 
@@ -15,7 +16,7 @@ use ErrorException;
  * 
  * @package WeatherForcast
  */
-class CurrentRepository extends BaseRepository
+class CurrentRepository extends BaseRepository implements ICurrentRepository
 {    
     /**
      * @var \App\WeatherCurrent 

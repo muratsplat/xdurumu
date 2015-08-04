@@ -2,16 +2,17 @@
 
 namespace App\Console\Commands;
 
-
-use Illuminate\Console\Command;
 use App\Repositories\CityRepository as CityRepo;
+use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
 use App\Jobs\Weather\UpdateCurrent;
+use Illuminate\Contracts\Queue\Queue;
+use App\Console\TestAbleCommand;
 
 /**
  * This command make update to weather forecast current data of all cities
  *  
  */
-class WeatherUpdateCurrent extends Command
+class WeatherUpdateCurrent extends TestAbleCommand
 {
     /**
      * The name and signature of the console command.
@@ -28,21 +29,35 @@ class WeatherUpdateCurrent extends Command
     protected $description = 'To update currently weather forcast data of each all cities from API Service';
     
     /**
-     * 
      * @var \App\Repositories\CityRepository
      */
     private $cityRepo;    
-
+    
+    /**
+     * @var \Illuminate\Contracts\Queue\Queue 
+     */
+    private $queue;
+    
+    /**
+     * @var \App\Contracts\Weather\Repository\ICurrentRepository 
+     */
+    private $currentRepo;
+            
         /**
          * Create a new command instance.
-         *
-         * @return void
+         * 
+         * @param \Illuminate\Contracts\Queue\Queue $queue Description
+         * @param \App\Repositories\CityRepository $city Description
          */
-        public function __construct(CityRepo $city)
+        public function __construct(Queue $queue, CityRepo $city, CurrentRepo $current)
         {
             parent::__construct();
             
-            $this->cityRepo = $city;            
+            $this->cityRepo     = $city; 
+            
+            $this->queue        = $queue;   
+            
+            $this->currentRepo  = $current;
         }
 
         /**
@@ -52,7 +67,7 @@ class WeatherUpdateCurrent extends Command
          */
         public function handle()
         {            
-            $repo = $this->getCurrentRepo();
+            $repo = $this->getCurrentRepository();
             
             $no   = 0;
             
@@ -60,22 +75,12 @@ class WeatherUpdateCurrent extends Command
                 
                 $no++;
                 
-                $job    = new UpdateCurrent($city, $repo);
-
-                \Queue::push($job);               
+                $job = new UpdateCurrent($city, $repo);
+                
+                $this->pushJob($job);               
             }
-            
-            $this->info(PHP_EOL . "$no number of city update request job is queued." . PHP_EOL );
-        }
-        
-        /**
-         * To get Weather Current Repository
-         * 
-         * @return \App\Repositories\CityRepository
-         */
-        protected function getCurrentRepo()
-        {
-            return $this->cityRepo;
+       
+            $this->writeInfo("$no number of city update request job is queued.");
         }
         
         /**
@@ -91,11 +96,31 @@ class WeatherUpdateCurrent extends Command
                 
             } catch (\Illuminate\Database\QueryException $ex) {            
                 
-                $this->error($ex->getMessage());
+                $this->writeError($ex->getMessage());
           
-                $this->comment(PHP_EOL. 'Probably database connection is not ready or migration class and seeder class about App\City is not loaded!');
-                
+                $this->writeComment('Probably database connection is not ready or'
+                        . ' migration class and seeder class about App\City is not loaded!');
                 return array();
             }
         }
+        
+        /**
+         * To push job
+         * 
+         * @param Object $job
+         */
+        protected function pushJob($job)
+        {
+            $this->queue->push($job);
+        }
+        
+        /**
+         * To get Weather Current Repository
+         * 
+         * @return \App\Contracts\Weather\Repository\ICurrentRepository 
+         */
+        protected function getCurrentRepository()
+        {   
+            return $this->currentRepo;            
+        }      
 }

@@ -25,14 +25,33 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // Weather Forecast Resource Repository
-        $this->app->bind(
-                'App\Contracts\Weather\IForecastResourceRepository', 
-                'App\Repositories\Weather\ForecastResourceRepository'
-                );
+       $this->bindToForeCastResourceRepository();
+       
+       $this->bindToWeatherCurrentRepository();
         
-        $this->registerWeatherForeCastServices();               
+       $this->registerWeatherForeCastServices();               
     }
     
+    /**
+     * To bind
+     */
+    private function bindToForeCastResourceRepository()
+    {        
+        $this->app->bind('App\Contracts\Weather\Repository\IForecastResourceRepository',
+                'App\Repositories\Weather\ForecastResourceRepository');       
+    }
+    
+    /**
+     * To bind
+     */
+    private function bindToWeatherCurrentRepository()
+    {        
+        $this->app->bind(
+                'App\Contracts\Weather\Repository\ICurrentRepository',
+                'App\Repositories\Weather\CurrentRepository'
+                );       
+    }
+        
     /**
      * Register Weather ForeCast Resource Servise
      * 

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 use App\WeatherForeCastResource as Resource;
 use App\Repositories\CacheAbleRepository as CacheAble;
-use App\Contracts\Weather\IForecastResourceRepository;
+use App\Contracts\Weather\Repository\IForecastResourceRepository;
 
 /**
  * Weather ForeCast Resource Repository

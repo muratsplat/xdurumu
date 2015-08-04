@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Weather;
+namespace App\Contracts\Weather\Repository;
 
 use App\Contracts\ICacheAbleRepository as Cacheable;
 

@@ -1,8 +1,5 @@
 <?php
 
-
-use App\Libs\Weather\ApiServiceFactory as ApiFactory;
-
 use Mockery as m;
 use App\Jobs\Weather\UpdateCurrent;
 
@@ -67,7 +64,7 @@ class UpdateCurrentTest extends \TestCase
         }   
         
                 
-        public function testSimpleCaşşHandle()
+        public function testSimpleHandle()
         {
             $app = app();
             

@@ -3,7 +3,7 @@
 namespace App\Libs\Weather;
 
 use Illuminate\Contracts\Container\Container;
-use App\Contracts\Weather\IForecastResourceRepository as Resource;
+use App\Contracts\Weather\Repository\IForecastResourceRepository as Resource;
 use App\WeatherForeCastResource as ResourceModel;
 use App\Libs\Weather\OpenWeatherMap;
 use App\Libs\Weather\OpenWeatherMapClient;
@@ -55,7 +55,7 @@ class ApiServiceFactory
         {
             $this->container    = $container;
             
-            $resource           = $container->make('App\Contracts\Weather\IForecastResourceRepository');
+            $resource           = $container->make('App\Contracts\Weather\Repository\IForecastResourceRepository');
             
             $this->log          = $container->make('log');
             
@@ -87,7 +87,8 @@ class ApiServiceFactory
                 return $first;               
             }
             
-            throw new LogicException('It is needed to a default "Weather ForeCaset Resource" record but it is not found any resource!');            
+            throw new LogicException('It is needed to a default "Weather ForeCaset Resource" record'
+                    . ' but it is not found any resource!');            
         }
         
         /**
@@ -153,7 +154,7 @@ class ApiServiceFactory
          * 
          * @param string $name
          * @return \App\Contracts\Weather\ApiClient
-         * @throws InvalidArgumentException
+         * @throws \InvalidArgumentException
          */
         public function createClient($name='openweathermap')
         {            

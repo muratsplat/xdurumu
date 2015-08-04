@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\City;
-use App\Repositories\Weather\CurrentRepository as CurrentRepo;
+use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
 use App\Contracts\Weather\Accessor;
 
 /**
