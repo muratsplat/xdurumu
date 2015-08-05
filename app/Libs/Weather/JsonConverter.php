@@ -89,7 +89,16 @@ abstract class JsonConverter
          */
         public function createNewInstance($json)
         {
-            return new static($json);
+            $instance =  new static($json);
+            
+            switch (true)
+            {
+                case $this->isCurrent() : return $instance->current();
+                case $this->isHourly() : return $instance->hourly();    
+                case $this->isDaily() : return $instance->daily();    
+            }
+            
+            return $instance;
         }
         
         /**

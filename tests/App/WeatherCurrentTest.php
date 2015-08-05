@@ -86,5 +86,77 @@ class WeatherCurrentTest extends TestCase
         protected function createNewWeatherCurrent(array $attributes=[])
         {            
             return factory(App\WeatherCurrent::class)->make($attributes);
-        }       
+        }  
+        
+        
+        public function testFirstOrCreateForSys()
+        {            
+            $current = factory(App\WeatherCurrent::class, 2)
+                        ->make()
+                        ->each(function(\App\WeatherCurrent $cur){
+                            
+                            $cur->city()->associate(factory(\App\City::class)->create());
+                        })->each(function(\App\WeatherCurrent $cur){
+                            
+                            $cur->save();
+                        });                     
+                        
+           $first = $current->first();
+           
+           $sys = factory(App\WeatherSys::class)->make();
+           
+           $sysCreated = $first->sys()->firstOrCreate($sys->toArray());
+           
+           $this->assertTrue($sysCreated->save());
+           
+           $this->assertEquals($first->id, $sysCreated->weather_current_id);
+           
+           $this->assertEquals($first->id, $first->sys->weather_current_id);
+           
+           $this->assertNotNull($first->sys);
+           
+           $sysCreated2 = $first->sys()->firstOrCreate($sys->toArray());
+           
+           $this->assertTrue($sysCreated2->save());
+           
+           //$this->assertCount(1, App\WeatherSys::all());
+           
+        }
+        
+        public function testFirstOrCreateForMain()
+        {            
+            $current = factory(App\WeatherCurrent::class, 2)
+                        ->make()
+                        ->each(function(\App\WeatherCurrent $cur){
+                            
+                            $cur->city()->associate(factory(\App\City::class)->create());
+                        })->each(function(\App\WeatherCurrent $cur){
+                            
+                            $cur->save();
+                        });                     
+                        
+           $first = $current->first();
+           
+           $main = factory(App\WeatherMain::class)->make();
+                      
+           
+           $mainCreated = $first->main()->firstOrNew($main->toArray());
+           
+           $this->assertTrue($mainCreated->save());
+           
+           $this->assertEquals($first->id, $mainCreated->weather_current_id);
+           
+           $this->assertEquals($first->id, $first->main->weather_current_id);
+           
+           $this->assertNotNull($first->main);
+           
+           $mainCreated2 = $first->main()->firstOrNew($main->toArray());
+           
+           $this->assertTrue($mainCreated2->save());
+           
+           $this->assertCount(2, App\WeatherMain::all());
+           
+        }
+        
+        
 }

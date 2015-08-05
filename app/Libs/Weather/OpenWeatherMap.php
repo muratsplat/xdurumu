@@ -252,8 +252,8 @@ class OpenWeatherMap extends JsonConverter implements Accessor
             return new WeatherSys([
                 
                 'country'    => $sys->country,
-                'sunrise'    => $sys->sunrise,
-                'sunset'     => $sys->sunset,
+                'sunrise'    => Carbon::createFromTimestamp($sys->sunrise)->format('Y-m-d H:m:s'),
+                'sunset'     => Carbon::createFromTimestamp($sys->sunset)->format('Y-m-d H:m:s'),
             ]);          
         }
         

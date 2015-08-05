@@ -41,13 +41,9 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
          * @param App\Repositories\Weather\CurrentRepository $current 
          * @return void
          */
-        public function __construct(City $city, CurrentRepo $current)
+        public function __construct(City $city)
         {
-            $this->city             = $city;
-        
-            $this->currentRepo      = $current;
-            
-            $this->weatherApiFactory= app('app.weather.factory');         
+            $this->city             = $city;          
         }
 
         /**
@@ -55,8 +51,10 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
          *
          * @return void
          */
-        public function handle()
-        {
+        public function handle(CurrentRepo $current )
+        {             
+            $this->init($current);
+            
             $client     = $this->getApiClient();
             
             $city       = $this->getCity();
@@ -109,5 +107,17 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
         {
             return $this->currentRepo->selectCity($city)->import($accessor);
         }        
+        
+        /**
+         * To set current repository and injected Weather Api Factory
+         * 
+         * @param CurrentRepo $current
+         */
+        private function init(CurrentRepo $current)
+        {
+            $this->currentRepo      = $current;
+            
+            $this->weatherApiFactory= app('app.weather.factory');                
+        }
      
 }

@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\CacheAbleEloquent as CacheAble;
 
 /**
  * Weather Current 
  * 
  * @package WeatherForecast
  */
-class WeatherCurrent extends Model
+class WeatherCurrent extends CacheAble
 {
     
    /**
@@ -115,10 +115,6 @@ class WeatherCurrent extends Model
         public function sys() 
         {            
             return $this->hasOne('App\WeatherSys', 'weather_current_id','id');
-        }
-       
-    
-    
-    
+        }  
     
 }

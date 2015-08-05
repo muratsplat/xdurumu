@@ -8,8 +8,11 @@ use App\WeatherCondition as Condition;
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble; 
 use App\Contracts\Weather\Accessor;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Contracts\Config\Repository as Config;
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
+use App\Repositories\CacheAbleRepository as CacheAble;
 
 use LogicException;
 use UnexpectedValueException;
@@ -20,7 +23,7 @@ use UnexpectedValueException;
  * 
  * @package WeatherForcast
  */
-abstract class BaseRepository 
+abstract class BaseRepository extends CacheAble
 {    
     /**
      * @var \App\City 
@@ -57,14 +60,17 @@ abstract class BaseRepository
         /**
          * Constructer
          * 
-         * 
+         * @param \Illuminate\Contracts\Cache\Repository $cache
+         * @param \Illuminate\Contracts\Config\Repository $config
          * @param \App\City                     $city
          * @param \App\WeatherCondition         $condition
          * @param \App\WeatherForeCastResource  $resource
          * @param \App\WeatherCurrent           $current
          */
-        public function __construct(City $city, Condition $condition, Resource $resource) 
+        public function __construct(Cache $cache, Config $config, City $city, Condition $condition, Resource $resource) 
         {  
+            parent::__construct($cache, $config);
+            
             $this->city         = $city;
             
             $this->condition    = $condition;
@@ -181,18 +187,39 @@ abstract class BaseRepository
          * 
          * @return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        public function all(){} 
-       
+        public function all()
+        {                      
+            if ($this->isEnabledCache()) {
+                
+                return $this->onCache();
+            }
+            
+            return $this->onModel()->enable->get();        
+            
+        }        
+
+        
+        /**
+         * To get all models from cache drive
+         * 
+         * return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        public function onCache()
+        {
+            list($key, $minitues) = $this->getCachingParameters();
+            
+            return $this->getCache()->remember($key, $minitues, function() {
+                
+                return $this->onModel()->enable()->get();
+            }); 
+        }
         
         /**
          * To get Weather Current model
          * 
          * @return \App\WeatherCurrent 
          */
-        public function getMainModel()                 
-        {
-            return $this->current;            
-        }        
+        public function getMainModel(){}     
         
         /**
          * To select city for any crud job

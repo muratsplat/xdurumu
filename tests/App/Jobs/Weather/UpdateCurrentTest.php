@@ -50,9 +50,7 @@ class UpdateCurrentTest extends \TestCase
         private function getMockedAccessor()
         {
             return m::mock('App\Contracts\Weather\Accessor');
-        } 
-        
-        
+        }       
         
         public function testSimple()
         {
@@ -92,12 +90,11 @@ class UpdateCurrentTest extends \TestCase
             
             $current->shouldReceive('selectCity')->andReturnSelf();
             
-            $current->shouldReceive('import')->andReturnSelf();
+            $current->shouldReceive('import')->andReturnSelf();            
             
+            $job = new UpdateCurrent($city);       
             
-            $job = new UpdateCurrent($city, $current);       
-            
-            $job->handle(); 
+            $job->handle($current); 
         }   
       
       

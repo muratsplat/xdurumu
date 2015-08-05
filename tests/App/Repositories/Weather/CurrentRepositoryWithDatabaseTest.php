@@ -10,6 +10,7 @@ use App\City;
 use App\WeatherCurrent;
 use App\WeatherCondition;
 use App\WeatherForeCastResource;
+use Mockery as m;
 
 /**
  * Current Repository Test Class
@@ -54,6 +55,13 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
            \Config::set('database.default', 'sqlite');  
         }
         
+        public function tearDown()
+        {
+            parent::tearDown();
+            
+            m::close();
+        }
+        
         
         private function createCities($count=2)
         {
@@ -95,6 +103,26 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
         {
             return new WeatherCondition();
         }
+        
+                /**
+         * Mocked Cache
+         *  
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedCache()
+        {
+            return m::mock('Illuminate\Contracts\Cache\Repository');            
+        }
+        
+        /**
+         * Mocked Config
+         *  
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedConfig()
+        {
+            return m::mock('Illuminate\Contracts\Config\Repository');            
+        }
 
         public function testSimple()
         {   
@@ -110,7 +138,13 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $current  = $this->getCurrent();
             
-            $one = new Repository($city,$condition, $resource, $current);
+            $cache      = $this->getMockedCache();           
+            
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
           
         }
         
@@ -129,7 +163,13 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $current  = $this->getCurrent();
             
-            $one = new Repository($city,$condition, $resource, $current);
+            $cache      = $this->getMockedCache();           
+            
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
             
             $one->selectCity($cities->random());          
         }
@@ -153,7 +193,13 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $current  = $this->getCurrent();
             
-            $one = new Repository($city,$condition, $resource, $current);
+            $cache      = $this->getMockedCache();           
+            
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
             
             $selectCity = $cities->random();
             
@@ -217,7 +263,13 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $current  = $this->getCurrent();
             
-            $one = new Repository($city,$condition, $resource, $current);
+            $cache      = $this->getMockedCache();           
+            
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
             
             $selectCity = $cities->random();
             

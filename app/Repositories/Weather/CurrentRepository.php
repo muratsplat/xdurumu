@@ -6,9 +6,10 @@ use App\WeatherCurrent as Current;
 use App\City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
-use App\Libs\Weather\DataType\WeatherDataAble; 
+use App\Libs\Weather\DataType\WeatherDataAble;
 use App\Contracts\Weather\Repository\ICurrentRepository;
-
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Contracts\Config\Repository as Config;
 use ErrorException;
 
 /**
@@ -26,15 +27,22 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         /**
          * Constructer
          * 
-         * 
+         * @param \Illuminate\Contracts\Cache\Repository $cache
+         * @param \Illuminate\Contracts\Config\Repository $config
          * @param \App\City                     $city
          * @param \App\WeatherCondition         $condition
          * @param \App\WeatherForeCastResource  $resource
          * @param \App\WeatherCurrent           $current
          */
-        public function __construct(City $city, Condition $condition, Resource $resource, Current $current) 
-        {              
-            parent::__construct($city, $condition, $resource);
+        public function __construct(
+                Cache       $cache, 
+                Config      $config,
+                City        $city, 
+                Condition   $condition, 
+                Resource    $resource, 
+                Current     $current) {
+            
+            parent::__construct($cache, $config, $city, $condition, $resource);
             
             $this->current      = $current;                
         }     
@@ -66,8 +74,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          * @return  \App\WeatherMain
          */
         protected function createWeatherMain(Current $current, WeatherDataAble $main)
-        {
-           
+        {           
             $attributes = $main->toArray();            
             
             return $current->main()->firstOrCreate($attributes);
@@ -167,17 +174,17 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         public function delete($cityID)
         {
             
-        } 
-        
-        /**
-         * To get all  of weather current time
-         * 
-         * @return \Illuminate\Database\Eloquent\Collection|static[]
-         */
-        public function all() 
-        {
-            return $this->current->all();            
         }        
+      
+        /**
+         * To get Weather Current model
+         * 
+         * @return \App\WeatherCurrent  
+         */
+        public function onModel()
+        {
+            return $this->getMainModel();
+        }
         
         /**
          * To get Weather Current model
@@ -215,8 +222,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          * @return \App\WeatherCurrent
          */
         private function firstOrCreateWeatherCurrent(array $attributes)
-        {     
-           
+        {          
             return $this->getSelectedCity()->weatherCurrent()->firstOrCreate($attributes);            
         }
         

@@ -10,26 +10,18 @@ use Mockery as m;
  * 
  */
 class ApiServiceFactoryTest extends \TestCase
-{
-    
-    
-    
+{  
     
         public function setUp()
         {
-            parent::setUp();
-            
-            
+            parent::setUp();           
         }
         
         public function tearDown()
         {
-            parent::tearDown();
-            
+            parent::tearDown();            
             m::close();
-        }
-        
-  
+        } 
     
         public function testSimple()
         {
@@ -52,7 +44,7 @@ class ApiServiceFactoryTest extends \TestCase
          */
         private function getMockedRepository()
         {
-            return m::mock('App\Contracts\Weather\IForecastResourceRepository');
+            return m::mock('App\Contracts\Weather\Repository\IForecastResourceRepository');
         }
         
         /**
@@ -77,7 +69,7 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);
             
             
-            $app['App\Contracts\Weather\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
             
             $factory = $this->getAppWeatherFactory();
             try {
@@ -108,7 +100,7 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);
             
             
-            $app['App\Contracts\Weather\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
             
             $factory = $this->getAppWeatherFactory();
             try {
@@ -147,7 +139,7 @@ class ApiServiceFactoryTest extends \TestCase
             
             $log->shouldReceive('alert')->andReturnSelf();           
             
-            $app['App\Contracts\Weather\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
             
             //$app['log'] = $log;
             
@@ -185,7 +177,7 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldReceive('enableCache')->andReturnSelf();            
             $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);           
             
-            $app['App\Contracts\Weather\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
       
             $factory = $this->getAppWeatherFactory();
             

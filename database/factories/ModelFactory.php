@@ -177,15 +177,14 @@ $factory->define(App\WeatherMain::class, function (Faker\Generator $faker) {
 //    $t->increments('id');
 //    $t->integer('weather_current_id')->unsigned()->nullable();
 //    $t->string('country', 50)->nullable();
-//    $t->time('sunrise');
-//    $t->time('sunset');  
-
+//    $t->timestamp('sunrise')->nullable();
+//    $t->timestamp('sunset')->nullable();      
 $factory->define(App\WeatherSys::class, function (Faker\Generator $faker) {
     return [
         'weather_current_id'    => null,
         'country'               => $faker->city,
-        'sunrise'               => $faker->unixTime,
-        'sunset'                => $faker->unixTime,
+        'sunrise'               => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
+        'sunset'                => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
     ];
 });
 
@@ -207,11 +206,7 @@ $factory->define(App\WeatherSnow::class, function (Faker\Generator $faker) {
 //    $t->integer('city_id')->unsigned();
 //    $t->integer('weather_conditions_id')->unsigned();     
 //    $t->integer('weather_forecast_resource_id')->unsigned()->nullable();
-//      $t->integer('weather_main_id')->unsigned();    
-//    $t->integer('weather_wind_id')->unsigned()->nullable();  
-//    $t->integer('weather_rain_id')->unsigned()->nullable();  
-//    $t->integer('weather_snow_id')->unsigned()->nullable(); 
-//    $t->integer('weather_cloud_id')->unsigned()->nullable(); 
+
 //    $t->boolean('enable')->default(true);
 //    $t->timestamp('source_updated_at');
 //    $t->timestamps();             
@@ -228,14 +223,9 @@ $factory->define(App\WeatherCurrent::class, function (Faker\Generator $faker) {
     return [
         'city_id'                       => null,
         'weather_condition_id'          => null,
-        'weather_forecast_resource_id'  => null,
-        'weather_main_id'               => null,   
-        'weather_wind_id'               => null,
-        'weather_rain_id'               => null,
-        'weather_snow_id'               => null,
-        'weather_cloud_id'              => null,
+        'weather_forecast_resource_id'  => null,       
         'enable'                        => (boolean) rand(0, 1),
-        'source_updated_at'              => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
+        'source_updated_at'             => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
         'created_at'                    => $created_at,
         'updated_at'                    => $updated_at,       
     ];

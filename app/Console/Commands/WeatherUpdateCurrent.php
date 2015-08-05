@@ -66,8 +66,7 @@ class WeatherUpdateCurrent extends TestAbleCommand
          * @return mixed
          */
         public function handle()
-        {            
-            $repo = $this->getCurrentRepository();
+        {           
             
             $no   = 0;
             
@@ -75,7 +74,7 @@ class WeatherUpdateCurrent extends TestAbleCommand
                 
                 $no++;
                 
-                $job = new UpdateCurrent($city, $repo);
+                $job = new UpdateCurrent($city);
                 
                 $this->pushJob($job);               
             }

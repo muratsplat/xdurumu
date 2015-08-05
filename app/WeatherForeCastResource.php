@@ -34,7 +34,7 @@ class WeatherForeCastResource extends CacheAble
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'url', 'api_url', 'enable', 'paid'];
+    protected $fillable = ['name', 'description', 'url', 'api_url', 'enable', 'paid', 'priority'];
     
     /**
      * The attributes excluded from the model's JSON form.

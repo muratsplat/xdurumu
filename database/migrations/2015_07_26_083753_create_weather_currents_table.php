@@ -40,13 +40,7 @@ class CreateWeatherCurrentsTable extends Migration
             $t->increments('id');
             $t->integer('city_id')->unsigned();
             $t->integer('weather_condition_id')->unsigned()->nullable();     
-            $t->integer('weather_forecast_resource_id')->unsigned()->nullable();
-            $t->integer('weather_main_id')->unsigned()->nullable();    
-            $t->integer('weather_wind_id')->unsigned()->nullable();  
-            $t->integer('weather_rain_id')->unsigned()->nullable();  
-            $t->integer('weather_snow_id')->unsigned()->nullable(); 
-            $t->integer('weather_cloud_id')->unsigned()->nullable(); 
-            $t->integer('weather_sys_id')->unsigned()->nullable(); 
+            $t->integer('weather_forecast_resource_id')->unsigned()->nullable();          
             $t->boolean('enable')->default(true);
             $t->timestamp('source_updated_at')->nullable();
             $t->timestamps();             
@@ -54,12 +48,7 @@ class CreateWeatherCurrentsTable extends Migration
             $t->foreign('weather_condition_id')->references('id')->on('weather_conditions');            
             $t->foreign('city_id')->references('id')->on('cities');             
             $t->foreign('weather_forecast_resource_id')->references('id')->on('weather_forecast_resources');   
-            $t->foreign('weather_main_id')->references('id')->on('weather_mains');   
-            $t->foreign('weather_wind_id')->references('id')->on('weather_winds');   
-            $t->foreign('weather_rain_id')->references('id')->on('weather_rains'); 
-            $t->foreign('weather_snow_id')->references('id')->on('weather_snows'); 
-            $t->foreign('weather_cloud_id')->references('id')->on('weather_clouds'); 
-            $t->foreign('weather_sys_id')->references('id')->on('weather_sys'); 
+          
         });
         
     }
