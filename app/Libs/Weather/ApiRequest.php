@@ -6,6 +6,7 @@ use App\City;
 use App\Contracts\Weather\Accessor;
 use LogicException;
 use InvalidArgumentException;
+use GuzzleHttp\Client;
 
 
 /**
@@ -84,18 +85,50 @@ abstract class ApiRequest
     /**
      * @var App\Contracts\Weather\Accessor
      */
-    private $accessor;
-
-
+    protected $accessor;
+    
+    /**
+     *
+     * @var type 
+     */
+    protected $httpClient;
+    
+    /**
+     * the host name of api
+     *
+     * @var string 
+     */
+    protected $hostname;    
+    
+    /**
+     * Timeout value 
+     *
+     * the unit is second
+     * 
+     * @var float 
+     */
+    protected $timeout = 5.0;
+    
+    /**
+     * Float describing the number of seconds 
+     * to wait while trying to connect to a server.     
+     * 
+     * @var float
+     */
+    protected $connectTimeout = 4.0;
+   
+    
         /**
          * Create a new Instance
          * 
          * @param App\City
          * @param string $hostname url of api
          */
-        public function __construct(Accessor $accessor)
+        public function __construct(Accessor $accessor , $hostname = null)
         {
-            $this->accessor     = $accessor;             
+            $this->accessor     = $accessor;
+            
+            $this->hostname     = $hostname;          
         }        
         
         /**
@@ -288,7 +321,8 @@ abstract class ApiRequest
         /**
          * To create new accessor instance
          * 
-         * @return \App\Contracts\Weather\Accessor
+         * @param  string JSON data
+         * @return \App\Contracts\Weather\Accessor   
          */
         public function createNewAccessor($json)
         {                        
@@ -325,8 +359,6 @@ abstract class ApiRequest
          * 
          * @return int
          */
-        public function getCityId()
-        {
-            
-        }
+        public function getCityId(){}
+       
 }

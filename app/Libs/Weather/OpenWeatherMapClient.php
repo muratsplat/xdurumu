@@ -11,7 +11,28 @@ use App\Contracts\Weather\ApiClient;
  * @package WeatherForcast
  */
 class OpenWeatherMapClient extends ApiRequest implements ApiClient
-{      
+{
+    
+    /**
+     * Client header attributes
+     *
+     * @var array
+     */
+    protected $defaultHeaderAttributes = [
+        
+        'Accept-Encoding'   => 'gzip',
+        'Accept'            => 'application/json'        
+    ];
+    
+    
+    protected $shouldBeQueries = [
+        
+        'APPID'     => null,
+        
+        
+    ];
+    
+    
     
     
 }    
