@@ -224,6 +224,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
 //                    "id":1851632,
 //                    "name":"Shuzenji",
 //                    "cod":200
+        
             $this->assertEquals($model->sys->sunrise, $weatherData['weather_sys']->sunrise);
             $this->assertEquals($model->sys->sunset, $weatherData['weather_sys']->sunset);
             $this->assertEquals($model->sys->country, $weatherData->weather_sys->country);        

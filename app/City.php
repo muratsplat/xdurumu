@@ -87,5 +87,6 @@ class City extends Model implements SluggableInterface
             return $query->where('country', $code);
         }
         
+        
     
 }

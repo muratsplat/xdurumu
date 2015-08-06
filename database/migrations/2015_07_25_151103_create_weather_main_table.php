@@ -32,7 +32,7 @@ class CreateWeatherMainTable extends Migration
             $t->integer('weather_current_id')->unsigned()->nullable();
             $t->integer('weather_hourly_id')->unsigned()->nullable();
             $t->integer('weather_daily_id')->unsigned()->nullable();
-            $t->double('temp', 15,8);
+            $t->double('temp', 15,8)->nullable();
             $t->double('temp_min', 15,8)->nullable();
             $t->double('temp_max', 15,8)->nullable();
             $t->double('temp_eve', 15,8)->nullable();

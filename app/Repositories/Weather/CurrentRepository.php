@@ -75,9 +75,13 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          */
         protected function createWeatherMain(Current $current, WeatherDataAble $main)
         {           
-            $attributes = $main->toArray();            
+            $attributes = $main->toArray();        
             
-            return $current->main()->firstOrCreate($attributes);
+            $first = $current->main()->firstOrCreate(array());
+            
+            $first->update($attributes);
+            
+            return  $first;
         }
         
         /**
@@ -91,7 +95,11 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         {
             $attributes = $sys->toArray();
             
-            return $current->sys()->firstOrCreate($attributes);    
+            $first = $current->sys()->firstOrCreate(array());    
+          
+            $first->update($attributes);
+            
+            return $first; 
         }
         
         /**
@@ -105,7 +113,11 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         {
             $attributes = $wind->toArray();
             
-            return $current->wind()->firstOrCreate($attributes);    
+            $first      = $current->wind()->firstOrCreate(array());
+            
+            $first->update($attributes);            
+            
+            return $first;
         }
         
         /**
@@ -117,11 +129,14 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          */
         protected function createWeatherClouds(Current $current, WeatherDataAble $clouds)
         {
-            $attributes = $clouds->toArray();            
+            $attributes = $clouds->toArray(); 
             
-            return $current->clouds()->firstOrCreate($attributes);    
-        }
-        
+            $first      = $current->clouds()->firstOrCreate(array());
+            
+            $first->update($attributes);
+            
+            return $first;    
+        }        
         
        /**
          * To create Instance WeatherRain
@@ -132,9 +147,13 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          */
         protected function createWeatherRain(Current $current, WeatherDataAble $rain)
         {
-            $attributes = $rain->toArray();          
+            $attributes = $rain->toArray();  
             
-            return $current->rains()->firstOrCreate($attributes);    
+            $first      = $current->rains()->firstOrCreate(array());
+            
+            $first->update($attributes);
+            
+            return $first;            
         }
         
         /**
@@ -148,7 +167,11 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         {
             $attributes = $snow->toArray();
             
-            return $current->snows()->firstOrCreate($attributes);    
+            $first      = $current->snows()->firstOrCreate(array());    
+            
+            $first->update($attributes);
+            
+            return $first;   
         } 
         
         /**

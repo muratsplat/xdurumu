@@ -115,11 +115,15 @@ class WeatherCurrentTest extends TestCase
            
            $this->assertNotNull($first->sys);
            
-           $sysCreated2 = $first->sys()->firstOrCreate($sys->toArray());
+           $sysCreated2 = $first->sys()->firstOrNew(array());
            
-           $this->assertTrue($sysCreated2->save());
+           $sys['country']= 'foo bar';
            
-           //$this->assertCount(1, App\WeatherSys::all());
+           $this->assertTrue($sysCreated2->update($sys->toArray()));
+                    
+           $this->assertCount(1, App\WeatherSys::all());
+           
+           $this->assertEquals($sys['country'], $sysCreated2->country);
            
         }
         
@@ -139,10 +143,13 @@ class WeatherCurrentTest extends TestCase
            
            $main = factory(App\WeatherMain::class)->make();
                       
+           $this->assertCount(0, App\WeatherMain::all());
            
-           $mainCreated = $first->main()->firstOrNew($main->toArray());
+           $mainCreated = $first->main()->firstOrCreate($main->toArray());     
            
            $this->assertTrue($mainCreated->save());
+                
+           $this->assertCount(1, App\WeatherMain::all());
            
            $this->assertEquals($first->id, $mainCreated->weather_current_id);
            
@@ -150,11 +157,13 @@ class WeatherCurrentTest extends TestCase
            
            $this->assertNotNull($first->main);
            
-           $mainCreated2 = $first->main()->firstOrNew($main->toArray());
+           $this->assertCount(1, App\WeatherMain::all());       
            
-           $this->assertTrue($mainCreated2->save());
+           $mainCreated2 = $first->main()->firstOrCreate(array());              
            
-           $this->assertCount(2, App\WeatherMain::all());
+           $this->assertTrue($mainCreated2->save($main->toArray()));
+           
+           $this->assertCount(1, App\WeatherMain::all());
            
         }
         
