@@ -241,8 +241,8 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
            
             $this->assertEquals($model->wind->speed, $weatherData['weather_wind']->speed);
             $this->assertEquals($model->wind->deg, $weatherData['weather_wind']->deg);
-            $this->assertEquals($model->rains->first()->{'3h'}, $weatherData['weather_rain']['3h']);
-            $this->assertEquals($model->snows->first()->{'3h'}, $weatherData['weather_snow']['3h']);            
+            $this->assertEquals($model->rain->first()->{'3h'}, $weatherData['weather_rain']['3h']);
+            $this->assertEquals($model->snow->first()->{'3h'}, $weatherData['weather_snow']['3h']);            
             $this->assertEquals($model->clouds->all, $weatherData['weather_clouds']->all);            
             $this->assertEquals($model['source_updated_at'], $weatherData['source_updated_at']);
             $this->assertEquals($model->city->name, $selectCity->name); 

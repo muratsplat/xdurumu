@@ -82,9 +82,9 @@ class WeatherCurrent extends CacheAble
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function rains() 
+        public function rain() 
         {            
-            return $this->hasMany('App\WeatherRain', 'weather_current_id','id');
+            return $this->hasOne('App\WeatherRain', 'weather_current_id','id');
         }
         
         /**
@@ -92,9 +92,9 @@ class WeatherCurrent extends CacheAble
          * 
          * @return \Illuminate\Database\Eloquent\Relations\HasOne
          */
-        public function snows() 
+        public function snow() 
         {            
-            return $this->hasMany('App\WeatherSnow', 'weather_current_id','id');
+            return $this->hasOne('App\WeatherSnow', 'weather_current_id','id');
         }
         
         /**

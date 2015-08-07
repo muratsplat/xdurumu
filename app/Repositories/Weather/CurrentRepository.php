@@ -149,7 +149,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         {
             $attributes = $rain->toArray();  
             
-            $first      = $current->rains()->firstOrCreate(array());
+            $first      = $current->rain()->firstOrCreate(array());
             
             $first->update($attributes);
             
@@ -167,7 +167,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         {
             $attributes = $snow->toArray();
             
-            $first      = $current->snows()->firstOrCreate(array());    
+            $first      = $current->snow()->firstOrCreate(array());    
             
             $first->update($attributes);
             
