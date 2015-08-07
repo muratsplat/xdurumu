@@ -3,7 +3,7 @@
 
 use App\Libs\Weather\OpenWeatherMap as Accessor;
 use App\Libs\Weather\OpenWeatherMapClient as Client;
-
+use Mockery as m;
 /**
  * Test file for App\Libs\Weather\OpenWeatherMap class
  * 
@@ -52,20 +52,78 @@ class OpenWeatherMapClientTest extends \TestCase
     private $daily = '{"city":{"id":745042,"name":"İstanbul","country":"TR","coord":{"lon":28.983311,"lat":41.03508}},"time":1394865585,"data":[{"dt":1394877600,"temp":{"day":280.64,"min":279.24,"max":282.72,"night":281.36,"eve":282.72,"morn":279.24},"pressure":1029.91,"humidity":93,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":2.06,"deg":195,"clouds":0},{"dt":1394964000,"temp":{"day":281.57,"min":279.9,"max":281.7,"night":279.95,"eve":279.9,"morn":281.42},"pressure":1021.59,"humidity":92,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":5.96,"deg":280,"clouds":92,"rain":2},{"dt":1395050400,"temp":{"day":281.16,"min":280.87,"max":281.67,"night":281.67,"eve":281.07,"morn":280.97},"pressure":1026.83,"humidity":100,"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}],"speed":6.13,"deg":4,"clouds":64},{"dt":1395136800,"temp":{"day":284,"min":282.08,"max":285.01,"night":283.85,"eve":285.01,"morn":282.08},"pressure":1032.74,"humidity":85,"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03d"}],"speed":6.86,"deg":217,"clouds":32},{"dt":1395223200,"temp":{"day":285.58,"min":283.18,"max":286.4,"night":284.3,"eve":286.11,"morn":283.18},"pressure":1032.04,"humidity":77,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":7.25,"deg":222,"clouds":0},{"dt":1395309600,"temp":{"day":288.39,"min":283.54,"max":288.39,"night":284.41,"eve":285.79,"morn":283.54},"pressure":1018.9,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":5.79,"deg":220,"clouds":0},{"dt":1395396000,"temp":{"day":287.18,"min":285.21,"max":287.18,"night":286.71,"eve":286.16,"morn":285.21},"pressure":1007.12,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":10.78,"deg":220,"clouds":91,"rain":0.47},{"dt":1395482400,"temp":{"day":289.41,"min":283.84,"max":289.41,"night":283.84,"eve":285.77,"morn":285.76},"pressure":1011.84,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":6.22,"deg":251,"clouds":0,"rain":0.23},{"dt":1395568800,"temp":{"day":291.45,"min":284.56,"max":291.45,"night":286.63,"eve":288.52,"morn":284.56},"pressure":1011.63,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":6.62,"deg":200,"clouds":8,"rain":0.69},{"dt":1395655200,"temp":{"day":288.09,"min":286.03,"max":288.09,"night":286.43,"eve":287.35,"morn":286.03},"pressure":1010.89,"humidity":0,"weather":[{"id":501,"main":"Rain","description":"moderate rain","icon":"10d"}],"speed":6.16,"deg":213,"clouds":96,"rain":5.15},{"dt":1395741600,"temp":{"day":279.43,"min":279.01,"max":280.61,"night":279.01,"eve":279.01,"morn":280.61},"pressure":1018.51,"humidity":0,"weather":[{"id":501,"main":"Rain","description":"moderate rain","icon":"10d"}],"speed":4.71,"deg":344,"clouds":100,"rain":6.85},{"dt":1395828000,"temp":{"day":283.42,"min":279.72,"max":283.42,"night":280.47,"eve":281.69,"morn":279.72},"pressure":1018.17,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":3.61,"deg":211,"clouds":1},{"dt":1395914400,"temp":{"day":284.95,"min":281.22,"max":284.95,"night":281.22,"eve":282.4,"morn":281.42},"pressure":1011.27,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":4.43,"deg":25,"clouds":66,"rain":1.05},{"dt":1396000800,"temp":{"day":284.96,"min":281.99,"max":284.96,"night":282.5,"eve":283.21,"morn":281.99},"pressure":1018.21,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":3.53,"deg":270,"clouds":0,"rain":0.32},{"dt":1396087200,"temp":{"day":287.85,"min":283.11,"max":287.85,"night":283.11,"eve":284.81,"morn":283.39},"pressure":1020.57,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":1.4,"deg":233,"clouds":30},{"dt":1396173600,"temp":{"day":283.11,"min":283.11,"max":283.11,"night":283.11,"eve":283.11,"morn":283.11},"pressure":1019.39,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01ddd"}],"speed":1.72,"deg":257,"clouds":48}]}';
     
     
+    
+        /**
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedResourceModel()
+        {
+            return m::mock('App\WeatherForeCastResource');
+        }
+        
+        
+        /**
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedApiServiceFactory()
+        {
+            return m::mock('App\Libs\Weather\ApiServiceFactory');          
+        }
+        
+        /**
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedCityModel()
+        {
+            return m::mock('App\City');
+        }
         public function testSimple()
         {
-            $client = new Client(new Accessor());        
+            $source = $this->getMockedResourceModel();
+            
+            $client = new Client(new Accessor(), $source);        
         }
         
         public function testSendRequest()
         {
-            $client = new Client(new Accessor());        
+            $source = $this->getMockedResourceModel();
             
-            $weatherCurrent = $client->current()->sendRequest();
+            $source->shouldReceive('getAttribute')->andReturn('http://api.openweathermap.org/data/2.5/');
+            
+            $city   = $this->getMockedCityModel();
+            
+            $city->exists = true;
+            
+            $apiServisFac = $this->getMockedApiServiceFactory();
+            
+            $app = app();            
+            
+            $app['app.weather.factory']  = $apiServisFac;
+             
+            $city->shouldReceive('getAttribute')->andReturn(2172797);
+            $client = new Client(new Accessor(), $source); 
+            
+            $weatherCurrent = $client->selectCity($city)->current()->sendRequest();
             
             $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMap', $weatherCurrent);
             
             $this->assertInstanceOf('App\Contracts\Weather\Accessor', $weatherCurrent);
+            
+            $this->assertTrue($weatherCurrent->isCurrent());
+            
+            $this->assertTrue($weatherCurrent->getWeatherData()->isFilledRequiredElements());
+        }
+        
+        public function testAddQuery()
+        {
+            $source = $this->getMockedResourceModel();
+             
+            $client = new Client(new Accessor(), $source);     
+            
+            $client->addQuery('foo' , 'bar');       
         }
    
         

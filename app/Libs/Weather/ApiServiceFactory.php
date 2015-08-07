@@ -158,10 +158,12 @@ class ApiServiceFactory
          */
         public function createClient($name='openweathermap')
         {            
+            $resource   = $this->getReourceByName($name);
+            
             switch ($name)
             {
                 case 'openweathermap':                    
-                    return new OpenWeatherMapClient(new OpenWeatherMap());
+                    return new OpenWeatherMapClient(new OpenWeatherMap(), $resource);
             }
             
             throw new InvalidArgumentException("[$name] is not supported !");    

@@ -3,8 +3,10 @@
 namespace App\Libs\Weather;
 
 use App\Contracts\Weather\ApiClient;
-
-
+use App\Contracts\Weather\Accessor;
+use App\WeatherForeCastResource;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
 /**
  * The class send get request to access weather data from Open Weather Map API
  * 
@@ -22,19 +24,213 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
         
         'Accept-Encoding'   => 'gzip',
         'Accept'            => 'application/json'        
-    ];
+    ];    
     
-    
+    /**
+     * The quries should be for Open Weather Map API
+     *
+     * @var type 
+     */
     protected $shouldBeQueries = [
         
-        'APPID'     => null,
-        
-        
+        'APPID'     =>  null,
+        'units'     => 'metric',
+        'lang'      => 'tr',       
     ];
     
+    /**
+     * Client Queries
+     * 
+     * Look at: http://guzzle.readthedocs.org/en/latest/request-options.html#query
+     *
+     * @var array
+     */
+    protected $queries;
     
+    /**
+     * The number of milliseconds to delay before sending the request.
+     *
+     * @var integer 
+     */
+    protected $delay = 1000; // one second     
     
+    /**
+     * a url to access currently weather data from api 
+     *
+     * @var string 
+     */
+    protected $currentlyUrl = 'weather';
+    
+    /**
+     * a url to access hourly weather data from api 
+     *
+     * @var string 
+     */
+    protected $hourlyUrl    = 'forecast';
+    
+    /**
+     * a url to access daily weather data from api 
+     *
+     * @var string 
+     */
+    protected $dailyUrl     = 'forecast/daily';  
+    
+        /**
+         * Create a new Instance of http client
+         * 
+         * @param \App\Contracts\Weather\Accessor $accessor
+         * @param \App\WeatherForeCastResource $source
+         */
+        public function __construct(Accessor $accessor, WeatherForeCastResource $source)
+        {
+            parent::__construct($accessor, $source);
+            
+            $config = \App::make('config');
+            
+            $this->shouldBeQueries['APPID'] = $config->get('api.open_weather_map_api');
+        }
+        
+        /**
+         * To get City id for Open Weather Map API
+         * 
+         * @return int
+         */
+        public function getCityId()
+        {
+           return $this->getCity()->getAttribute('open_weather_map_id');
+        }         
+        
+        /**
+         * To get all query
+         * 
+         * @return array
+         */
+        protected function getAllQueries()
+        {
+            return array_merge($this->shouldBeQueries, $this->queries);            
+        }        
+        
+        /**
+         * To send http request to api server
+         * 
+         * @return \App\Contracts\Weather\Accessor|null
+         */
+        public function sendRequest()
+        {
+            try {
+                
+                $response   = $this->sendGetRequest();
+                
+                $content    = $response->getBody()->getContents();
+                
+                return $this->createNewAccessor($content);
+                
+            } catch (ClientException $ex) {
+                
+              /**
+               * TODO:  If Returned status code is about 
+               * statment of server fails casuse of timout, 
+               * server busy, bad request, etc
+               * request should be send again!! 
+               * 
+               * It should be write methods to determine that situation..             
+               */
+                
+                $this->sendMessageToLogService($ex);  
+                
+                
+            } catch (RequestException $ex) {
+                
+                $this->sendMessageToLogService($ex);  
+                
+            } catch (\ErrorException $ex) {
+                
+                $this->log->error('Unknow error!', ['msg' => $ex->getMessage(), 'line' => $ex->getLine()]);   
+            }
+        }
+        
+        /**
+         * To send Error message to Laravel log service
+         * 
+         * @param \GuzzleHttp\Exception\RequestException $ex
+         */
+        protected function sendMessageToLogService(RequestException $ex, $type='error')
+        {             
+            $message = [
+                
+                'request'           => $ex->getRequest(),
+                'response_headers'  => $ex->getResponse(),
+                'response'  => null,
+                'msg'       => $ex->getMessage(), 
+                'line'      => $ex->getFile()
+            ];
+            
+            if ($ex->hasResponse()) {
+                
+                $message['response'] = $ex->getResponse();
+            }                
+                
+            $this->log->{$type}('The request is unsuccess !', $message);
+        }
+        
+        /**
+         * To send get request to get weather data
+         * 
+         * @return \Psr\Http\Message\ResponseInterface
+         */
+        protected function sendGetRequest()
+        {
+            $url        = $this->getUrl();          
+            
+            $options    = $this->getClientOptions();
+            
+            $queries    = $this->getQueries();       
+       
+            $client     = $this->createNewClient($options);                      
+            
+            return $client->get($url, ['query' => $queries]);
+        }
+        
+        /**
+         * To get header attributes for sending request
+         * 
+         * @return array
+         */
+        protected function getHeaders()
+        {
+            return $this->defaultHeaderAttributes;
+        }        
+       
+        
+        /**
+         * To get options for http client
+         * 
+         * @return array
+         */
+        protected function getClientOptions()
+        {
+            return [
+                
+                'base_uri'          => $this->getHostName(),
+                'connect_timeout'   => $this->getConnectionTimeout(),
+                'timeout'           => $this->getTimeout(),
+                'delay'             => $this->getDelay(),
+                'headers'           => $this->defaultHeaderAttributes,                    
+            ];
+        }
+        
+        /**
+         * To get queries
+         * 
+         * @return array
+         */
+        protected function getQueries()
+        {
+            $id     = $this->getCityId();
+            
+            $this->addQuery('id', $id);
+            
+            return array_merge($this->queries, $this->shouldBeQueries); 
+        }
     
 }    
-
-

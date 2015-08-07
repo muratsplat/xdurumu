@@ -24,7 +24,7 @@ class SeedsWeaterForeCastResources extends Seeder
             'name'                  => 'openweathermap',
             'description'           => 'Current weather conditions in cities for world wide',
             'url'                   => 'openweathermap.org',
-            'api_url'               => 'api.openweathermap.org/data/2.5/weather',            
+            'api_url'               => 'api.openweathermap.org/data/2.5/',            
             'enable'                => 1,
             'paid'                  => 0,
             'priority'              => 0,

@@ -68,6 +68,7 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldReceive('enableCache')->andReturnSelf();
             $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);
             
+            $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->random());
             
             $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
             
@@ -97,7 +98,8 @@ class ApiServiceFactoryTest extends \TestCase
             $weatherForCastResourceCollection->first()->priority = 0;        
             
             $repository->shouldReceive('enableCache')->andReturnSelf();
-            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);
+            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);                               
+            $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->first());
             
             
             $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
@@ -133,7 +135,9 @@ class ApiServiceFactoryTest extends \TestCase
             $weatherForCastResourceCollection->first()->priority = 0;            
             
             $repository->shouldReceive('enableCache')->andReturnSelf();            
-            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);            
+            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);     
+            
+            $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->first());
             
             $log    = $this->getMockedLog();
             
@@ -172,10 +176,13 @@ class ApiServiceFactoryTest extends \TestCase
             
             $weatherForCastResourceCollection->first()->name = "openweathermap";
             $weatherForCastResourceCollection->first()->enable = true;
-            $weatherForCastResourceCollection->first()->priority = 0;            
+            $weatherForCastResourceCollection->first()->priority = 0;          
+            
             
             $repository->shouldReceive('enableCache')->andReturnSelf();            
-            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);           
+            $repository->shouldReceive('all')->andReturn($weatherForCastResourceCollection);  
+                      
+            $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->first());
             
             $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
       

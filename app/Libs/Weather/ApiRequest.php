@@ -4,10 +4,11 @@ namespace App\Libs\Weather;
 
 use App\City;
 use App\Contracts\Weather\Accessor;
+use App\WeatherForeCastResource as Source;
 use LogicException;
 use InvalidArgumentException;
+use UnexpectedValueException;
 use GuzzleHttp\Client;
-
 
 /**
  * An converter for  the JSON responses Open Weather Map API
@@ -15,8 +16,7 @@ use GuzzleHttp\Client;
  * @package WeatherForcast
  */
 abstract class ApiRequest
-{
-    
+{    
     /**
      * Response of the api
      *
@@ -80,7 +80,7 @@ abstract class ApiRequest
     /**
      * @var \App\City 
      */
-    private $selectedCity;
+    protected $selectedCity;
     
     /**
      * @var App\Contracts\Weather\Accessor
@@ -94,11 +94,11 @@ abstract class ApiRequest
     protected $httpClient;
     
     /**
-     * the host name of api
+     * Weather Forcast Source Model
      *
-     * @var string 
+     * @var \App\WeatherForeCastResource 
      */
-    protected $hostname;    
+    protected $source;    
     
     /**
      * Timeout value 
@@ -115,20 +115,70 @@ abstract class ApiRequest
      * 
      * @var float
      */
-    protected $connectTimeout = 4.0;
-   
+    protected $connectTimeout = 4.0;    
+    
+    /**
+     * @var \GuzzleHttp\Client 
+     */
+    protected $client;
+    
+    /**
+     * The number of milliseconds to delay before sending the request.
+     *
+     * @var integer 
+     */
+    protected $delay = 1000; 
+    
+    /**
+     * a url to access currently weather data from api 
+     *
+     * @var string 
+     */
+    protected $currentlyUrl;
+    
+    /**
+     * a url to access hourly weather data from api 
+     *
+     * @var string 
+     */
+    protected $hourlyUrl;
+    
+    /**
+     * a url to access daily weather data from api 
+     *
+     * @var string 
+     */
+    protected $dailyUrl;   
+    
+    /**
+     * Queries
+     * 
+     * http://guzzle.readthedocs.org/en/latest/request-options.html#query
+     *
+     * @var array 
+     */
+    protected $queries;    
+    
+    /**
+     * Laravel Log Service
+     *
+     * @var \Illuminate\Contracts\Logging\Log
+     */
+    protected $log;
     
         /**
          * Create a new Instance
          * 
-         * @param App\City
-         * @param string $hostname url of api
+         * @param \App\City
+         * @param \App\Contracts\Weather\Accessor $source
          */
-        public function __construct(Accessor $accessor , $hostname = null)
+        public function __construct(Accessor $accessor , Source $source)
         {
             $this->accessor     = $accessor;
             
-            $this->hostname     = $hostname;          
+            $this->source       = $source;    
+            
+            $this->log          = \App::make('log');
         }        
         
         /**
@@ -264,37 +314,13 @@ abstract class ApiRequest
          * 
          * @return \App\Contracts\Weather\Accessor
          */
-        public function sendRequest()
-        {
-            $json=  '{
-                    "coord":{"lon":139,"lat":35},
-                    "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},
-                    "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}], 
-                    "main":{
-                                    "temp":289.5,
-                                    "humidity":89,
-                                    "pressure":1013,
-                                    "temp_min":287.04,
-                                    "temp_max":292.04
-                                    },
-                    "wind":{"speed":7.31,"deg":187.002}, 
-                    "rain":{"3h":0},
-                    "snow":{"3h":1},
-                    "clouds":{"all":92},
-                    "dt":1369824698,
-                    "id":1851632,
-                    "name":"Shuzenji",
-                    "cod":200
-                }';
-            
-            return $this->createNewAccessor($json);
-        }
+        abstract public function sendRequest();
         
        /**
          * To select city for any crud job
          * 
          * @param   \App\City $city
-         * @return  \App\Repositories\Weather\CurrentRepository
+         * @return  \App\Libs\Weather\ApiRequest
          */
         final public function selectCity(City $city)
         {
@@ -359,6 +385,179 @@ abstract class ApiRequest
          * 
          * @return int
          */
-        public function getCityId(){}
-       
+        abstract public function getCityId();
+        
+        
+        /**
+         * To get timeout for waiting a respond
+         * 
+         * @return float
+         */
+        protected function getTimeout()
+        {            
+            if ( is_null($this->timeout)) {
+                
+                return 0;
+            }
+            
+            return (float) $this->timeout;
+        }
+        
+        /**
+         * To get connection timeout for waiting a respond
+         * 
+         * @return float
+         */
+        protected function getConnectionTimeout()
+        {            
+            if ( is_null($this->connectTimeout)) {
+                
+                return 0;
+            }
+            
+            return (float) $this->connectTimeout;
+        }
+        
+        /**
+         * To create Guzzle Client Instance
+         * 
+         * @param array $config
+         * @return GuzzleHttp\Client;
+         */
+        protected function createNewClient(array $config=array())
+        {            
+            return new Client($config);
+        }        
+        
+        /**
+         * To get the url of api
+         * 
+         * @return string
+         */
+        public function getHostName()
+        {
+            return $this->getSource()->getAttribute('api_url');        
+        }
+        
+        /**
+         * To get source model to get the about information of api resource 
+         * 
+         * @return \App\WeatherForeCastResource 
+         */
+        public function getSource()
+        {
+            return $this->source;
+        }        
+        
+        /**
+         * To get City
+         * 
+         * @return \App\City
+         * @throws \UnexpectedValueException
+         */
+        final public function getCity()
+        {
+            if (! is_null($this->selectedCity)) {
+                
+                return $this->selectedCity;                
+            }
+            
+            throw new UnexpectedValueException('City model is not setted !');            
+        }
+        
+        /**
+         * To get delay time before sending request
+         * 
+         * @return int|null
+         */
+        public function getDelay()
+        {
+            return $this->delay;
+        }
+        
+        /**
+         * To get currently url
+         * 
+         * @return string
+         * @throws \UnexpectedValueException
+         */
+        public function getCurrentlyUrl()
+        {
+            $url = $this->currentlyUrl;
+            
+            if (! is_null($url)) {
+                
+                return $url;
+            }
+            
+            throw new UnexpectedValueException('Invalid url to access currently weather data! ');       
+        }
+        
+        /**
+         * To get hourly url
+         * 
+         * @return string
+         * @throws \UnexpectedValueException
+         */
+        public function getHourlyUrl()
+        {
+            $url = $this->hourlyUrl;
+            
+            if (! is_null($url)) {
+                
+                return $url;
+            }
+            
+            throw new UnexpectedValueException('Invalid url to access hourly weather data! ');       
+        }
+        
+        /**
+         * To get daily url
+         * 
+         * @return string
+         * @throws \UnexpectedValueException
+         */
+        public function getDailyUrl()
+        {
+            $url = $this->hourlyUrl;
+            
+            if (! is_null($url)) {
+                
+                return $url;
+            }
+            
+            throw new UnexpectedValueException('Invalid url to access daily weather data! ');       
+        }
+        
+        /**
+         * To add query for client request
+         * 
+         * @param string $key
+         * @param mixed $value
+         */
+        public function addQuery($key, $value = null)
+        {            
+            $this->queries[$key] = $value;        
+        }
+        
+        /**
+         * To get url
+         * 
+         * @return string
+         * @throws \LogicException
+         */
+        public function getUrl()
+        {
+            switch(true) {
+                
+                case $this->isCurrent() : return $this->getCurrentlyUrl();
+                    
+                case $this->isDaily()   : return $this->getDailyUrl();
+                    
+                case $this->isHourly()  : return $this->getHourlyUrl();
+            }
+            
+            throw new LogicException('Firsty should be select the type of weather data '
+                    . 'like as "currently", "daily" and "hourly" !');
+        }
 }
