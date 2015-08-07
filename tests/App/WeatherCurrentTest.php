@@ -70,7 +70,7 @@ class WeatherCurrentTest extends TestCase
             
             $this->assertInstanceOf('App\WeatherForeCastResource', $one->foreCastResource()->getRelated());        
             $this->assertInstanceOf('App\City', $one->city()->getRelated());   
-            $this->assertInstanceOf('App\WeatherCondition', $one->condition()->getRelated());  
+            $this->assertInstanceOf('App\WeatherCondition', $one->conditions()->getRelated());  
             $this->assertInstanceOf('App\WeatherMain', $one->main()->getRelated());  
             $this->assertInstanceOf('App\WeatherWind', $one->wind()->getRelated());  
             $this->assertInstanceOf('App\WeatherRain', $one->rain()->getRelated());    

@@ -83,22 +83,7 @@ class WeatherCondition extends Model implements SluggableInterface
          */
         public function currents()
         {
-            return $this->belongsTo('App\WeatherCurrent', 'weather_condition_id', 'id');            
+            return $this->morphedByMany('App\WeatherCurrent', 'weather_condition_able', 'weather_condition_ables');            
         }
-        
-       /**
-        * Find a model by its primary key or return new static.
-        *
-        * @param  mixed  $id
-        * @param  array  $columns
-        * @return \Illuminate\Support\Collection|static
-        */
-       public static function findOpenWeatherMapIdOrNew($id, $columns = ['*'])
-       {
-           if (!is_null($model = static::q)) {
-               return $model;
-           }
 
-           return new static;
-       }
    }

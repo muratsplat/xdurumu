@@ -62,7 +62,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
             return [ 
                 
                 $current->foreCastResource()->associate($resource),
-                $current->condition()->associate($condition),
+                $current->conditions()->attach($condition->id),
             ];
         }
         

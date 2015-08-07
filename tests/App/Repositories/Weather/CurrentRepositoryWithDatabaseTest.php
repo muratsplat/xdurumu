@@ -228,10 +228,10 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             $this->assertEquals($model->sys->sunrise, $weatherData['weather_sys']->sunrise);
             $this->assertEquals($model->sys->sunset, $weatherData['weather_sys']->sunset);
             $this->assertEquals($model->sys->country, $weatherData->weather_sys->country);        
-            $this->assertEquals($model->condition->open_weather_map_id, $weatherData['weather_condition']->open_weather_map_id);  
-            $this->assertEquals($model->condition->name, $weatherData['weather_condition']->name);
-            $this->assertEquals($model->condition->description, $weatherData['weather_condition']->description);
-            $this->assertEquals($model->condition->orgin_description, $weatherData['weather_condition']->description);
+            $this->assertEquals($model->conditions->first()->open_weather_map_id, $weatherData['weather_condition']->open_weather_map_id);  
+            $this->assertEquals($model->conditions->first()->name, $weatherData['weather_condition']->name);
+            $this->assertEquals($model->conditions->first()->description, $weatherData['weather_condition']->description);
+            $this->assertEquals($model->conditions->first()->orgin_description, $weatherData['weather_condition']->description);
             $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
             $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
             $this->assertEquals($model->main->humidity, $weatherData['weather_main']->humidity);

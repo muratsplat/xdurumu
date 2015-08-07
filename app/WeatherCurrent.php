@@ -38,13 +38,13 @@ class WeatherCurrent extends CacheAble
         }
 
         /**
-         * To define an inverse one-to-one relationship 
+         * To define an many to many polymorphic relation
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
          */
-        public function condition() 
+        public function conditions()
         {
-            return $this->belongsTo('App\WeatherCondition', 'weather_condition_id', 'id');
+            return $this->morphToMany('App\WeatherCondition', 'weather_condition_able', 'weather_condition_ables');            
         }
 
         /**
