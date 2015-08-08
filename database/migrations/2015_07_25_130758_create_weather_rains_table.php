@@ -24,8 +24,8 @@ class CreateWeatherRainsTable extends Migration
             $t->integer('weather_current_id')->unsigned()->nullable();
             $t->integer('weather_hourly_id')->unsigned()->nullable();
             $t->integer('weather_daily_id')->unsigned()->nullable();
-            $t->double('3h', 15,8)->unsigned()->nullable();
-            $t->double('rain', 15,8)->unsigned()->nullable();                       
+            $t->float('3h')->unsigned()->nullable();
+            $t->float('rain')->unsigned()->nullable();                       
         });
     }
 

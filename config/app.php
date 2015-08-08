@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'log' => 'single',
+    'log' => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -141,7 +141,7 @@ return [
          * Added Extentions
          */        
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
+        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,      
 
         /*
          * Application Service Providers...

@@ -127,7 +127,7 @@ abstract class ApiRequest
      *
      * @var integer 
      */
-    protected $delay = 1000; 
+    protected $delay = 500; 
     
     /**
      * a url to access currently weather data from api 

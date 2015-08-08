@@ -118,6 +118,7 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
          * To send http request to api server
          * 
          * @return \App\Contracts\Weather\Accessor|null
+         * 
          */
         public function sendRequest()
         {
@@ -131,7 +132,7 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
                 
             } catch (ConnectException $ex) {        
                 
-                $this->sendMessageToLogServce($ex); 
+                $this->sendMessageToLogService($ex); 
                 
                 throw $ex;
             
@@ -176,18 +177,18 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
          */
         protected function sendMessageToLogService(RequestException $ex, $type='error')
         {             
-            $message = [
-                
-                'request'           => $ex->getRequest(),
-                'response_headers'  => $ex->getResponse(),
-                'response'  => null,
-                'msg'       => $ex->getMessage(), 
-                'line'      => $ex->getFile()
+            $message = [   
+                'request_url'           => $ex->getRequest()->getUri()->getPath(),
+                'request_query'         => $ex->getRequest()->getUri()->getQuery(),
+                'response_headers'      => $ex->getResponse(),
+                'response_status_code'  => null,
+                'msg'                   => $ex->getMessage(), 
+                'line'                  => $ex->getFile()
             ];
             
             if ($ex->hasResponse()) {
                 
-                $message['response'] = $ex->getResponse();
+                $message['response_status_code'] = $ex->getResponse()->getStatusCode();
             }                
                 
             $this->log->{$type}('The request is unsuccess !', $message);
@@ -251,6 +252,5 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
             $this->addQuery('id', $id);
             
             return array_merge($this->queries, $this->shouldBeQueries); 
-        }
-    
+        }    
 }    

@@ -23,7 +23,7 @@ class CreateWeatherWindsTable extends Migration
             $t->integer('weather_current_id')->unsigned()->nullable();
             $t->integer('weather_hourly_id')->unsigned()->nullable();
             $t->float('speed')->unsigned()->nullable();
-            $t->double('deg', 15, 8)->nullable();           
+            $t->float('deg')->nullable();           
         });       
     }
 

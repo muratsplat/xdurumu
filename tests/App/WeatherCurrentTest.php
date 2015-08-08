@@ -42,8 +42,7 @@ class WeatherCurrentTest extends TestCase
              *    - Model factoring should rewrite again to using models in relation
              */
             $data =  [
-                    'city_id'                       => factory(\App\City::class)->make(),
-                    'weather_conditions_id'         => factory(\App\WeatherCondition::class)->make(),
+                    'city_id'                       => factory(\App\City::class)->make(),                  
                     'weather_forecast_resource_id'  => factory(\App\WeatherForeCastResource::class)->make()->id,        
                     'enable'                        => (boolean) rand(0, 1),
                     'source_update_at'              => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
@@ -52,7 +51,7 @@ class WeatherCurrentTest extends TestCase
             $one = $this->createNewWeatherCurrent($data); 
             
             $this->assertEquals($data['city_id'], $one['city_id']);
-            $this->assertEquals($data['weather_conditions_id'], $one['weather_conditions_id']);
+        
             $this->assertEquals($data['weather_forecast_resource_id'], $one['weather_forecast_resource_id']);
             $this->assertEquals($data['enable'], $one['enable']);  
             $this->assertEquals($data['source_update_at'], $one['source_update_at']);            

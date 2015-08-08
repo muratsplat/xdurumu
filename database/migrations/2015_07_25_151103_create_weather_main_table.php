@@ -32,16 +32,16 @@ class CreateWeatherMainTable extends Migration
             $t->integer('weather_current_id')->unsigned()->nullable();
             $t->integer('weather_hourly_id')->unsigned()->nullable();
             $t->integer('weather_daily_id')->unsigned()->nullable();
-            $t->double('temp', 15,8)->nullable();
-            $t->double('temp_min', 15,8)->nullable();
-            $t->double('temp_max', 15,8)->nullable();
-            $t->double('temp_eve', 15,8)->nullable();
-            $t->double('temp_night', 15,8)->nullable();
-            $t->double('temp_morn', 15,8)->nullable(); 
-            $t->double('pressure', 15,8)->unsigned()->nullable();
+            $t->float('temp')->nullable();
+            $t->float('temp_min')->nullable();
+            $t->float('temp_max')->nullable();
+            $t->float('temp_eve')->nullable();
+            $t->float('temp_night')->nullable();
+            $t->float('temp_morn')->nullable(); 
+            $t->float('pressure')->unsigned()->nullable();
             $t->integer('humidity')->unsigned()->nullable();
-            $t->double('sea_level', 15,8)->nullable();
-            $t->double('grnd_level', 15,8)->nullable();
+            $t->float('sea_level')->nullable();
+            $t->float('grnd_level')->nullable();
             $t->float('temp_kf')->nullable();                               
         });
     }

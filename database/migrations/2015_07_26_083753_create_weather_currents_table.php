@@ -43,8 +43,7 @@ class CreateWeatherCurrentsTable extends Migration
             $t->boolean('enable')->default(true);
             $t->timestamp('source_updated_at')->nullable();
             $t->timestamps();             
-            
-            $t->foreign('weather_condition_id')->references('id')->on('weather_conditions');            
+         
             $t->foreign('city_id')->references('id')->on('cities');             
             $t->foreign('weather_forecast_resource_id')->references('id')->on('weather_forecast_resources');   
           
