@@ -7,6 +7,9 @@ use App\Contracts\Weather\Accessor;
 use App\WeatherForeCastResource;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Exception\ConnectException;
+    
 /**
  * The class send get request to access weather data from Open Weather Map API
  * 
@@ -35,7 +38,8 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
         
         'APPID'     =>  null,
         'units'     => 'metric',
-        'lang'      => 'tr',       
+        'lang'      => 'tr',
+        'mode'      => 'json',
     ];
     
     /**
@@ -125,6 +129,12 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
                 
                 return $this->createNewAccessor($content);
                 
+            } catch (ConnectException $ex) {        
+                
+                $this->sendMessageToLogServce($ex); 
+                
+                throw $ex;
+            
             } catch (ClientException $ex) {
                 
               /**
@@ -134,18 +144,28 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
                * request should be send again!! 
                * 
                * It should be write methods to determine that situation..             
-               */
+               */                
+                $this->sendMessageToLogService($ex); 
                 
-                $this->sendMessageToLogService($ex);  
+                throw $ex;
                 
+            } catch (ServerException $ex) {                
+                
+                $this->sendMessageToLogService($ex);              
+                
+                throw $ex;               
                 
             } catch (RequestException $ex) {
                 
-                $this->sendMessageToLogService($ex);  
+                $this->sendMessageToLogService($ex);                 
+                    
+                throw $ex;       
                 
             } catch (\ErrorException $ex) {
                 
                 $this->log->error('Unknow error!', ['msg' => $ex->getMessage(), 'line' => $ex->getLine()]);   
+                
+                throw $ex;   
             }
         }
         

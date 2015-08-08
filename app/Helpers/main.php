@@ -29,3 +29,19 @@ if (!function_exists('createUniqueKeyFromObj')) {
     }
 
 }
+
+if (!function_exists('getProperty')) {    
+    
+    /**
+     * To get property on given object
+     * 
+     * @param \stdClass $object
+     * @param string $property
+     * @param mixed $default
+     * @return mixed
+     */
+    function getProperty(\stdClass $object, $property="", $default= null)                
+    {            
+        return isset($object->{$property}) ? $object->{$property} : $default;
+    }
+}

@@ -374,5 +374,38 @@ abstract class JsonConverter
         public function getApiName()
         {
             return $this->apiName;           
-        }    
+        }
+        
+        /**
+         * Determine If given properties  are undefined.
+         * 
+         * @param \stdClass $object
+         * @param array $properties
+         * @return boolean
+         */
+        protected function arePropertiesUndefined(\stdClass $object, array $properties)
+        {        
+            foreach ($properties as $property)
+            {
+                if ( isset($object->$property)) {
+                    
+                    return false;          
+                }                
+            }           
+            
+            return true;
+        }
+       
+        /**
+         * To get property on given object
+         * 
+         * @param \stdClass $object
+         * @param string $property
+         * @param mixed $default
+         * @return mixed
+         */
+        protected function getDefinedPropertyByStdObject(\stdClass $object, $property="", $default= null)                
+        {            
+            return isset($object->{$property}) ? $object->{$property} : $default;
+        }
 }

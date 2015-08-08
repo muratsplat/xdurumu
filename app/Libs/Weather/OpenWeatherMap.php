@@ -57,7 +57,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
         /**
          * To picker city attributes on JSON object
          * 
-         * @return array city
+         * @return \App\Libs\Weather\DataType\WeatherDataAble city
          */
         protected function pickerCity()
         {           
@@ -78,7 +78,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * 
          * Example Weather : "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}]
          * 
-         * @return array|null
+         * @return \App\Libs\Weather\DataType\WeatherDataAble|null
          */
         protected function pickerWeatherCondition()
         {
@@ -101,7 +101,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
         /**
          * Open Weather Map resource data
          * 
-         * @return array
+         * @return \App\Libs\Weather\DataType\WeatherDataAble
          */
         protected function pickerWeatherForecastResource()
         {
@@ -120,7 +120,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
         /**
          * Main Attributes        
          * 
-         * @return array 
+         * @return \App\Libs\Weather\DataType\WeatherDataAble 
          */
         protected function pickerWeatherMain()
         {            
@@ -138,7 +138,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * Example Data: 
          *       "main":{"temp":289.5,"humidity":89,"pressure":1013,"temp_min":287.04,"temp_max":292.04}
          * 
-         * @return array|null
+         * @return \App\Libs\Weather\DataType\WeatherDataAble|null
          */        
         private function mainForCurrent() 
         {
@@ -148,14 +148,14 @@ class OpenWeatherMap extends JsonConverter implements Accessor
             
             return [
                 
-                    'temp'          => $main->temp,      
-                    'temp_min'      => $main->temp_min,            
-                    'temp_max'      => $main->temp_max,
+                    'temp'          => getProperty($main, 'temp'),      
+                    'temp_min'      => getProperty($main, 'temp_min'),            
+                    'temp_max'      => getProperty($main, 'temp_max'),
                     'temp_eve'      => null,
                     'temp_night'    => null,
                     'temp_morn'     => null, 
-                    'pressure'      => $main->pressure,       
-                    'humidity'      => $main->humidity,
+                    'pressure'      => getProperty($main, 'pressure'),       
+                    'humidity'      => getProperty($main, 'humidity'),
                     'sea_level'     => null,       
                     'grnd_level'    => null,
                     'temp_kf'       => null,  
@@ -168,7 +168,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * Example Data: 
          *      "wind":{"speed":7.31,"deg":187.002}
          * 
-         * @return array
+         * @return \App\Libs\Weather\DataType\WeatherDataAble|null
          */
         protected function pickerWeatherWind()
         {
@@ -177,8 +177,8 @@ class OpenWeatherMap extends JsonConverter implements Accessor
             if (empty($wind)) { return null; }
             
             return new WeatherWind([
-                'speed'     => $wind->speed,
-                'deg'       => $wind->deg,        
+                'speed'     => getProperty($wind, 'speed'),
+                'deg'       => getProperty($wind, 'deg'),        
             ]);  
         }
         
@@ -186,16 +186,19 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * Example Data:
          *   "rain":{"3h":0}
          * 
-         * @return array
+         * @return \App\Libs\Weather\DataType\WeatherDataAble
          */
         protected function pickerWeatherRain()
         {
             $rain =  $this->getPropertyOnJSONObject('rain');
             
-            if (empty($rain)) { return null; }
+            if (empty($rain) || $this->arePropertiesUndefined($rain, ['3h', 'rain'])) {
+                
+                return null;                 
+            }
             
             return new WeatherRain([
-                '3h'        => $rain->{'3h'},
+                '3h'        => getProperty($rain, '3h'),
                 'rain'      => null,  
             ]);            
         }        
@@ -204,16 +207,19 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * Example Data: 
          *      snow":{"3h":1}
          * 
-         * @return array
+         * @return \App\Libs\Weather\DataType\WeatherDataAble
          */
         protected function pickerWeatherSnow()
         {
             $snow = $this->getPropertyOnJSONObject('snow');
             
-            if (empty($snow)) { return null; }
+            if (empty($snow) || $this->arePropertiesUndefined($snow, ['3h', 'snow'])) { 
+                
+                return null;                 
+            }
             
             return new WeatherSnow([
-                '3h'        => $snow->{'3h'},
+                '3h'        => getProperty($snow, '3h'),
                 'snow'      => null,  
             ]);   
             
@@ -223,7 +229,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * Example Data:
          *   "clouds":{"all":92},
          * 
-         * @return array
+         * @return \App\Libs\Weather\DataType\WeatherDataAble
          */
         protected function pickerWeatherClouds()
         {
@@ -241,7 +247,7 @@ class OpenWeatherMap extends JsonConverter implements Accessor
          * Example Data:
          *   sys: {"country":"JP","sunrise":1369769524,"sunset":1369821049}
          * 
-         * @return array
+         * @return \App\Libs\Weather\DataType\WeatherDataAble
          */
         protected function pickerWeatherSys()
         {

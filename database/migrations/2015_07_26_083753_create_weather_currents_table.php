@@ -38,8 +38,7 @@ class CreateWeatherCurrentsTable extends Migration
         \Schema::create($this->table, function(Blueprint $t) {
             
             $t->increments('id');
-            $t->integer('city_id')->unsigned();
-            $t->integer('weather_condition_id')->unsigned()->nullable();     
+            $t->integer('city_id')->unsigned();        
             $t->integer('weather_forecast_resource_id')->unsigned()->nullable();          
             $t->boolean('enable')->default(true);
             $t->timestamp('source_updated_at')->nullable();
