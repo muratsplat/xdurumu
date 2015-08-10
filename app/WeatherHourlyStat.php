@@ -4,7 +4,7 @@ namespace App;
 
 use App\CacheAbleEloquent; 
 
-class WeatherHourlyStats extends CacheAbleEloquent
+class WeatherHourlyStat extends CacheAbleEloquent
 {
    
      /**
@@ -70,8 +70,7 @@ class WeatherHourlyStats extends CacheAbleEloquent
         public function wind() 
         {            
             return $this->hasOne('App\WeatherWind', 'weather_hourly_id','id');
-        }       
-
+        }
         
         /**
          * TO define an one to one relationship
@@ -81,16 +80,5 @@ class WeatherHourlyStats extends CacheAbleEloquent
         public function clouds() 
         {            
             return $this->hasOne('App\WeatherCloud', 'weather_hourly_id','id');
-        }
-        
-        /**
-         * TO define an one to one relationship
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function sys() 
-        {            
-            return $this->hasOne('App\WeatherSys', 'weather_hourly_id','id');
-        }  
-    
+        }   
 }

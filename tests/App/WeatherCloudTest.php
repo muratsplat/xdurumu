@@ -78,6 +78,7 @@ class WeatherCloudTest extends TestCase
             $one = $this->createNewWeatherCloud();
                         
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());            
+            $this->assertInstanceOf('App\WeatherHourlyStat', $one->hourlyStat()->getRelated());            
         }
         
         public function testSimpleCrud()

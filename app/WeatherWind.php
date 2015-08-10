@@ -42,4 +42,14 @@ class WeatherWind extends Model
         {
             return $this->belongsTo('App\WeatherCurrent', 'weather_current_id', 'id');        
         }
+        
+        /**
+         * Defining an inverse one to one relation
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         */
+        public function hourlyStat()
+        {
+            return $this->belongsTo('App\WeatherHourlyStat', 'weather_hourly_id', 'id');        
+        }
 }

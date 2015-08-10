@@ -229,4 +229,32 @@ $factory->define(App\WeatherCurrent::class, function (Faker\Generator $faker) {
         'updated_at'                    => $updated_at,       
     ];
 });
+
+
+//    $t->increments('id');
+//    $t->integer('city_id')->unsigned();        
+//    $t->integer('weather_forecast_resource_id')->unsigned()->nullable();          
+//    $t->boolean('enable')->default(true);
+//    $t->timestamp('source_updated_at')->nullable();
+//    $t->dateTime('dt')->nullable();      
+//    $t->timestamps();             
+//
+//    $t->foreign('city_id')->references('id')->on('cities');             
+//    $t->foreign('weather_forecast_resource_id')->references('id')->on('weather_forecast_resources');   
+$factory->define(App\WeatherHourlyStat::class, function (Faker\Generator $faker) {
+    
+    $now        = \Carbon\Carbon::now();
+    $created_at = $now->format('Y-m-d H:m:s');
+    $updated_at = $now->addHour(1)->format('Y-m-d H:m:s');
+    
+    return [
+        'city_id'                       => null,    
+        'weather_forecast_resource_id'  => null,       
+        'enable'                        => (boolean) rand(0, 1),
+        'source_updated_at'             => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
+        'dt'                            => rand(1437814800, 1437914800),
+        'created_at'                    => $created_at,
+        'updated_at'                    => $updated_at,       
+    ];
+});
         

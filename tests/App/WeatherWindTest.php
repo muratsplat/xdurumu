@@ -88,6 +88,7 @@ class WeatherWindTest extends TestCase
             $one = $this->createNewWeatherWind();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());            
+            $this->assertInstanceOf('App\WeatherHourlyStat', $one->hourlyStat()->getRelated());  
         }
         
         public function testSimpleCRUD()

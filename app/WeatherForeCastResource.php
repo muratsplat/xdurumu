@@ -52,6 +52,16 @@ class WeatherForeCastResource extends CacheAble
         {
             return $this->hasMany('App\WeatherCurrent', 'weather_forecast_resource_id', 'id');
         }
+        
+        /**
+         * Defining one to many relations 
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function hourlyStats()
+        {
+            return $this->hasMany('App\WeatherHourlyStat', 'weather_forecast_resource_id', 'id');
+        }
     
         /**
         * Scope a query to only enebled.
