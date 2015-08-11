@@ -396,16 +396,5 @@ abstract class JsonConverter
             return true;
         }
        
-        /**
-         * To get property on given object
-         * 
-         * @param \stdClass $object
-         * @param string $property
-         * @param mixed $default
-         * @return mixed
-         */
-        protected function getDefinedPropertyByStdObject(\stdClass $object, $property="", $default= null)                
-        {            
-            return isset($object->{$property}) ? $object->{$property} : $default;
-        }
+
 }

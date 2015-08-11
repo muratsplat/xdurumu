@@ -10,7 +10,7 @@ use App\Libs\Weather\DataType\Base;
  * 
  * @package WeatherForcast
  */
-class WeatherCurrent extends Base 
+class WeatherHourly extends Base 
 {    
     
     /**
@@ -18,7 +18,7 @@ class WeatherCurrent extends Base
      *
      * @var array
      */
-    protected $required = ['city', 'weather_condition', 'weather_forecast_resource','weather_main'];
+    protected $required = ['city', 'weather_condition', 'weather_forecast_resource','weather_main' , 'dt'];
     
     /**
      * All attributes
@@ -35,7 +35,7 @@ class WeatherCurrent extends Base
         'weather_rain'                  => null,
         'weather_snow'                  => null,
         'weather_clouds'                => null,
-        'weather_sys'                   => null,
+//       'weather_sys'                   => null,
         'source_updated_at'             => null,   
         'dt'                            => null,
         ]; 
