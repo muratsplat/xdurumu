@@ -41,7 +41,7 @@ class WeatherHourlyStat extends CacheAbleEloquent
         {
             return $this->morphToMany('App\WeatherCondition', 'weather_condition_able', 'weather_condition_ables');            
         }
-
+        
         /**
          * To define an inverse one-to-one relationship 
          * 
@@ -81,4 +81,24 @@ class WeatherHourlyStat extends CacheAbleEloquent
         {            
             return $this->hasOne('App\WeatherCloud', 'weather_hourly_id','id');
         }   
+        
+        /**
+         * TO define an one to one relationship
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         */
+        public function rain() 
+        {            
+            return $this->hasOne('App\WeatherRain', 'weather_hourly_id','id');
+        }
+        
+        /**
+         * TO define an one to one relationship
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         */
+        public function snow() 
+        {            
+            return $this->hasOne('App\WeatherSnow', 'weather_hourly_id','id');
+        }
 }

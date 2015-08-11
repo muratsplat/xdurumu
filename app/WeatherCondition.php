@@ -85,5 +85,15 @@ class WeatherCondition extends Model implements SluggableInterface
         {
             return $this->morphedByMany('App\WeatherCurrent', 'weather_condition_able', 'weather_condition_ables');            
         }
+        
+        /**
+         * Defining one-to-many relations
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         */
+        public function hourlyStats()
+        {
+            return $this->morphedByMany('App\WeatherHourlyStat', 'weather_condition_able', 'weather_condition_ables');            
+        }
 
    }

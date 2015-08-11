@@ -73,13 +73,14 @@ class WeatherHourlyStatTest extends TestCase
             $this->assertInstanceOf('App\WeatherCondition', $one->conditions()->getRelated());  
             $this->assertInstanceOf('App\WeatherMain', $one->main()->getRelated());  
             $this->assertInstanceOf('App\WeatherWind', $one->wind()->getRelated());  
-            $this->assertInstanceOf('App\WeatherCloud', $one->clouds()->getRelated());    
-
+            $this->assertInstanceOf('App\WeatherRain', $one->rain()->getRelated());             
+            $this->assertInstanceOf('App\WeatherSnow', $one->snow()->getRelated()); 
+            
         }
         
         /**
          * 
-         * @return \App\WeatherCurrent
+         * @return \App\WeatherHourlyStat
          */
         protected function createNewWeatherHourlyStat(array $attributes=[])
         {            
