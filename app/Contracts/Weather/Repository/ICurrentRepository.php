@@ -18,20 +18,6 @@ interface ICurrentRepository
          * @return  \App\WeatherCondition
          */
         public function findOrNewConditions(array $conditions);      
-      
-        /**
-         * To get weather forecast resource model and weather condition model
-         * 
-         * @return   \App\Libs\Weather\DataType\WeatherForecastResource
-         */
-        public function getForcastResource();
-        
-        /**
-         * To get Weather Conditions
-         * 
-         * @return array
-         */
-        public function getConditions();
         
         
         public function update(array $current);
