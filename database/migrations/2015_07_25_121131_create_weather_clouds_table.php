@@ -19,12 +19,10 @@ class CreateWeatherCloudsTable extends Migration
         // "clouds":{"all":92}        
         \Schema::create($this->table, function(Blueprint $t) {
             
-            $t->increments('id');
-            $t->integer('weather_current_id')->unsigned()->nullable();
-            $t->integer('weather_hourly_id')->unsigned()->nullable();
-            $t->integer('weather_daily_id')->unsigned()->nullable();
-            $t->integer('all')->unsigned()->nullable();
-                                
+            $t->increments('id');            
+            $t->integer('cloudsable_id')->unsigned();
+            $t->string('cloudsable_type');            
+            $t->integer('all')->unsigned()->nullable();                                
         });
     }
 

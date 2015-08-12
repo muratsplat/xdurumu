@@ -50,55 +50,5 @@ class WeatherHourlyStat extends CacheAbleEloquent
         public function foreCastResource() 
         {
             return $this->belongsTo('App\WeatherForeCastResource', 'weather_forecast_resource_id', 'id');
-        }
-
-        /**
-         * TO define an one to one relationship
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function main() 
-        {            
-            return $this->hasOne('App\WeatherMain', 'weather_hourly_id','id');
-        }
-        
-        /**
-         * TO define an one to one relationship
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function wind() 
-        {            
-            return $this->hasOne('App\WeatherWind', 'weather_hourly_id','id');
-        }
-        
-        /**
-         * TO define an one to one relationship
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function clouds() 
-        {            
-            return $this->hasOne('App\WeatherCloud', 'weather_hourly_id','id');
-        }   
-        
-        /**
-         * TO define an one to one relationship
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function rain() 
-        {            
-            return $this->hasOne('App\WeatherRain', 'weather_hourly_id','id');
-        }
-        
-        /**
-         * TO define an one to one relationship
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
-         */
-        public function snow() 
-        {            
-            return $this->hasOne('App\WeatherSnow', 'weather_hourly_id','id');
-        }
+        } 
 }

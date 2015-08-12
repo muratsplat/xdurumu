@@ -29,9 +29,8 @@ class CreateWeatherMainTable extends Migration
         \Schema::create($this->table, function(Blueprint $t){
             
             $t->increments('id');
-            $t->integer('weather_current_id')->unsigned()->nullable();
-            $t->integer('weather_hourly_id')->unsigned()->nullable();
-            $t->integer('weather_daily_id')->unsigned()->nullable();
+            $t->integer('mainable_id')->unsigned();
+            $t->string('mainable_type');          
             $t->float('temp')->nullable();
             $t->float('temp_min')->nullable();
             $t->float('temp_max')->nullable();
@@ -42,8 +41,7 @@ class CreateWeatherMainTable extends Migration
             $t->integer('humidity')->unsigned()->nullable();
             $t->float('sea_level')->nullable();
             $t->float('grnd_level')->nullable();
-            $t->float('temp_kf')->nullable();               
-   
+            $t->float('temp_kf')->nullable();  
         });
     }
 

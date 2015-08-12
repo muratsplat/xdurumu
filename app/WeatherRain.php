@@ -33,14 +33,15 @@ class WeatherRain extends Model
      */            
     protected $fillable = ['3h', 'rain'];    
     
+    
         /**
-         * Defining an inverse one to many relation
+         * Define a polymorphic, inverse one-to-one or many relationship.
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         * @return \Illuminate\Database\Eloquent\Relations\MorphTo
          */
-        public function current()
+        public function rainable()
         {
-            return $this->belongsTo('App\WeatherCurrent', 'weather_current_id', 'id');        
+            return $this->morphTo('rainable', 'rainable_type', 'rainable_id');
         }
         
         /**

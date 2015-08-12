@@ -14,14 +14,12 @@ class CreateWeatherWindsTable extends Migration
      * @return void
      */
     public function up()
-    {
-        // "wind":{"speed":7.31,"deg":187.002},
-        
+    {        
         \Schema::create($this->table, function(Blueprint $t){
             
             $t->increments('id');
-            $t->integer('weather_current_id')->unsigned()->nullable();
-            $t->integer('weather_hourly_id')->unsigned()->nullable();
+            $t->integer('windable_id')->unsigned();
+            $t->string('windable_type');
             $t->float('speed')->unsigned()->nullable();
             $t->float('deg')->nullable();  
 

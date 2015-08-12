@@ -60,9 +60,8 @@ class WeatherSnowTest extends TestCase
         {
             $one = $this->createNewWeatherSnow();
             
-            $this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
-            $this->assertInstanceOf('App\WeatherHourlyStat', $one->hourlyStat()->getRelated());
-            
+            //$this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
+            //$this->assertInstanceOf('App\WeatherHourlyStat', $one->hourlyStat()->getRelated());            
         } 
         
         public function createSimpleCRUD()

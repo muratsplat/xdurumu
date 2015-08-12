@@ -21,11 +21,10 @@ class CreateWeatherSnowsTable extends Migration
         \Schema::create($this->table, function(Blueprint $t) {
             
             $t->increments('id');
-            $t->integer('weather_current_id')->unsigned()->nullable();
-            $t->integer('weather_hourly_id')->unsigned()->nullable();      
+            $t->integer('snowable_id')->unsigned();
+            $t->string('snowable_type');      
             $t->double('3h', 15,8)->unsigned()->nullable();
-            $t->double('snow', 15,8)->unsigned()->nullable();  
-
+            $t->double('snow', 15,8)->unsigned()->nullable(); 
         });
     }
 

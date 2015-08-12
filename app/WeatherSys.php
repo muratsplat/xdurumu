@@ -24,8 +24,7 @@ class WeatherSys extends Model
      *
      * @var bool
      */
-     public $timestamps = false;
-
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +41,16 @@ class WeatherSys extends Model
         public function current() {
             
             return $this->belongsTo('App\WeatherCurrent', 'weather_current_id','id');
+        }       
+            
+        /**
+         * Define a polymorphic, inverse one-to-one or many relationship.
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+         */
+        public function sysable()
+        {
+            return $this->morphTo('sysable', 'sysable_type', 'sysable_id');
         }
     
 }

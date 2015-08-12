@@ -64,27 +64,27 @@ class WeatherCurrent extends CacheAble
          */
         public function main() 
         {            
-            return $this->hasOne('App\WeatherMain', 'weather_current_id','id');
+            return $this->morphOne('App\WeatherMain', 'mainable', 'mainable_type', 'mainable_id');
         }
         
         /**
          * TO define an one to one relationship
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         * @return \Illuminate\Database\Eloquent\Relations\MorphOne
          */
         public function wind() 
         {            
-            return $this->hasOne('App\WeatherWind', 'weather_current_id','id');
+            return $this->morphOne('App\WeatherWind', 'windable','windable_type', 'windable_id');
         }
         
         /**
          * TO define an one to one relationship
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         * @return \Illuminate\Database\Eloquent\Relations\MorphOne
          */
         public function rain() 
         {            
-            return $this->hasOne('App\WeatherRain', 'weather_current_id','id');
+            return $this->morphOne('App\WeatherRain', 'rainable','rainable_type', 'rainable_id');
         }
         
         /**
@@ -94,17 +94,17 @@ class WeatherCurrent extends CacheAble
          */
         public function snow() 
         {            
-            return $this->hasOne('App\WeatherSnow', 'weather_current_id','id');
+            return $this->morphOne('App\WeatherSnow', 'snowable','snowable_type', 'snowable_id');
         }
         
         /**
          * TO define an one to one relationship
          * 
-         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         * @return \Illuminate\Database\Eloquent\Relations\MorphOne
          */
         public function clouds() 
         {            
-            return $this->hasOne('App\WeatherCloud', 'weather_current_id','id');
+            return $this->morphOne('App\WeatherCloud', 'cloudsable', 'cloudsable_type', 'cloudsable_id');
         }
         
         /**
@@ -114,7 +114,6 @@ class WeatherCurrent extends CacheAble
          */
         public function sys() 
         {            
-            return $this->hasOne('App\WeatherSys', 'weather_current_id','id');
-        }  
-    
+            return $this->morphOne('App\WeatherSys', 'sysable','sysable_type', 'sysable_id');
+        }
 }

@@ -85,8 +85,7 @@ class WeatherCurrentTest extends TestCase
         protected function createNewWeatherCurrent(array $attributes=[])
         {            
             return factory(App\WeatherCurrent::class)->make($attributes);
-        }  
-        
+        }          
         
         public function testFirstOrCreateForSys()
         {            
@@ -108,9 +107,9 @@ class WeatherCurrentTest extends TestCase
            
            $this->assertTrue($sysCreated->save());
            
-           $this->assertEquals($first->id, $sysCreated->weather_current_id);
+           $this->assertEquals($first->id, $sysCreated->sysable_id);
            
-           $this->assertEquals($first->id, $first->sys->weather_current_id);
+           $this->assertEquals($first->id, $first->sys->sysable_id);
            
            $this->assertNotNull($first->sys);
            
@@ -150,9 +149,9 @@ class WeatherCurrentTest extends TestCase
                 
            $this->assertCount(1, App\WeatherMain::all());
            
-           $this->assertEquals($first->id, $mainCreated->weather_current_id);
+           $this->assertEquals($first->id, $mainCreated->mainable_id);
            
-           $this->assertEquals($first->id, $first->main->weather_current_id);
+           $this->assertEquals($first->id, $first->main->mainable_id);
            
            $this->assertNotNull($first->main);
            

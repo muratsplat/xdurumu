@@ -99,9 +99,8 @@ $factory->define(App\WeatherCondition::class, function (Faker\Generator $faker) 
 $factory->define(App\WeatherCloud::class, function (Faker\Generator $faker) {
     return [
         
-        'weather_current_id'    => null,
-        'weather_hourly_id'     => null,   
-        'weather_daily_id'      => null,        
+        'cloudsable_id'         => rand(1, 100),
+        'cloudsable_type'       => str_random(),
         'all'                   => rand(1, 100),             
     ];
 });
@@ -114,8 +113,8 @@ $factory->define(App\WeatherCloud::class, function (Faker\Generator $faker) {
 $factory->define(App\WeatherWind::class, function (Faker\Generator $faker) {
     return [
         
-        'weather_current_id'    => null,
-        'weather_hourly_id'     => null,           
+        'windable_id'           => rand(1, 100),
+        'windable_type'         => str_random(),           
         'speed'                 => 7.31,
         'deg'                   => 187.002,        
     ];
@@ -130,9 +129,8 @@ $factory->define(App\WeatherWind::class, function (Faker\Generator $faker) {
 $factory->define(App\WeatherRain::class, function (Faker\Generator $faker) {
     return [
         
-        'weather_current_id'    => null,
-        'weather_hourly_id'     => null,   
-        'weather_daily_id'      => null,             
+        'rainable_id'           => rand(1, 100),
+        'rainable_type'         => str_random(),          
         '3h'                    => 2.225,
         'rain'                  => 187.002,        
     ];
@@ -157,20 +155,19 @@ $factory->define(App\WeatherMain::class, function (Faker\Generator $faker) {
     return [
         
         
-        'weather_current_id'    => null,
-        'weather_hourly_id'     => null,   
-        'weather_daily_id'      => null,             
-        'temp'                  => (double) rand(-30, 60) * 0.21,        
-        'temp_min'              => (double) rand(-30, 60) * 0.65,             
-        'temp_max'              => (double) rand(-30, 60) * 0.65, 
-        'temp_eve'              => (double) rand(-30, 60) * 0.65, 
-        'temp_night'            => (double) rand(-30, 60) * 0.65, 
-        'temp_morn'             => (double) rand(-30, 60) * 0.65, 
+        'mainable_id'           => rand(1, 100),
+        'mainable_type'         => str_random(),                
+        'temp'                  => (float) rand(-30, 60) * 0.21,        
+        'temp_min'              => (float) rand(-30, 60) * 0.65,             
+        'temp_max'              => (float) rand(-30, 60) * 0.65, 
+        'temp_eve'              => (float) rand(-30, 60) * 0.65, 
+        'temp_night'            => (float) rand(-30, 60) * 0.65, 
+        'temp_morn'             => (float) rand(-30, 60) * 0.65, 
         'pressure'              => rand(500,1000),        
         'humidity'              => rand(1,99),
-        'sea_level'             => (double) rand(500,1200) * 0.84,        
-        'grnd_level'            => (double) rand(500,1200) * 0.84,
-        'temp_kf'               => (double) rand(2,67),     
+        'sea_level'             => (float) rand(500,1200) * 0.84,        
+        'grnd_level'            => (float) rand(500,1200) * 0.84,
+        'temp_kf'               => (float) rand(2,67),     
     ];
 });
 
@@ -181,7 +178,8 @@ $factory->define(App\WeatherMain::class, function (Faker\Generator $faker) {
 //    $t->timestamp('sunset')->nullable();      
 $factory->define(App\WeatherSys::class, function (Faker\Generator $faker) {
     return [
-        'weather_current_id'    => null,
+        'sysable_id'            => rand(1, 100),
+        'sysable_type'          => str_random(),
         'country'               => $faker->city,
         'sunrise'               => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
         'sunset'                => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
