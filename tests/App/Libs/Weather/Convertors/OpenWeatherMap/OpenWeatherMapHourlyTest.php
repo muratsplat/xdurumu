@@ -46,6 +46,8 @@ class OpenWeatherMapHourlyTest extends \TestCase
         {
             $stdObject = json_decode($this->hourly);
             
+            $array     = json_decode($this->hourly , true);
+            
             $hourly = new Hourly($stdObject);
             
             $data = $hourly->getWeatherData();
@@ -53,6 +55,16 @@ class OpenWeatherMapHourlyTest extends \TestCase
             $this->assertInstanceOf('App\Libs\Weather\DataType\WeatherHourly', $data);
             
             $this->assertTrue($data->isFilledRequiredElements());
+            
+            $this->assertNotEmpty($data['list']->toArray());
+            
+            $this->assertCount(37, $data['list']->toArray());
+            
+            $this->assertEquals($array['city']['id'], $data['city']['id']);
+            
+            $this->assertEquals($array['list'][0]['dt'], $data['list'][0]['dt']);
+            $this->assertEquals($array['list'][0]['main']['temp'], $data['list'][0]['weather_main']['temp']);
+            $this->assertEquals($array['list'][0]['weather'][0]['main'], $data['list'][0]['weather_condition'][0]['name']);            
         } 
         
         
