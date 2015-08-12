@@ -151,14 +151,13 @@ abstract class Base implements WeatherDataAble
                 if ( $value instanceof self && ! $value->isFilledRequiredElements()) {
                     
                     $this->addFailedKey($key);                          
-                }            
-                  
-            }
+                }                     
+            }       
             
             return $this->isEmptyfailedCollection();
         }        
  
-            /**
+        /**
          * Whether a offset exists
          *
          * @param mixed $offset	  An offset to check for.
@@ -184,7 +183,7 @@ abstract class Base implements WeatherDataAble
 
         /**
          * Offset to set
-             * 
+         * 
          * @param mixed $offset  The offset to assign the value to.	
          * @param mixed $value   The value to set.
          * @return void No value is returned.

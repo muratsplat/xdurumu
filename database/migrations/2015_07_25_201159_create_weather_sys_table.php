@@ -23,8 +23,7 @@ class CreateWeatherSysTable extends Migration
            $t->string('country', 50)->nullable();
            $t->timestamp('sunrise')->nullable();
            $t->timestamp('sunset')->nullable();   
-           
-           $t->foreign('weather_current_id')->references('id')->on('weather_currents');       
+ 
        });
     }
 

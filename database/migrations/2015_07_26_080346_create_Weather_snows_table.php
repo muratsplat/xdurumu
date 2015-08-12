@@ -25,9 +25,7 @@ class CreateWeatherSnowsTable extends Migration
             $t->integer('weather_hourly_id')->unsigned()->nullable();      
             $t->double('3h', 15,8)->unsigned()->nullable();
             $t->double('snow', 15,8)->unsigned()->nullable();  
-            
-            $t->foreign('weather_current_id')->references('id')->on('weather_currents');             
-            $t->foreign('weather_hourly_id')->references('id')->on('weather_hourly_stats');   
+
         });
     }
 

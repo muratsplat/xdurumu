@@ -18,7 +18,7 @@ class WeatherHourly extends Base
      *
      * @var array
      */
-    protected $required = ['city', 'weather_condition', 'weather_forecast_resource','weather_main' , 'dt'];
+    protected $required = ['city', 'weather_forecast_resource', 'list'];
     
     /**
      * All attributes
@@ -27,17 +27,10 @@ class WeatherHourly extends Base
      */
     protected $attributes = [
         
-        'city'                          => null,
-        'weather_condition'             => null,
+        'city'                          => null,      
         'weather_forecast_resource'     => null,
-        'weather_main'                  => null,   
-        'weather_wind'                  => null,
-        'weather_rain'                  => null,
-        'weather_snow'                  => null,
-        'weather_clouds'                => null,
-//       'weather_sys'                   => null,
-        'source_updated_at'             => null,   
-        'dt'                            => null,
+        'list'                          => null,
+     
         ]; 
     
 }

@@ -42,10 +42,8 @@ class CreateWeatherMainTable extends Migration
             $t->integer('humidity')->unsigned()->nullable();
             $t->float('sea_level')->nullable();
             $t->float('grnd_level')->nullable();
-            $t->float('temp_kf')->nullable();   
-            
-            $t->foreign('weather_current_id')->references('id')->on('weather_currents');             
-            $t->foreign('weather_hourly_id')->references('id')->on('weather_hourly_stats');   
+            $t->float('temp_kf')->nullable();               
+   
         });
     }
 
