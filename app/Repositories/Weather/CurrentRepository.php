@@ -57,12 +57,16 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          */
         private function addResourceAndCondition(Current $current)
         {                
-            list($resource, $condition) = $this->getForcastResourceAndCondition(); 
+            $resource   = $this->getForcastResource();
+            
+            $conditions = $this->getConditions();
+            
+            $ids        = array_map(function($one){ return $one->id; }, $conditions);
             
             return [ 
                 
                 $current->foreCastResource()->associate($resource),
-                $current->conditions()->attach($condition->id),
+                $current->conditions()->sync($ids, false),
             ];
         }
         
@@ -177,16 +181,26 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         /**
          * To get weather forecast resource model and weather condition model
          * 
-         * @return array    [\App\Libs\Weather\DataType\WeatherForecastResource, \App\Libs\Weather\DataType\WeatherCondition]
+         * @return   \App\Libs\Weather\DataType\WeatherForecastResource
          */
-        public function getForcastResourceAndCondition()
+        public function getForcastResource()
         {
-            $resource   = $this->getAttributeOnInportedObject('weather_forecast_resource');
-            
-            $condition  = $this->getAttributeOnInportedObject('weather_condition');
-            
-            return [$this->findOrNewResource($resource), $this->findOrNewCondition($condition)];
+            $resource   = $this->getAttributeOnInportedObject('weather_forecast_resource');            
+          
+            return $this->findOrNewResource($resource);
         } 
+        
+        /**
+         * To get condtions
+         * 
+         * @return array
+         */
+        public function getConditions()
+        {            
+            $conditions = $this->getAttributeOnInportedObject('weather_condition');
+            
+            return $this->findOrNewConditions($conditions);
+        }
         
         
         public function update(array $current)

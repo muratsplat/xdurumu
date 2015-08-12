@@ -251,8 +251,6 @@ $factory->define(App\WeatherHourlyStat::class, function (Faker\Generator $faker)
         'city_id'                       => null,    
         'weather_forecast_resource_id'  => null,       
         'enable'                        => (boolean) rand(0, 1),
-        'source_updated_at'             => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
-        'dt'                            => rand(1437814800, 1437914800),
         'created_at'                    => $created_at,
         'updated_at'                    => $updated_at,       
     ];

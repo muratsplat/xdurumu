@@ -94,19 +94,44 @@ abstract class BaseRepository extends CacheAble
          * To find condition if it is not exists, create one 
          * and return it. 
          *
-         * @param   \App\Libs\Weather\DataType\WeatherCondition $condition
+         * @param   array $conditions
          * @return  \App\WeatherCondition
          */
-        public final function findOrNewCondition(WeatherCondition $condition)
+        public final function findOrNewConditions(array $conditions)
+        {            
+            return array_map(function($one) {
+                
+                return $this->findOrCreateCondition($one);                
+                
+            }, $conditions);          
+        }  
+        
+        
+        /**
+         * To find weather condition by WeatherCondition Object
+         * 
+         * @param  \App\Libs\Weather\DataType\WeatherCondition $condition
+         * @return \App\WeatherCondition
+         */
+        protected function findOrCreateCondition(WeatherCondition $condition)
         {
-            $opeWeatherMapID = $condition['open_weather_map_id'];
-            
-            $model =  $this->getCondition()->OfOpenWetherMapId($opeWeatherMapID)->first();     
+            $model = $this->findConditionByOpenWeatherId($condition['open_weather_map_id']);
             
             if (! is_null($model)) { return $model; }
             
-            return $this->getCondition()->create($condition->toArray());   
-        }        
+            return $this->getCondition()->create($condition->toArray());
+        }
+        
+        /**
+         * To find weather conditions by given id 
+         * 
+         * @param int $openWeatherMapID Open Weather Map Condition ID
+         * @return \App\WeatherCondition|null
+         */
+        protected function findConditionByOpenWeatherId($openWeatherMapID)
+        {
+            return  $this->getCondition()->OfOpenWetherMapId($openWeatherMapID)->first();     
+        }
         
         /**
          * To find WeatherForeCastResource model 

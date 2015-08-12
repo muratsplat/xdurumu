@@ -47,9 +47,7 @@ class Hourly extends JsonConverter
     /**
      * @var \Illuminate\Support\Collection
      */
-    private $list;
-    
-        
+    private $list;       
     
         /*
          * Create new instance

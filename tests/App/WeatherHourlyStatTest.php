@@ -45,8 +45,6 @@ class WeatherHourlyStatTest extends TestCase
                     'city_id'                       => factory(\App\City::class)->make(),                  
                     'weather_forecast_resource_id'  => factory(\App\WeatherForeCastResource::class)->make()->id,        
                     'enable'                        => (boolean) rand(0, 1),
-                    'source_update_at'              => \Carbon\Carbon::createFromTimestampUTC(rand(1437814800, 1437914800))->format('Y-m-d H:m:s'),
-                    'dt'                            => rand(1437814800, 1437914800),
             ];
             
             $one = $this->createNewWeatherHourlyStat($data); 
@@ -54,8 +52,7 @@ class WeatherHourlyStatTest extends TestCase
             $this->assertEquals($data['city_id'], $one['city_id']);
         
             $this->assertEquals($data['weather_forecast_resource_id'], $one['weather_forecast_resource_id']);
-            $this->assertEquals($data['enable'], $one['enable']);  
-            $this->assertEquals($data['source_update_at'], $one['source_update_at']);            
+            $this->assertEquals($data['enable'], $one['enable']);         
         }
         
         public function testWithFakerAttributes() 

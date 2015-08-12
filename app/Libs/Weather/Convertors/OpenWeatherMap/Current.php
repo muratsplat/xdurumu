@@ -71,24 +71,30 @@ class Current extends JsonConverter
          * 
          * Example Weather : "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}]
          * 
-         * @return \App\Libs\Weather\DataType\WeatherDataAble|null
+         * @return array|null
          */
         protected function pickerWeatherCondition()
         {
-            $weather     =  $this->getPropertyOnJSONObject('weather');
+            $weather     =  $this->getPropertyOnJSONObject('weather');         
             
             if (empty($weather)) { return null; }
             
-            $first      = head($weather);
-            return new WeatherCondition([
+            $list = [];      
+            
+            foreach ($weather as $one) {
                 
-                'open_weather_map_id'   => $first->id,
-                'name'                  => $first->main,
-                'description'           => $first->description,
-                'orgin_name'            => $first->main,
-                'orgin_description'     => $first->description,  
-                'icon'                  => $first->icon,                   
-            ]);
+                $list[] = new WeatherCondition([
+                
+                    'open_weather_map_id'   => $one->id,
+                    'name'                  => $one->main,
+                    'description'           => $one->description,
+                    'orgin_name'            => $one->main,
+                    'orgin_description'     => $one->description,  
+                    'icon'                  => $one->icon,                   
+                ]); 
+            }
+            
+            return $list;     
         }
         
         /**

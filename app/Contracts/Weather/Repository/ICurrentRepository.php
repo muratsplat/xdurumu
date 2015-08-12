@@ -9,13 +9,29 @@ namespace App\Contracts\Weather\Repository;
  */
 interface ICurrentRepository
 {        
+    
+     /**
+         * To find condition if it is not exists, create one 
+         * and return it. 
+         *
+         * @param   array $conditions
+         * @return  \App\WeatherCondition
+         */
+        public function findOrNewConditions(array $conditions);      
       
         /**
          * To get weather forecast resource model and weather condition model
          * 
-         * @return array    [\App\Libs\Weather\DataType\WeatherForecastResource, \App\Libs\Weather\DataType\WeatherCondition]
+         * @return   \App\Libs\Weather\DataType\WeatherForecastResource
          */
-        public function getForcastResourceAndCondition();
+        public function getForcastResource();
+        
+        /**
+         * To get Weather Conditions
+         * 
+         * @return array
+         */
+        public function getConditions();
         
         
         public function update(array $current);

@@ -62,11 +62,11 @@ class OpenWeatherCurrentTest extends \TestCase
             $this->assertEquals($jsonObject->coord->lat, $weatherAble['city']['latitude']);
             $this->assertEquals($jsonObject->coord->lon, $weatherAble['city']['longitude']);            
             // check weather condition attributes
-            $this->assertEquals($jsonObject->weather[0]->id, $weatherAble['weather_condition']['open_weather_map_id']);
-            $this->assertEquals($jsonObject->weather[0]->main, $weatherAble['weather_condition']['name']);
-            $this->assertEquals($jsonObject->weather[0]->main, $weatherAble['weather_condition']['orgin_name']);
-            $this->assertEquals($jsonObject->weather[0]->description, $weatherAble['weather_condition']['description']);
-            $this->assertEquals($jsonObject->weather[0]->description, $weatherAble['weather_condition']['orgin_description']);   
+            $this->assertEquals($jsonObject->weather[0]->id, $weatherAble['weather_condition'][0]['open_weather_map_id']);
+            $this->assertEquals($jsonObject->weather[0]->main, $weatherAble['weather_condition'][0]['name']);
+            $this->assertEquals($jsonObject->weather[0]->main, $weatherAble['weather_condition'][0]['orgin_name']);
+            $this->assertEquals($jsonObject->weather[0]->description, $weatherAble['weather_condition'][0]['description']);
+            $this->assertEquals($jsonObject->weather[0]->description, $weatherAble['weather_condition'][0]['orgin_description']);   
             
             // check weather forcast resource attributes            
             $openWeatherMapApi = [
