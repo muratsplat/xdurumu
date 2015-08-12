@@ -18,7 +18,7 @@ class WeatherList extends Base
      *
      * @var array
      */
-protected $required = ['weather_condition', 'weather_main','dt', 'source_updated_at'];
+    protected $required = ['weather_condition', 'weather_main','dt', 'source_updated_at'];
     
     /**
      * All attributes

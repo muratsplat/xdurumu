@@ -19,15 +19,21 @@ abstract class JsonConverter
      *
      * @var \stdClass
      */
-    protected $jsonObject;
-    
+    protected $jsonObject;    
    
     /**
      * Api Name
      *
      * @var string short version 
      */
-    protected $apiName;
+    protected $apiName;    
+    
+    /**
+     * The data what converting from stdObject will save in the property
+     * 
+     * @var array
+     */
+    protected $convertedData = [];
 
 
         /**
@@ -50,7 +56,7 @@ abstract class JsonConverter
         {           
             $this->callAllPickers();         
          
-            return $this->getCurrentForm();
+            return $this->getConvertedData();
         }
         
         /**
@@ -66,7 +72,7 @@ abstract class JsonConverter
                 
                 $key    = $this->parserKeyInPickerMethodName($method);
             
-                $this->setAttributeOnCurrentForm($key, $value);               
+                $this->setAttributeOnConvertedData($key, $value);               
             }          
         }
         
@@ -111,18 +117,18 @@ abstract class JsonConverter
         
         
         /**
-         * To set CurrentForm property
+         * To set convertedData property
          * 
          * @param string $key
          * @param mixed $value
          * @return void
          * @throws InvalidArgumentException
          */
-        protected function setAttributeOnCurrentForm($key, $value)
+        protected function setAttributeOnConvertedData($key, $value)
         {
             if ($this->isKeyExist($key)) {
                 
-                $this->currentForm[$key] = $value;                
+                $this->convertedData[$key] = $value;                
                 
                 return;
             }
@@ -138,7 +144,7 @@ abstract class JsonConverter
          */
         protected function isKeyExist($key=null)
         {
-            return !is_null($key) && array_key_exists($key, $this->currentForm);
+            return !is_null($key) && array_key_exists($key, $this->convertedData);
         }       
       
         /**
@@ -182,13 +188,13 @@ abstract class JsonConverter
         }
         
         /**
-         * To get current form 
+         * To get converted data 
          * 
          * @return array
          */
-        protected function getCurrentForm()
+        protected function getConvertedData()
         {            
-            return $this->currentForm;
+            return $this->convertedData;
         }
         
         /**

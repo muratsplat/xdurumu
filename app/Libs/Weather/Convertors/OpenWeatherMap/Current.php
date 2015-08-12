@@ -33,7 +33,7 @@ class Current extends JsonConverter
      *
      * @var array 
      */
-    protected $currentForm   = [
+    protected $convertedData   = [
    
         'city'                          => null,
         'weather_condition'             => null,
@@ -277,7 +277,7 @@ class Current extends JsonConverter
             
             $this->callAllPickers();
             
-            $array = $this->getCurrentForm();
+            $array = $this->getConvertedData();
             
             return new WeatherCurrent($array);
         }        
