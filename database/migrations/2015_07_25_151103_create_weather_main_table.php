@@ -28,7 +28,7 @@ class CreateWeatherMainTable extends Migration
 
         \Schema::create($this->table, function(Blueprint $t){
             
-            $t->increments('id');
+            $t->bigIncrements('id');
             $t->integer('mainable_id')->unsigned();
             $t->string('mainable_type');          
             $t->float('temp')->nullable();

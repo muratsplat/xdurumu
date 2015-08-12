@@ -20,7 +20,7 @@ class CreateWeatherRainsTable extends Migration
         //        }, 
         \Schema::create($this->table, function(Blueprint $t) {
             
-            $t->increments('id');
+            $t->bigIncrements('id');
             $t->integer('rainable_id')->unsigned();
             $t->string('rainable_type');           
             $t->float('3h')->unsigned()->nullable();

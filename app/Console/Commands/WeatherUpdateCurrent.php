@@ -67,7 +67,6 @@ class WeatherUpdateCurrent extends TestAbleCommand
          */
         public function handle()
         {           
-            
             $no   = 0;
             
             foreach ($this->getAllCities() as $city) {              

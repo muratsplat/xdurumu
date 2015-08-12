@@ -40,10 +40,7 @@ abstract class TestAbleCommand extends Command
          */
         protected function writeInfo($message)
         {
-            if ($this->test) {
-                
-                return;
-            }
+            if ($this->test) { return; }
             
             $this->info(PHP_EOL . $message . PHP_EOL );
         }
@@ -71,6 +68,6 @@ abstract class TestAbleCommand extends Command
         {
             if ($this->test) { return; }
             
-            $this-error($message);
+            $this->error($message);
         }
 }
