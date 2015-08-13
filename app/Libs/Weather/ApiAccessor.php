@@ -2,9 +2,7 @@
 
 namespace App\Libs\Weather;
 
-use ErrorException;
-use Carbon\Carbon;
-
+use InvalidArgumentException;
 use App\Contracts\Weather\Accessor;
 
 /**
@@ -100,7 +98,8 @@ abstract class ApiAccessor implements Accessor
                 return;
             }
             
-            throw new InvalidArgumentException('JSON argument is not decoded !');      
+            throw new InvalidArgumentException('JSON argument is not decoded! '
+                    . 'It can be invalid format to converting json object');      
         } 
         
         /**

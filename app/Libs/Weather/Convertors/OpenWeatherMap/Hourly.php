@@ -295,8 +295,7 @@ class Hourly extends JsonConverter
         private function pushOneToList(WeatherList $list)
         {            
             $this->list->push($list);            
-        }
-        
+        }        
         
         /**
          * To get Converted Weather Data

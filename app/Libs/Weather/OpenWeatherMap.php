@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 
 use App\Libs\Weather\Convertors\OpenWeatherMap\Current;
+use App\Libs\Weather\Convertors\OpenWeatherMap\Hourly;
 
 
 /**
@@ -35,6 +36,8 @@ class OpenWeatherMap extends ApiAccessor
             switch (true) {
                 
                 case $this->isCurrent() : return (new Current($jsonObject))->getWeatherData();
+                    
+                case $this->isHourly()  : return (new Hourly($jsonObject))->getWeatherData();
             }            
             
             throw new ErrorException('It should be selected a data type(currently, hourly, daily)'
