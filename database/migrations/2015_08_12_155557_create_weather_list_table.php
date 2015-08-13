@@ -19,7 +19,7 @@ class CreateWeatherListTable extends Migration
     {
         \Schema::create($this->table, function(Blueprint $t) {
             
-            $t->increments('id');              
+            $t->bigIncrements('id');              
             $t->bigInteger('listable_id')->unsigned();
             $t->string('listable_type');
             $t->boolean('enable')->default(true);

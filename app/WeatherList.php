@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Weather List Model is created for CRUD jobs to manage lists of weather hourly and daily data..
+ * 
+ * @package WeatherForCast
+ */
 class WeatherList extends Model
 {
     
