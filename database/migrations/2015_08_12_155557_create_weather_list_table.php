@@ -19,9 +19,13 @@ class CreateWeatherListTable extends Migration
     {
         \Schema::create($this->table, function(Blueprint $t) {
             
-            $t->increments('id');           
+            $t->increments('id');      
+            
+            $t->bigInteger('listable_id')->unsigned();
+            $t->string('listable_type');
             $t->boolean('enable')->default(true);
-            $t->timestamp('source_updated_at')->nullable();            
+            $t->timestamp('source_updated_at');           
+            $t->timeDate('dt');            
             $t->timestamps();                      
         });
          

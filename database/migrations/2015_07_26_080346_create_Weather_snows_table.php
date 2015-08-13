@@ -21,7 +21,7 @@ class CreateWeatherSnowsTable extends Migration
         \Schema::create($this->table, function(Blueprint $t) {
             
             $t->bigIncrements('id');
-            $t->integer('snowable_id')->unsigned();
+            $t->bigInteger('snowable_id')->unsigned();
             $t->string('snowable_type');      
             $t->double('3h', 15,8)->unsigned()->nullable();
             $t->double('snow', 15,8)->unsigned()->nullable(); 

@@ -18,7 +18,7 @@ class CreateWeatherWindsTable extends Migration
         \Schema::create($this->table, function(Blueprint $t){
             
             $t->bigIncrements('id');
-            $t->integer('windable_id')->unsigned();
+            $t->bigInteger('windable_id')->unsigned();
             $t->string('windable_type');
             $t->float('speed')->unsigned()->nullable();
             $t->float('deg')->nullable();  

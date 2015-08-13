@@ -19,7 +19,7 @@ class CreateWeatherSysTable extends Migration
        \Schema::create($this->table, function(Blueprint $t) {
            
            $t->bigIncrements('id');
-           $t->integer('sysable_id')->unsigned();
+           $t->bigInteger('sysable_id')->unsigned();
            $t->string('sysable_type');
            $t->string('country', 50)->nullable();
            $t->timestamp('sunrise')->nullable();

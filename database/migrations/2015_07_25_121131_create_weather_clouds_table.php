@@ -20,7 +20,7 @@ class CreateWeatherCloudsTable extends Migration
         \Schema::create($this->table, function(Blueprint $t) {
             
             $t->bigIncrements('id');            
-            $t->integer('cloudsable_id')->unsigned();
+            $t->bigInteger('cloudsable_id')->unsigned();
             $t->string('cloudsable_type');            
             $t->integer('all')->unsigned()->nullable();                                
         });

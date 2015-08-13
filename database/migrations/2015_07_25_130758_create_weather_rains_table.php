@@ -21,7 +21,7 @@ class CreateWeatherRainsTable extends Migration
         \Schema::create($this->table, function(Blueprint $t) {
             
             $t->bigIncrements('id');
-            $t->integer('rainable_id')->unsigned();
+            $t->bigInteger('rainable_id')->unsigned();
             $t->string('rainable_type');           
             $t->float('3h')->unsigned()->nullable();
             $t->float('rain')->unsigned()->nullable();
