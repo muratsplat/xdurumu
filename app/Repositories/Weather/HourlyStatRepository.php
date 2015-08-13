@@ -3,7 +3,7 @@
 namespace App\Repositories\Weather;
 
 use App\WeatherHourlyStat as Hourly;
-use App\City;
+use App\Contracts\Repository\ICityRepository as City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble;

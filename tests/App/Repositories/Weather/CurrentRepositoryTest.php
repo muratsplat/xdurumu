@@ -70,7 +70,17 @@ class CurrentRepositoryTest extends \TestCase
         private function getCityMock()
         {
             return m::mock('App\City');            
-        }
+        }        
+        
+        /**
+         * Mocked City Model
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getCityRepoMock()
+        {
+            return m::mock('App\Contracts\Repository\ICityRepository');            
+        }      
         
         /**
          * Mocked Cache
@@ -126,7 +136,7 @@ class CurrentRepositoryTest extends \TestCase
         {   
             $current    = $this->getCurrentMock();
             
-            $city       = $this->getCityMock();
+            $city       = $this->getCityRepoMock();
             
             $condition  = $this->getConditionMock();
             
@@ -201,7 +211,7 @@ class CurrentRepositoryTest extends \TestCase
         {
             $current    = $this->getCurrentMock();
             
-            $city       = $this->getCityMock();
+            $city       = $this->getCityRepoMock();
             
             $cities     = factory(\App\City::class, 10)->make();  
             
@@ -229,7 +239,7 @@ class CurrentRepositoryTest extends \TestCase
         {
             $current    = $this->getCurrentMock();
             
-            $city       = $this->getCityMock();
+            $city       = $this->getCityRepoMock();
             
             $cities     = factory(\App\City::class, 2)->make();  
             
@@ -256,7 +266,7 @@ class CurrentRepositoryTest extends \TestCase
         {
             $current    = $this->getCurrentMock();
             
-            $city       = $this->getCityMock();
+            $city       = $this->getCityRepoMock();
             
             $cities     = factory(\App\City::class, 2)->make();  
             
@@ -284,7 +294,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $current    = $this->getCurrentMock(); 
             
-            $city       = $this->getCityMock();
+            $city       = $this->getCityRepoMock();
             
             $currents   = factory(\App\WeatherCurrent::class, 5)->make();        
             
@@ -313,7 +323,7 @@ class CurrentRepositoryTest extends \TestCase
         {            
             $current    = $this->getCurrentMock(); 
             
-            $cityModel  = $this->getCityMock();
+            $cityModel  = $this->getCityRepoMock();
             
             $city       = m::mock('App\City');
             

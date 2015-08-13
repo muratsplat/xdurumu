@@ -3,11 +3,12 @@
 namespace App\Repositories\Weather;
 
 use App\WeatherCurrent as Current;
-use App\City;
+use App\Contracts\Repository\ICityRepository as City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble;
 use App\Contracts\Weather\Repository\ICurrentRepository;
+use App\Contracts\Repository\ICityRepository;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 use ErrorException;
@@ -27,12 +28,12 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         /**
          * Constructer
          * 
-         * @param \Illuminate\Contracts\Cache\Repository $cache
-         * @param \Illuminate\Contracts\Config\Repository $config
-         * @param \App\City                     $city
-         * @param \App\WeatherCondition         $condition
-         * @param \App\WeatherForeCastResource  $resource
-         * @param \App\WeatherCurrent           $current
+         * @param \Illuminate\Contracts\Cache\Repository        $cache
+         * @param \Illuminate\Contracts\Config\Repository       $config
+         * @param \App\Contracts\Repository\ICityRepository     $city
+         * @param \App\WeatherCondition                         $condition
+         * @param \App\WeatherForeCastResource                  $resource
+         * @param \App\WeatherCurrent                           $current
          */
         public function __construct(
                 Cache       $cache, 

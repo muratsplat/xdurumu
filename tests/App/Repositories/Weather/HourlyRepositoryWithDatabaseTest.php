@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Repositories\Weather\HourlyStatRepository as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use App\City;
+use App\Repositories\CityRepository;
 use App\WeatherCurrent;
 use App\WeatherCondition;
 use App\WeatherHourlyStat;
@@ -57,6 +58,21 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
         private function getCity()
         {
             return new City();
+        }
+        
+        /**
+         * 
+         * @return \App\City
+         */
+        private function getCityRepo()
+        {
+            $app = app();
+            
+            $cache  = $app['cache']->driver();
+            
+            $config = $app['config'];
+            
+            return new CityRepository($cache, $config, new City());
         }
 
         /**
@@ -112,6 +128,8 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(3, $cities);
             
+            $cityRepo = $this->getCityRepo();
+            
             $city = $this->getCity();
             
             $condition = $this->getCondition();
@@ -126,7 +144,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $hourly);
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly);
           
         }   
 }

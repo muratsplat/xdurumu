@@ -23,47 +23,40 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        // Weather Forecast Resource Repository
-       $this->bindToForeCastResourceRepository();
-       
-       $this->bindToWeatherCurrentRepository();
-       $this->bindToWeatherHourlyRepository();
-       
-        
+    {       
        $this->registerWeatherForeCastServices();               
-    }
+       
+       $this->bindings();
+    }    
+
     
     /**
-     * To bind
+     * Bindings
+     * 
+     * @return void
      */
-    private function bindToForeCastResourceRepository()
-    {        
-        $this->app->bind('App\Contracts\Weather\Repository\IForecastResourceRepository',
-                'App\Repositories\Weather\ForecastResourceRepository');       
-    }
-    
-    /**
-     * To bind
-     */
-    private function bindToWeatherCurrentRepository()
-    {        
+    protected function bindings()
+    {
         $this->app->bind(
-                'App\Contracts\Weather\Repository\ICurrentRepository',
-                'App\Repositories\Weather\CurrentRepository'
-                );       
-    }
-    
-    /**
-     * To bind
-     */
-    private function bindToWeatherHourlyRepository()
-    {        
+                'App\Contracts\Weather\Repository\IForecastResourceRepository',
+                'App\Repositories\Weather\ForecastResourceRepository');  
+        
         $this->app->bind(
                 'App\Contracts\Weather\Repository\IHourlyRepository',
                 'App\Repositories\Weather\HourlyStatRepository'
-                );       
+                );  
+        
+        $this->app->bind(
+                'App\Contracts\Weather\Repository\ICurrentRepository',
+                'App\Repositories\Weather\CurrentRepository'
+                );     
+        
+        $this->app->bind(
+                'App\Contracts\Repository\ICityRepository',
+                'App\Repositories\CityRepository'
+                ); 
     }
+    
         
     /**
      * Register Weather ForeCast Resource Servise

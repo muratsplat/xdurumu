@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\City;
+use App\Contracts\Repository\ICityRepository;
 use App\Repositories\CacheAbleRepository as CacheAble;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use \Illuminate\Contracts\Config\Repository as Config;
@@ -13,7 +14,7 @@ use \Illuminate\Contracts\Config\Repository as Config;
  * 
  * @package WeatherForcast
  */
-class CityRepository extends CacheAble
+class CityRepository extends CacheAble implements ICityRepository
 {  
     
     /**

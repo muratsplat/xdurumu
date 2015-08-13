@@ -10,6 +10,7 @@ use App\City;
 use App\WeatherCurrent;
 use App\WeatherCondition;
 use App\WeatherForeCastResource;
+use App\Repositories\CityRepository;
 use Mockery as m;
 
 /**
@@ -70,11 +71,17 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
         
         /**
          * 
-         * @return \App\City
+         * @return \App\Contracts\Repository\ICityRepository
          */
-        private function getCity()
+        private function getCityRepo()
         {
-            return new City();
+            $app = app();
+            
+            $cache  = $app['cache']->driver();
+            
+            $config = $app['config'];            
+            
+            return new CityRepository($cache, $config, new City());
         }
 
         /**
@@ -130,9 +137,9 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(3, $cities);
             
-            $city = $this->getCity();
+            $cityRepo   = $this->getCityRepo();
             
-            $condition = $this->getCondition();
+            $condition  = $this->getCondition();
             
             $resource = $this->getResource();
             
@@ -144,7 +151,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
           
         }
         
@@ -155,7 +162,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(3, $cities);
             
-            $city = $this->getCity();
+            $cityRepo   = $this->getCityRepo();
             
             $condition = $this->getCondition();
             
@@ -169,7 +176,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
             
             $one->selectCity($cities->random());          
         }
@@ -185,7 +192,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(3, $cities);
             
-            $city = $this->getCity();
+            $cityRepo   = $this->getCityRepo();
             
             $condition = $this->getCondition();
             
@@ -199,7 +206,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
             
             $selectCity = $cities->random();
             
@@ -256,7 +263,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(10, $cities);
             
-            $city = $this->getCity();
+            $cityRepo   = $this->getCityRepo();
             
             $condition = $this->getCondition();
             
@@ -270,7 +277,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $current);
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
             
             $selectCity = $cities->random();
             

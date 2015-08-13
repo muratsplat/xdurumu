@@ -65,6 +65,16 @@ class HourlyRepositoryTest extends \TestCase
         }
         
         /**
+         * Mocked City Repo Model
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getCityRepoMock()
+        {
+            return m::mock('App\Contracts\Repository\ICityRepository');            
+        }
+        
+        /**
          * Mocked Cache
          *  
          * @return \Mockery\MockInterface
@@ -83,6 +93,7 @@ class HourlyRepositoryTest extends \TestCase
         {
             return m::mock('Illuminate\Contracts\Config\Repository');            
         }
+        
         /**
          * Mocked App\WeatherCurrent Model
          * 
@@ -118,7 +129,7 @@ class HourlyRepositoryTest extends \TestCase
         {   
             $hourly     = $this->getHourlyStatMock();
             
-            $city       = $this->getCityMock();
+            $city       = $this->getCityRepoMock();
             
             $condition  = $this->getConditionMock();
             
@@ -132,12 +143,13 @@ class HourlyRepositoryTest extends \TestCase
             
             $one = new Repository($cache, $config, $city,$condition, $resource, $hourly);
           
-        }   
-        
+        }       
         
         public function testSelectCity()
         {   
             $hourly     = $this->getHourlyStatMock();
+            
+            $cityRepo   = $this->getCityRepoMock();
             
             $city       = $this->getCityMock();
             
@@ -153,7 +165,7 @@ class HourlyRepositoryTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $hourly);
+            $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $hourly);
             
             $accessor = $this->getAccessorWithSampleData();
             

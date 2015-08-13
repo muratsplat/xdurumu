@@ -4,6 +4,7 @@ namespace App\Repositories\Weather;
 
 use App\WeatherCurrent as Current;
 use App\City;
+use App\Contracts\Repository\ICityRepository as CityRepo;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble; 
@@ -26,7 +27,7 @@ use UnexpectedValueException;
 abstract class BaseRepository extends CacheAble
 {    
     /**
-     * @var \App\City 
+     * @var \App\Contracts\Repository\ICityRepository;
      */
     protected $city;
     
@@ -58,16 +59,16 @@ abstract class BaseRepository extends CacheAble
     protected $assessor; 
   
         /**
-         * Constructer
+         * Create new Instance
          * 
-         * @param \Illuminate\Contracts\Cache\Repository $cache
-         * @param \Illuminate\Contracts\Config\Repository $config
-         * @param \App\City                     $city
-         * @param \App\WeatherCondition         $condition
-         * @param \App\WeatherForeCastResource  $resource
-         * @param \App\WeatherCurrent           $current
+         * @param \Illuminate\Contracts\Cache\Repository        $cache
+         * @param \Illuminate\Contracts\Config\Repository       $config
+         * @param \App\Contracts\Repository\ICityRepository     $city
+         * @param \App\WeatherCondition                         $condition
+         * @param \App\WeatherForeCastResource                  $resource
+         * @param \App\WeatherCurrent                           $current
          */
-        public function __construct(Cache $cache, Config $config, City $city, Condition $condition, Resource $resource) 
+        public function __construct(Cache $cache, Config $config, CityRepo $city, Condition $condition, Resource $resource) 
         {  
             parent::__construct($cache, $config);
             
