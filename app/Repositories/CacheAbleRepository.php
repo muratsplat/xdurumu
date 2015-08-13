@@ -144,7 +144,15 @@ abstract class CacheAbleRepository
          * @param bool $cache
          * @return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        abstract public function all();     
+        public function all()
+        {            
+            if ($this->isEnabledCache()) {
+                
+                return $this->onCache();
+            }
+            
+            return $this->onModel()->all();            
+        }  
         
         /**
          * To get cache repository

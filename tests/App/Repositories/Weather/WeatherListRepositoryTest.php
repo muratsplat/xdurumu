@@ -64,11 +64,23 @@ class WeatherListRepositoryTest extends \TestCase
             return m::mock('App\WeatherCondition');
         }   
         
+        /**
+         * To get mocked WeatherList Object
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedWeaherList()
+        {
+            return m::mock('App\WeatherList');            
+        }
+        
         public function testSimple()
         {           
             //$condition  = $this->getConditionMock();
             
             //$resource   = $this->getWeatherForeCastResourceMock();
+            
+            $list       = $this->getMockedWeaherList();
             
             $cache      = $this->getMockedCache();           
             
@@ -76,7 +88,7 @@ class WeatherListRepositoryTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config);          
+            $one = new Repository($cache, $config, $list);          
         }   
         
         public function tearDown()

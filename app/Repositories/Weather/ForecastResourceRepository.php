@@ -54,23 +54,7 @@ class ForecastResourceRepository extends CacheAble implements IForecastResourceR
                 
                 return $this->onModel()->enable()->priority()->get();
             }); 
-        }
-        
-        /**
-         * To get all models
-         * 
-         * @param bool $cache
-         * @return \Illuminate\Database\Eloquent\Collection|static[]
-         */
-        public function all()
-        {            
-            if ($this->isEnabledCache()) {
-                
-                return $this->onCache();
-            }
-            
-            return $this->onModel()->all();            
-        }        
+        }     
         
         /**
          * To find model by primary key

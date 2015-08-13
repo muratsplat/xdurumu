@@ -5,9 +5,11 @@ namespace App\Repositories\Weather;
 //use App\WeatherHourlyStat as Hourly;
 //use App\WeatherCondition as Condition; 
 //use App\Libs\Weather\DataType\WeatherDataAble;
+use App\WeatherList;
 use App\Repositories\CacheAbleRepository as CacheAble;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
+
 //use ErrorException;
 
 /**
@@ -27,10 +29,14 @@ class WeatherListRepository extends CacheAble
          * 
          * @param \Illuminate\Contracts\Cache\Repository $cache
          * @param \Illuminate\Contracts\Config\Repository $config
+         * @param \App\WeatherList; 
          */
-        public function __construct(Cache $cache, Config $config)
+        public function __construct(Cache $cache, Config $config, WeatherList $list)
         {
             parent::__construct($cache, $config);
+            
+            $this->mainModel    = $list;
+            
         }    
     
         /**
@@ -40,7 +46,7 @@ class WeatherListRepository extends CacheAble
          */
         public function onModel()
         {
-            
+            return $this->mainModel;            
         }
         
         /**
@@ -50,20 +56,12 @@ class WeatherListRepository extends CacheAble
          */
         public function onCache()
         {
+            list($key, $minitues) = $this->getCachingParameters();
             
-        }
-        
-        
-        
-        /**
-         * To get all models
-         * 
-         * @param bool $cache
-         * @return \Illuminate\Database\Eloquent\Collection|static[]
-         */
-        public function all()
-        {
+            return $this->getCache()->remember($key, $minitues, function() {
+                
+                return $this->onModel()->enable()->get();
+            }); 
             
-        }
-        
+        }        
 }
