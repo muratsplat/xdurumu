@@ -11,12 +11,11 @@ interface IListRepository extends IBaseRepository
 {        
     
         /**
-         * To create many list by given hourly model via the relationships
+         * To create Weatherlist Model by given hourly model via passed WeatherList Data
          * 
-         * @param \App\WeatherHourlyStat $hourly
-         * @param array $list
-         * @return array    created instances
+         * @param   \App\WeatherHourlyStat                    $hourly
+         * @param   \App\Libs\Weather\DataType\WeatherList    $data
+         * @return  \App\WeatherList    created instances
          */
-        public function createManyListByHourlyStat(Hourly $hourly , array $list);
-    
+        public function createListByHourlyStat(Hourly $hourly , WeatherListData $data);    
 }

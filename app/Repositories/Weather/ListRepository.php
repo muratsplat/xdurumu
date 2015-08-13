@@ -50,7 +50,7 @@ class ListRepository extends CacheAble
         }        
         
         
-        //    ["weather_condition"]=>
+        //    ["weather_conditions"]=>
 //    array(6) {
 //    ["open_weather_map_id"]=>
 //    int(212)
@@ -115,12 +115,7 @@ class ListRepository extends CacheAble
         {            
             $list = $this->createListByWeatherHourlyStat($hourly);
             
-            $list->rain()->create($data['']);
-            
-            
-            
-            
-           
+            $list->conditions()->createMany($data['weather_conditions']->toArray());      
         }
         
         
