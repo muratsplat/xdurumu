@@ -3,19 +3,24 @@
 namespace App\Repositories;
 
 use App\City;
+use App\Repositories\CacheAbleRepository as CacheAble;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use \Illuminate\Contracts\Config\Repository as Config;
+
 
 /**
  * City Repository Class
  * 
  * @package WeatherForcast
  */
-class CityRepository 
+class CityRepository extends CacheAble
 {  
     
     /**
+     * 
      * @var \App\City 
      */
-    private $city;
+    private $mainModel;
     
     /**
      * @var \Illuminate\Database\Query\Builder
@@ -27,15 +32,19 @@ class CityRepository
      */
     private $all;
     
+    
+
         /**
-         * Constructer
          * 
-         * @param App\City $city
+         * @param \Illuminate\Contracts\Cache\Repository $cache
+         * @param \Illuminate\Contracts\Config\Repository $config
          */
-        public function __construct(City $city) 
-        {            
-            $this->city         = $city;            
-        }     
+        public function __construct(Cache $cache, Config $config, City $city)
+        {
+            parent::__construct($cache, $config);
+            
+            $this->mainModel    = $city;
+        }
  
         
         public function create(array $current)
@@ -73,49 +82,25 @@ class CityRepository
         public function findBySlug($citySlug)
         {            
             return $this->onModel()->findBySlug($citySlug);                      
-        }
-        
+        }        
+
         /**
-         * To get all of city 
+         * To get main model which is injected
          * 
-         * @return \Illuminate\Database\Eloquent\Collection|static[]
+         * @return \Illuminate\Database\Eloquent\Model
          */
-        public function all() 
-        {
-            return is_null($this->queryBuilder) ? $this->onModel()->all() : $this->queryBuilder->get();                   
-        }
-        
-        /**
-         * To set source database for reading
-         * 
-         * @return \App\Repositories\CityRepository
-         */
-        public function onModel() 
-        {
-            return  $this->getMainModel();
-                    
-        }
-        
-        /**
-         * To apply enable scope on current query
-         * 
-         * @return \App\Repositories\CityRepository
-         */
-        public function enable() 
-        {
-            $this->queryBuilder = $this->onModel()->enable();            
+        public function onModel() {
             
-            return $this;
+            $this->mainModel;
         }
         
-        
         /**
-         * To get Weather City model
+         * To get all models from cache drive
          * 
-         * @return \App\City
+         * return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        public function getMainModel()                 
+        public function onCache()
         {
-            return $this->city;            
+            
         }
 }
