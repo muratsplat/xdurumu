@@ -59,7 +59,7 @@ class CityRepositoryTest extends \TestCase
         {            
             return m::mock('Illuminate\Contracts\Config\Repository');    
         }
-  
+       
         public function testSimple()
         { 
             $city       = $this->getCityMock();
@@ -73,15 +73,21 @@ class CityRepositoryTest extends \TestCase
             $one = new Repository($cache, $config, $city);          
         }     
         
-        public function atestFind()
+        public function testFind()
         {           
             $city       = $this->getCityMock();
             
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $cache      = $this->getMockedCache();
+            
             $one        = factory(App\City::class)->make();
             
-            $city->shouldReceive('find')->andReturn($one);
+            $city->shouldReceive('find')->andReturn($one);           
             
-            $repo = new Repository($city);          
+            $repo = new Repository($cache, $config, $city);          
             
             $founded   = $repo->find(1);
             
@@ -89,13 +95,19 @@ class CityRepositoryTest extends \TestCase
         }
         
         
-        public function atestFindNoExistCity()
+        public function testFindNoExistCity()
         {
             $city       = $this->getCityMock();
             
             $city->shouldReceive('find')->andReturnNull();
             
-            $repo = new Repository($city);          
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $cache      = $this->getMockedCache();
+            
+            $repo = new Repository($cache, $config, $city);          
             
             $founded   = $repo->find(1);
             
@@ -103,7 +115,7 @@ class CityRepositoryTest extends \TestCase
           
         }
         
-        public function atestFindByCitySlug()
+        public function testFindByCitySlug()
         {            
             $city       = $this->getCityMock();
             
@@ -111,7 +123,13 @@ class CityRepositoryTest extends \TestCase
             
             $city->shouldReceive('findBySlug')->andReturn($one);
             
-            $repo      = new Repository($city);          
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $cache      = $this->getMockedCache();
+            
+            $repo      = new Repository($cache, $config, $city);          
             
             $founded   = $repo->findBySlug($one->slug);
             
@@ -119,15 +137,21 @@ class CityRepositoryTest extends \TestCase
            
         }        
 
-        public function atestSimpleAll() 
+        public function testSimpleAll() 
         {
             $city       = $this->getCityMock();
             
             $one        = factory(App\City::class,10)->make();    
             
             $city->shouldReceive('all')->andReturn($one);
+            
+            $config     = $this->getMockedConfig();
+            
+            $config->shouldReceive('get')->andReturn(30);
+            
+            $cache      = $this->getMockedCache();
                  
-            $repo       = new Repository($city);        
+            $repo       = new Repository($cache, $config, $city);        
             
             $all        = $repo->all($one->all());
             

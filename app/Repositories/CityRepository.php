@@ -87,11 +87,11 @@ class CityRepository extends CacheAble
         /**
          * To get main model which is injected
          * 
-         * @return \Illuminate\Database\Eloquent\Model
+         * @return \App\City 
          */
         public function onModel() {
             
-            $this->mainModel;
+            return $this->mainModel;
         }
         
         /**
