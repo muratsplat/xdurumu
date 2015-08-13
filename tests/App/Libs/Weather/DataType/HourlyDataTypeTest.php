@@ -158,11 +158,12 @@ class HourlyDataTypeTest extends \TestCase
                     'weather_rain'                  => null,
                     'weather_snow'                  => null,
                     'weather_clouds'                => null,
-                    'source_updated_at'             => 'foo',                    
+                    'source_updated_at'             => 'foo',   
+                    //'dt'                            => rand(121,2323),
                 ];            
             
-            $current = new WeatherList($data);
-      
+            $current = new WeatherList($data);            
+           
             $this->assertFalse($current->isFilledRequiredElements());          
         }       
 }

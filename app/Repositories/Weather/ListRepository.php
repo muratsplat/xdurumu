@@ -7,6 +7,7 @@ use App\WeatherHourlyStat as Hourly;
 //use App\Libs\Weather\DataType\WeatherDataAble;
 use App\WeatherList;
 use App\Repositories\CacheAbleRepository as CacheAble;
+use App\Libs\Weather\DataType\WeatherList as WeatherListData;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 
@@ -51,14 +52,85 @@ class ListRepository extends CacheAble
         /**
          * To create many list by given hourly model via the relationships
          * 
-         * @param \App\WeatherHourlyStat $hourly
-         * @param array $list
-         * @return array    created instances
+         * @param   \App\WeatherHourlyStat                    $hourly
+         * @param   \App\Libs\Weather\DataType\WeatherList    $data
+         * @return  \App\WeatherList    created instances
          */
-        public function createManyListByHourlyStat(Hourly $hourly , array $list)
+        public function createListByHourlyStat(Hourly $hourly , WeatherListData $data)
         {            
-            return $hourly->weatherLists()->createMany($list);                        
+            $list = $this->createListByWeatherHourlyStat($hourly);
+            
+            
+            
+           
         }
+        
+        
+        /**
+         * To create new WeatherList model belongs to given WeatherHourlyStat Model
+         * 
+         * @param \App\WeatherHourlyStat  $hourly
+         * @return \App\WeatherList
+         */
+        private function createListByWeatherHourlyStat(Hourly $hourly)
+        {
+            return $hourly->weatherLists()->create(array());          
+        }
+        
+        
+//    ["weather_condition"]=>
+//    array(6) {
+//    ["open_weather_map_id"]=>
+//    int(212)
+//    ["name"]=>
+//    NULL
+//    ["description"]=>
+//    NULL
+//    ["orgin_name"]=>
+//    string(9) "yağmurlu"
+//    ["orgin_description"]=>
+//    string(11) "hava açık"
+//    ["icon"]=>
+//    NULL
+//    }
+//    ["weather_main"]=>
+//    array(11) {
+//    ["temp"]=>
+//    int(122)
+//    ["temp_min"]=>
+//    float(2323.1)
+//    ["temp_max"]=>
+//    int(1212)
+//    ["temp_eve"]=>
+//    NULL
+//    ["temp_night"]=>
+//    NULL
+//    ["temp_morn"]=>
+//    NULL
+//    ["pressure"]=>
+//    NULL
+//    ["humidity"]=>
+//    NULL
+//    ["sea_level"]=>
+//    NULL
+//    ["grnd_level"]=>
+//    NULL
+//    ["temp_kf"]=>
+//    NULL
+//    }
+//    ["weather_wind"]=>
+//    NULL
+//    ["weather_rain"]=>
+//    NULL
+//    ["weather_snow"]=>
+//    NULL
+//    ["weather_clouds"]=>
+//    NULL
+//    ["source_updated_at"]=>
+//    string(3) "foo"
+//    ["dt"]=>
+//    int(2308)
+
         
         /**
          * To get all models from cache drive

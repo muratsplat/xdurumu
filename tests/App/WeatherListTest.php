@@ -24,10 +24,15 @@ class WeatherListTest extends TestCase
 
         public function testRelationSimple()
         {
-            $one = $this->createNewWeatherList();
+            $one = $this->createNewWeatherList();                    
             
-            //$this->assertInstanceOf('App\WeatherCurrent', $one->current()->getRelated());
-            //$this->assertInstanceOf('App\WeatherHourlyStat', $one->hourlyStat()->getRelated());            
+            $this->assertInstanceOf('App\WeatherCondition', $one->conditions()->getRelated());  
+            $this->assertInstanceOf('App\WeatherMain', $one->main()->getRelated());  
+            $this->assertInstanceOf('App\WeatherWind', $one->wind()->getRelated());  
+            $this->assertInstanceOf('App\WeatherRain', $one->rain()->getRelated());    
+            $this->assertInstanceOf('App\WeatherCloud', $one->clouds()->getRelated());    
+            $this->assertInstanceOf('App\WeatherSnow', $one->snow()->getRelated());  
+            
         } 
         
         public function testcreateSimpleCRUD()
