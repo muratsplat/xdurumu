@@ -63,7 +63,7 @@ class OpenWeatherMapHourlyTest extends \TestCase
             $this->assertEquals($array['city']['id'], $data['city']['id']);            
             $this->assertEquals($array['list'][0]['dt'], $data['list'][0]['dt']);
             $this->assertEquals($array['list'][0]['main']['temp'], $data['list'][0]['weather_main']['temp']);
-            $this->assertEquals($array['list'][0]['weather'][0]['main'], $data['list'][0]['weather_condition'][0]['name']);      
+            $this->assertEquals($array['list'][0]['weather'][0]['main'], $data['list'][0]['weather_conditions'][0]['name']);      
        
         } 
         

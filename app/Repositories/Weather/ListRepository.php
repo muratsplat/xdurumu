@@ -49,36 +49,8 @@ class ListRepository extends CacheAble
             return $this->mainModel;            
         }        
         
-        /**
-         * To create many list by given hourly model via the relationships
-         * 
-         * @param   \App\WeatherHourlyStat                    $hourly
-         * @param   \App\Libs\Weather\DataType\WeatherList    $data
-         * @return  \App\WeatherList    created instances
-         */
-        public function createListByHourlyStat(Hourly $hourly , WeatherListData $data)
-        {            
-            $list = $this->createListByWeatherHourlyStat($hourly);
-            
-            
-            
-           
-        }
         
-        
-        /**
-         * To create new WeatherList model belongs to given WeatherHourlyStat Model
-         * 
-         * @param \App\WeatherHourlyStat  $hourly
-         * @return \App\WeatherList
-         */
-        private function createListByWeatherHourlyStat(Hourly $hourly)
-        {
-            return $hourly->weatherLists()->create(array());          
-        }
-        
-        
-//    ["weather_condition"]=>
+        //    ["weather_condition"]=>
 //    array(6) {
 //    ["open_weather_map_id"]=>
 //    int(212)
@@ -130,6 +102,41 @@ class ListRepository extends CacheAble
 //    string(3) "foo"
 //    ["dt"]=>
 //    int(2308)
+        
+        
+        /**
+         * To create many list by given hourly model via the relationships
+         * 
+         * @param   \App\WeatherHourlyStat                    $hourly
+         * @param   \App\Libs\Weather\DataType\WeatherList    $data
+         * @return  \App\WeatherList    created instances
+         */
+        public function createListByHourlyStat(Hourly $hourly , WeatherListData $data)
+        {            
+            $list = $this->createListByWeatherHourlyStat($hourly);
+            
+            $list->rain()->create($data['']);
+            
+            
+            
+            
+           
+        }
+        
+        
+        /**
+         * To create new WeatherList model belongs to given WeatherHourlyStat Model
+         * 
+         * @param \App\WeatherHourlyStat  $hourly
+         * @return \App\WeatherList
+         */
+        private function createListByWeatherHourlyStat(Hourly $hourly)
+        {
+            return $hourly->weatherLists()->create(array());          
+        }
+        
+        
+
 
         
         /**

@@ -136,7 +136,7 @@ class Hourly extends JsonConverter
             
             return new WeatherList([
                 
-                'weather_condition'     => $this->createCondition($conditions),
+                'weather_conditions'     => $this->createConditions($conditions),
                 'weather_main'          => $this->createMain($main),   
                 'weather_wind'          => $this->createWind($wind),
                 'weather_rain'          => $this->createRain($rain),
@@ -155,7 +155,7 @@ class Hourly extends JsonConverter
          * @param array  $list
          * @return array
          */
-        protected function createCondition(array $list)
+        protected function createConditions(array $list)
         {
             $array = [];
             

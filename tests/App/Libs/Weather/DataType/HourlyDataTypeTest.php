@@ -114,7 +114,7 @@ class HourlyDataTypeTest extends \TestCase
             $main       = new WeatherMain($mainData);
             
             $data = [      
-                    'weather_condition'             => $condition,
+                    'weather_conditions'             => $condition,
                     'weather_main'                  => $main,   
                     'weather_wind'                  => null,
                     'weather_rain'                  => null,
@@ -152,7 +152,7 @@ class HourlyDataTypeTest extends \TestCase
             $main       = new WeatherMain($mainData);
             
             $data = [      
-                    'weather_condition'             => $condition,
+                    'weather_conditions'            => $condition,
                     'weather_main'                  => $main,   
                     'weather_wind'                  => null,
                     'weather_rain'                  => null,
