@@ -7,22 +7,22 @@ use App\City;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble;
-use App\Contracts\Weather\Repository\ICurrentRepository;
+use App\Contracts\Weather\Repository\IHourlyRepository;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 use ErrorException;
 
 /**
- * Current Repository Class
+ * Weather Hourly Stats Repository Class
  * 
  * @package WeatherForcast
  */
-class HourlyStatRepository extends BaseRepository implements ICurrentRepository
+class HourlyStatRepository extends BaseRepository implements IHourlyRepository
 {    
     /**
-     * @var \App\WeatherCurrent 
+     * @var \App\WeatherHourlyStat 
      */
-    private $current;
+    private $mainModel;
 
         /**
          * Constructer
@@ -32,7 +32,7 @@ class HourlyStatRepository extends BaseRepository implements ICurrentRepository
          * @param \App\City                     $city
          * @param \App\WeatherCondition         $condition
          * @param \App\WeatherForeCastResource  $resource
-         * @param \App\WeatherCurrent           $current
+         * @param \App\WeatherHourlyStat        $hourly
          */
         public function __construct(
                 Cache       $cache, 
@@ -40,11 +40,11 @@ class HourlyStatRepository extends BaseRepository implements ICurrentRepository
                 City        $city, 
                 Condition   $condition, 
                 Resource    $resource, 
-                Current     $current) {
+                Hourly      $hourly) {
             
             parent::__construct($cache, $config, $city, $condition, $resource);
             
-            $this->current      = $current;                
+            $this->mainModel    = $hourly;                
         }     
         
         /**
@@ -52,10 +52,10 @@ class HourlyStatRepository extends BaseRepository implements ICurrentRepository
          * via ralationships
          * 
          * 
-         * @param \App\WeatherCurrent $current
-         * @return array    includes \App\WeatherCurrent 
+         * @param \App\WeatherHourlyStat $current
+         * @return array    includes \App\WeatherHourlyStat 
          */
-        private function addResourceAndCondition(Current $current)
+        private function addResourceAndCondition(Hourly $current)
         {                
             list($resource, $condition) = $this->getForcastResourceAndCondition(); 
             
@@ -69,15 +69,15 @@ class HourlyStatRepository extends BaseRepository implements ICurrentRepository
         /**
          * To create Instance WeatherMain
          * 
-         * @param   \App\WeatherCurrent $current
+         * @param   \App\WeatherHourlyStat $hourly
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $main
          * @return  \App\WeatherMain
          */
-        protected function createWeatherMain(Current $current, WeatherDataAble $main)
+        protected function createWeatherMain(Hourly $hourly, WeatherDataAble $main)
         {           
             $attributes = $main->toArray();        
             
-            $first = $current->main()->firstOrCreate(array());
+            $first = $hourly->main()->firstOrCreate(array());
             
             $first->update($attributes);
             
