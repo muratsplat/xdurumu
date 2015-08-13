@@ -28,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
        $this->bindToForeCastResourceRepository();
        
        $this->bindToWeatherCurrentRepository();
+       $this->bindToWeatherHourlyRepository();
+       
         
        $this->registerWeatherForeCastServices();               
     }
@@ -49,6 +51,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
                 'App\Contracts\Weather\Repository\ICurrentRepository',
                 'App\Repositories\Weather\CurrentRepository'
+                );       
+    }
+    
+    /**
+     * To bind
+     */
+    private function bindToWeatherHourlyRepository()
+    {        
+        $this->app->bind(
+                'App\Contracts\Weather\Repository\IHourlyRepository',
+                'App\Repositories\Weather\HourlyStatRepository'
                 );       
     }
         

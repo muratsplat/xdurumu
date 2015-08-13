@@ -35,8 +35,7 @@ class WeatherListRepository extends CacheAble
         {
             parent::__construct($cache, $config);
             
-            $this->mainModel    = $list;
-            
+            $this->mainModel    = $list;            
         }    
     
         /**
