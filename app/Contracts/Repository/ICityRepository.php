@@ -15,18 +15,18 @@ interface ICityRepository extends ICacheAbleRepository
 {   
     
         /**
-         * To find model by primary key or create new instance model
+         * To get first model  or create new instance model
          * 
          * @param \App\City     $city
          * @return \App\WeatherHourlyStat
          */
-        public function findOrNewWeatherHouryStatByCity(City $city);
+        public function findOrCreateWeatherHouryStat(City $city);
         
         /**
-         * To find model by primary key or create new instance model
+         * To get first model or create new instance model
          * 
          * @param \App\City     $city
          * @return \App\WeatherCurrent  
          */
-        public function findOrNewWeatherCurrent(City $city);
+        public function firstOrCreateWeatherCurrent(City $city);
 }

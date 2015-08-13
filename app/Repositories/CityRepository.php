@@ -54,25 +54,25 @@ class CityRepository extends CacheAble implements ICityRepository
         }
         
         /**
-         * To find model by primary key or create new instance model
+         * To get first model  or create new instance model
          * 
          * @param \App\City     $city
          * @return \App\WeatherHourlyStat
          */
-        public function findOrNewWeatherHouryStatByCity(City $city)
+        public function findOrCreateWeatherHouryStat(City $city)
         {
-            return $this->mainModel->weatherHourlyStat()->findOrNew($city->id);         
+            return $city->weatherHourlyStat()->firstOrCreate(array());         
         }       
         
         /**
-         * To find model by primary key or create new instance model
+         * To get first model or create new instance model
          * 
          * @param \App\City     $city
          * @return \App\WeatherCurrent  
          */
-        public function findOrNewWeatherCurrent(City $city)
-        {
-            return $this->mainModel->weatherCurrent()->findOrNew($city->id);            
+        public function firstOrCreateWeatherCurrent(City $city)
+        {          
+            return $city->weatherCurrent()->firstOrCreate(array());
         }
         
         public function findOrCreateWeatherDailyStat()

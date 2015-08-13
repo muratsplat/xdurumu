@@ -63,7 +63,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
             $conditions = $this->getConditions();
             
             $ids        = array_map(function($one){ return $one->id; }, $conditions);
-            
+
             return [ 
                 
                 $current->foreCastResource()->associate($resource),
@@ -255,12 +255,12 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          */
         public function startImport()
         {            
-            $new        = $this->firstOrCreateWeatherCurrent(array());
+            $new        = $this->firstOrCreateWeatherCurrent();
             
             $results    = $this->importAllRelationships($new);         
             
             $new->source_updated_at = $this->getAttributeOnInportedObject('source_updated_at');
-                        
+                                  
             if ($new->save()) { return $new; }
             
             throw new ErrorException('Weather Current model can not be created !');   
@@ -269,12 +269,13 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
         /**
          * To get first one or if it is not exsits, create one
          * 
-         * @param array $attributes
          * @return \App\WeatherCurrent
          */
-        private function firstOrCreateWeatherCurrent(array $attributes)
+        private function firstOrCreateWeatherCurrent()
         {          
-            return $this->getSelectedCity()->weatherCurrent()->firstOrCreate($attributes);            
+            $city =  $this->getSelectedCity();            
+            
+            return $this->city->firstOrCreateWeatherCurrent($city);          
         }
         
         /**

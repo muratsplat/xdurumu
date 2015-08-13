@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Weather;
 
-//use App\WeatherHourlyStat as Hourly;
+use App\WeatherHourlyStat as Hourly;
 //use App\WeatherCondition as Condition; 
 //use App\Libs\Weather\DataType\WeatherDataAble;
 use App\WeatherList;
@@ -17,7 +17,7 @@ use Illuminate\Contracts\Config\Repository as Config;
  * 
  * @package WeatherForcast
  */
-class WeatherListRepository extends CacheAble
+class ListRepository extends CacheAble
 {    
     /**
      * @var \App\WeatherList
@@ -46,6 +46,18 @@ class WeatherListRepository extends CacheAble
         public function onModel()
         {
             return $this->mainModel;            
+        }        
+        
+        /**
+         * To create many list by given hourly model via the relationships
+         * 
+         * @param \App\WeatherHourlyStat $hourly
+         * @param array $list
+         * @return array    created instances
+         */
+        public function createManyListByHourlyStat(Hourly $hourly , array $list)
+        {            
+            return $hourly->weatherLists()->createMany($list);                        
         }
         
         /**

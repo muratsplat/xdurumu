@@ -55,9 +55,22 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
          * @throws \ErrorException
          */
         public function startImport()
-        {     
-            
+        {  
+             
            
+        }
+        
+        
+        /**
+         * To get WeatherHourlyStat model by selected city
+         * 
+         * @return \App\WeatherHourlyStat
+         */
+        protected function getHourlyStat()
+        {
+            $city = $this->getSelectedCity();
+            
+            return $this->city->findOrCreateWeatherHouryStat($city);
         }
         
         /**

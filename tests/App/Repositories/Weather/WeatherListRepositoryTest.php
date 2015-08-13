@@ -5,7 +5,7 @@
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
-use App\Repositories\Weather\WeatherListRepository as Repository;
+use App\Repositories\Weather\ListRepository as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use Mockery as m;
 
@@ -52,7 +52,16 @@ class WeatherListRepositoryTest extends \TestCase
         {
             return m::mock('Illuminate\Contracts\Config\Repository');            
         }
-     
+        
+        /**
+         * Mocked List Repository
+         *  
+         * @return \Mockery\MockInterface
+         */
+        private function getMockedListRepository()
+        {
+            return m::mock('App\Contracts\Weather\Repository\IListRepository');            
+        }   
         
        /**
          * Mocked Current Model
