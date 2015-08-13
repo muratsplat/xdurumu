@@ -69,6 +69,19 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
                 $current->conditions()->sync($ids, false),
             ];
         }
+
+        
+        /**
+         * To add weather main, wind, rain, snow and clouds models 
+         * to given Weather Current model  via ralationships
+         * 
+         * @param \App\WeatherCurrent $current
+         * @return array    created models
+         */
+        public function addOtherAllRelationships(Current $current)
+        {           
+            return $this->callMethodsByPrefix('create', $current);      
+        }    
         
         /**
          * To create Instance WeatherMain

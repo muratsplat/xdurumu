@@ -45,29 +45,37 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
             parent::__construct($cache, $config, $city, $condition, $resource);
             
             $this->mainModel    = $hourly;                
-        }     
+        }             
+
         
         /**
          * To add Weather ForeCast Model and Weather Condition model to given Weather Current model
          * via ralationships
          * 
          * 
-         * @param \App\WeatherHourlyStat $current
-         * @return array    includes \App\WeatherHourlyStat 
+         * @param \App\WeatherHourlyStat $hourly
+         * @return array    includes \App\WeatherCurrent 
          */
-        private function addResourceAndCondition(Hourly $current)
+        private function addResource(Hourly $hourly)
         {                
-            list($resource, $condition) = $this->getForcastResourceAndCondition(); 
-            
-            return [ 
-                
-                $current->foreCastResource()->associate($resource),
-                $current->conditions()->attach($condition->id),
-            ];
-        }
+            $resource   = $this->getForcastResource();
+          
+            return $hourly->foreCastResource()->associate($resource);
+        }    
         
+                /**
+         * To get weather forecast resource model and weather condition model
+         * 
+         * @return   \App\Libs\Weather\DataType\WeatherForecastResource
+         */
+        public function getForcastResource()
+        {
+            $resource   = $this->getAttributeOnInportedObject('weather_forecast_resource');            
+          
+            return $this->findOrNewResource($resource);
+        }         
+
      
-        
         
         public function update(array $current)
         {

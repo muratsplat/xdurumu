@@ -76,38 +76,9 @@ abstract class BaseRepository extends CacheAble
             $this->condition    = $condition;
             
             $this->resource     = $resource;
-        } 
+        }   
         
-        /**
-         * To add weather main, wind, rain, snow and clouds models 
-         * to given Weather Current model  via ralationships
-         * 
-         * @param \App\WeatherCurrent $current
-         * @return array    created models
-         */
-        public function addOtherAllRelationships(Current $current)
-        {           
-            return $this->callMethodsByPrefix('create', $current);      
-        }  
-     
-        /**
-         * To find condition if it is not exists, create one 
-         * and return it. 
-         *
-         * @param   array $conditions
-         * @return  \App\WeatherCondition
-         */
-        public final function findOrNewConditions(array $conditions)
-        {            
-            return array_map(function($one) {
-                
-                return $this->findOrCreateCondition($one);                
-                
-            }, $conditions);          
-        }  
-        
-        
-        /**
+         /**
          * To find weather condition by WeatherCondition Object
          * 
          * @param  \App\Libs\Weather\DataType\WeatherCondition $condition
@@ -120,7 +91,7 @@ abstract class BaseRepository extends CacheAble
             if (! is_null($model)) { return $model; }
             
             return $this->getCondition()->create($condition->toArray());
-        }
+        }        
         
         /**
          * To find weather conditions by given id 
@@ -149,8 +120,23 @@ abstract class BaseRepository extends CacheAble
             if (! is_null($model)) { return $model; }
             
             return $this->getWeatherForecastResource()->create($resource->toArray());   
-        }   
+        }
         
+        /**
+         * To find condition if it is not exists, create one 
+         * and return it. 
+         *
+         * @param   array $conditions
+         * @return  \App\WeatherCondition
+         */
+        public final function findOrNewConditions(array $conditions)
+        {            
+            return array_map(function($one) {
+                
+                return $this->findOrCreateCondition($one);                
+                
+            }, $conditions);          
+        }
         
         public function update(array $current)
         {
