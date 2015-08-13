@@ -21,20 +21,9 @@ class CityRepository extends CacheAble
      * @var \App\City 
      */
     private $mainModel;
-    
-    /**
-     * @var \Illuminate\Database\Query\Builder
-     */
-    private $queryBuilder;
-    
-    /**
-     * @var \Illuminate\Database\Eloquent\Collection
-     */
-    private $all;
-    
-    
 
         /**
+         * Create new Instance
          * 
          * @param \Illuminate\Contracts\Cache\Repository $cache
          * @param \Illuminate\Contracts\Config\Repository $config
@@ -59,6 +48,33 @@ class CityRepository extends CacheAble
         }
         
         public function delete($cityID)
+        {
+            
+        }
+        
+        /**
+         * To find model by primary key or create new instance model
+         * 
+         * @param \App\City     $city
+         * @return \App\WeatherHourlyStat
+         */
+        public function findOrNewWeatherHouryStatByCity(City $city)
+        {
+            return $this->mainModel->weatherHourlyStat()->findOrNew($city->id);         
+        }       
+        
+        /**
+         * To find model by primary key or create new instance model
+         * 
+         * @param \App\City     $city
+         * @return \App\WeatherCurrent  
+         */
+        public function findOrNewWeatherCurrent(City $city)
+        {
+            return $this->mainModel->weatherCurrent()->findOrNew($city->id);            
+        }
+        
+        public function findOrCreateWeatherDailyStat()
         {
             
         }
@@ -89,8 +105,8 @@ class CityRepository extends CacheAble
          * 
          * @return \App\City 
          */
-        public function onModel() {
-            
+        public function onModel() 
+        {            
             return $this->mainModel;
         }
         
@@ -101,6 +117,11 @@ class CityRepository extends CacheAble
          */
         public function onCache()
         {
+            list($key, $time) =  $this->getCachingParameters();
             
+            return $this->getCache()->remember($key, $time, function(){
+                
+                return $this->onModel()->enable()->get();            
+            });            
         }
 }

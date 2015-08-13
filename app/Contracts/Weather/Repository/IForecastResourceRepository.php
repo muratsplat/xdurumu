@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Weather\Repository;
 
-use App\Contracts\ICacheAbleRepository as Cacheable;
+use App\Contracts\Repository\ICacheAbleRepository as Cacheable;
 
 /**
  * Weather ForeCast Resource Repository Interface
