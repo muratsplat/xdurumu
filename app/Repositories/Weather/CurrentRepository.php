@@ -252,7 +252,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
          * @return \App\WeatherCurrent
          * @throws \ErrorException
          */
-        protected function startImport()
+        public function startImport()
         {            
             $new        = $this->firstOrCreateWeatherCurrent(array());
             

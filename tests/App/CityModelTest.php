@@ -90,6 +90,7 @@ class CityModelTest extends TestCase
             $one = $this->createNewCity();
             
             $this->assertInstanceOf('App\WeatherCurrent', $one->weatherCurrent()->getRelated());
+            $this->assertInstanceOf('App\WeatherHourlyStat', $one->weatherHourlyStat()->getRelated());
             $this->assertInstanceOf('App\WeatherMain', $one->weatherCurrent()->getRelated()->main()->getRelated());  
         }
         

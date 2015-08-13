@@ -66,6 +66,16 @@ class City extends Model implements SluggableInterface
         {
             return  $this->hasOne('App\WeatherCurrent', 'city_id', 'id');        
         }
+        
+        /**
+         * Defining one to one relationship
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasOne
+         */
+        public function weatherHourlyStat()
+        {
+            return  $this->hasOne('App\WeatherHourlyStat', 'city_id', 'id');        
+        }
     
         /**
         * Scope a query to only enebled.

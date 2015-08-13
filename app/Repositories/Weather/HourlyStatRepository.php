@@ -45,7 +45,30 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
             parent::__construct($cache, $config, $city, $condition, $resource);
             
             $this->mainModel    = $hourly;                
-        }             
+        }         
+        
+        
+        /**
+         * To start all import proccess
+         * 
+         * @return \App\WeatherCurrent
+         * @throws \ErrorException
+         */
+        public function startImport()
+        {     
+            
+           
+        }
+        
+        /**
+         * To get weather list data for cartain WeatherHourly Data
+         * 
+         * @return array|null
+         */
+        protected function getListsFromAccessor()
+        {
+            return $this->getAttributeOnInportedObject('list');            
+        }
 
         
         /**

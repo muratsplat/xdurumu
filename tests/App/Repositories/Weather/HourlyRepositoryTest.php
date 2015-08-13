@@ -157,8 +157,7 @@ class HourlyRepositoryTest extends \TestCase
             
             $accessor = $this->getAccessorWithSampleData();
             
-            $one->selectCity($city)->import($accessor);
-          
+            $one->selectCity($city)->import($accessor);          
         }  
         
         public function tearDown()

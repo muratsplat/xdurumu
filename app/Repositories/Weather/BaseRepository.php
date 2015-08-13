@@ -267,7 +267,7 @@ abstract class BaseRepository extends CacheAble
          * @return App\WeatherCurrent
          * @throws \ErrorException
          */
-        protected function startImport(){}
+        abstract function startImport();
      
      
         
