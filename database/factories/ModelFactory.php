@@ -253,4 +253,29 @@ $factory->define(App\WeatherHourlyStat::class, function (Faker\Generator $faker)
         'updated_at'                    => $updated_at,       
     ];
 });
+
+//    $t->increments('id');              
+//    $t->bigInteger('listable_id')->unsigned();
+//    $t->string('listable_type');
+//    $t->boolean('enable')->default(true);
+//    $t->timestamp('source_updated_at');           
+//    $t->integer('dt');            
+//    $t->timestamps();  
+$factory->define(App\WeatherList::class, function (Faker\Generator $faker) {
+    
+    $now            = \Carbon\Carbon::now();    
+    $sourcUpdatedAt = \Carbon\Carbon::createFromTimestampUTC((rand(1437814800, 1437914800)));
+    $created_at     = $now->format('Y-m-d H:m:s');
+    $updated_at =    $now->addHour(1)->format('Y-m-d H:m:s');
+    
+    return [
+        'listable_id'                   => rand(1,10),    
+        'listable_type'                 => str_random(),       
+        'enable'                        => (boolean) rand(0, 1),
+        'source_updated_at'             => $sourcUpdatedAt->format('Y-m-d H:m:s'),
+        'dt'                            => $sourcUpdatedAt->getTimestamp(),
+        'created_at'                    => $created_at,
+        'updated_at'                    => $updated_at,       
+    ];
+});
         

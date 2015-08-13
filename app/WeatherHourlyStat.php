@@ -31,6 +31,18 @@ class WeatherHourlyStat extends CacheAbleEloquent
         {
             return $this->belongsTo('App\City', 'city_id', 'id');
         }
+        
+        
+        /**
+         * To get all of WeatherHourlyStat's list via 
+         * polymorphic one-to-many relationship.
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+         */
+        public function weatherLists()
+        {
+            return $this->morphMany('App\WeatherList', 'listable', 'listable_type', 'listable_id');
+        }
 
         /**
          * To define an many to many polymorphic relation
