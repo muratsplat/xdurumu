@@ -5,9 +5,9 @@ namespace App\Repositories\Weather;
 //use App\WeatherHourlyStat as Hourly;
 //use App\WeatherCondition as Condition; 
 //use App\Libs\Weather\DataType\WeatherDataAble;
-//use App\Repositories\CacheAbleRepository as CacheAble;
-//use Illuminate\Contracts\Cache\Repository as Cache;
-//use Illuminate\Contracts\Config\Repository as Config;
+use App\Repositories\CacheAbleRepository as CacheAble;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Contracts\Config\Repository as Config;
 //use ErrorException;
 
 /**
@@ -20,10 +20,20 @@ class WeatherListRepository extends CacheAble
     /**
      * @var \App\WeatherList
      */
-    private $mainModel;
+    private $mainModel;    
     
+        /**
+         * Create new Instance
+         * 
+         * @param \Illuminate\Contracts\Cache\Repository $cache
+         * @param \Illuminate\Contracts\Config\Repository $config
+         */
+        public function __construct(Cache $cache, Config $config)
+        {
+            parent::__construct($cache, $config);
+        }    
     
-            /**
+        /**
          * To get main model which is injected
          * 
          * @return \Illuminate\Database\Eloquent\Model
