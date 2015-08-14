@@ -23,9 +23,8 @@ class CreateWeatherListTable extends Migration
             $t->bigInteger('listable_id')->unsigned();
             $t->string('listable_type');
             $t->boolean('enable')->default(true);
-            $t->timestamp('source_updated_at');           
-            $t->integer('dt');            
-            $t->timestamps();                      
+            $t->timestamp('source_updated_at')->nullable();           
+            $t->integer('dt')->nullable();                       
         });         
     }
 

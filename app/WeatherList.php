@@ -19,6 +19,13 @@ class WeatherList extends CacheAble
      * @var string
      */
     protected $table = 'weather_lists';   
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+     public $timestamps = false;
                   
     /**
      * The attributes that are mass assignable.

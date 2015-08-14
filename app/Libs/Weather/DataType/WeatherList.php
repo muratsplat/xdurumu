@@ -61,7 +61,7 @@ class WeatherList extends Base
         /**
          * To get WeatherCondition Data Object
          * 
-         * @return \App\Libs\Weather\DataType\WeatherCondition
+         * @return array
          */
         public function getWeatherConditions()
         {

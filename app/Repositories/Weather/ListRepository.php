@@ -13,6 +13,7 @@ use App\Libs\Weather\DataType\WeatherList as WeatherListData;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 
+
 //use ErrorException;
 
 /**
@@ -117,13 +118,13 @@ class ListRepository extends CacheAble
         {            
             $list   = $this->createListByWeatherHourlyStat($hourly);     
             
-            $records= [];
+            $records= [];  
             
-            $data->getList()->each(function(App\Libs\Weather\DataType\WeatherList $item) use($list, $records) {                
+            $data->getList()->each(function( $item) use($list, $records) {                
                 
                 $records[] = $this->createWearherMain($list, $item->getWeatherMain());   
                 
-                $records[] = $this->createWearherCondition($list, $item->getWatherConditions);
+                $records[] = $this->createWearherCondition($list, $item->getWeatherConditions());
                 
             });
             
@@ -151,16 +152,16 @@ class ListRepository extends CacheAble
          * To create WeatherCondition Model via given WeatherList model
          * 
          * @param \App\WeatherList $list
-         * @param \App\Libs\Weather\DataType\WeatherCondition
+         * @param array  includes \App\Libs\Weather\DataType\WeatherCondition Object
          * @return \App\WeatherCondition
          */
-        private function createWearherCondition(WeatherList $list, \App\Libs\Weather\DataType\WeatherCondition $data)
-        {            
-            $attributes = $data->isFilledRequiredElements() ? $data->toArray() : null;           
+        private function createWearherCondition(WeatherList $list, array $data)
+        {               
+            if ( empty($data) ) { return; }            
             
-            if ( is_null($attributes) ) { return; }            
+            $records = array_map(function(\Illuminate\Contracts\Support\Arrayable $item){ return $item->toArray();} , $data);            
             
-            return $list->main()->createMany($attributes);                 
+            return $list->main()->createMany($records);                 
         } 
         
         /**
@@ -173,10 +174,6 @@ class ListRepository extends CacheAble
         {
             return $hourly->weatherLists()->create(array());          
         }
-        
-        
-
-
         
         /**
          * To get all models from cache drive

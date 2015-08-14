@@ -35,7 +35,56 @@ class WeatherListRepositoryTest extends \TestCase
             parent::setUp();        
            
         }
-
+        
+        /**
+         * 
+         * @return \App\Libs\Weather\OpenWeatherMap
+         */
+        private function getHourlyData()
+        {
+            return (new OpenWeatherMap($this->hourly))->hourly();            
+        }        
+        
+        /**
+         * 
+         * 
+         * @return \App\City
+         */
+        private function createCity()
+        {       
+            return factory(\App\City::class)->create();            
+        }
+        
+        /**
+         * 
+         * @return \App\WeatherForeCastResource
+         */
+        private function createWeatherForeCastResource()
+        {
+            return factory(\App\WeatherForeCastResource::class)->create();            
+        }
+        
+        
+        private function createWeatherHourlyStat()
+        {
+            $city       = $this->createCity();
+            
+            $resource   = $this->createWeatherForeCastResource();
+            
+            $hourly     = factory(\App\WeatherHourlyStat::class)->make();                     
+            
+            $hourly->city_id = $city->id;
+            
+            $hourly->weather_forecast_resource_id = $resource->id;
+            
+            if ( $hourly->save()) {
+                
+                return $hourly;
+            }
+            
+            throw new \Exception('WeatherHourlyStat Model is not created!');
+            
+        }
 
         /**
          * To get WeatherList model
@@ -76,26 +125,7 @@ class WeatherListRepositoryTest extends \TestCase
             return m::mock('App\Contracts\Weather\Repository\IListRepository');            
         }   
         
-       /**
-         * Mocked Current Model
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getConditionMock()
-        {
-            return m::mock('App\WeatherCondition');
-        }   
-        
-        /**
-         * To get mocked WeatherList Object
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedWeaherList()
-        {
-            return m::mock('App\WeatherList');            
-        }
-        
+
         public function testSimple()
         {           
             //$condition  = $this->getConditionMock();
@@ -108,14 +138,28 @@ class WeatherListRepositoryTest extends \TestCase
             
             $config     = $this->getConfig();      
             
-            $one = new Repository($cache, $config, $list); 
-            
+            $one = new Repository($cache, $config, $list);             
             
         }   
         
         public function testCreateListByHourlyStat()
-        {           
-          
+        {  
+            
+            $list       = $this->getWeatherListModel();
+            
+            $cache      = $this->getCache();
+            
+            $config     = $this->getConfig();      
+            
+         
+            
+            $one = new Repository($cache, $config, $list);   
+            
+            $hourlyStat = $this->createWeatherHourlyStat();
+            
+            $hourlyData = $this->getHourlyData();            
+            
+            $one->createListByHourlyStat($hourlyStat, $hourlyData->getWeatherData());         
             
         }   
         

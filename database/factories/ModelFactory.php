@@ -265,8 +265,7 @@ $factory->define(App\WeatherList::class, function (Faker\Generator $faker) {
     
     $now            = \Carbon\Carbon::now();    
     $sourcUpdatedAt = \Carbon\Carbon::createFromTimestampUTC((rand(1437814800, 1437914800)));
-    $created_at     = $now->format('Y-m-d H:m:s');
-    $updated_at =    $now->addHour(1)->format('Y-m-d H:m:s');
+
     
     return [
         'listable_id'                   => rand(1,10),    
@@ -274,8 +273,7 @@ $factory->define(App\WeatherList::class, function (Faker\Generator $faker) {
         'enable'                        => (boolean) rand(0, 1),
         'source_updated_at'             => $sourcUpdatedAt->format('Y-m-d H:m:s'),
         'dt'                            => $sourcUpdatedAt->getTimestamp(),
-        'created_at'                    => $created_at,
-        'updated_at'                    => $updated_at,       
+       
     ];
 });
         
