@@ -143,15 +143,12 @@ class WeatherListRepositoryTest extends \TestCase
         }   
         
         public function testCreateListByHourlyStat()
-        {  
-            
+        {              
             $list       = $this->getWeatherListModel();
             
             $cache      = $this->getCache();
             
-            $config     = $this->getConfig();      
-            
-         
+            $config     = $this->getConfig();                  
             
             $one = new Repository($cache, $config, $list);   
             
@@ -159,8 +156,11 @@ class WeatherListRepositoryTest extends \TestCase
             
             $hourlyData = $this->getHourlyData();            
             
-            $one->createListByHourlyStat($hourlyStat, $hourlyData->getWeatherData());         
+            $creates = $one->createListsByHourlyStat($hourlyStat, $hourlyData->getWeatherData());         
             
+            $numberOflistInJson = count($hourlyData->getWeatherData()->getAttribute('list'));           
+            
+            $this->assertCount($numberOflistInJson, $creates);              
         }   
         
         public function tearDown()

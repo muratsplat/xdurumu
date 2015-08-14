@@ -153,15 +153,15 @@ class Hourly extends JsonConverter
          * Example Weather : "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}]
          * 
          * @param array  $list
-         * @return array
+         * @return \Illuminate\Support\Collection
          */
         protected function createConditions(array $list)
         {
-            $array = [];
+            $coll = new Collection();
             
             foreach ($list as $one) {
                 
-                $array[] = new WeatherCondition([
+                $one = new WeatherCondition([
                 
                         'open_weather_map_id'   => $one->id,
                         'name'                  => $one->main,
@@ -169,10 +169,12 @@ class Hourly extends JsonConverter
                         'orgin_name'            => $one->main,
                         'orgin_description'     => $one->description,  
                         'icon'                  => $one->icon,                   
-                    ]);                
+                    ]);
+                
+                $coll->push($one);
             }
             
-            return $array;
+            return $coll;
         }
         
         /**

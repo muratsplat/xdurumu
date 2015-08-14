@@ -43,7 +43,7 @@ class WeatherList extends Base
          * 
          * @return \App\Libs\Weather\DataType\WeatherMain
          */
-        public function getWeatherMain()
+        public function getMain()
         {
             return $this->attributes['weather_main'];            
         }       
@@ -53,7 +53,7 @@ class WeatherList extends Base
          * 
          * @return \App\Libs\Weather\DataType\WeatherRain
          */
-        public function getWeatherRain()
+        public function getRain()
         {
             return $this->attributes['weather_rain'];            
         }  
@@ -61,9 +61,9 @@ class WeatherList extends Base
         /**
          * To get WeatherCondition Data Object
          * 
-         * @return array
+         * @return \Illuminate\Support\Collection
          */
-        public function getWeatherConditions()
+        public function getConditions()
         {
             return $this->attributes['weather_conditions'];            
         }
@@ -73,7 +73,7 @@ class WeatherList extends Base
          * 
          * @return \App\Libs\Weather\DataType\WeatherClouds
          */
-        public function getWeatherClouds()
+        public function getClouds()
         {
             return $this->attributes['weather_clouds'];            
         }  
@@ -83,7 +83,7 @@ class WeatherList extends Base
          * 
          * @return \App\Libs\Weather\DataType\WeatherSnow
          */
-        public function getWeatherSnow()
+        public function getSnow()
         {
             return $this->attributes['weather_snow'];            
         }
@@ -93,8 +93,28 @@ class WeatherList extends Base
          * 
          * @return \App\Libs\Weather\DataType\WeatherWind
          */
-        public function getWeatherWind()
+        public function getWind()
         {
             return $this->attributes['weather_wind'];            
-        }   
+        } 
+        
+        /**
+         * To get Source Update At
+         * 
+         * @return string
+         */
+        public function getSourceUpdatedAt()
+        {
+            return $this->attributes['source_updated_at'];            
+        }           
+        
+        /**
+         * To get Data Time
+         * 
+         * @return string
+         */
+        public function getDt()
+        {
+            return $this->attributes['dt'];            
+        }  
 }
