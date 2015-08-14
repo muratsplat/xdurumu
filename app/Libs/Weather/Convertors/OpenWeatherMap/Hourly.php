@@ -212,7 +212,7 @@ class Hourly extends JsonConverter
          */
         protected function createWind($wind)
         {       
-            if ($wind instanceof stdClass) {
+            if ($wind instanceof \stdClass) {
                 
                 return new WeatherWind([
                     'speed'     => getProperty($wind, 'speed'),
@@ -250,7 +250,7 @@ class Hourly extends JsonConverter
          */
         protected function createSnow($snow)
         {            
-            if ($snow instanceof stdClass) {
+            if ($snow instanceof \stdClass) {
                 
                 return new WeatherSnow([
                     '3h'        => getProperty($snow, '3h'),
@@ -268,7 +268,7 @@ class Hourly extends JsonConverter
          */
         protected function createClouds($clouds)
         {        
-            if ($clouds instanceof stdClass) {
+            if ($clouds instanceof \stdClass) {
                 
                 return new WeatherClouds([
 

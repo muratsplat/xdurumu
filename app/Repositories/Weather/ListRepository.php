@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Repositories\Weather;
+
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
 use App\WeatherHourlyStat                       as HourlyStatModel;
 use App\WeatherList;
 use App\Libs\Weather\DataType\WeatherList       as ListData;
-use App\Repositories\CacheAbleRepository as CacheAble;
-use Illuminate\Contracts\Cache\Repository as Cache;
-use Illuminate\Contracts\Config\Repository as Config;
+use App\Repositories\CacheAbleRepository        as CacheAble;
+use Illuminate\Contracts\Cache\Repository       as Cache;
+use Illuminate\Contracts\Config\Repository      as Config;
 
 
 //use ErrorException;
@@ -227,8 +228,8 @@ class ListRepository extends CacheAble
         {            
             $wind       = $data->getWind();
             
-            $attributes = ! is_null($wind) && $data->isFilledRequiredElements() ? $wind->toArray() : null;           
-            
+            $attributes = ! is_null($wind) && $data->isFilledRequiredElements() ? $wind->toArray() : null;        
+        
             if ( is_null($attributes) ) { return; }            
             
             return $list->wind()->create($attributes);                 

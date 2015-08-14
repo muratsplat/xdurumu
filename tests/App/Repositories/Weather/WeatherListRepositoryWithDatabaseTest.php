@@ -14,7 +14,7 @@ use Mockery as m;
  * 
  * @package WeatherForcast
  */
-class WeatherListRepositoryTest extends \TestCase
+class WeatherListRepositoryWithDatabaseTest extends \TestCase
 {      
     
     use DatabaseMigrations, DatabaseTransactions;
@@ -160,7 +160,34 @@ class WeatherListRepositoryTest extends \TestCase
             
             $numberOflistInJson = count($hourlyData->getWeatherData()->getAttribute('list'));           
             
-            $this->assertCount($numberOflistInJson, $creates);              
+            $this->assertCount($numberOflistInJson, $creates);
+            
+            $this->assertCount($numberOflistInJson, App\WeatherList::all());
+            
+            $this->assertCount($numberOflistInJson, App\WeatherMain::all());
+            
+            $this->assertCount($numberOflistInJson, App\WeatherWind::all());
+            
+            $this->assertCount($numberOflistInJson, App\WeatherCloud::all());
+            
+            $this->assertCount($numberOflistInJson, App\WeatherRain::all());
+            
+            $this->assertCount(0, App\WeatherSnow::all());
+            
+            foreach (App\WeatherList::all() as $one)
+            {
+                $this->assertNotNull($one->dt);
+                
+                $this->assertTrue(is_numeric($one->dt));
+            }
+            
+            foreach (App\WeatherList::all() as $one)
+            {
+                $this->assertNotNull($one->date_time);                
+              
+                $this->assertTrue(is_string($one->date_time));
+            }
+            
         }   
         
         public function tearDown()
