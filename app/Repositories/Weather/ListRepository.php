@@ -115,15 +115,53 @@ class ListRepository extends CacheAble
          */
         public function createListByHourlyStat(Hourly $hourly , WeatherHourlyData $data)
         {            
-            $list = $this->createListByWeatherHourlyStat($hourly);     
+            $list   = $this->createListByWeatherHourlyStat($hourly);     
             
-            $data->getList()->each(function(WeatherListData $item) use($list) {
+            $records= [];
+            
+            $data->getList()->each(function(App\Libs\Weather\DataType\WeatherList $item) use($list, $records) {                
                 
-               $list->main()->create($list['weather_main'])
+                $records[] = $this->createWearherMain($list, $item->getWeatherMain());   
+                
+                $records[] = $this->createWearherCondition($list, $item->getWatherConditions);
                 
             });
+            
+            return $records;        
+           
         }
+            
+        /**
+         * To create WeatherMain Model via given WeatherList model
+         * 
+         * @param \App\WeatherList $list
+         * @param \App\Libs\Weather\DataType\WeatherMain
+         * @return \App\WeatherMain
+         */
+        private function createWearherMain(WeatherList $list, \App\Libs\Weather\DataType\WeatherMain $data)
+        {            
+            $attributes = $data->isFilledRequiredElements() ? $data->toArray() : null;           
+            
+            if ( is_null($attributes) ) { return; }            
+            
+            return $list->main()->create($attributes);                 
+        } 
         
+        /**
+         * To create WeatherCondition Model via given WeatherList model
+         * 
+         * @param \App\WeatherList $list
+         * @param \App\Libs\Weather\DataType\WeatherCondition
+         * @return \App\WeatherCondition
+         */
+        private function createWearherCondition(WeatherList $list, \App\Libs\Weather\DataType\WeatherCondition $data)
+        {            
+            $attributes = $data->isFilledRequiredElements() ? $data->toArray() : null;           
+            
+            if ( is_null($attributes) ) { return; }            
+            
+            return $list->main()->createMany($attributes);                 
+        } 
         
         /**
          * To create new WeatherList model belongs to given WeatherHourlyStat Model

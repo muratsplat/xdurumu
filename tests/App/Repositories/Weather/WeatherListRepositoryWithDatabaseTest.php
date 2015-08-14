@@ -1,8 +1,8 @@
 <?php
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-//use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
 use App\Repositories\Weather\ListRepository as Repository;
@@ -16,6 +16,9 @@ use Mockery as m;
  */
 class WeatherListRepositoryTest extends \TestCase
 {      
+    
+    use DatabaseMigrations, DatabaseTransactions;
+    
      /**
      * Example oj JSON
      * 
@@ -32,36 +35,35 @@ class WeatherListRepositoryTest extends \TestCase
             parent::setUp();        
            
         }
-        
-        /**
-         * Mocked WeatherCurrent Model
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getHourlyStatMock()
-        {
-            return m::mock('App\WeatherHourlyStat');            
-        }
 
-        
+
         /**
-         * Mocked Cache
-         *  
-         * @return \Mockery\MockInterface
+         * To get WeatherList model
+         * 
+         * @return \App\WeatherList
          */
-        private function getMockedCache()
+        private function getWeatherListModel()
         {
-            return m::mock('Illuminate\Contracts\Cache\Repository');            
+            return new App\WeatherList();            
+        }
+        /**
+         * Cache Instance
+         *  
+         * @return 
+         */
+        private function getCache()
+        {
+            return \app('cache')->driver();            
         }
         
         /**
-         * Mocked Config
+         * Config Instance
          *  
          * @return \Mockery\MockInterface
          */
-        private function getMockedConfig()
+        private function getConfig()
         {
-            return m::mock('Illuminate\Contracts\Config\Repository');            
+            return \app('config');
         }
         
         /**
@@ -100,38 +102,20 @@ class WeatherListRepositoryTest extends \TestCase
             
             //$resource   = $this->getWeatherForeCastResourceMock();
             
-            $list       = $this->getMockedWeaherList();
+            $list       = $this->getWeatherListModel();
             
-            $cache      = $this->getMockedCache();           
+            $cache      = $this->getCache();
             
-            $config     = $this->getMockedConfig();
+            $config     = $this->getConfig();      
             
-            $config->shouldReceive('get')->andReturn(30);
+            $one = new Repository($cache, $config, $list); 
             
-            $one = new Repository($cache, $config, $list);          
+            
         }   
         
         public function testCreateListByHourlyStat()
         {           
-            //$condition  = $this->getConditionMock();
-            
-            //$resource   = $this->getWeatherForeCastResourceMock();
-            
-            $list       = $this->getMockedWeaherList();
-            
-            $cache      = $this->getMockedCache();           
-            
-            $config     = $this->getMockedConfig();
-            
-            $config->shouldReceive('get')->andReturn(30);
-            
-            $one = new Repository($cache, $config, $list);     
-            
-            $hourlydata = (new OpenWeatherMap($this->hourly))->hourly()->getWeatherData();
-            
-            $weatherHourlyStatModel = $this->getHourlyStatMock();
-            
-            //$one->createListByHourlyStat($weatherHourlyStatModel, $hourlydata);
+          
             
         }   
         

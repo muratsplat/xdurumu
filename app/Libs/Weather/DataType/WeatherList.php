@@ -63,9 +63,9 @@ class WeatherList extends Base
          * 
          * @return \App\Libs\Weather\DataType\WeatherCondition
          */
-        public function getWeatherCondition()
+        public function getWeatherConditions()
         {
-            return $this->attributes['weather_main'];            
+            return $this->attributes['weather_conditions'];            
         }
         
         /**
