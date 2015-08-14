@@ -134,7 +134,7 @@ class WeatherListRepositoryTest extends \TestCase
             
             $weatherHourlyStatModel = $this->getHourlyStatMock();
             
-           // $one->createListByHourlyStat($weatherHourlyStatModel, $hourlydata['list']->first());
+           $one->createListByHourlyStat($weatherHourlyStatModel, $hourlydata);
             
         }   
         

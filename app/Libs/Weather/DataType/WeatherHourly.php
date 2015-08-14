@@ -31,7 +31,36 @@ class WeatherHourly extends Base
         'weather_forecast_resource'     => null,
         'list'                          => null,
      
-        ]; 
-    
+        ];   
+        
+        /**
+         * To get all of list
+         * 
+         * @return \Illuminate\Support\Collection
+         */
+        public function getList() 
+        {            
+            return $this->attributes['list'];
+        }
+        
+        /**
+         * To get City
+         * 
+         * @return \App\Libs\Weather\DataType\City
+         */
+        public function getCity() 
+        {            
+            return $this->attributes['city'];
+        }
+        
+        /**
+         * To get City
+         * 
+         * @return \App\Libs\Weather\DataType\WeatherForecastResource
+         */
+        public function getWeatherForeCastResource() 
+        {            
+            return $this->attributes['weather_forecast_resource'];
+        }    
 }
 

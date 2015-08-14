@@ -4,7 +4,9 @@ namespace App\Repositories\Weather;
 
 use App\WeatherHourlyStat as Hourly;
 //use App\WeatherCondition as Condition; 
-//use App\Libs\Weather\DataType\WeatherDataAble;
+use App\Libs\Weather\DataType\WeatherHourly as WeatherHourlyData;
+use App\Libs\Weather\DataType\WeatherDataAble;
+
 use App\WeatherList;
 use App\Repositories\CacheAbleRepository as CacheAble;
 use App\Libs\Weather\DataType\WeatherList as WeatherListData;
@@ -108,14 +110,18 @@ class ListRepository extends CacheAble
          * To create many list by given hourly model via the relationships
          * 
          * @param   \App\WeatherHourlyStat                    $hourly
-         * @param   \App\Libs\Weather\DataType\WeatherList    $data
+         * @param   \App\Libs\Weather\DataType\WeatherHourly    $data
          * @return  \App\WeatherList    created instances
          */
-        public function createListByHourlyStat(Hourly $hourly , WeatherListData $data)
+        public function createListByHourlyStat(Hourly $hourly , WeatherHourlyData $data)
         {            
-            $list = $this->createListByWeatherHourlyStat($hourly);
+            $list = $this->createListByWeatherHourlyStat($hourly);     
             
-            $list->conditions()->createMany($data['weather_conditions']->toArray());      
+            $data->getList()->each(function(WeatherListData $item) use($list) {
+                
+               $list->main()->create($list['weather_main'])
+                
+            });
         }
         
         
