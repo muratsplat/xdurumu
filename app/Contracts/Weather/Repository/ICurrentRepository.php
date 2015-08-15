@@ -7,7 +7,7 @@ namespace App\Contracts\Weather\Repository;
  * 
  * @package WeatherForcast
  */
-interface ICurrentRepository
+interface ICurrentRepository  
 {        
     
      /**

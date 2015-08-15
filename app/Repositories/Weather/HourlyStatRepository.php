@@ -56,8 +56,7 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
             $this->mainModel    = $hourly;    
             
             $this->listRepo     = $listRepo;
-        }         
-        
+        }       
         
         /**
          * To start all import proccess
@@ -116,14 +115,12 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
          * 
          * @return   \App\WeatherForeCastResource
          */
-        public function getForcastResource()
+        private function getForcastResource()
         {
             $resource   = $this->getAttributeOnInportedObject('weather_forecast_resource');            
           
             return $this->findOrNewResource($resource);
-        }         
-
-     
+        }    
         
         public function update(array $current)
         {

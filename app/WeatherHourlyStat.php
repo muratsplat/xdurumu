@@ -4,6 +4,11 @@ namespace App;
 
 use App\CacheAbleEloquent; 
 
+/**
+ * Weather Hourly Data Stats
+ * 
+ * @package
+ */
 class WeatherHourlyStat extends CacheAbleEloquent
 {
    
@@ -19,7 +24,7 @@ class WeatherHourlyStat extends CacheAbleEloquent
      *
      * @var array
      */            
-    protected $fillable = ['enable', 'source_updated_at', 'dt'];    
+    protected $fillable = ['enable'];    
     
     
         /**

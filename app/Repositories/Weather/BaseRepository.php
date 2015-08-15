@@ -236,7 +236,7 @@ abstract class BaseRepository extends CacheAble
          * To select city for any crud job
          * 
          * @param   \App\City $city
-         * @return  \App\Repositories\Weather\CurrentRepository
+         * @return  self
          */
         final public function selectCity(City $city)
         {
@@ -264,7 +264,7 @@ abstract class BaseRepository extends CacheAble
         /**
          * To start all import proccess
          * 
-         * @return App\WeatherCurrent
+         * @return \Illuminate\Database\Eloquent\Model
          * @throws \ErrorException
          */
         abstract function startImport();
@@ -357,30 +357,7 @@ abstract class BaseRepository extends CacheAble
             });           
         }
         
-        /**
-         * To call given methods with parameters
-         * 
-         * @param string                $prefix    such as 'foo'Bar() for 'fooBar()'
-         * @param \App\WeatherCurrent   $current
-         * @return array    returns of called methods
-         */
-        protected function callMethodsByPrefix($prefix, Current $current) 
-        {   
-            $results    = [];       
-            
-            foreach ($this->getFilterMethods($prefix) as $method) {
-                
-                $dataName   = $this->parserKeyInMethodName($method);   
-                
-                $dataObject = $this->getAttributeOnInportedObject($dataName);
-                
-                if (is_null($dataObject)) { continue; }                        
-                
-                $results[] =  call_user_func_array([$this, $method], [$current, $dataObject]);         
-            }
-            
-            return $results;                       
-        }
+     
         
         /**
          * To recognize 'key' in picker method name
@@ -417,6 +394,7 @@ abstract class BaseRepository extends CacheAble
                 
                 return implode('_', $segments);
             }            
+            
             return last($segments);
         }
         

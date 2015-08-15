@@ -291,5 +291,30 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
             
             return  array_merge($results, $results2);
         }
+        
+           /**
+         * To call given methods with parameters
+         * 
+         * @param string                $prefix    such as 'foo'Bar() for 'fooBar()'
+         * @param \App\WeatherCurrent   $current
+         * @return array    returns of called methods
+         */
+        protected function callMethodsByPrefix($prefix, Current $current) 
+        {   
+            $results    = [];       
+            
+            foreach ($this->getFilterMethods($prefix) as $method) {
+                
+                $dataName   = $this->parserKeyInMethodName($method);   
+                
+                $dataObject = $this->getAttributeOnInportedObject($dataName);
+                
+                if (is_null($dataObject)) { continue; }                        
+                
+                $results[] =  call_user_func_array([$this, $method], [$current, $dataObject]);         
+            }
+            
+            return $results;                       
+        }
        
 }
