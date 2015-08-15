@@ -2,23 +2,24 @@
 
 namespace App\Repositories\Weather;
 
-use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
-use App\WeatherHourlyStat                       as HourlyStatModel;
+
+
 use App\WeatherList;
-use App\Libs\Weather\DataType\WeatherList       as ListData;
+use App\WeatherHourlyStat                       as HourlyStatModel;
 use App\Repositories\CacheAbleRepository        as CacheAble;
+use App\Libs\Weather\DataType\WeatherList       as ListData;
 use Illuminate\Contracts\Cache\Repository       as Cache;
 use Illuminate\Contracts\Config\Repository      as Config;
+use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
+use App\Contracts\Weather\Repository\IListRepository;
 
-
-//use ErrorException;
 
 /**
  * Weather Hourly Stats Repository Class
  * 
  * @package WeatherForcast
  */
-class ListRepository extends CacheAble
+class ListRepository extends CacheAble implements IListRepository
 {    
     /**
      * @var \App\WeatherList

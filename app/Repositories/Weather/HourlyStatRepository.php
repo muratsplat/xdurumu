@@ -3,13 +3,16 @@
 namespace App\Repositories\Weather;
 
 use App\WeatherHourlyStat as Hourly;
-use App\Contracts\Repository\ICityRepository as City;
+
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
-use App\Libs\Weather\DataType\WeatherDataAble;
-use App\Contracts\Weather\Repository\IHourlyRepository;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
+use App\Contracts\Repository\ICityRepository as CityRepo;
+use App\Libs\Weather\DataType\WeatherDataAble;
+use App\Contracts\Weather\Repository\IListRepository;
+use App\Contracts\Weather\Repository\IHourlyRepository;
+
 use ErrorException;
 
 /**
@@ -23,28 +26,37 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
      * @var \App\WeatherHourlyStat 
      */
     private $mainModel;
+    
+    /**
+     * @var \App\Repositories\Weather\ListRepository
+     */
+    private $listRepo;
 
         /**
          * Constructer
          * 
-         * @param \Illuminate\Contracts\Cache\Repository $cache
-         * @param \Illuminate\Contracts\Config\Repository $config
-         * @param \App\City                     $city
-         * @param \App\WeatherCondition         $condition
-         * @param \App\WeatherForeCastResource  $resource
-         * @param \App\WeatherHourlyStat        $hourly
+         * @param \Illuminate\Contracts\Cache\Repository            $cache
+         * @param \Illuminate\Contracts\Config\Repository           $config
+         * @param \App\Contracts\Repository\ICityRepository         $cityRepo
+         * @param \App\WeatherCondition                             $condition
+         * @param \App\WeatherForeCastResource                      $resource
+         * @param \App\WeatherHourlyStat                            $hourly
+         * @param App\Contracts\Weather\Repository\IListRepository  $listRepo
          */
         public function __construct(
-                Cache       $cache, 
-                Config      $config,
-                City        $city, 
-                Condition   $condition, 
-                Resource    $resource, 
-                Hourly      $hourly) {
+                Cache           $cache, 
+                Config          $config,
+                CityRepo        $cityRepo, 
+                Condition       $condition, 
+                Resource        $resource, 
+                Hourly          $hourly,
+                IListRepository $listRepo) {
             
-            parent::__construct($cache, $config, $city, $condition, $resource);
+            parent::__construct($cache, $config, $cityRepo, $condition, $resource);
             
-            $this->mainModel    = $hourly;                
+            $this->mainModel    = $hourly;    
+            
+            $this->listRepo     = $listRepo;
         }         
         
         
@@ -55,7 +67,12 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
          * @throws \ErrorException
          */
         public function startImport()
-        {  
+        {
+            $hourlyStat = $this->getHourlyStat();
+            
+            
+            
+          
              
            
         }
@@ -70,19 +87,8 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
         {
             $city = $this->getSelectedCity();
             
-            return $this->city->findOrCreateWeatherHouryStat($city);
-        }
-        
-        /**
-         * To get weather list data for cartain WeatherHourly Data
-         * 
-         * @return array|null
-         */
-        protected function getListsFromAccessor()
-        {
-            return $this->getAttributeOnInportedObject('list');            
-        }
-
+            return $this->city->firstOrCreateWeatherHouryStat($city);
+        }    
         
         /**
          * To add Weather ForeCast Model and Weather Condition model to given Weather Current model
@@ -99,7 +105,7 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
             return $hourly->foreCastResource()->associate($resource);
         }    
         
-                /**
+        /**
          * To get weather forecast resource model and weather condition model
          * 
          * @return   \App\Libs\Weather\DataType\WeatherForecastResource

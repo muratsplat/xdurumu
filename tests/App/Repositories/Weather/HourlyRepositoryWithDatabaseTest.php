@@ -98,7 +98,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
         
         /**
          * 
-         * @return \App\City
+         * @return \App\Repositories\CityRepository
          */
         private function getCityRepo()
         {
@@ -109,6 +109,15 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             $config = $app['config'];
             
             return new CityRepository($cache, $config, new City());
+        }
+        
+        /**
+         * 
+         * @return \App\Contracts\Weather\Repository\IListRepository
+         */
+        private function getListRepo()
+        {
+            return app('App\Contracts\Weather\Repository\IListRepository');       
         }
 
         /**
@@ -158,7 +167,9 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $accessor   = $this->getAccessorForHourlyData();
             
-            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly);
+            $listRepo   = $this->getListRepo();            
+            
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly, $listRepo);
             
             $one->selectCity($cities->random());
             

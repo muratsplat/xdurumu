@@ -142,8 +142,7 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             
             $hourlyStat2 = $repo->firstOrCreateWeatherHouryStat($city);
             
-            $this->assertEquals($hourlyStat2->id, $hourlyStat->id);
-            
+            $this->assertEquals($hourlyStat2->id, $hourlyStat->id);            
         }
         
         public function testFirstOrCreateWeatherCurrent()

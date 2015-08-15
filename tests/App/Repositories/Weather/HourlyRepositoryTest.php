@@ -16,8 +16,7 @@ use Mockery as m;
  * @package WeatherForcast
  */
 class HourlyRepositoryTest extends \TestCase
-{
-    
+{    
 
     /**
      * Example of json response
@@ -122,6 +121,16 @@ class HourlyRepositoryTest extends \TestCase
         private function getWeatherForeCastResourceMock()
         {
             return m::mock('App\WeatherForeCastResource');
+        }   
+       
+        /**
+         * Mocked List Repositpry Model
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getWeatherListRepoMock()
+        {
+            return m::mock('App\Repositories\Weather\ListRepository');
         }
         
         
@@ -141,7 +150,9 @@ class HourlyRepositoryTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $hourly);
+            $listRepo   = $this->getWeatherListRepoMock();
+            
+            $one = new Repository($cache, $config, $city,$condition, $resource, $hourly, $listRepo);
           
         }       
         
@@ -150,6 +161,8 @@ class HourlyRepositoryTest extends \TestCase
             $hourly     = $this->getHourlyStatMock();
             
             $cityRepo   = $this->getCityRepoMock();
+            
+            $cityRepo->shouldReceive('firstOrCreateWeatherHouryStat')->andReturn();
             
             $city       = $this->getCityMock();
             
@@ -165,11 +178,13 @@ class HourlyRepositoryTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $hourly);
+            $listRepo   = $this->getWeatherListRepoMock();
+            
+            $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $hourly, $listRepo);
             
             $accessor = $this->getAccessorWithSampleData();
             
-            $one->selectCity($city)->import($accessor);          
+            $one->selectCity($city);                    
         }  
         
         public function tearDown()

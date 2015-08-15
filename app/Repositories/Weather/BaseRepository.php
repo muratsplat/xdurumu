@@ -2,22 +2,21 @@
 
 namespace App\Repositories\Weather;
 
-use App\WeatherCurrent as Current;
+
 use App\City;
-use App\Contracts\Repository\ICityRepository as CityRepo;
+use LogicException;
+use App\WeatherCurrent as Current;
+use UnexpectedValueException;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
-use App\Libs\Weather\DataType\WeatherDataAble; 
 use App\Contracts\Weather\Accessor;
+use App\Repositories\CacheAbleRepository as CacheAble;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
+use App\Contracts\Repository\ICityRepository as CityRepo;
+use App\Libs\Weather\DataType\WeatherDataAble; 
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
-use App\Repositories\CacheAbleRepository as CacheAble;
-
-use LogicException;
-use UnexpectedValueException;
-
 
 /**
  * Weather Base Repository Class
@@ -417,8 +416,7 @@ abstract class BaseRepository extends CacheAble
             if (count($segments) > 1) {             
                 
                 return implode('_', $segments);
-            }
-            
+            }            
             return last($segments);
         }
         
@@ -436,10 +434,20 @@ abstract class BaseRepository extends CacheAble
         /**
          * To set accessor
          * 
-         * @param Accessor $accessor
+         * @param \App\Contracts\Weather\Accessor $accessor
          */
         protected function setAccessor(Accessor $accessor)
         {
             $this->assessor = $accessor;
+        }        
+                
+        /**
+         * To get accessor
+         * 
+         * @return \App\Contracts\Weather\Accessor $accessor
+         */
+        protected function getAccessor()
+        {
+            return $this->assessor;
         }
 }
