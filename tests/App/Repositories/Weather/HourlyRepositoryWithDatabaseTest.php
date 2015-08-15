@@ -62,6 +62,17 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
         
         
         /**
+         * To get accessor for hourly data
+         * 
+         * @return \App\Libs\Weather\OpenWeatherMap
+         */
+        private function getAccessorForHourlyData()
+        {
+            return (new OpenWeatherMap($this->jsonExample))->hourly();
+        }
+        
+        
+        /**
          * To get cache driver
          * 
          * @return Cache Instance
@@ -133,8 +144,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(3, $cities);
             
-            $cityRepo = $this->getCityRepo();
-            
+            $cityRepo = $this->getCityRepo();            
                        
             $condition = $this->getCondition();
             
@@ -146,7 +156,13 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $cache      = $this->getCacheInstance();
             
+            $accessor   = $this->getAccessorForHourlyData();
+            
             $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly);
+            
+            $one->selectCity($cities->random());
+            
+            $one->import($accessor);
           
         }   
 }

@@ -20,7 +20,7 @@ interface ICityRepository extends ICacheAbleRepository
          * @param \App\City     $city
          * @return \App\WeatherHourlyStat
          */
-        public function findOrCreateWeatherHouryStat(City $city);
+        public function firstOrCreateWeatherHouryStat(City $city);
         
         /**
          * To get first model or create new instance model

@@ -59,7 +59,7 @@ class CityRepository extends CacheAble implements ICityRepository
          * @param \App\City     $city
          * @return \App\WeatherHourlyStat
          */
-        public function findOrCreateWeatherHouryStat(City $city)
+        public function firstOrCreateWeatherHouryStat(City $city)
         {
             return $city->weatherHourlyStat()->firstOrCreate(array());         
         }       
