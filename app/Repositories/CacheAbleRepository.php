@@ -146,7 +146,7 @@ abstract class CacheAbleRepository
          */
         public function all()
         {            
-            if ($this->isEnabledCache()) {
+            if ($this->isEnabledCache()) {                
                 
                 return $this->onCache();
             }

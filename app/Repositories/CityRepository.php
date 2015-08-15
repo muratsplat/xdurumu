@@ -122,7 +122,7 @@ class CityRepository extends CacheAble implements ICityRepository
             
             return $this->getCache()->remember($key, $time, function(){
                 
-                return $this->onModel()->enable()->get();            
+                return $this->onModel()->get();            
             });            
         }
 }

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
 use App\Repositories\CityRepository as Repository;
-use Mockery as m;
+//use Mockery as m;
 
 /**
  * Current Repository Test Class
@@ -25,8 +25,7 @@ class CityRepositoryWithDatabaseTest extends \TestCase
         public function tearDown()
         {
             parent::tearDown();
-            
-            m::close();
+          
         }
               
         /**
@@ -68,28 +67,98 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             $cache      = $this->getCache();
             
             $one = new Repository($cache, $config, $city);          
-        }     
+        }
+        
+        /**
+         * 
+         * @return \App\Repositories\CityRepository
+         */
+        private function getCityRepository()
+        {
+            $city       = $this->getCity();
+            
+            $config     = $this->getConfig();
+            
+            $cache      = $this->getCache();
+            
+            return new Repository($cache, $config, $city);        
+        }        
         
         public function testFind()
         {           
-         
-        }
-        
-        
-        public function testFindNoExistCity()
-        {
+            $cities = factory(\App\City::class, 5)->create();            
             
-          
-        }
-        
+            $repo = $this->getCityRepository();            
+            
+            $one = $cities->random();
+            
+            $founded = $repo->find($one->id);
+            
+            $this->assertNotNull($founded);   
+            
+            $notExists = $repo->find(99);
+            
+            $this->assertNull($notExists);            
+        }        
+    
         public function testFindByCitySlug()
-        {            
-           
+        {              
+            $cities = factory(\App\City::class, 5)->create();            
+            
+            $repo = $this->getCityRepository();            
+            
+            $one = $cities->random();
+            
+            $oneBySlug = $repo->findBySlug($one->slug);
+            
+            $this->assertNotNull($oneBySlug);
+            
+            $this->assertEquals($oneBySlug->id, $one->id);
+            
+            $notExists = $repo->findBySlug('fooBıraBıra');
+            
+            $this->assertNull($notExists);           
         }        
 
         public function testSimpleAll() 
-        {
-           
+        {            
+            $cities = factory(\App\City::class, 5)->create();            
+            
+            $repo = $this->getCityRepository();            
+            
+            $this->assertCount($cities->count(), $repo->all());
+            $this->assertCount($cities->count(), $repo->enableCache()->all());           
+        }
+        
+        public function testFirstOrCreateWeatherHouryStat()
+        {            
+            $city = factory(\App\City::class)->create();             
+            
+            $repo = $this->getCityRepository();    
+            
+            $hourlyStat = $repo->firstOrCreateWeatherHouryStat($city);
+            
+            $this->assertNotNull($hourlyStat);            
+            
+            $hourlyStat2 = $repo->firstOrCreateWeatherHouryStat($city);
+            
+            $this->assertEquals($hourlyStat2->id, $hourlyStat->id);
+            
+        }
+        
+        public function testFirstOrCreateWeatherCurrent()
+        {            
+            $city = factory(\App\City::class)->create();             
+            
+            $repo = $this->getCityRepository();    
+            
+            $current = $repo->firstOrCreateWeatherCurrent($city);
+            
+            $this->assertNotNull($current);            
+            
+            $current2 = $repo->firstOrCreateWeatherCurrent($city);
+            
+            $this->assertEquals($current2->id, $current->id);            
         }
         
   
