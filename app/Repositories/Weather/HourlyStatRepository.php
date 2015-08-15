@@ -2,18 +2,17 @@
 
 namespace App\Repositories\Weather;
 
-use App\WeatherHourlyStat as Hourly;
 
-use App\WeatherCondition as Condition; 
-use App\WeatherForeCastResource as Resource;
-use Illuminate\Contracts\Cache\Repository as Cache;
-use Illuminate\Contracts\Config\Repository as Config;
-use App\Contracts\Repository\ICityRepository as CityRepo;
-use App\Libs\Weather\DataType\WeatherDataAble;
+use ErrorException;
+use App\WeatherCondition                        as Condition; 
+use App\WeatherHourlyStat                       as Hourly;
+use App\WeatherForeCastResource                 as Resource;
+use Illuminate\Contracts\Cache\Repository       as Cache;
+use Illuminate\Contracts\Config\Repository      as Config;
+use App\Contracts\Repository\ICityRepository    as CityRepo;
 use App\Contracts\Weather\Repository\IListRepository;
 use App\Contracts\Weather\Repository\IHourlyRepository;
 
-use ErrorException;
 
 /**
  * Weather Hourly Stats Repository Class
@@ -33,7 +32,7 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
     private $listRepo;
 
         /**
-         * Constructer
+         * Create new Instance
          * 
          * @param \Illuminate\Contracts\Cache\Repository            $cache
          * @param \Illuminate\Contracts\Config\Repository           $config
@@ -63,18 +62,25 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
         /**
          * To start all import proccess
          * 
-         * @return \App\WeatherCurrent
+         * @return \App\WeatherHourlyStat
          * @throws \ErrorException
          */
         public function startImport()
         {
             $hourlyStat = $this->getHourlyStat();
             
+            $hourlyData = $this->getAccessor()->getWeatherData();            
             
+            $lists      = $this->listRepo->createListsByHourlyStat($hourlyStat, $hourlyData);
             
-          
-             
-           
+            if ( ! $lists->isEmpty()) {
+                
+                $this->addResource($hourlyStat);             
+                
+                return $hourlyStat;
+            }
+            
+            throw new ErrorException('There is any lists belongs to WeatherHourlyStat Model!');            
         }
         
         
@@ -95,8 +101,8 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
          * via ralationships
          * 
          * 
-         * @param \App\WeatherHourlyStat $hourly
-         * @return array    includes \App\WeatherCurrent 
+         * @param   \App\WeatherHourlyStat $hourly
+         * @return  \App\WeatherForeCastResource
          */
         private function addResource(Hourly $hourly)
         {                
@@ -108,7 +114,7 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
         /**
          * To get weather forecast resource model and weather condition model
          * 
-         * @return   \App\Libs\Weather\DataType\WeatherForecastResource
+         * @return   \App\WeatherForeCastResource
          */
         public function getForcastResource()
         {

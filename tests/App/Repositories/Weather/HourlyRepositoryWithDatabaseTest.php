@@ -8,7 +8,6 @@ use App\Repositories\Weather\HourlyStatRepository as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use App\City;
 use App\Repositories\CityRepository;
-use App\WeatherCurrent;
 use App\WeatherCondition;
 use App\WeatherHourlyStat;
 use App\WeatherForeCastResource;
@@ -148,7 +147,8 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
         }    
 
         public function testSimple()
-        {   
+        {               
+            
             $cities = $this->createCities(3);
             
             $this->assertCount(3, $cities);
@@ -173,7 +173,27 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $one->selectCity($cities->random());
             
-            $one->import($accessor);
-          
-        }   
+            $createdHourlyModel = $one->import($accessor);
+            
+            $this->assertNotNull($createdHourlyModel);
+            
+            $numberOfLists = count($accessor->getWeatherData()->getAttribute('list'));
+                      
+            $this->assertCount(1, App\WeatherHourlyStat::all());
+            $this->assertCount(1, App\WeatherForeCastResource::all());
+            $this->assertCount($numberOfLists, App\WeatherList::all());            
+            $this->assertEquals($createdHourlyModel->foreCastResource->name, App\WeatherForeCastResource::all()->first()->name);
+            $this->assertEquals($createdHourlyModel->foreCastResource->name, App\WeatherForeCastResource::all()->first()->name);            
+            $this->assertCount($numberOfLists, $createdHourlyModel->weatherLists); 
+            
+            $this->assertCount($numberOfLists, App\WeatherCloud::all());
+            $this->assertCount($numberOfLists, App\WeatherMain::all());
+            $this->assertCount($numberOfLists, App\WeatherWind::all());
+            $this->assertCount($numberOfLists, App\WeatherRain::all());
+            
+            /**
+             * There is no data for Snow in example data
+             */
+            //$this->assertCount($numberOfLists, App\WeatherSnow::all());  
+        }    
 }

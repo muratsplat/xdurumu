@@ -30,8 +30,7 @@ class WeatherHourlyStat extends CacheAbleEloquent
         public function city() 
         {
             return $this->belongsTo('App\City', 'city_id', 'id');
-        }
-        
+        }        
         
         /**
          * To get all of WeatherHourlyStat's list via 
@@ -42,16 +41,6 @@ class WeatherHourlyStat extends CacheAbleEloquent
         public function weatherLists()
         {
             return $this->morphMany('App\WeatherList', 'listable', 'listable_type', 'listable_id');
-        }
-
-        /**
-         * To define an many to many polymorphic relation
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-         */
-        public function conditions()
-        {
-            return $this->morphToMany('App\WeatherCondition', 'weather_condition_able', 'weather_condition_ables');            
         }
         
         /**
