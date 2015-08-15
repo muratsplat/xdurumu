@@ -60,6 +60,31 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             return new City();
         }
         
+        
+        /**
+         * To get cache driver
+         * 
+         * @return Cache Instance
+         */
+        private function getCacheInstance()
+        {
+            $app = app();
+            
+            return $app['cache']->driver();           
+        }
+        
+        /**
+         * To get Config Instance
+         * 
+         * @return Config Instance
+         */
+        private function getConfigInstance()
+        {
+            $app = app();
+            
+            return $app['config'];           
+        }
+        
         /**
          * 
          * @return \App\City
@@ -100,27 +125,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
         private function getCondition()
         {
             return new WeatherCondition();
-        }
-        
-         /**
-         * Mocked Cache
-         *  
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedCache()
-        {
-            return m::mock('Illuminate\Contracts\Cache\Repository');            
-        }
-        
-        /**
-         * Mocked Config
-         *  
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedConfig()
-        {
-            return m::mock('Illuminate\Contracts\Config\Repository');            
-        }
+        }    
 
         public function testSimple()
         {   
@@ -130,19 +135,16 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $cityRepo = $this->getCityRepo();
             
-            $city = $this->getCity();
-            
+                       
             $condition = $this->getCondition();
             
             $resource = $this->getResource();
             
-            $hourly  = $this->getHourlyStat();
+            $hourly  = $this->getHourlyStat();        
             
-            $cache      = $this->getMockedCache();           
+            $config     = $this->getConfigInstance();
             
-            $config     = $this->getMockedConfig();
-            
-            $config->shouldReceive('get')->andReturn(30);
+            $cache      = $this->getCacheInstance();
             
             $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly);
           

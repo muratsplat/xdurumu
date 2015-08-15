@@ -47,62 +47,7 @@ class ListRepository extends CacheAble
         public function onModel()
         {
             return $this->mainModel;            
-        }        
-        
-        
-        //    ["weather_conditions"]=>
-//    array(6) {
-//    ["open_weather_map_id"]=>
-//    int(212)
-//    ["name"]=>
-//    NULL
-//    ["description"]=>
-//    NULL
-//    ["orgin_name"]=>
-//    string(9) "yağmurlu"
-//    ["orgin_description"]=>
-//    string(11) "hava açık"
-//    ["icon"]=>
-//    NULL
-//    }
-//    ["weather_main"]=>
-//    array(11) {
-//    ["temp"]=>
-//    int(122)
-//    ["temp_min"]=>
-//    float(2323.1)
-//    ["temp_max"]=>
-//    int(1212)
-//    ["temp_eve"]=>
-//    NULL
-//    ["temp_night"]=>
-//    NULL
-//    ["temp_morn"]=>
-//    NULL
-//    ["pressure"]=>
-//    NULL
-//    ["humidity"]=>
-//    NULL
-//    ["sea_level"]=>
-//    NULL
-//    ["grnd_level"]=>
-//    NULL
-//    ["temp_kf"]=>
-//    NULL
-//    }
-//    ["weather_wind"]=>
-//    NULL
-//    ["weather_rain"]=>
-//    NULL
-//    ["weather_snow"]=>
-//    NULL
-//    ["weather_clouds"]=>
-//    NULL
-//    ["source_updated_at"]=>
-//    string(3) "foo"
-//    ["dt"]=>
-//    int(2308)
-        
+        }
         
         /**
          * To create many list by given hourly model via the relationships
@@ -112,8 +57,7 @@ class ListRepository extends CacheAble
          * @return  \Illuminate\Support\Collection    created WeatherList instances
          */
         public function createListsByHourlyStat(HourlyStatModel $hourly ,  HourlyData $data)
-        {     
-                        
+        {                        
             $results = $data->getList()->map(function(ListData $item) use($hourly) {                
                 
                 $list = $this->createNewListByWeatherHourlyStat($hourly);                     
@@ -142,9 +86,7 @@ class ListRepository extends CacheAble
                 return $list;
             });                 
             
-            return $results;
-            
-           
+            return $results;          
         }
             
         /**
