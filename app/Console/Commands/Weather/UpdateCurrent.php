@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Weather;
 
-use App\Repositories\CityRepository as CityRepo;
-use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
+use App\Console\TestAbleCommand;
 use App\Jobs\Weather\UpdateCurrent;
 use Illuminate\Contracts\Queue\Queue;
-use App\Console\TestAbleCommand;
+use App\Repositories\CityRepository as CityRepo;
+use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
 
 /**
  * This command make update to weather forecast current data of all cities
  *  
  */
-class WeatherUpdateCurrent extends TestAbleCommand
+class UpdateCurrent extends TestAbleCommand
 {
     /**
      * The name and signature of the console command.

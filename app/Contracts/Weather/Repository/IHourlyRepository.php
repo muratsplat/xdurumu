@@ -10,8 +10,4 @@ use App\Contracts\Weather\Repository\IBaseRepository;
  * 
  * @package WeatherForcast
  */
-interface IHourlyRepository extends IBaseRepository{ 
-        
-      
-    
-}
+interface IHourlyRepository extends IBaseRepository { }

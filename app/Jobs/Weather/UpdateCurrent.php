@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Weather;
 
+use App\City;
 use App\Jobs\Job;
+use App\Contracts\Weather\Accessor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\City;
 use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
-use App\Contracts\Weather\Accessor;
 
 /**
  * This Job make update to weather current data each injected city

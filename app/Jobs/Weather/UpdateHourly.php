@@ -52,17 +52,17 @@ class UpdateHourly extends Job implements SelfHandling, ShouldQueue
          *
          * @return void
          */
-        public function handle(HourlyRepo $current )
+        public function handle(HourlyRepo $repo )
         {             
-            $this->init($current);
+            $this->init($repo);
             
             $client     = $this->getApiClient();
             
             $city       = $this->getCity();
             
-            $accessor   = $client->selectCity($city)->current()->sendRequest();
+            $accessor   = $client->selectCity($city)->hourly()->sendRequest();
             
-            $model      = $this->importCurrentData($city, $accessor);
+            $model      = $this->importData($city, $accessor);
             
             return $model->exists;                      
         }
@@ -104,7 +104,7 @@ class UpdateHourly extends Job implements SelfHandling, ShouldQueue
          * @param   \App\Contracts\Weather\Accessor     $accessor
          * @return  \App\WeatherHourlyStat 
          */
-        protected function importCurrentData(City $city, Accessor $accessor)
+        protected function importData(City $city, Accessor $accessor)
         {
             return $this->hourlyRepo->selectCity($city)->import($accessor);
         }        
@@ -116,7 +116,7 @@ class UpdateHourly extends Job implements SelfHandling, ShouldQueue
          */
         private function init(HourlyRepo $hourly)
         {
-            $this->hourlyRepoRepo      = $hourly;
+            $this->hourlyRepo      = $hourly;
             
             $this->weatherApiFactory= app('app.weather.factory');                
         }
