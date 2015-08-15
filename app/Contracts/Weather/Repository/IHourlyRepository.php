@@ -2,33 +2,16 @@
 
 namespace App\Contracts\Weather\Repository;
 
+
+use App\Contracts\Weather\Repository\IBaseRepository;
+
 /**
- * Current Repository Interface
+ * Hourly Repository Interface
  * 
  * @package WeatherForcast
  */
-interface IHourlyRepository extends IBaseRepository
-{        
-    
-        /**
-         * To find condition if it is not exists, create one 
-         * and return it. 
-         *
-         * @param   array $conditions
-         * @return  \App\WeatherCondition
-         */
-        public function findOrNewConditions(array $conditions);      
+interface IHourlyRepository extends IBaseRepository{ 
         
-        
-        public function update(array $current);
-        
-        public function delete($cityID);        
-
-        /**
-         * To get Weather Current model
-         * 
-         * @return \App\WeatherHourlyStat
-         */
-        public function getMainModel();        
+      
     
 }

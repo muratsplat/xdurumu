@@ -5,7 +5,6 @@ namespace App\Repositories\Weather;
 
 use App\City;
 use LogicException;
-use App\WeatherCurrent as Current;
 use UnexpectedValueException;
 use App\WeatherCondition as Condition; 
 use App\WeatherForeCastResource as Resource;
@@ -23,7 +22,7 @@ use App\Libs\Weather\DataType\WeatherForecastResource;
  * 
  * @package WeatherForcast
  */
-abstract class BaseRepository extends CacheAble
+abstract class BaseRepository extends CacheAble 
 {    
     /**
      * @var \App\Contracts\Repository\ICityRepository;
@@ -111,7 +110,7 @@ abstract class BaseRepository extends CacheAble
          * @param  \App\Libs\Weather\DataType\WeatherForecastResource $resource
          * @return \App\WeatherForeCastResource
          */
-        public final function findOrNewResource(WeatherForecastResource $resource)
+        public function findOrNewResource(WeatherForecastResource $resource)
         {
             $name = $resource->name;
             
@@ -355,9 +354,7 @@ abstract class BaseRepository extends CacheAble
                 
                 if (strpos($item, $prefix) ===0) { return true;}                
             });           
-        }
-        
-     
+        }     
         
         /**
          * To recognize 'key' in picker method name
@@ -424,7 +421,7 @@ abstract class BaseRepository extends CacheAble
          * 
          * @return \App\Contracts\Weather\Accessor $accessor
          */
-        protected function getAccessor()
+        public function getAccessor()
         {
             return $this->assessor;
         }

@@ -26,8 +26,7 @@ interface ICacheAbleRepository
          * 
          * @return \App\Repositories\CacheAbleRepository
          */
-        public function enableCache();
-      
+        public function enableCache();      
         
         /**
          * To set disable caching
@@ -56,13 +55,6 @@ interface ICacheAbleRepository
          * 
          * @return \Illuminate\Contracts\Cache\Repository
          */
-        public function getCache(); 
-        
-        /**
-         * To find model by primary key
-         * 
-         * @param int $id
-         * @return \App\WeatherForeCastResource|null
-         */
-        public function find($id);
+        public function getCache();         
+
 }

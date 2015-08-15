@@ -7,8 +7,7 @@ namespace App\Contracts\Weather\Repository;
  * 
  * @package WeatherForcast
  */
-interface IBaseRepository
-{        
+interface IBaseRepository{        
     
         /**
          * To get main model which is injected
@@ -30,7 +29,28 @@ interface IBaseRepository
          * @param bool $cache
          * @return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        public function all();     
- 
+        public function all();  
+        
+                /**
+         * To find model by primary key
+         * 
+         * @param int $id
+         * @return \App\WeatherForeCastResource|null
+         */
+        public function find($id); 
+        
+        
+        public function update(array $current);     
+
+        /**
+         * To get Weather Current model
+         * 
+         * @return \Illuminate\Database\Eloquent\Model
+         */
+        public function getMainModel();         
+        
+        
+        public function delete($cityID);   
+    
     
 }

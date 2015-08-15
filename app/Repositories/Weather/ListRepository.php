@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Weather;
 
-
-
 use App\WeatherList;
 use App\WeatherHourlyStat                       as HourlyStatModel;
 use App\Repositories\CacheAbleRepository        as CacheAble;
@@ -12,6 +10,7 @@ use Illuminate\Contracts\Cache\Repository       as Cache;
 use Illuminate\Contracts\Config\Repository      as Config;
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
 use App\Contracts\Weather\Repository\IListRepository;
+use App\Contracts\Repository\ICacheAbleRepository;
 
 
 /**
@@ -19,7 +18,7 @@ use App\Contracts\Weather\Repository\IListRepository;
  * 
  * @package WeatherForcast
  */
-class ListRepository extends CacheAble implements IListRepository
+class ListRepository extends CacheAble implements IListRepository, ICacheAbleRepository
 {    
     /**
      * @var \App\WeatherList
@@ -221,5 +220,30 @@ class ListRepository extends CacheAble implements IListRepository
                 return $this->onModel()->enable()->get();
             }); 
             
-        }        
+        }    
+        
+        public function find($id)
+        {
+            ;
+        }
+        
+        public function delete($cityID)
+        {
+            ;
+        }
+        
+        /**
+         * To get main model
+         * 
+         * @return App\WeatherList
+         */
+        public function getMainModel()
+        {
+            return $this->onModel();
+        }
+        
+        public function update(array $current)
+        {
+            ;
+        }
 }

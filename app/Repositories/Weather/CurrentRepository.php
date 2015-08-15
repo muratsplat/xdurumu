@@ -2,23 +2,25 @@
 
 namespace App\Repositories\Weather;
 
-use App\WeatherCurrent as Current;
-use App\Contracts\Repository\ICityRepository as City;
-use App\WeatherCondition as Condition; 
-use App\WeatherForeCastResource as Resource;
+use ErrorException;
+use App\WeatherCurrent                                  as Current;
+use App\Contracts\Repository\ICityRepository            as City;
+use App\WeatherCondition                                as Condition; 
+use App\WeatherForeCastResource                         as Resource;
 use App\Libs\Weather\DataType\WeatherDataAble;
 use App\Contracts\Weather\Repository\ICurrentRepository;
-use App\Contracts\Repository\ICityRepository;
-use Illuminate\Contracts\Cache\Repository as Cache;
-use Illuminate\Contracts\Config\Repository as Config;
-use ErrorException;
+use Illuminate\Contracts\Cache\Repository               as Cache;
+use Illuminate\Contracts\Config\Repository              as Config;
+use App\Contracts\Repository\ICacheAbleRepository;
+use App\Contracts\Weather\Repository\ImportableWeatherDataRepository; 
+
 
 /**
  * Current Repository Class
  * 
  * @package WeatherForcast
  */
-class CurrentRepository extends BaseRepository implements ICurrentRepository
+class CurrentRepository extends BaseRepository implements ICurrentRepository, ICacheAbleRepository, ImportableWeatherDataRepository
 {    
     /**
      * @var \App\WeatherCurrent 
@@ -315,6 +317,11 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository
             }
             
             return $results;                       
+        }
+        
+        public function find($id)
+        {
+            ;
         }
        
 }

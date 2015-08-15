@@ -12,14 +12,14 @@ use Illuminate\Contracts\Config\Repository      as Config;
 use App\Contracts\Repository\ICityRepository    as CityRepo;
 use App\Contracts\Weather\Repository\IListRepository;
 use App\Contracts\Weather\Repository\IHourlyRepository;
-
+use App\Contracts\Repository\ICacheAbleRepository;
 
 /**
  * Weather Hourly Stats Repository Class
  * 
  * @package WeatherForcast
  */
-class HourlyStatRepository extends BaseRepository implements IHourlyRepository
+class HourlyStatRepository extends BaseRepository implements IHourlyRepository, ICacheAbleRepository
 {    
     /**
      * @var \App\WeatherHourlyStat 
@@ -130,7 +130,13 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository
         public function delete($cityID)
         {
             
-        }        
+        }    
+        
+        
+        public function find($id)
+        {
+            ;
+        }
       
         /**
          * To get Weather Current model
