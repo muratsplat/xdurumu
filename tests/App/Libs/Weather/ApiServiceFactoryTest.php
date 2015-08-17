@@ -44,7 +44,7 @@ class ApiServiceFactoryTest extends \TestCase
          */
         private function getMockedRepository()
         {
-            return m::mock('App\Contracts\Weather\Repository\IForecastResourceRepository');
+            return m::mock('App\Contracts\Weather\Repository\IForecastResource');
         }
         
         /**
@@ -70,7 +70,7 @@ class ApiServiceFactoryTest extends \TestCase
             
             $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->random());
             
-            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResource'] = $repository;
             
             $factory = $this->getAppWeatherFactory();
             try {
@@ -102,7 +102,7 @@ class ApiServiceFactoryTest extends \TestCase
             $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->first());
             
             
-            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResource'] = $repository;
             
             $factory = $this->getAppWeatherFactory();
             try {
@@ -143,7 +143,7 @@ class ApiServiceFactoryTest extends \TestCase
             
             $log->shouldReceive('alert')->andReturnSelf();           
             
-            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResource'] = $repository;
             
             //$app['log'] = $log;
             
@@ -184,14 +184,12 @@ class ApiServiceFactoryTest extends \TestCase
                       
             $repository->shouldReceive('findByName')->andReturn($weatherForCastResourceCollection->first());
             
-            $app['App\Contracts\Weather\Repository\IForecastResourceRepository'] = $repository;
+            $app['App\Contracts\Weather\Repository\IForecastResource'] = $repository;
       
             $factory = $this->getAppWeatherFactory();
             
             $this->assertInstanceOf('App\Contracts\Weather\Accessor', $factory->getAccessor());
                   
-        }
-        
-        
+        }       
       
-}
+}   

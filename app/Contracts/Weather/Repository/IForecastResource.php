@@ -2,13 +2,13 @@
 
 namespace App\Contracts\Weather\Repository;
 
-use App\Contracts\Repository\ICacheable;
+use App\Contracts\Repository\ICacheAble;
 
 /**
  * Weather ForeCast Resource Repository Interface
  * 
  */
-interface IForecastResource extends ICacheable
+interface IForecastResource extends ICacheAble
 {       
         /**
          * To get main model which is injected

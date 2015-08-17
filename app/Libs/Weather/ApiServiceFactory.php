@@ -3,7 +3,7 @@
 namespace App\Libs\Weather;
 
 use Illuminate\Contracts\Container\Container;
-use App\Contracts\Weather\Repository\IForecastResourceRepository as Resource;
+use App\Contracts\Weather\Repository\IForecastResource as Resource;
 use App\WeatherForeCastResource as ResourceModel;
 use App\Libs\Weather\OpenWeatherMap;
 use App\Libs\Weather\OpenWeatherMapClient;
@@ -26,7 +26,7 @@ class ApiServiceFactory
     protected $container;
     
     /**
-     * @var \App\Contracts\Weather\IForecastResourceRepository
+     * @var \App\Contracts\Weather\IForecastResource
      */
     private $resource;
     
@@ -55,7 +55,7 @@ class ApiServiceFactory
         {
             $this->container    = $container;
             
-            $resource           = $container->make('App\Contracts\Weather\Repository\IForecastResourceRepository');
+            $resource           = $container->make('App\Contracts\Weather\Repository\IForecastResource');
             
             $this->log          = $container->make('log');
             
