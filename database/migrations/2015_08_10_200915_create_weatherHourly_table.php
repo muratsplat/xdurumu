@@ -42,8 +42,8 @@ class CreateWeatherHourlyTable extends Migration
         \Schema::create($this->table, function(Blueprint $t) {
             
             $t->increments('id');
-            $t->integer('city_id')->unsigned();        
-            $t->integer('weather_forecast_resource_id')->unsigned()->nullable();          
+            $t->unsignedInteger('city_id');        
+            $t->unsignedInteger('weather_forecast_resource_id')->nullable();          
             $t->boolean('enable')->default(true);     
             $t->timestamps();             
          

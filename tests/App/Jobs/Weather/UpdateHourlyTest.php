@@ -12,9 +12,7 @@ class UpdateHourlyTest extends \TestCase
     
         public function setUp()
         {
-            parent::setUp();
-            
-            
+            parent::setUp();       
         }
         
         public function tearDown()
@@ -22,8 +20,7 @@ class UpdateHourlyTest extends \TestCase
             parent::tearDown();
             
             m::close();
-        }     
-   
+        }        
         
         /**
          * 
@@ -95,7 +92,5 @@ class UpdateHourlyTest extends \TestCase
             $job = new UpdateHourly($city);       
             
             $job->handle($current); 
-        }   
-      
-      
+        }        
 }

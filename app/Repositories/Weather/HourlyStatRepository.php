@@ -72,15 +72,21 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository, 
             
             $lists      = $this->listRepo->createListsByHourlyStat($hourlyStat, $hourlyData);
             
-            if ( ! $lists->isEmpty()) {
+            if ( $lists->isEmpty()) {
                 
-                $this->addResource($hourlyStat);             
-                
-                return $hourlyStat;
+                throw new ErrorException('There is any lists belongs to WeatherHourlyStat Model!');                              
             }
             
-            throw new ErrorException('There is any lists belongs to WeatherHourlyStat Model!');            
-        }
+            $associatedModel = $this->addResource($hourlyStat);
+            
+            if ($associatedModel->save()) {
+                
+                return $associatedModel;                  
+            }            
+            
+            throw new ErrorException('WeatherHourlyStat model is not saved correctly');                     
+            
+         }
         
         
         /**

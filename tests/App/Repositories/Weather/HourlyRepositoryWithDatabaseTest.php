@@ -195,5 +195,39 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
              * There is no data for Snow in example data
              */
             //$this->assertCount($numberOfLists, App\WeatherSnow::all());  
-        }    
+        }       
+        
+        public function testFixesWeatherForeCastResourceAssociatedIssue()
+        {            
+            
+            $cities = $this->createCities(3);          
+            
+            $cityRepo = $this->getCityRepo();            
+                       
+            $condition = $this->getCondition();
+            
+            $resource = $this->getResource();
+            
+            $hourly  = $this->getHourlyStat();        
+            
+            $config     = $this->getConfigInstance();
+            
+            $cache      = $this->getCacheInstance();
+            
+            $accessor   = $this->getAccessorForHourlyData();
+            
+            $listRepo   = $this->getListRepo();           
+           
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly, $listRepo);
+            
+            $one->selectCity($cities->random());
+            
+            $createdHourlyModel = $one->import($accessor);
+              
+            $model = App\WeatherHourlyStat::all()->find($createdHourlyModel->id);
+           
+            $this->assertNotNull($model);
+            
+            $this->assertEquals(1, $createdHourlyModel->weather_forecast_resource_id);            
+        } 
 }
