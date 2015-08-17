@@ -6,14 +6,14 @@ namespace App\Repositories\Weather;
 use App\City;
 use LogicException;
 use UnexpectedValueException;
-use App\WeatherCondition as Condition; 
-use App\WeatherForeCastResource as Resource;
+use App\Repositories\CacheAble;
+use App\WeatherForeCastResource                     as Resource;
 use App\Contracts\Weather\Accessor;
-use App\Repositories\CacheAbleRepository as CacheAble;
-use Illuminate\Contracts\Cache\Repository as Cache;
-use Illuminate\Contracts\Config\Repository as Config;
-use App\Contracts\Repository\ICityRepository as CityRepo;
+use Illuminate\Contracts\Cache\Repository           as Cache;
+use Illuminate\Contracts\Config\Repository          as Config;
+use App\Contracts\Repository\ICity                  as CityRepo;
 use App\Libs\Weather\DataType\WeatherDataAble; 
+use App\Contracts\Weather\Repository\Condition      as Condition; 
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
 
@@ -22,15 +22,15 @@ use App\Libs\Weather\DataType\WeatherForecastResource;
  * 
  * @package WeatherForcast
  */
-abstract class BaseRepository extends CacheAble 
+abstract class Base extends CacheAble 
 {    
     /**
-     * @var \App\Contracts\Repository\ICityRepository;
+     * @var \App\Contracts\Repository\ICity;
      */
     protected $city;
     
     /**
-     * @var \App\WeatherCondition 
+     * @var \App\Contracts\Weather\Repository\Condition
      */
     protected $condition;
     
@@ -59,12 +59,12 @@ abstract class BaseRepository extends CacheAble
         /**
          * Create new Instance
          * 
-         * @param \Illuminate\Contracts\Cache\Repository        $cache
-         * @param \Illuminate\Contracts\Config\Repository       $config
-         * @param \App\Contracts\Repository\ICityRepository     $city
-         * @param \App\WeatherCondition                         $condition
-         * @param \App\WeatherForeCastResource                  $resource
-         * @param \App\WeatherCurrent                           $current
+         * @param \Illuminate\Contracts\Cache\Repository      $cache
+         * @param \Illuminate\Contracts\Config\Repository     $config
+         * @param \App\Contracts\Repository\ICity             $city
+         * @param App\Contracts\Weather\Repository\Condition  $condition
+         * @param \App\WeatherForeCastResource                $resource
+         * @param \App\WeatherCurrent                         $current
          */
         public function __construct(Cache $cache, Config $config, CityRepo $city, Condition $condition, Resource $resource) 
         {  
@@ -89,7 +89,7 @@ abstract class BaseRepository extends CacheAble
             
             if (! is_null($model)) { return $model; }
             
-            return $this->getCondition()->create($condition->toArray());
+            return $this->getCondition()->onModel()->create($condition->toArray());
         }        
         
         /**
@@ -100,7 +100,7 @@ abstract class BaseRepository extends CacheAble
          */
         protected function findConditionByOpenWeatherId($openWeatherMapID)
         {
-            return  $this->getCondition()->OfOpenWetherMapId($openWeatherMapID)->first();     
+            return  $this->getCondition()->onModel()->OfOpenWetherMapId($openWeatherMapID)->first();     
         }
         
         /**
@@ -252,7 +252,7 @@ abstract class BaseRepository extends CacheAble
         /**
          * To get Weather Condition
          * 
-         * @return \App\WeatherCondition 
+         * @return \App\Contracts\Weather\Repository\ConditionRepository 
          */
         protected function getCondition()
         {

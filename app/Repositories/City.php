@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\City;
-use App\Contracts\Repository\ICityRepository;
-use App\Repositories\CacheAbleRepository        as CacheAble;
+use App\City                                    as Model;
+use App\Repositories\CacheAble;
+use App\Contracts\Repository\ICity;
 use Illuminate\Contracts\Cache\Repository       as Cache;
 use \Illuminate\Contracts\Config\Repository     as Config;
 
@@ -13,7 +13,7 @@ use \Illuminate\Contracts\Config\Repository     as Config;
  * 
  * @package WeatherForcast
  */
-class CityRepository extends CacheAble implements ICityRepository
+class City extends CacheAble implements ICity
 {      
     /**
      * 
@@ -27,7 +27,7 @@ class CityRepository extends CacheAble implements ICityRepository
          * @param \Illuminate\Contracts\Cache\Repository $cache
          * @param \Illuminate\Contracts\Config\Repository $config
          */
-        public function __construct(Cache $cache, Config $config, City $city)
+        public function __construct(Cache $cache, Config $config, Model $city)
         {
             parent::__construct($cache, $config);
             
@@ -57,7 +57,7 @@ class CityRepository extends CacheAble implements ICityRepository
          * @param \App\City     $city
          * @return \App\WeatherHourlyStat
          */
-        public function firstOrCreateWeatherHouryStat(City $city)
+        public function firstOrCreateWeatherHouryStat(Model $city)
         {
             return $city->weatherHourlyStat()->firstOrCreate(array());         
         }       
@@ -68,7 +68,7 @@ class CityRepository extends CacheAble implements ICityRepository
          * @param \App\City     $city
          * @return \App\WeatherCurrent  
          */
-        public function firstOrCreateWeatherCurrent(City $city)
+        public function firstOrCreateWeatherCurrent(Model $city)
         {          
             return $city->weatherCurrent()->firstOrCreate(array());
         }

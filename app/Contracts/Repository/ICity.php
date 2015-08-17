@@ -11,7 +11,7 @@ use App\City;
  * 
  * @package WeatherForcast
  */
-interface ICityRepository extends ICacheAbleRepository
+interface ICity extends ICacheAble
 {   
     
         /**

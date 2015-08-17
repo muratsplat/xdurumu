@@ -2,13 +2,14 @@
 
 namespace App\Contracts\Weather\Repository;
 
+use App\Contracts\Repository\ICacheable;
+
 /**
- * Base Repository Interface
+ * Weather ForeCast Resource Repository Interface
  * 
- * @package WeatherForcast
  */
-interface IBaseRepository{        
-    
+interface IForecastResource extends ICacheable
+{       
         /**
          * To get main model which is injected
          * 
@@ -29,28 +30,13 @@ interface IBaseRepository{
          * @param bool $cache
          * @return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        public function all();  
+        public function all();     
         
-                /**
+        /**
          * To find model by primary key
          * 
-         * @param int $id
+         * @param string $name
          * @return \App\WeatherForeCastResource|null
          */
-        public function find($id); 
-        
-        
-        public function update(array $current);     
-
-        /**
-         * To get Weather Current model
-         * 
-         * @return \Illuminate\Database\Eloquent\Model
-         */
-        public function getMainModel();         
-        
-        
-        public function delete($cityID);   
-    
-    
+        public function findByName($name);
 }

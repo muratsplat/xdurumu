@@ -5,7 +5,7 @@ namespace App\Contracts\Repository;
 /**
  * Weather ForeCast Resource Repository Interface
  */
-interface ICacheAbleRepository
+interface ICacheAble
 {   
         /**
          * To get main model which is injected

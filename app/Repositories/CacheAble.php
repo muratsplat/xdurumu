@@ -8,7 +8,7 @@ use Illuminate\Contracts\Config\Repository as Config;
 /**
  * Weather ForeCast Resource Repository
  */
-abstract class CacheAbleRepository
+abstract class CacheAble
 {    
     /**
      * @var \Illuminate\Contracts\Cache\Repository 

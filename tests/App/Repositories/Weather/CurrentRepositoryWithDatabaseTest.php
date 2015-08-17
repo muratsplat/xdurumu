@@ -108,7 +108,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
          */
         private function getCondition()
         {
-            return new WeatherCondition();
+            return app('App\Contracts\Weather\Repository\ConditionRepository');
         }
         
                 /**

@@ -2,7 +2,7 @@
 
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+//use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
 use App\Repositories\Weather\CurrentRepository as Repository;
@@ -46,10 +46,7 @@ class CurrentRepositoryTest extends \TestCase
     
         public function setUp()
         {
-            parent::setUp();    
-            
-          
-           
+            parent::setUp();              
         }
         
         /**
@@ -111,16 +108,6 @@ class CurrentRepositoryTest extends \TestCase
             return m::mock('App\WeatherCurrent');            
         }
         
-       /**
-         * Mocked Current Model
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getConditionMock()
-        {
-            return m::mock('App\WeatherCondition');
-        }
-        
         /**
          * Mocked Resource Model
          * 
@@ -131,6 +118,16 @@ class CurrentRepositoryTest extends \TestCase
             return m::mock('App\WeatherForeCastResource');
         }
         
+        /**
+         * Mocked Conditions Repository Model
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getConditionRepoMock()
+        {
+            return m::mock('App\Contracts\Weather\Repository\ConditionRepository');
+        }   
+        
         
         public function testSimple()
         {   
@@ -138,7 +135,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $city       = $this->getCityRepoMock();
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
             
             $resource   = $this->getWeatherForeCastResourceMock();
             
@@ -217,7 +214,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $city->shouldReceive('all')->andReturn($cities);
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
                  
             $resource   = $this->getWeatherForeCastResourceMock();            
                  
@@ -245,7 +242,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $city->shouldReceive('all')->andReturn($cities);
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
             
             $resource   = $this->getWeatherForeCastResourceMock();
                  
@@ -272,7 +269,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $city->shouldReceive('findBySlug')->andReturn($cities->first());
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
                  
             $resource   = $this->getWeatherForeCastResourceMock();            
                  
@@ -304,7 +301,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $current->shouldReceive('get')->andReturn($currents);                   
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
                  
             $resource   = $this->getWeatherForeCastResourceMock();
                  
@@ -329,7 +326,7 @@ class CurrentRepositoryTest extends \TestCase
             
             $city->exists = true;
             
-            $condition  = $this->getConditionMock();            
+            $condition  = $this->getConditionRepoMock();            
                  
             $resource   = $this->getWeatherForeCastResourceMock();           
                  

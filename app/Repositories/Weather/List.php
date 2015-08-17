@@ -4,13 +4,13 @@ namespace App\Repositories\Weather;
 
 use App\WeatherList;
 use App\WeatherHourlyStat                       as HourlyStatModel;
-use App\Repositories\CacheAbleRepository        as CacheAble;
+use App\Repositories\CacheAble                  as CacheAble;
 use App\Libs\Weather\DataType\WeatherList       as ListData;
 use Illuminate\Contracts\Cache\Repository       as Cache;
 use Illuminate\Contracts\Config\Repository      as Config;
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
-use App\Contracts\Weather\Repository\IListRepository;
-use App\Contracts\Repository\ICacheAbleRepository;
+use App\Contracts\Weather\Repository\IList;
+use App\Contracts\Repository\ICacheAble;
 
 
 /**
@@ -18,7 +18,7 @@ use App\Contracts\Repository\ICacheAbleRepository;
  * 
  * @package WeatherForcast
  */
-class ListRepository extends CacheAble implements IListRepository, ICacheAbleRepository
+class ListRepo extends CacheAble implements IList, ICacheAble
 {    
     /**
      * @var \App\WeatherList
@@ -121,6 +121,11 @@ class ListRepository extends CacheAble implements IListRepository, ICacheAbleRep
             if ( $conditions->isEmpty()) { return; }   
             
             return $list->conditions()->createMany($conditions->toArray());                 
+        }
+        
+        private function findOrCreateManyCondition()
+        {
+            
         }
         
         /**

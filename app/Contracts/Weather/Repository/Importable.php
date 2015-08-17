@@ -11,7 +11,7 @@ use App\Libs\Weather\DataType\WeatherForecastResource;
  * 
  * @package WeatherForcast
  */
-interface ImportableWeatherDataRepository
+interface Importable
 {  
         
         /**

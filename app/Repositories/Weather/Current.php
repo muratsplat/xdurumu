@@ -3,24 +3,23 @@
 namespace App\Repositories\Weather;
 
 use ErrorException;
-use App\WeatherCurrent                                  as Current;
-use App\Contracts\Repository\ICityRepository            as City;
-use App\WeatherCondition                                as Condition; 
-use App\WeatherForeCastResource                         as Resource;
+use App\WeatherCurrent                                      as Model;
+use App\WeatherForeCastResource                             as Resource;
+use Illuminate\Contracts\Cache\Repository                   as Cache;
+use Illuminate\Contracts\Config\Repository                  as Config;
+use App\Contracts\Repository\ICity                          as City;
 use App\Libs\Weather\DataType\WeatherDataAble;
-use App\Contracts\Weather\Repository\ICurrentRepository;
-use Illuminate\Contracts\Cache\Repository               as Cache;
-use Illuminate\Contracts\Config\Repository              as Config;
-use App\Contracts\Repository\ICacheAbleRepository;
-use App\Contracts\Weather\Repository\ImportableWeatherDataRepository; 
-
+use App\Contracts\Repository\ICacheAble;
+use App\Contracts\Weather\Repository\Condition; 
+use App\Contracts\Weather\Repository\ICurrent;
+use App\Contracts\Weather\Repository\Importable; 
 
 /**
  * Current Repository Class
  * 
  * @package WeatherForcast
  */
-class CurrentRepository extends BaseRepository implements ICurrentRepository, ICacheAbleRepository, ImportableWeatherDataRepository
+class Current extends Base implements ICurrent, ICacheAble, Importable
 {    
     /**
      * @var \App\WeatherCurrent 
@@ -30,12 +29,12 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
         /**
          * Constructer
          * 
-         * @param \Illuminate\Contracts\Cache\Repository        $cache
-         * @param \Illuminate\Contracts\Config\Repository       $config
-         * @param \App\Contracts\Repository\ICityRepository     $city
-         * @param \App\WeatherCondition                         $condition
-         * @param \App\WeatherForeCastResource                  $resource
-         * @param \App\WeatherCurrent                           $current
+         * @param \Illuminate\Contracts\Cache\Repository                $cache
+         * @param \Illuminate\Contracts\Config\Repository               $config
+         * @param \App\Contracts\Repository\ICityRepository             $city
+         * @param \App\Contracts\Weather\Repository\ConditionRepository $condition
+         * @param \App\WeatherForeCastResource                          $resource
+         * @param \App\WeatherCurrent                                   $current
          */
         public function __construct(
                 Cache       $cache, 
@@ -58,7 +57,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param \App\WeatherCurrent $current
          * @return array    includes \App\WeatherCurrent 
          */
-        private function addResourceAndCondition(Current $current)
+        private function addResourceAndCondition(Model $current)
         {                
             $resource   = $this->getForcastResource();
             
@@ -81,7 +80,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param \App\WeatherCurrent $current
          * @return array    created models
          */
-        public function addOtherAllRelationships(Current $current)
+        public function addOtherAllRelationships(Model $current)
         {           
             return $this->callMethodsByPrefix('create', $current);      
         }    
@@ -93,7 +92,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $main
          * @return  \App\WeatherMain
          */
-        protected function createWeatherMain(Current $current, WeatherDataAble $main)
+        protected function createWeatherMain(Model $current, WeatherDataAble $main)
         {           
             $attributes = $main->toArray();        
             
@@ -111,7 +110,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $sys
          * @return \App\WeatherSys
          */
-        protected function createWeatherSys(Current $current, WeatherDataAble $sys)
+        protected function createWeatherSys(Model $current, WeatherDataAble $sys)
         {
             $attributes = $sys->toArray();
             
@@ -129,7 +128,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $wind
          * @return \App\WeatherWind
          */
-        protected function createWeatherWind(Current $current, WeatherDataAble $wind)
+        protected function createWeatherWind(Model $current, WeatherDataAble $wind)
         {
             $attributes = $wind->toArray();
             
@@ -147,7 +146,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $clouds
          * @return \App\WeatherCloud
          */
-        protected function createWeatherClouds(Current $current, WeatherDataAble $clouds)
+        protected function createWeatherClouds(Model $current, WeatherDataAble $clouds)
         {
             $attributes = $clouds->toArray(); 
             
@@ -165,7 +164,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $rain
          * @return \App\WeatherRain
          */
-        protected function createWeatherRain(Current $current, WeatherDataAble $rain)
+        protected function createWeatherRain(Model $current, WeatherDataAble $rain)
         {
             $attributes = $rain->toArray();  
             
@@ -183,7 +182,7 @@ class CurrentRepository extends BaseRepository implements ICurrentRepository, IC
          * @param   \App\Libs\Weather\DataType\WeatherDataAble $snow
          * @return \App\WeatherRain
          */
-        protected function createWeatherSnow(Current $current, WeatherDataAble $snow)
+        protected function createWeatherSnow(Model $current, WeatherDataAble $snow)
         {
             $attributes = $snow->toArray();
             

@@ -133,6 +133,15 @@ class HourlyRepositoryTest extends \TestCase
             return m::mock('App\Repositories\Weather\ListRepository');
         }
         
+        /**
+         * Mocked Conditions Repository Model
+         * 
+         * @return \Mockery\MockInterface
+         */
+        private function getConditionRepoMock()
+        {
+            return m::mock('App\Contracts\Weather\Repository\ConditionRepository');
+        }        
         
         public function testSimple()
         {   
@@ -140,7 +149,7 @@ class HourlyRepositoryTest extends \TestCase
             
             $city       = $this->getCityRepoMock();
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
             
             $resource   = $this->getWeatherForeCastResourceMock();
             
@@ -168,7 +177,7 @@ class HourlyRepositoryTest extends \TestCase
             
             $city->exists = true;                    
             
-            $condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepoMock();
             
             $resource   = $this->getWeatherForeCastResourceMock();
             

@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Contracts\Weather\Repository\IHourlyRepository as HourlyRepo;
+use App\Contracts\Weather\Repository\IHourly as HourlyRepo;
 /**
  * This Job make update to weather hourly data via injected city model
  * 

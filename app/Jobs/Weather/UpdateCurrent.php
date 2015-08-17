@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
+use App\Contracts\Weather\Repository\ICurrent as CurrentRepo;
 
 /**
  * This Job make update to weather current data each injected city
@@ -25,7 +25,7 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
     private $city;
     
     /**
-     * @var \App\Repositories\Weather\CurrentRepository
+     * @var \App\Contracts\Weather\Repository\ICurrent
      */
     private $currentRepo;    
     
@@ -38,7 +38,7 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
          * Create a new job instance.
          *
          * @param App\City  $city
-         * @param App\Repositories\Weather\CurrentRepository $current 
+         * @param \App\Contracts\Weather\Repository\ICurrent $current 
          * @return void
          */
         public function __construct(City $city)
@@ -111,7 +111,7 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
         /**
          * To set current repository and injected Weather Api Factory
          * 
-         * @param CurrentRepo $current
+         * @param \App\Contracts\Weather\Repository\ICurrent $current
          */
         private function init(CurrentRepo $current)
         {

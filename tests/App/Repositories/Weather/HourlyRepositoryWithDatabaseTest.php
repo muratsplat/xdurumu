@@ -143,7 +143,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
          */
         private function getCondition()
         {
-            return new WeatherCondition();
+            return app('App\Contracts\Weather\Repository\ConditionRepository');
         }    
 
         public function testSimple()
@@ -229,5 +229,39 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             $this->assertNotNull($model);
             
             $this->assertEquals(1, $createdHourlyModel->weather_forecast_resource_id);            
+        } 
+        
+        public function testALotOfConditionsRecordsIssue()
+        {            
+            
+            $cities = $this->createCities(3);          
+            
+            $cityRepo = $this->getCityRepo();            
+                       
+            $condition = $this->getCondition();
+            
+            $resource = $this->getResource();
+            
+            $hourly  = $this->getHourlyStat();        
+            
+            $config     = $this->getConfigInstance();
+            
+            $cache      = $this->getCacheInstance();
+            
+            $accessor   = $this->getAccessorForHourlyData();
+            
+            $listRepo   = $this->getListRepo();           
+           
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $hourly, $listRepo);
+            
+            $one->selectCity($cities->random());
+            
+            $createdHourlyModel = $one->import($accessor);
+            
+            $numberOfConditions = App\WeatherCondition::all()->count();
+            
+            $createdHourlyModel1 = $one->import($accessor);
+            
+         //   $this->assertEquals(App\WeatherCondition::all()->count(), $numberOfConditions);    
         } 
 }

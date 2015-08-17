@@ -4,22 +4,22 @@ namespace App\Repositories\Weather;
 
 
 use ErrorException;
-use App\WeatherCondition                        as Condition; 
-use App\WeatherHourlyStat                       as Hourly;
-use App\WeatherForeCastResource                 as Resource;
-use Illuminate\Contracts\Cache\Repository       as Cache;
-use Illuminate\Contracts\Config\Repository      as Config;
-use App\Contracts\Repository\ICityRepository    as CityRepo;
-use App\Contracts\Weather\Repository\IListRepository;
-use App\Contracts\Weather\Repository\IHourlyRepository;
-use App\Contracts\Repository\ICacheAbleRepository;
+use App\WeatherHourlyStat                                   as Hourly;
+use App\WeatherForeCastResource                             as Resource;
+use Illuminate\Contracts\Cache\Repository                   as Cache;
+use Illuminate\Contracts\Config\Repository                  as Config;
+use App\Contracts\Repository\ICity                          as CityRepo;
+use App\Contracts\Repository\ICacheAble;
+use App\Contracts\Weather\Repository\IList;
+use App\Contracts\Weather\Repository\IHourly;
+use App\Contracts\Weather\Repository\Condition              as Condition;
 
 /**
  * Weather Hourly Stats Repository Class
  * 
  * @package WeatherForcast
  */
-class HourlyStatRepository extends BaseRepository implements IHourlyRepository, ICacheAbleRepository
+class HourlyStat extends Base implements IHourly, ICacheAble
 {    
     /**
      * @var \App\WeatherHourlyStat 
@@ -27,20 +27,20 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository, 
     private $mainModel;
     
     /**
-     * @var \App\Repositories\Weather\ListRepository
+     * @var \App\Repositories\Weather\List
      */
     private $listRepo;
 
         /**
          * Create new Instance
          * 
-         * @param \Illuminate\Contracts\Cache\Repository            $cache
-         * @param \Illuminate\Contracts\Config\Repository           $config
-         * @param \App\Contracts\Repository\ICityRepository         $cityRepo
-         * @param \App\WeatherCondition                             $condition
-         * @param \App\WeatherForeCastResource                      $resource
-         * @param \App\WeatherHourlyStat                            $hourly
-         * @param App\Contracts\Weather\Repository\IListRepository  $listRepo
+         * @param \Illuminate\Contracts\Cache\Repository        $cache
+         * @param \Illuminate\Contracts\Config\Repository       $config
+         * @param \App\Contracts\Repository\ICity               $cityRepo
+         * @param \App\Contracts\Weather\Repository\Condition   $condition
+         * @param \App\WeatherForeCastResource                  $resource
+         * @param \App\WeatherHourlyStat                        $hourly
+         * @param \App\Contracts\Weather\Repository\IList       $listRepo
          */
         public function __construct(
                 Cache           $cache, 
@@ -49,7 +49,7 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository, 
                 Condition       $condition, 
                 Resource        $resource, 
                 Hourly          $hourly,
-                IListRepository $listRepo) {
+                IList           $listRepo) {
             
             parent::__construct($cache, $config, $cityRepo, $condition, $resource);
             
@@ -79,10 +79,7 @@ class HourlyStatRepository extends BaseRepository implements IHourlyRepository, 
             
             $associatedModel = $this->addResource($hourlyStat);
             
-            if ($associatedModel->save()) {
-                
-                return $associatedModel;                  
-            }            
+            if ($associatedModel->save()) {  return $associatedModel; }            
             
             throw new ErrorException('WeatherHourlyStat model is not saved correctly');                     
             

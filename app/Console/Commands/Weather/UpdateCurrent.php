@@ -3,10 +3,10 @@
 namespace App\Console\Commands\Weather;
 
 use App\Console\TestAbleCommand;
-use App\Jobs\Weather\UpdateCurrent as Current;
+use App\Contracts\Repository\ICity                  as CityRepo;
+use App\Jobs\Weather\UpdateCurrent                  as Current;
 use Illuminate\Contracts\Queue\Queue;
-use App\Contracts\Repository\ICityRepository as CityRepo;
-use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
+use App\Contracts\Weather\Repository\ICurrent       as CurrentRepo;
 
 /**
  * This command make update to weather forecast current data of all cities
@@ -29,7 +29,7 @@ class UpdateCurrent extends TestAbleCommand
     protected $description = 'Update currently weather forcast data of each all cities from API Service';
     
     /**
-     * @var \App\Repositories\CityRepository
+     * @var \App\Contracts\Repository\ICity
      */
     private $cityRepo;    
     
@@ -39,7 +39,7 @@ class UpdateCurrent extends TestAbleCommand
     private $queue;
     
     /**
-     * @var \App\Contracts\Weather\Repository\ICurrentRepository 
+     * @var \App\Contracts\Weather\Repository\ICurrent
      */
     private $currentRepo;
             
@@ -47,7 +47,7 @@ class UpdateCurrent extends TestAbleCommand
          * Create a new command instance.
          * 
          * @param \Illuminate\Contracts\Queue\Queue $queue Description
-         * @param \App\Repositories\CityRepository $city Description
+         * @param \App\Contracts\Repository\ICity   $city Description
          */
         public function __construct(Queue $queue, CityRepo $city, CurrentRepo $current)
         {
@@ -115,7 +115,7 @@ class UpdateCurrent extends TestAbleCommand
         /**
          * To get Weather Current Repository
          * 
-         * @return \App\Contracts\Weather\Repository\ICurrentRepository 
+         * @return \App\Contracts\Weather\Repository\ICurrent
          */
         protected function getCurrentRepository()
         {   

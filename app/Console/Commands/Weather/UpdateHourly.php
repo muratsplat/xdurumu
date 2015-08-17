@@ -5,7 +5,7 @@ namespace App\Console\Commands\Weather;
 use App\Console\TestAbleCommand;
 use App\Jobs\Weather\UpdateHourly as Hourly;
 use Illuminate\Contracts\Queue\Queue;
-use App\Contracts\Repository\ICityRepository as CityRepo;
+use App\Contracts\Repository\ICity as CityRepo;
 
 /**
  * This command make update to weather forecast hourly data of all cities
@@ -28,7 +28,7 @@ class UpdateHourly extends TestAbleCommand
     protected $description = 'Update hourly weather forcast data of each all cities from API Service';
     
     /**
-     * @var \App\Contracts\Repository\ICityRepository
+     * @var \App\Contracts\Repository\ICity
      */
     private $cityRepo;    
     

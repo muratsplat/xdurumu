@@ -38,27 +38,32 @@ class AppServiceProvider extends ServiceProvider
     protected function bindings()
     {
         $this->app->bind(
-                'App\Contracts\Weather\Repository\IForecastResourceRepository',
-                'App\Repositories\Weather\ForecastResourceRepository');  
+                'App\Contracts\Weather\Repository\IForecastResource',
+                'App\Repositories\Weather\ForecastResource');  
         
         $this->app->bind(
-                'App\Contracts\Weather\Repository\IHourlyRepository',
-                'App\Repositories\Weather\HourlyStatRepository'
+                'App\Contracts\Weather\Repository\IHourly',
+                'App\Repositories\Weather\HourlyStat'
                 );  
         
         $this->app->bind(
-                'App\Contracts\Weather\Repository\ICurrentRepository',
-                'App\Repositories\Weather\CurrentRepository'
+                'App\Contracts\Weather\Repository\ICurrent',
+                'App\Repositories\Weather\Current'
                 );     
         
         $this->app->bind(
-                'App\Contracts\Repository\ICityRepository',
-                'App\Repositories\CityRepository'
+                'App\Contracts\Repository\ICity',
+                'App\Repositories\City'
                 ); 
         
         $this->app->bind(
-                'App\Contracts\Weather\Repository\IListRepository', 
-                'App\Repositories\Weather\ListRepository');
+                'App\Contracts\Weather\Repository\IList', 
+                'App\Repositories\Weather\List');
+        
+        $this->app->bind(
+                'App\Contracts\Weather\Repository\Condition', 
+                'App\Repositories\Weather\Condition');
+                
     }
     
         

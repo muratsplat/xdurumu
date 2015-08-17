@@ -10,7 +10,7 @@ use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
  * 
  * @package WeatherForcast
  */
-interface IListRepository extends IBaseRepository
+interface IList extends IBase
 {        
     
         /**

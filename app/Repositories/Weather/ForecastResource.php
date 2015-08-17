@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Weather;
 
+use App\Repositories\CacheAble as CacheAble;
+use App\WeatherForeCastResource as Resource;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
-use App\WeatherForeCastResource as Resource;
-use App\Repositories\CacheAbleRepository as CacheAble;
-use App\Contracts\Weather\Repository\IForecastResourceRepository;
+use App\Contracts\Weather\Repository\IForecastResource;
 
 /**
  * Weather ForeCast Resource Repository
  */
-class ForecastResourceRepository extends CacheAble implements IForecastResourceRepository
+class ForecastResource extends CacheAble implements IForecastResource
 {    
     /**
      * @var \App\WeatherForeCastResource 
@@ -23,6 +23,7 @@ class ForecastResourceRepository extends CacheAble implements IForecastResourceR
          * 
          * @param \Illuminate\Contracts\Cache\Repository    $cache
          * @param \Illuminate\Contracts\Config\Repository   $config
+         * @param \App\WeatherForeCastResource
          */
         public function __construct(Cache $cache, Config $config, Resource $resource)
         {   

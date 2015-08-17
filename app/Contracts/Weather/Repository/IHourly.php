@@ -3,11 +3,11 @@
 namespace App\Contracts\Weather\Repository;
 
 
-use App\Contracts\Weather\Repository\IBaseRepository;
+use App\Contracts\Weather\Repository\IBase;
 
 /**
  * Hourly Repository Interface
  * 
  * @package WeatherForcast
  */
-interface IHourlyRepository extends IBaseRepository { }
+interface IHourly extends IBase { }
