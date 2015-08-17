@@ -28,18 +28,18 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
          * 
          * @return \Mockery\MockInterface
          */
-        private function getMockedCityRepository()
+        private function getMockedCity()
         {
-            return m::mock('App\Repositories\CityRepository');
+            return m::mock('App\Repositories\City');
         } 
         
         /**
          * 
          * @return \Mockery\MockInterface
          */
-        private function getMockedCurrentRepository()
+        private function getMockedCurrent()
         {
-            return m::mock('App\Contracts\Weather\Repository\ICurrentRepository');
+            return m::mock('App\Contracts\Weather\Repository\ICurrent');
         } 
         
         /**
@@ -54,9 +54,9 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
         
         public function testSimple()
         {           
-            $currentRepo = $this->getMockedCurrentRepository();
+            $currentRepo = $this->getMockedCurrent();
             
-            $repo= $this->getMockedCityRepository();  
+            $repo= $this->getMockedCity();  
             
             $queue = $this->getMockedQueue();                    
             
@@ -67,7 +67,7 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
         {
             $cities   = factory(App\City::class, 10)->make();
             
-            $repo= $this->getMockedCityRepository();  
+            $repo= $this->getMockedCity();  
             
             $repo->shouldReceive('onModel')->andReturnSelf();
             $repo->shouldReceive('enable')->andReturnSelf();
@@ -77,7 +77,7 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
             $queue->shouldReceive('push')->andReturnSelf();
                     
             
-            $currentRepo = $this->getMockedCurrentRepository();
+            $currentRepo = $this->getMockedCurrent();
         
             $job = new ConsoleUpdate($queue, $repo, $currentRepo);
             
