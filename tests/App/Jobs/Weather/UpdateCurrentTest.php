@@ -12,9 +12,7 @@ class UpdateCurrentTest extends \TestCase
     
         public function setUp()
         {
-            parent::setUp();
-            
-            
+            parent::setUp();            
         }
         
         public function tearDown()
@@ -22,8 +20,7 @@ class UpdateCurrentTest extends \TestCase
             parent::tearDown();
             
             m::close();
-        }     
-   
+        }        
         
         /**
          * 
@@ -31,7 +28,7 @@ class UpdateCurrentTest extends \TestCase
          */
         private function getMockedRepository()
         {
-            return m::mock('App\Repositories\Weather\CurrentRepository');
+            return m::mock('App\Repositories\Weather\Current');
         } 
         
         /**

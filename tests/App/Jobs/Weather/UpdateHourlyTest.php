@@ -28,7 +28,7 @@ class UpdateHourlyTest extends \TestCase
          */
         private function getMockedRepository()
         {
-            return m::mock('App\Contracts\Weather\Repository\IHourlyRepository');
+            return m::mock('App\Contracts\Weather\Repository\IHourly');
         } 
         
         /**
