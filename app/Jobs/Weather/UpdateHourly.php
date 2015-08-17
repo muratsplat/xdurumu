@@ -10,8 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Weather\Repository\IHourlyRepository as HourlyRepo;
-
-
 /**
  * This Job make update to weather hourly data via injected city model
  * 
@@ -50,7 +48,7 @@ class UpdateHourly extends Job implements SelfHandling, ShouldQueue
         /**
          * Execute the job.
          *
-         * @return void
+         * @return bool
          */
         public function handle(HourlyRepo $repo )
         {             

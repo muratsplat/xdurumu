@@ -1,8 +1,9 @@
+
 <?php
 
 use Mockery as m;
-use App\Jobs\Weather\UpdateCurrent;
-use App\Console\Commands\WeatherUpdateCurrent as ConsoleUpdate;
+use App\Console\Commands\Weather\UpdateCurrent as ConsoleUpdate;
+
 /**
  * Test file for App\Libs\Weather\OpenWeatherMap class
  * 
@@ -12,8 +13,7 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
     
         public function setUp()
         {
-            parent::setUp();
-            
+            parent::setUp();            
             
         }
         
@@ -22,14 +22,13 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
             parent::tearDown();
             
             m::close();
-        }     
-   
+        }       
         
         /**
          * 
          * @return \Mockery\MockInterface
          */
-        private function getMockedRepository()
+        private function getMockedCityRepository()
         {
             return m::mock('App\Repositories\CityRepository');
         } 
@@ -47,38 +46,17 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
          * 
          * @return \Mockery\MockInterface
          */
-        private function getMockedApiServiceFactory()
-        {
-            return m::mock('App\Libs\Weather\ApiServiceFactory');
-        }
-        
-        /**
-         * 
-         * @return \Mockery\MockInterface
-         */
         private function getMockedQueue()
         {
             return m::mock('Illuminate\Contracts\Queue\Queue');
-        }
-        
-        /**
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedAccessor()
-        {
-            return m::mock('App\Contracts\Weather\Accessor');
-        } 
-        
+        }      
         
         
         public function testSimple()
-        {
-            $cities   = factory(App\City::class, 10)->make();
-            
+        {           
             $currentRepo = $this->getMockedCurrentRepository();
             
-            $repo= $this->getMockedRepository();  
+            $repo= $this->getMockedCityRepository();  
             
             $queue = $this->getMockedQueue();                    
             
@@ -89,16 +67,15 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
         {
             $cities   = factory(App\City::class, 10)->make();
             
-            $repo= $this->getMockedRepository();  
+            $repo= $this->getMockedCityRepository();  
             
+            $repo->shouldReceive('onModel')->andReturnSelf();
             $repo->shouldReceive('enable')->andReturnSelf();
-            $repo->shouldReceive('all')->andReturn($cities);            
+            $repo->shouldReceive('get')->andReturn($cities);                        
             
-            $queue = $this->getMockedQueue(); 
-            
+            $queue = $this->getMockedQueue();             
             $queue->shouldReceive('push')->andReturnSelf();
-            
-            $app = app();           
+                    
             
             $currentRepo = $this->getMockedCurrentRepository();
         
@@ -109,9 +86,5 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
             $job->handle();
             
             $queue->shouldHaveReceived('push')->times(10);
-        }   
-        
- 
-      
-      
+        }         
 }

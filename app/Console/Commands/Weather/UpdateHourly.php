@@ -3,33 +3,32 @@
 namespace App\Console\Commands\Weather;
 
 use App\Console\TestAbleCommand;
-use App\Jobs\Weather\UpdateCurrent as Current;
+use App\Jobs\Weather\UpdateHourly as Hourly;
 use Illuminate\Contracts\Queue\Queue;
 use App\Contracts\Repository\ICityRepository as CityRepo;
-use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
 
 /**
- * This command make update to weather forecast current data of all cities
+ * This command make update to weather forecast hourly data of all cities
  *  
  */
-class UpdateCurrent extends TestAbleCommand
+class UpdateHourly extends TestAbleCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'weather:current';
+    protected $signature = 'weather:hourly';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update currently weather forcast data of each all cities from API Service';
+    protected $description = 'Update hourly weather forcast data of each all cities from API Service';
     
     /**
-     * @var \App\Repositories\CityRepository
+     * @var \App\Contracts\Repository\ICityRepository
      */
     private $cityRepo;    
     
@@ -37,27 +36,20 @@ class UpdateCurrent extends TestAbleCommand
      * @var \Illuminate\Contracts\Queue\Queue 
      */
     private $queue;
-    
-    /**
-     * @var \App\Contracts\Weather\Repository\ICurrentRepository 
-     */
-    private $currentRepo;
             
         /**
          * Create a new command instance.
          * 
          * @param \Illuminate\Contracts\Queue\Queue $queue Description
-         * @param \App\Repositories\CityRepository $city Description
+         * @param \App\Contracts\Repository\ICityRepository $city Description
          */
-        public function __construct(Queue $queue, CityRepo $city, CurrentRepo $current)
+        public function __construct(Queue $queue, CityRepo $city)
         {
             parent::__construct();
-            
-            $this->cityRepo     = $city; 
-            
+                       
             $this->queue        = $queue;   
             
-            $this->currentRepo  = $current;
+            $this->cityRepo     = $city; 
         }
 
         /**
@@ -73,7 +65,7 @@ class UpdateCurrent extends TestAbleCommand
                 
                 $no++;
                 
-                $job = new Current($city);
+                $job = new Hourly($city);
                 
                 $this->pushJob($job);               
             }
@@ -110,15 +102,5 @@ class UpdateCurrent extends TestAbleCommand
         protected function pushJob($job)
         {
             $this->queue->push($job);
-        }
-        
-        /**
-         * To get Weather Current Repository
-         * 
-         * @return \App\Contracts\Weather\Repository\ICurrentRepository 
-         */
-        protected function getCurrentRepository()
-        {   
-            return $this->currentRepo;            
-        }      
+        }  
 }
