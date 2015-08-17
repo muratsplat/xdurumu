@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Weather;
 
 use App\Console\TestAbleCommand;
-use App\Jobs\Weather\UpdateCurrent;
+use App\Jobs\Weather\UpdateCurrent as Current;
 use Illuminate\Contracts\Queue\Queue;
 use App\Repositories\CityRepository as CityRepo;
 use App\Contracts\Weather\Repository\ICurrentRepository as CurrentRepo;
@@ -73,7 +73,7 @@ class UpdateCurrent extends TestAbleCommand
                 
                 $no++;
                 
-                $job = new UpdateCurrent($city);
+                $job = new Current($city);
                 
                 $this->pushJob($job);               
             }
