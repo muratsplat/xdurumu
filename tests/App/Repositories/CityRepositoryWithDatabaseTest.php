@@ -65,7 +65,7 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             
             $cache      = $this->getCache();
             
-           // $one = new Repository($cache, $config, $city);          
+            $one = new Repository($cache, $config, $city);          
         }
         
         /**
@@ -80,16 +80,16 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             
             $cache      = $this->getCache();
             
-         //   return new Repository($cache, $config, $city);        
+            return new Repository($cache, $config, $city);        
         }        
         
-        public function atestFind()
+        public function testFind()
         {           
             $cities = factory(\App\City::class, 5)->create();            
             
             $repo = $this->getCityRepository();            
             
-            //$one = $cities->random();
+            $one = $cities->random();
             
             $founded = $repo->find($one->id);
             
@@ -100,11 +100,11 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             $this->assertNull($notExists);            
         }        
     
-        public function atestFindByCitySlug()
+        public function testFindByCitySlug()
         {              
             $cities = factory(\App\City::class, 5)->create();            
             
-            //$repo = $this->getCityRepository();            
+            $repo = $this->getCityRepository();            
             
             $one = $cities->random();
             
@@ -119,7 +119,7 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             $this->assertNull($notExists);           
         }        
 
-        public function atestSimpleAll() 
+        public function testSimpleAll() 
         {            
             $cities = factory(\App\City::class, 5)->create();            
             
@@ -129,7 +129,7 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             $this->assertCount($cities->count(), $repo->enableCache()->all());           
         }
         
-        public function atestFirstOrCreateWeatherHouryStat()
+        public function testFirstOrCreateWeatherHouryStat()
         {            
             $city = factory(\App\City::class)->create();             
             
@@ -144,7 +144,7 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             $this->assertEquals($hourlyStat2->id, $hourlyStat->id);            
         }
         
-        public function atestFirstOrCreateWeatherCurrent()
+        public function testFirstOrCreateWeatherCurrent()
         {            
             $city = factory(\App\City::class)->create();             
             
@@ -157,7 +157,5 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             $current2 = $repo->firstOrCreateWeatherCurrent($city);
             
             $this->assertEquals($current2->id, $current->id);            
-        }
-        
-  
+        }  
 }
