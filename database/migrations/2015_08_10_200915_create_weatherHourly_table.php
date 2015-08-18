@@ -43,8 +43,7 @@ class CreateWeatherHourlyTable extends Migration
             
             $t->increments('id');
             $t->unsignedInteger('city_id');        
-            $t->unsignedInteger('weather_forecast_resource_id')->nullable();          
-            $t->boolean('enable')->default(true);     
+            $t->unsignedInteger('weather_forecast_resource_id')->nullable(); 
             $t->timestamps();             
          
             $t->foreign('city_id')->references('id')->on('cities');             
