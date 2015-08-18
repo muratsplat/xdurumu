@@ -115,11 +115,20 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             return \app('config');
         }
         
+        
+        /**
+         * 
+         * @return \App\Contracts\Weather\Repository\Condition
+         */
+        private function getConditionRepo()
+        {
+            return app('App\Contracts\Weather\Repository\Condition');            
+        }        
     
 
         public function testSimple()
         {           
-            //$condition  = $this->getConditionMock();
+            $condition  = $this->getConditionRepo();
             
             //$resource   = $this->getWeatherForeCastResourceMock();
             
@@ -129,7 +138,7 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             $config     = $this->getConfig();      
             
-            $one = new Repository($cache, $config, $list);             
+            $one = new Repository($cache, $config, $list, $condition);            
             
         }   
         
@@ -139,9 +148,11 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             $cache      = $this->getCache();
             
-            $config     = $this->getConfig();                  
+            $config     = $this->getConfig();  
             
-            $one = new Repository($cache, $config, $list);   
+            $condition  = $this->getConditionRepo();
+            
+            $one = new Repository($cache, $config, $list, $condition);   
             
             $hourlyStat = $this->createWeatherHourlyStat();
             
@@ -177,9 +188,40 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
                 $this->assertNotNull($one->date_time);                
               
                 $this->assertTrue(is_string($one->date_time));
-            }
+            }        
+        }   
+        
+        
+        public function testExistsConditionAgainCreatedIssue()
+        {              
+            $list       = $this->getWeatherListModel();
+            
+            $cache      = $this->getCache();
+            
+            $config     = $this->getConfig();      
+            
+            $condition  = $this->getConditionRepo();
+            
+            $one = new Repository($cache, $config, $list, $condition);   
+            
+            $hourlyStat = $this->createWeatherHourlyStat();
+            
+            $hourlyData = $this->getHourlyData();            
+            
+            $creates = $one->createListsByHourlyStat($hourlyStat, $hourlyData->getWeatherData());         
+            
+            $numberOflistInJson = count($hourlyData->getWeatherData()->getAttribute('list'));           
+            
+            $numberOfConditions = App\WeatherCondition::all()->count();
+            
+            $this->assertTrue($numberOfConditions > 1);
+            
+            $creates1 = $one->createListsByHourlyStat($hourlyStat, $hourlyData->getWeatherData());              
+            
+            //$this->assertEquals($numberOfConditions, App\WeatherCondition::all()->count());     
             
         }   
+        
         
         public function tearDown()
         {

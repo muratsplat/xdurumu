@@ -11,6 +11,7 @@ use Illuminate\Contracts\Config\Repository      as Config;
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Repository\ICacheAble;
+use App\Contracts\Weather\Repository\Condition;
 
 
 /**
@@ -25,18 +26,27 @@ class ListRepo extends CacheAble implements IList, ICacheAble
      */
     private $mainModel;    
     
+    /**
+     * @var \App\Contracts\Weather\Repository\Condition
+     */
+    private $condition;
+    
         /**
          * Create new Instance
          * 
          * @param \Illuminate\Contracts\Cache\Repository $cache
          * @param \Illuminate\Contracts\Config\Repository $config
          * @param \App\WeatherList; 
+         * @param \App\Contracts\Weather\Repository\Condition; 
+         * 
          */
-        public function __construct(Cache $cache, Config $config, WeatherList $list)
+        public function __construct(Cache $cache, Config $config, WeatherList $list, Condition  $condition)
         {
             parent::__construct($cache, $config);
             
             $this->mainModel    = $list;            
+            
+            $this->condition    = $condition;
         }    
     
         /**

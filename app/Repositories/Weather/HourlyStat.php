@@ -81,8 +81,7 @@ class HourlyStat extends Base implements IHourly, ICacheAble
             
             if ($associatedModel->save()) {  return $associatedModel; }            
             
-            throw new ErrorException('WeatherHourlyStat model is not saved correctly');                     
-            
+            throw new ErrorException('WeatherHourlyStat model is not saved correctly');                  
          }
         
         

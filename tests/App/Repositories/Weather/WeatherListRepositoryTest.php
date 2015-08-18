@@ -65,13 +65,13 @@ class WeatherListRepositoryTest extends \TestCase
         }
         
         /**
-         * Mocked List Repository
+         * Mocked Condition Repository
          *  
          * @return \Mockery\MockInterface
          */
-        private function getMockedListRepository()
+        private function getMockedConditionRepo()
         {
-            return m::mock('App\Contracts\Weather\Repository\IList');            
+            return m::mock('App\Contracts\Weather\Repository\Condition');            
         } 
         
         /**
@@ -98,7 +98,9 @@ class WeatherListRepositoryTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $list);          
+            $condition  = $this->getMockedConditionRepo();
+            
+            $one = new Repository($cache, $config, $list, $condition);          
         }   
         
         public function testCreateListByHourlyStat()
@@ -115,7 +117,9 @@ class WeatherListRepositoryTest extends \TestCase
             
             $config->shouldReceive('get')->andReturn(30);
             
-            $one = new Repository($cache, $config, $list);     
+            $condition  = $this->getMockedConditionRepo();
+            
+            $one = new Repository($cache, $config, $list, $condition);     
             
             $hourlydata = (new OpenWeatherMap($this->hourly))->hourly()->getWeatherData();
             
