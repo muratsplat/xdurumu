@@ -5,7 +5,7 @@
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
-use App\Repositories\Weather\ListRepository as Repository;
+use App\Repositories\Weather\ListRepo as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use Mockery as m;
 
@@ -71,18 +71,8 @@ class WeatherListRepositoryTest extends \TestCase
          */
         private function getMockedListRepository()
         {
-            return m::mock('App\Contracts\Weather\Repository\IListRepository');            
-        }   
-        
-       /**
-         * Mocked Current Model
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getConditionMock()
-        {
-            return m::mock('App\WeatherCondition');
-        }   
+            return m::mock('App\Contracts\Weather\Repository\IList');            
+        } 
         
         /**
          * To get mocked WeatherList Object

@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
-use App\Repositories\Weather\ListRepository as Repository;
+use App\Repositories\Weather\ListRepo as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 //use Mockery as m;
 
