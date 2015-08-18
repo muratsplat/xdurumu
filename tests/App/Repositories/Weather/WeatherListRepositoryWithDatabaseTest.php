@@ -218,7 +218,7 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             $creates1 = $one->createListsByHourlyStat($hourlyStat, $hourlyData->getWeatherData());              
             
-            //$this->assertEquals($numberOfConditions, App\WeatherCondition::all()->count());     
+            $this->assertEquals($numberOfConditions, App\WeatherCondition::all()->count());     
             
         }   
         

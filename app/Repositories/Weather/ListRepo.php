@@ -11,7 +11,7 @@ use Illuminate\Contracts\Config\Repository      as Config;
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Repository\ICacheAble;
-use App\Contracts\Weather\Repository\Condition;
+use App\Contracts\Weather\Repository\Condition  as ICondition;
 
 
 /**
@@ -40,7 +40,7 @@ class ListRepo extends CacheAble implements IList, ICacheAble
          * @param \App\Contracts\Weather\Repository\Condition; 
          * 
          */
-        public function __construct(Cache $cache, Config $config, WeatherList $list, Condition  $condition)
+        public function __construct(Cache $cache, Config $config, WeatherList $list, ICondition  $condition)
         {
             parent::__construct($cache, $config);
             
@@ -122,7 +122,7 @@ class ListRepo extends CacheAble implements IList, ICacheAble
          * 
          * @param \App\WeatherList $list
          * @param array  includes \App\Libs\Weather\DataType\WeatherCondition Object
-         * @return \App\WeatherCondition
+         * @return array created or founded records
          */
         private function createWeatherConditions(WeatherList $list, ListData $data)
         {               
@@ -130,12 +130,23 @@ class ListRepo extends CacheAble implements IList, ICacheAble
             
             if ( $conditions->isEmpty()) { return; }   
             
-            return $list->conditions()->createMany($conditions->toArray());                 
+            return $this->findOrCreateManyCondition($list, $conditions->toArray());
         }
         
-        private function findOrCreateManyCondition()
+        /**
+         * To find or cerate many weather condition records
+         * 
+         * @param \App\WeatherList $list
+         * @param array     $records
+         * @return array    Instances         
+         */
+        private function findOrCreateManyCondition(WeatherList $list, array $records)
         {
+            $instances      =  $this->condition->findOrCreateMany($records);      
             
+            $conditionIds   = array_map(function($item){ return $item->id; }, $instances); 
+            
+            return $list->conditions()->sync($conditionIds, false);            
         }
         
         /**
