@@ -31,17 +31,8 @@ class OpenWeatherMapHourlyTest extends \TestCase
             $hourly = new Hourly($stdObject);
             
             $this->assertNotNull($hourly);            
-        } 
-        
-        public function testConstruct()
-        {
-            $stdObject = json_decode($this->hourly);
-            
-            $hourly = new Hourly($stdObject);
-            
-            $this->assertNotNull($hourly);            
-        }       
-        
+        }         
+
         public function testGetWeatherData()
         {
             $stdObject = json_decode($this->hourly);

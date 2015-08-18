@@ -188,8 +188,8 @@ class Hourly extends JsonConverter
             return new WeatherMain([
                 
                     'temp'          => getProperty($main, 'temp'),      
-                    'temp_min'      => getProperty($main, 'temp'),
-                    'temp_max'      => getProperty($main, 'temp'),
+                    'temp_min'      => getProperty($main, 'temp_min'),
+                    'temp_max'      => getProperty($main, 'temp_max'),
                     'temp_eve'      => null,
                     'temp_night'    => null,
                     'temp_morn'     => null, 

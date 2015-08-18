@@ -191,7 +191,6 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
         
         public function testFixesWeatherForeCastResourceAssociatedIssue()
         {            
-            
             $cities = $this->createCities(3);          
             
             $cityRepo = $this->getCityRepo();            

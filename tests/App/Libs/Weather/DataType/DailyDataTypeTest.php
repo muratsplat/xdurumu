@@ -4,7 +4,7 @@ use App\Libs\Weather\DataType\City;
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
 use App\Libs\Weather\DataType\WeatherMain;
-use App\Libs\Weather\DataType\WeatherHourly;
+use App\Libs\Weather\DataType\WeatherDaily;
 use App\Libs\Weather\DataType\WeatherList;
 
 /**
@@ -12,12 +12,12 @@ use App\Libs\Weather\DataType\WeatherList;
  * 
  * @package WeatherForcast
  */
-class HourlyDataTypeTest extends \TestCase
+class DailyDataTypeTest extends \TestCase
 { 
     
         public function testSimple()
         {
-            $current = new WeatherHourly(array());
+            $current = new WeatherDaily(array());
 
             $this->assertFalse($current->isFilledRequiredElements());
         }
@@ -81,19 +81,19 @@ class HourlyDataTypeTest extends \TestCase
                     ]             
                 ];            
             
-            $current = new WeatherHourly($data);
+            $current = new WeatherDaily($data);
 
             $this->assertFalse($current->isFilledRequiredElements());            
                     
             $failedElements = $current->getFailedElementKeys()->toArray();
             
-            $this->assertTrue(in_array('city', $failedElements));       
-            $this->assertTrue(in_array('weather_forecast_resource', $failedElements));       
+            $this->assertTrue(in_array('city', $failedElements));                
         }
         
         public function testisFilledRequiredElementsWithChildElements()
         { 
-            $conditionData = [
+            
+             $conditionData = [
                 
                 'open_weather_map_id'   => 212,             
                 'orgin_name'            => 'yağmurlu',
@@ -105,9 +105,12 @@ class HourlyDataTypeTest extends \TestCase
             
             $mainData   = [
                 
-                'temp'          => 122,      
-                'temp_min'      => 2323.1,
-                'temp_max'      => 1212,                
+                'temp'      => 293.51,
+                'temp_min'  => 293.34,
+                'temp_max'  => 293.51,
+                'temp_night'=> 293.34,
+                'temp_eve'  => 293.51,
+                'temp_morn' => 293.51
                 ];
             
             $main       = new WeatherMain($mainData);
@@ -121,17 +124,16 @@ class HourlyDataTypeTest extends \TestCase
                     'weather_clouds'                => null,
                     'source_updated_at'             => 'foo',   
                     'dt'                            => 'bar',     
-                ];
-            
+                ];            
             
             $current = new WeatherList($data);
-      
-            $this->assertTrue($current->isFilledRequiredElements());          
+            $this->assertTrue($current->isFilledRequiredElements());                
         }
         
         public function testisFilledRequiredElementsWithChildElementsEmpty()
         { 
-            $conditionData = [
+            
+              $conditionData = [
                 
                 'open_weather_map_id'   => 212,             
                 'orgin_name'            => 'yağmurlu',
@@ -143,26 +145,28 @@ class HourlyDataTypeTest extends \TestCase
             
             $mainData   = [
                 
-                'temp'          => 122,      
-                'temp_min'      => 2323.1,
-                'temp_max'      => 1212,                
+                'temp'      => 293.51,
+                'temp_min'  => 293.34,
+                'temp_max'  => 293.51,
+                'temp_night'=> 293.34,
+                'temp_eve'  => 293.51,
+                'temp_morn' => 293.51
                 ];
             
             $main       = new WeatherMain($mainData);
             
             $data = [      
-                    'weather_conditions'            => $condition,
+                    'weather_conditions'             => $condition,
                     'weather_main'                  => $main,   
                     'weather_wind'                  => null,
                     'weather_rain'                  => null,
                     'weather_snow'                  => null,
                     'weather_clouds'                => null,
                     'source_updated_at'             => 'foo',   
-                    //'dt'                            => rand(121,2323),
+                    //'dt'                            => 'bar',     
                 ];            
             
-            $current = new WeatherList($data);            
-           
+            $current = new WeatherList($data);
             $this->assertFalse($current->isFilledRequiredElements());          
         }       
 }
