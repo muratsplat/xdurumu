@@ -4,7 +4,7 @@
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\Repositories\Weather\ForecastResourceRepository as Repository;
+use App\Repositories\Weather\ForecastResource as Repository;
 use Mockery as m;
 
 /**

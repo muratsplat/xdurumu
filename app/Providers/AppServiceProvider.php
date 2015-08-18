@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
         
         $this->app->bind(
                 'App\Contracts\Weather\Repository\IList', 
-                'App\Repositories\Weather\List');
+                'App\Repositories\Weather\ListRepo');
         
         $this->app->bind(
                 'App\Contracts\Weather\Repository\Condition', 

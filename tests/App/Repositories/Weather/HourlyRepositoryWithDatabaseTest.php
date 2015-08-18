@@ -4,11 +4,10 @@
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\Repositories\Weather\HourlyStatRepository as Repository;
+use App\Repositories\Weather\HourlyStat as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use App\City;
 use App\Repositories\CityRepository;
-use App\WeatherCondition;
 use App\WeatherHourlyStat;
 use App\WeatherForeCastResource;
 use Mockery as m;
@@ -101,13 +100,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
          */
         private function getCityRepo()
         {
-            $app = app();
-            
-            $cache  = $app['cache']->driver();
-            
-            $config = $app['config'];
-            
-            return new CityRepository($cache, $config, new City());
+            return app('App\Contracts\Repository\ICity');  
         }
         
         /**
@@ -116,7 +109,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
          */
         private function getListRepo()
         {
-            return app('App\Contracts\Weather\Repository\IListRepository');       
+            return app('App\Contracts\Weather\Repository\IList');       
         }
 
         /**
@@ -143,7 +136,7 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
          */
         private function getCondition()
         {
-            return app('App\Contracts\Weather\Repository\ConditionRepository');
+            return app('App\Contracts\Weather\Repository\Condition');
         }    
 
         public function testSimple()

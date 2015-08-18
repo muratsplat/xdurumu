@@ -5,7 +5,7 @@
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
-use App\Repositories\CityRepository as Repository;
+use App\Repositories\City as Repository;
 use Mockery as m;
 
 /**

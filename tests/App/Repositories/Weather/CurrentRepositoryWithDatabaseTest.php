@@ -4,13 +4,11 @@
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\Repositories\Weather\CurrentRepository as Repository;
+use App\Repositories\Weather\Current as Repository;
 use App\Libs\Weather\OpenWeatherMap;
-use App\City;
 use App\WeatherCurrent;
-use App\WeatherCondition;
 use App\WeatherForeCastResource;
-use App\Repositories\CityRepository;
+
 use Mockery as m;
 
 /**
@@ -74,14 +72,8 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
          * @return \App\Contracts\Repository\ICityRepository
          */
         private function getCityRepo()
-        {
-            $app = app();
-            
-            $cache  = $app['cache']->driver();
-            
-            $config = $app['config'];            
-            
-            return new CityRepository($cache, $config, new City());
+        {                    
+            return app('App\Contracts\Repository\ICity');
         }
 
         /**
@@ -108,7 +100,7 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
          */
         private function getCondition()
         {
-            return app('App\Contracts\Weather\Repository\ConditionRepository');
+            return app('App\Contracts\Weather\Repository\Condition');
         }
         
                 /**

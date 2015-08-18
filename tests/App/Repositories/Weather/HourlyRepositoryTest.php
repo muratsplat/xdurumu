@@ -5,7 +5,7 @@
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
-use App\Repositories\Weather\HourlyStatRepository as Repository;
+use App\Repositories\Weather\HourlyStat as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 
 use Mockery as m;
@@ -70,7 +70,7 @@ class HourlyRepositoryTest extends \TestCase
          */
         private function getCityRepoMock()
         {
-            return m::mock('App\Contracts\Repository\ICityRepository');            
+            return m::mock('App\Contracts\Repository\ICity');            
         }
         
         /**
@@ -92,17 +92,7 @@ class HourlyRepositoryTest extends \TestCase
         {
             return m::mock('Illuminate\Contracts\Config\Repository');            
         }
-        
-        /**
-         * Mocked App\WeatherCurrent Model
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getWeatherCurrentMock()
-        {
-            return m::mock('App\WeatherCurrent');            
-        }
-        
+
        /**
          * Mocked Current Model
          * 
@@ -130,7 +120,7 @@ class HourlyRepositoryTest extends \TestCase
          */
         private function getWeatherListRepoMock()
         {
-            return m::mock('App\Repositories\Weather\ListRepository');
+            return m::mock('App\Repositories\Weather\ListRepo');
         }
         
         /**
@@ -140,7 +130,7 @@ class HourlyRepositoryTest extends \TestCase
          */
         private function getConditionRepoMock()
         {
-            return m::mock('App\Contracts\Weather\Repository\ConditionRepository');
+            return m::mock('App\Contracts\Weather\Repository\Condition');
         }        
         
         public function testSimple()

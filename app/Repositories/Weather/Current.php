@@ -42,7 +42,7 @@ class Current extends Base implements ICurrent, ICacheAble, Importable
                 City        $city, 
                 Condition   $condition, 
                 Resource    $resource, 
-                Current     $current) {
+                Model       $current) {
             
             parent::__construct($cache, $config, $city, $condition, $resource);
             
@@ -285,7 +285,7 @@ class Current extends Base implements ICurrent, ICacheAble, Importable
          * @param App\WeatherCurrent $current
          * @return array    results
          */
-        protected function importAllRelationships(Current $current)
+        protected function importAllRelationships(Model $current)
         {
             $results    = $this->addResourceAndCondition($current);
             $results2   = $this->addOtherAllRelationships($current);            
@@ -300,7 +300,7 @@ class Current extends Base implements ICurrent, ICacheAble, Importable
          * @param \App\WeatherCurrent   $current
          * @return array    returns of called methods
          */
-        protected function callMethodsByPrefix($prefix, Current $current) 
+        protected function callMethodsByPrefix($prefix, Model $current) 
         {   
             $results    = [];       
             
