@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Repositories\Weather\HourlyStat as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use App\City;
-use App\Repositories\CityRepository;
 use App\WeatherHourlyStat;
 use App\WeatherForeCastResource;
 use Mockery as m;
@@ -255,6 +254,6 @@ class HourlyRepositoryWithDatabaseTest extends \TestCase
             
             $createdHourlyModel1 = $one->import($accessor);
             
-         //   $this->assertEquals(App\WeatherCondition::all()->count(), $numberOfConditions);    
+            $this->assertEquals(App\WeatherCondition::all()->count(), $numberOfConditions);    
         } 
 }

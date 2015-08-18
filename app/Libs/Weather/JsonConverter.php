@@ -4,6 +4,7 @@ namespace App\Libs\Weather;
 
 use LogicException;
 use InvalidArgumentException;
+use RuntimeException;
 
 
 /**
