@@ -101,7 +101,7 @@ class UpdateDaily extends Job implements SelfHandling, ShouldQueue
          * 
          * @param   \App\City                           $city
          * @param   \App\Contracts\Weather\Accessor     $accessor
-         * @return  \App\WeatherHourlyStat 
+         * @return  \App\Weather\DailyStat 
          */
         protected function importData(City $city, Accessor $accessor)
         {
@@ -109,13 +109,13 @@ class UpdateDaily extends Job implements SelfHandling, ShouldQueue
         }        
         
         /**
-         * To set hourly repository and injected Weather Api Factory
+         * To set daily repository and injected Weather Api Factory
          * 
-         * @param \App\Contracts\Weather\Repository\IHourlyRepository $hourly
+         * @param \App\Contracts\Weather\Repository\IDaily $daily
          */
-        private function init(Repo $hourly)
+        private function init(Repo $daily)
         {
-            $this->repo             = $hourly;
+            $this->repo             = $daily;
             
             $this->weatherApiFactory= app('app.weather.factory');                
         }

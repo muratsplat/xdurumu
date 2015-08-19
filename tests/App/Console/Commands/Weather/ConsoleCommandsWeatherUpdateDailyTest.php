@@ -2,10 +2,10 @@
 
 use Mockery as m;
 
-use App\Console\Commands\Weather\UpdateHourly as ConsoleHourly;
+use App\Console\Commands\Weather\UpdateDaily as ConsoleCommand;
 
 
-class ConsoleCommandsWeatherUpdateHourlyTest extends \TestCase
+class ConsoleCommandsWeatherUpdateDailyTest extends \TestCase
 {
     
         public function setUp()
@@ -33,11 +33,10 @@ class ConsoleCommandsWeatherUpdateHourlyTest extends \TestCase
          * 
          * @return \Mockery\MockInterface
          */
-        private function getMockedCurrent()
+        private function getMockedApiServiceFactory()
         {
-            return m::mock('App\Contracts\Weather\Repository\ICurrent');
-        }        
-
+            return m::mock('App\Libs\Weather\ApiServiceFactory');
+        }
         
         /**
          * 
@@ -54,7 +53,7 @@ class ConsoleCommandsWeatherUpdateHourlyTest extends \TestCase
             
             $queue = $this->getMockedQueue();                    
             
-            $job = new ConsoleHourly($queue, $repo);
+            $job = new ConsoleCommand($queue, $repo);
         }   
         
         public function testHandle()
@@ -67,11 +66,10 @@ class ConsoleCommandsWeatherUpdateHourlyTest extends \TestCase
             $repo->shouldReceive('enable')->andReturnSelf();
             $repo->shouldReceive('get')->andReturn($cities);            
             
-            $queue = $this->getMockedQueue(); 
-            
-            $queue->shouldReceive('push')->andReturnSelf();
-   
-            $job = new ConsoleHourly($queue, $repo);
+            $queue = $this->getMockedQueue();             
+            $queue->shouldReceive('push')->andReturnSelf();                  
+        
+            $job = new ConsoleCommand($queue, $repo);
             
             $job->enableTesting();
             
