@@ -275,4 +275,26 @@ $factory->define(App\WeatherList::class, function (Faker\Generator $faker) {
        
     ];
 });
+
+//    $t->increments('id');
+//    $t->unsignedInteger('city_id');        
+//    $t->unsignedInteger('weather_forecast_resource_id')->nullable();                         
+//    $t->timestamps();             
+//
+//    $t->foreign('city_id')->references('id')->on('cities');             
+//    $t->foreign('weather_forecast_resource_id')->references('id')->on('weather_forecast_resources');
+$factory->define(App\Weather\DailyStat::class, function (Faker\Generator $faker) {
+    
+    $now        = \Carbon\Carbon::now();
+    $created_at = $now->format('Y-m-d H:m:s');
+    $updated_at = $now->addHour(1)->format('Y-m-d H:m:s');
+    
+    return [
+        'city_id'                       => null,    
+        'weather_forecast_resource_id'  => null,            
+        'created_at'                    => $created_at,
+        'updated_at'                    => $updated_at,       
+    ];
+});
+    
         
