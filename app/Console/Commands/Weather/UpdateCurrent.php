@@ -37,11 +37,6 @@ class UpdateCurrent extends TestAbleCommand
      * @var \Illuminate\Contracts\Queue\Queue 
      */
     private $queue;
-    
-    /**
-     * @var \App\Contracts\Weather\Repository\ICurrent
-     */
-    private $currentRepo;
             
         /**
          * Create a new command instance.
@@ -49,15 +44,13 @@ class UpdateCurrent extends TestAbleCommand
          * @param \Illuminate\Contracts\Queue\Queue $queue Description
          * @param \App\Contracts\Repository\ICity   $city Description
          */
-        public function __construct(Queue $queue, CityRepo $city, CurrentRepo $current)
+        public function __construct(Queue $queue, CityRepo $city)
         {
             parent::__construct();
             
             $this->cityRepo     = $city; 
             
-            $this->queue        = $queue;   
-            
-            $this->currentRepo  = $current;
+            $this->queue        = $queue;            
         }
 
         /**
@@ -111,14 +104,5 @@ class UpdateCurrent extends TestAbleCommand
         {
             $this->queue->push($job);
         }
-        
-        /**
-         * To get Weather Current Repository
-         * 
-         * @return \App\Contracts\Weather\Repository\ICurrent
-         */
-        protected function getCurrentRepository()
-        {   
-            return $this->currentRepo;            
-        }      
+    
 }

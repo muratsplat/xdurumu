@@ -53,14 +53,12 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
         
         
         public function testSimple()
-        {           
-            $currentRepo = $this->getMockedCurrent();
-            
+        {                         
             $repo= $this->getMockedCity();  
             
             $queue = $this->getMockedQueue();                    
             
-            $job = new ConsoleUpdate($queue, $repo, $currentRepo);
+            $job = new ConsoleUpdate($queue, $repo);
         }   
         
         public function testHandle()
@@ -74,12 +72,9 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
             $repo->shouldReceive('get')->andReturn($cities);                        
             
             $queue = $this->getMockedQueue();             
-            $queue->shouldReceive('push')->andReturnSelf();
-                    
+            $queue->shouldReceive('push')->andReturnSelf();                    
             
-            $currentRepo = $this->getMockedCurrent();
-        
-            $job = new ConsoleUpdate($queue, $repo, $currentRepo);
+            $job = new ConsoleUpdate($queue, $repo);
             
             $job->enableTesting();
             

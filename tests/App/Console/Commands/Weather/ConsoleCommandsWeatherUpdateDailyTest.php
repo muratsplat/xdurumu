@@ -28,15 +28,7 @@ class ConsoleCommandsWeatherUpdateDailyTest extends \TestCase
         {
             return m::mock('App\Contracts\Repository\ICity');
         } 
-        
-        /**
-         * 
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedApiServiceFactory()
-        {
-            return m::mock('App\Libs\Weather\ApiServiceFactory');
-        }
+
         
         /**
          * 
