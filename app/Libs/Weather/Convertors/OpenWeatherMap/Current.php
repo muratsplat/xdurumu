@@ -2,10 +2,7 @@
 
 namespace App\Libs\Weather\Convertors\OpenWeatherMap;
 
-use ErrorException;
-use RuntimeException;
 use Carbon\Carbon;
-
 use App\Libs\Weather\JsonConverter;
 use App\Libs\Weather\DataType\City;
 use App\Libs\Weather\DataType\WeatherMain;

@@ -129,6 +129,8 @@ class DailyRepositoryWithDatabaseTest extends \TestCase
             
             $cities = $this->createCities(3);
             
+          
+            
             $this->assertCount(3, $cities);
             
             $cityRepo = $this->getCityRepo();            
@@ -166,8 +168,11 @@ class DailyRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount($numberOfLists, App\WeatherCloud::all());
             $this->assertCount($numberOfLists, App\WeatherMain::all());
-            $this->assertCount($numberOfLists, App\WeatherWind::all());
-            $this->assertCount($numberOfLists, App\WeatherRain::all());
+            $this->assertCount($numberOfLists, App\WeatherWind::all());           
+            
+            $numberOfRains = $this->countNotNullElement('rain');           
+            
+            $this->assertCount($numberOfRains, App\WeatherRain::all());
             
             /**
              * There is no data for Snow in example data
@@ -207,6 +212,34 @@ class DailyRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertEquals(1, $createdHourlyModel->weather_forecast_resource_id);            
         } 
+        
+        
+        /**
+         * To count not empty or not null elements in json example data
+         * 
+         * @param string $name
+         * @return int
+         */
+        private function countNotNullElement($name)
+        {
+            $rawData = json_decode($this->jsonExample, true);            
+            
+            $no = 0; 
+            
+            foreach ($rawData['list'] as $one) {
+                
+                $elem = isset($one[$name]) ? $one[$name] : null;                
+                
+                if ( is_null($elem) || empty($elem)) {
+                    
+                    continue;                    
+                }
+                
+                $no++;                
+            }
+            
+            return $no;       
+        }
         
         public function testALotOfConditionsRecordsIssue()
         {            

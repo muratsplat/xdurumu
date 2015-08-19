@@ -6,7 +6,7 @@ use App\Libs\Weather\Convertors\OpenWeatherMap\Hourly;
 
 
 class OpenWeatherMapHourlyTest extends \TestCase
-{ 
+{
     
     /**
      * Example oj JSON
@@ -51,12 +51,52 @@ class OpenWeatherMapHourlyTest extends \TestCase
             
             $this->assertCount(37, $data['list']->toArray());
             
+            $numberOfRain = $this->countNotNullElement('rain');
+            
+            $notEmpyRains = array_filter($data['list']->toArray(), function($item){   
+                
+                $rain = isset($item['weather_rain']) ? $item['weather_rain'] : null ;       
+                
+                if ( $rain && !empty($item) ) {
+                    
+                    return true;
+                }             
+            });
+            
+            $this->assertEquals($numberOfRain, count($notEmpyRains));            
+            
             $this->assertEquals($array['city']['id'], $data['city']['id']);            
             $this->assertEquals($array['list'][0]['dt'], $data['list'][0]['dt']);
             $this->assertEquals($array['list'][0]['main']['temp'], $data['list'][0]['weather_main']['temp']);
-            $this->assertEquals($array['list'][0]['weather'][0]['main'], $data['list'][0]['weather_conditions'][0]['name']);      
-       
+            $this->assertEquals($array['list'][0]['weather'][0]['main'], $data['list'][0]['weather_conditions'][0]['name']);             
         } 
+        
+        /**
+         * To count not empty or not null elements in json example data
+         * 
+         * @param string $name
+         * @return int
+         */
+        private function countNotNullElement($name)
+        {
+            $rawData = json_decode($this->hourly, true);            
+            
+            $no = 0; 
+            
+            foreach ($rawData['list'] as $one) {
+                
+                $elem = isset($one[$name]) ? $one[$name] : null;                
+                
+                if ( is_null($elem) || empty($elem)) {
+                    
+                    continue;                    
+                }
+                
+                $no++;                
+            }
+            
+            return $no;       
+        }
         
         
 }

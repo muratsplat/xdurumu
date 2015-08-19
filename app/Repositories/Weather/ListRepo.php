@@ -200,10 +200,10 @@ class ListRepo extends CacheAble implements IList, ICacheAble
          */
         private function createWeatherRain(WeatherList $list, ListData $data)
         {           
-            $rain = $data->getMain();
-            
+            $rain = $data->getRain();
+          
             $attributes = ! is_null($rain) && $rain->isFilledRequiredElements() ? $rain->toArray() : null;           
-            
+         
             if ( is_null($attributes) ) { return; }            
             
             return $list->rain()->create($attributes);                 

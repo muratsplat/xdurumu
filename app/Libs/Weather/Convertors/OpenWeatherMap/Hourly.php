@@ -2,6 +2,7 @@
 
 namespace App\Libs\Weather\Convertors\OpenWeatherMap;
 
+use stdClass;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Libs\Weather\DataType\City;
@@ -228,17 +229,17 @@ class Hourly extends JsonConverter
          * @param  mixed    $rain
          * @return \App\Libs\Weather\DataType\WeatherDataAble|null
          */
-        protected function createRain($rain=null)
-        {                
-            if ($rain instanceof stdClass) {
-                
+        protected function createRain($rain)
+        {              
+            if ($rain instanceof stdClass && ! is_null($value = getProperty($rain, '3h'))) {           
+                                
                 return new WeatherRain([
-                    '3h'        => getProperty($rain, '3h'),
+                    
+                    '3h'        => $value,
                     'rain'      => null,  
+                    
                     ]);             
-            } 
-            
-            return;           
+            }          
         }        
         
         /**
@@ -250,10 +251,11 @@ class Hourly extends JsonConverter
          */
         protected function createSnow($snow)
         {            
-            if ($snow instanceof \stdClass) {
+            if ($snow instanceof \stdClass && ! is_null($value = getProperty($snow, '3h'))) {
                 
                 return new WeatherSnow([
-                    '3h'        => getProperty($snow, '3h'),
+                    
+                    '3h'        => $value,
                     'snow'      => null,  
                 ]);  
             }       

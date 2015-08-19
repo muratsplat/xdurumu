@@ -2,6 +2,7 @@
 
 namespace App\Libs\Weather\Convertors\OpenWeatherMap;
 
+use stdClass;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Libs\Weather\JsonConverter;
@@ -125,7 +126,7 @@ class Daily extends JsonConverter
          * @param \stdClass $data
          * @return \App\Libs\Weather\DataType\WeatherList;
          */
-        private function createList(\stdClass $data)
+        private function createList(stdClass $data)
         {           
             $conditions = getProperty($data, 'weather');
             $main       = getProperty($data, 'temp');
@@ -181,7 +182,7 @@ class Daily extends JsonConverter
          * @param   \stdClass       $list 
          * @return \App\Libs\Weather\DataType\WeatherDataAble 
          */
-        protected function createMain(\stdClass $main, \stdClass $list)
+        protected function createMain(stdClass $main, stdClass $list)
         {                  
             return new WeatherMain([
                 
@@ -210,7 +211,7 @@ class Daily extends JsonConverter
          */
         protected function createWind($wind)
         {       
-            if ($wind instanceof \stdClass) {
+            if ($wind instanceof stdClass) {
                 
                 return new WeatherWind([
                     'speed'     => getProperty($wind, 'speed'),

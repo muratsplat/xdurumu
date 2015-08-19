@@ -519,7 +519,7 @@ abstract class ApiRequest
          */
         public function getDailyUrl()
         {
-            $url = $this->hourlyUrl;
+            $url = $this->dailyUrl;
             
             if (! is_null($url)) {
                 

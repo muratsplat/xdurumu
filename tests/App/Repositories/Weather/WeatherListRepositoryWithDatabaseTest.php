@@ -172,7 +172,9 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount($numberOflistInJson, App\WeatherCloud::all());
             
-            $this->assertCount($numberOflistInJson, App\WeatherRain::all());
+            $numberOfRain = $this->countNotNullElement('rain');
+            
+            $this->assertCount($numberOfRain, App\WeatherRain::all());
             
             $this->assertCount(0, App\WeatherSnow::all());
             
@@ -222,11 +224,30 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
         }   
         
-        
-        public function tearDown()
+        /**
+         * To count not empty or not null elements in json example data
+         * 
+         * @param string $name
+         * @return int
+         */
+        private function countNotNullElement($name)
         {
-            parent::tearDown();            
-      
+            $rawData = json_decode($this->hourly, true);            
+            
+            $no = 0; 
+            
+            foreach ($rawData['list'] as $one) {
+                
+                $elem = isset($one[$name]) ? $one[$name] : null;                
+                
+                if ( is_null($elem) || empty($elem)) {
+                    
+                    continue;                    
+                }
+                
+                $no++;                
+            }
+            
+            return $no;       
         }
-  
 }
