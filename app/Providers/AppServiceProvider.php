@@ -63,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
                 'App\Contracts\Weather\Repository\Condition', 
                 'App\Repositories\Weather\Condition');
+        
+        $this->app->bind(
+                'App\Contracts\Weather\Repository\IDaily', 
+                'App\Repositories\Weather\DailyStat');
                 
     }
     
