@@ -241,4 +241,140 @@ class DailyRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertEquals(App\WeatherCondition::all()->count(), $numberOfConditions);    
         } 
+        
+        
+        public function testCompareDataInDBAndJSON()
+        {               
+            
+            $cities = $this->createCities(3);
+            
+            $city   = $cities->random();
+            
+            $city->name = 'Moscow';
+            $city->country = 'RU';
+            
+            $this->assertTrue($city->save());
+            
+            $this->assertCount(3, $cities);
+            
+            $cityRepo = $this->getCityRepo();            
+                       
+            $condition = $this->getCondition();
+            
+            $resource = $this->getResource();
+            
+            $daily  = $this->getDailyStat();        
+            
+            $config     = $this->getConfigInstance();
+            
+            $cache      = $this->getCacheInstance();
+            
+            $accessor   = $this->getAccessorForDailyData();
+            
+            $listRepo   = $this->getListRepo();            
+            
+            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $daily, $listRepo);
+            
+            $one->selectCity($city);
+            
+            $hourlyModel = $one->import($accessor);
+            
+            $rawData = json_decode($this->jsonExample, true);
+            
+            $this->assertEquals($rawData['city']['name'], $hourlyModel->city->name);
+            $this->assertEquals($rawData['city']['country'], $hourlyModel->city->country);
+            
+            // test temp attribute on WeatherMain model
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['temp']['day'], $hourlyModel->weatherLists[$k]->main->temp);               
+            }
+            
+            // test temp_min attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['temp']['min'], $hourlyModel->weatherLists[$k]->main->temp_min);               
+            }            
+                        
+            // test temp_max attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['temp']['max'], $hourlyModel->weatherLists[$k]->main->temp_max);               
+            } 
+            
+            // test temp_night attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['temp']['night'], $hourlyModel->weatherLists[$k]->main->temp_night);               
+            }  
+            
+            // test temp_eve attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['temp']['eve'], $hourlyModel->weatherLists[$k]->main->temp_eve);               
+            }  
+            
+            // test temp_morn attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['temp']['morn'], $hourlyModel->weatherLists[$k]->main->temp_morn);               
+            }  
+            
+            // test pressure attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['pressure'], $hourlyModel->weatherLists[$k]->main->pressure);               
+            } 
+            
+            // test pressure attribute on WeatherMain model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['humidity'], $hourlyModel->weatherLists[$k]->main->humidity);               
+            } 
+            
+            // test  attributes on WeatherCondition model            
+            foreach ($rawData['list'] as $k => $v) {
+                
+                foreach ($rawData['list'][$k]['weather'] as $sk => $sv) {         
+                    
+                    $this->assertEquals($rawData['list'][$k]['weather'][$sk]['id'], $hourlyModel->weatherLists[$k]->conditions[$sk]->open_weather_map_id);                                                       
+                } 
+                
+                foreach ($rawData['list'][$k]['weather'] as $sk => $sv) {         
+                    
+                    $this->assertEquals($rawData['list'][$k]['weather'][$sk]['main'], $hourlyModel->weatherLists[$k]->conditions[$sk]->name);                                                       
+                }  
+                
+                foreach ($rawData['list'][$k]['weather'] as $sk => $sv) {         
+                    
+                    $this->assertEquals($rawData['list'][$k]['weather'][$sk]['description'], $hourlyModel->weatherLists[$k]->conditions[$sk]->description);                                                       
+                } 
+                
+                foreach ($rawData['list'][$k]['weather'] as $sk => $sv) {                             
+                  
+                    // A bug founded in openweather map api
+                    
+                    //$this->assertEquals($rawData['list'][$k]['weather'][$sk]['icon'], $hourlyModel->weatherLists[$k]->conditions[$sk]->icon);                                                       
+                } 
+                                     
+            }
+            
+            // wind speed
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['speed'], $hourlyModel->weatherLists[$k]->wind->speed);               
+            }
+            
+            // wind speed deg
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['deg'], $hourlyModel->weatherLists[$k]->wind->deg);               
+            } 
+            
+            // clouds
+            foreach ($rawData['list'] as $k => $v) {
+                
+                $this->assertEquals($rawData['list'][$k]['clouds'], $hourlyModel->weatherLists[$k]->clouds->all);               
+            }           
+        }    
 }
