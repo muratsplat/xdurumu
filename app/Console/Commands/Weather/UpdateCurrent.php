@@ -6,7 +6,6 @@ use App\Console\TestAbleCommand;
 use App\Contracts\Repository\ICity                  as CityRepo;
 use App\Jobs\Weather\UpdateCurrent                  as Current;
 use Illuminate\Contracts\Queue\Queue;
-use App\Contracts\Weather\Repository\ICurrent       as CurrentRepo;
 
 /**
  * This command make update to weather forecast current data of all cities
