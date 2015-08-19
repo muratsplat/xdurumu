@@ -247,8 +247,7 @@ $factory->define(App\WeatherHourlyStat::class, function (Faker\Generator $faker)
     
     return [
         'city_id'                       => null,    
-        'weather_forecast_resource_id'  => null,       
-        'enable'                        => (boolean) rand(0, 1),
+        'weather_forecast_resource_id'  => null,            
         'created_at'                    => $created_at,
         'updated_at'                    => $updated_at,       
     ];

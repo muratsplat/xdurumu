@@ -2,7 +2,6 @@
 
 namespace App\Libs\Weather\Convertors\OpenWeatherMap;
 
-use ErrorException;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Libs\Weather\JsonConverter;

@@ -62,6 +62,16 @@ class WeatherForeCastResource extends CacheAble
         {
             return $this->hasMany('App\WeatherHourlyStat', 'weather_forecast_resource_id', 'id');
         }
+        
+        /**
+         * to get all weather daily stat models
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function dailyStats()
+        {
+            return $this->hasMany('App\Weather\DailyStat', 'weather_forecast_resource_id', 'id');
+        }
     
         /**
         * Scope a query to only enebled.
