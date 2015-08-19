@@ -15,7 +15,7 @@ use App\Contracts\Weather\Repository\IDaily as Repo;
  * This Job make update to weather daily data via injected city model
  * 
  */
-class UpdateHourly extends Job implements SelfHandling, ShouldQueue
+class UpdateDaily extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
     
