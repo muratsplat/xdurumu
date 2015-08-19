@@ -60,7 +60,18 @@ class City extends CacheAble implements ICity
         public function firstOrCreateWeatherHouryStat(Model $city)
         {
             return $city->weatherHourlyStat()->firstOrCreate(array());         
-        }       
+        }      
+        
+        /**
+         * To get first model  or create new instance model
+         * 
+         * @param \App\City     $city
+         * @return \App\Weather\DailyStat
+         */
+        public function firstOrCreateWeatherDailyStat(Model $city)
+        {
+            return $city->weatherDailyStat()->firstOrCreate(array());         
+        }  
         
         /**
          * To get first model or create new instance model

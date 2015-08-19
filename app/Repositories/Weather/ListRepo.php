@@ -4,11 +4,13 @@ namespace App\Repositories\Weather;
 
 use App\WeatherList;
 use App\WeatherHourlyStat                       as HourlyStatModel;
+use App\Weather\DailyStat                       as DailyStatModel;
 use App\Repositories\CacheAble                  as CacheAble;
 use App\Libs\Weather\DataType\WeatherList       as ListData;
 use Illuminate\Contracts\Cache\Repository       as Cache;
 use Illuminate\Contracts\Config\Repository      as Config;
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
+use App\Libs\Weather\DataType\WeatherDaily      as DailyData;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\Condition  as ICondition;
@@ -71,6 +73,46 @@ class ListRepo extends CacheAble implements IList, ICacheAble
             $results = $data->getList()->map(function(ListData $item) use($hourly) {                
                 
                 $list = $this->createNewListByWeatherHourlyStat($hourly);                     
+                  
+                $this->createWeatherMain($list, $item);                   
+              
+                $this->createWeatherConditions($list,$item );                
+                  
+                $this->createWeatherRain($list, $item);                   
+               
+                $this->createWeatherSnow($list, $item);                
+                
+                $this->createWeatherWind($list, $item);                                
+                
+                $this->createWeatherClouds($list, $item);        
+                
+                $list->date_time = $item->getSourceUpdatedAt();
+                
+                $list->dt = $item->getDt();
+                
+                if (!  $list->save()) {                    
+                    
+                    throw new \RuntimeException('WeatherList Model is not saved!');                  
+                }
+                
+                return $list;
+            });                 
+            
+            return $results;          
+        }
+        
+        /**
+         * To create many list by given daily model via the relationships
+         * 
+         * @param   \App\Weather\DailyStat                      $daily
+         * @param   App\Libs\Weather\DataType\WeatherDaily      $data
+         * @return  \Illuminate\Support\Collection    created WeatherList instances
+         */
+        public function createListsByDailyStat(DailyStatModel $daily, DailyData $data)
+        {                        
+            $results = $data->getList()->map(function(ListData $item) use($daily) {                
+                
+                $list = $this->createNewListByWeatherHourlyStat($daily);                     
                   
                 $this->createWeatherMain($list, $item);                   
               

@@ -76,8 +76,7 @@ class WeatherDailyStatTest extends TestCase
         protected function createNewWeatherDailyStat(array $attributes=[])
         {            
             return factory(App\Weather\DailyStat::class)->make($attributes);
-        }  
-        
+        }          
        
         public function atestFirstOrCreateForMain()
         {            

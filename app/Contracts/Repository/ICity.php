@@ -2,9 +2,7 @@
 
 namespace App\Contracts\Repository;
 
-
 use App\City;
-
 
 /**
  * Current Repository Interface
@@ -13,7 +11,6 @@ use App\City;
  */
 interface ICity extends ICacheAble
 {   
-    
         /**
          * To get first model  or create new instance model
          * 
@@ -29,4 +26,12 @@ interface ICity extends ICacheAble
          * @return \App\WeatherCurrent  
          */
         public function firstOrCreateWeatherCurrent(City $city);
+        
+        /**
+         * To get first model  or create new instance model
+         * 
+         * @param \App\City     $city
+         * @return \App\Weather\DailyStat
+         */
+        public function firstOrCreateWeatherDailyStat(City $city);
 }
