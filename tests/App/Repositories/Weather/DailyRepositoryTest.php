@@ -134,7 +134,7 @@ class DailyRepositoryTest extends \TestCase
         
         public function testSimple()
         {   
-            $hourly     = $this->getDailyStatMock();
+            $daily     = $this->getDailyStatMock();
             
             $city       = $this->getCityRepoMock();
             
@@ -150,17 +150,17 @@ class DailyRepositoryTest extends \TestCase
             
             $listRepo   = $this->getWeatherListRepoMock();
             
-            $one = new Repository($cache, $config, $city,$condition, $resource, $hourly, $listRepo);
+            $one = new Repository($cache, $config, $city,$condition, $resource, $daily, $listRepo);
           
         }       
         
-        public function atestSelectCity()
+        public function testSelectCity()
         {   
-            $hourly     = $this->getHourlyStatMock();
+            $hourly     = $this->getDailyStatMock();
             
             $cityRepo   = $this->getCityRepoMock();
             
-            $cityRepo->shouldReceive('firstOrCreateWeatherHouryStat')->andReturn();
+            $cityRepo->shouldReceive('firstOrCreateWeatherDailyStat')->andReturn();
             
             $city       = $this->getCityMock();
             

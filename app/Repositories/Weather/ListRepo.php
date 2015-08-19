@@ -112,7 +112,7 @@ class ListRepo extends CacheAble implements IList, ICacheAble
         {                        
             $results = $data->getList()->map(function(ListData $item) use($daily) {                
                 
-                $list = $this->createNewListByWeatherHourlyStat($daily);                     
+                $list = $this->createNewListByWeatherDailyStat($daily);                     
                   
                 $this->createWeatherMain($list, $item);                   
               
@@ -272,6 +272,17 @@ class ListRepo extends CacheAble implements IList, ICacheAble
         private function createNewListByWeatherHourlyStat(HourlyStatModel $hourly)
         {
             return $hourly->weatherLists()->create(array());          
+        }
+        
+        /**
+         * To create new WeatherList model belongs to given WeatherHourlyStat Model
+         * 
+         * @param \App\Weather\DailyStat  $daily
+         * @return \App\WeatherList
+         */
+        private function createNewListByWeatherDailyStat(DailyStatModel $daily)
+        {
+            return $daily->weatherLists()->create(array());          
         }
         
         /**

@@ -12,7 +12,7 @@ use App\Contracts\Repository\ICity                          as CityRepo;
 use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Weather\Repository\IDaily;
-use App\Contracts\Weather\Repository\Condition              as Condition;
+use App\Contracts\Weather\Repository\Condition;
 
 /**
  * Weather Daily Stats Repository Class
@@ -102,14 +102,14 @@ class DailyStat extends Base implements IDaily, ICacheAble
          * via ralationships
          * 
          * 
-         * @param   \App\WeatherHourlyStat $hourly
+         * @param   \App\Weather\DailyStat $daily
          * @return  \App\WeatherForeCastResource
          */
-        private function addResource(Hourly $hourly)
+        private function addResource(Daily $daily)
         {                
             $resource   = $this->getForcastResource();
           
-            return $hourly->foreCastResource()->associate($resource);
+            return $daily->foreCastResource()->associate($resource);
         }    
         
         /**

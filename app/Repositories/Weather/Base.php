@@ -13,7 +13,7 @@ use Illuminate\Contracts\Cache\Repository           as Cache;
 use Illuminate\Contracts\Config\Repository          as Config;
 use App\Contracts\Repository\ICity                  as CityRepo;
 use App\Libs\Weather\DataType\WeatherDataAble; 
-use App\Contracts\Weather\Repository\Condition      as Condition; 
+use App\Contracts\Weather\Repository\Condition;
 use App\Libs\Weather\DataType\WeatherCondition;
 use App\Libs\Weather\DataType\WeatherForecastResource;
 

@@ -3,11 +3,10 @@
 namespace App\Libs\Weather;
 
 use ErrorException;
-use Carbon\Carbon;
 
-
-use App\Libs\Weather\Convertors\OpenWeatherMap\Current;
+use App\Libs\Weather\Convertors\OpenWeatherMap\Daily;
 use App\Libs\Weather\Convertors\OpenWeatherMap\Hourly;
+use App\Libs\Weather\Convertors\OpenWeatherMap\Current;
 
 
 /**
@@ -38,6 +37,8 @@ class OpenWeatherMap extends ApiAccessor
                 case $this->isCurrent() : return (new Current($jsonObject))->getWeatherData();
                     
                 case $this->isHourly()  : return (new Hourly($jsonObject))->getWeatherData();
+                
+                case $this->isDaily()   : return (new Daily($jsonObject))->getWeatherData();
             }            
             
             throw new ErrorException('It should be selected a data type(currently, hourly, daily)'

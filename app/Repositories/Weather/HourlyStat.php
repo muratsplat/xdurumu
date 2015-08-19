@@ -12,7 +12,7 @@ use App\Contracts\Repository\ICity                          as CityRepo;
 use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Weather\Repository\IHourly;
-use App\Contracts\Weather\Repository\Condition              as Condition;
+use App\Contracts\Weather\Repository\Condition;
 
 /**
  * Weather Hourly Stats Repository Class
