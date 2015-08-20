@@ -107,7 +107,7 @@ abstract class ApiRequest
      * 
      * @var float 
      */
-    protected $timeout = 5.0;
+    protected $timeout = 5.5;
     
     /**
      * Float describing the number of seconds 
@@ -115,7 +115,7 @@ abstract class ApiRequest
      * 
      * @var float
      */
-    protected $connectTimeout = 4.0;    
+    protected $connectTimeout = 5.5;    
     
     /**
      * @var \GuzzleHttp\Client 
@@ -127,7 +127,7 @@ abstract class ApiRequest
      *
      * @var integer 
      */
-    protected $delay = 500; 
+    protected $delay = 100; 
     
     /**
      * a url to access currently weather data from api 
