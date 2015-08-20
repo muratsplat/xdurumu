@@ -324,31 +324,27 @@ class ListRepo extends CacheAble implements IList, ICacheAble
         public function update(array $current)
         {
             ;
+        }   
+      
+        
+        /**
+         * To get all of model belongs to \App\WeatherHourlyStat
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllHourlyList()
+        {           
+            return $this->onModel()->newQuery()->where('listable_type', 'App\WeatherHourlyStat')->get();
         }
         
-        
-        
-        public function deleteOldLists()
-        {
-            
-        }
-        
-        private function deleteOldHourlyList()
-        {
-            $lists = $this->onModel()->hourlyStats()->getResults();
-            
-            if ( $lists->count() > 36) {                
-                
-                $deletes = $lists->take(-36)->filter(function($item){
-                    
-                    return $item->delete();
-                            
-                });
-                
-                
-                
-            }
-            
+        /**
+         * To get all of model belongs to \App\WeatherDailyStat
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllDailyList()
+        {           
+            return $this->onModel()->newQuery()->where('listable_type', 'App\Weather\DailyStat')->get();
         }
         
         private function deleteOldDailyList()

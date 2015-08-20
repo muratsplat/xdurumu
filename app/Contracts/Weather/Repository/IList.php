@@ -32,4 +32,18 @@ interface IList extends IBase
          * @return  \Illuminate\Support\Collection    created WeatherList instances
          */
         public function createListsByDailyStat(DailyStatModel $daily, DailyData $data);
+        
+        /**
+         * To get all of models belongs to \App\WeatherHourlyStat
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllHourlyList();
+        
+        /**
+         * To get all of model belongs to \App\WeatherDailyStat
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllDailyList();
 }
