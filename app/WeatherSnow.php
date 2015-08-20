@@ -41,7 +41,6 @@ class WeatherSnow extends Model
         public function snowable()
         {
             return $this->morphTo('snowable', 'snowable_type', 'snowable_id');
-        }
-        
+        }      
       
 }

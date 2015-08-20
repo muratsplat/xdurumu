@@ -43,14 +43,4 @@ class WeatherWind extends Model
         {
             return $this->morphTo('windable', 'windable_type', 'windable_id');
         }
-        
-        /**
-         * Defining an inverse one to one relation
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-         */
-        public function hourlyStat()
-        {
-            return $this->belongsTo('App\WeatherHourlyStat', 'weather_hourly_id', 'id');        
-        }
 }

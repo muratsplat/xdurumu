@@ -99,5 +99,6 @@ class WeatherListTest extends TestCase
             $this->assertCount(0, App\WeatherSnow::all());
             $this->assertCount(0, App\WeatherWind::all());  
             $this->assertCount(0, \DB::table('weather_condition_ables')->get());
-        }        
+        }               
+     
 }

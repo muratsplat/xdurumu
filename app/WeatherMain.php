@@ -56,13 +56,4 @@ class WeatherMain extends Model
             return $this->morphTo('mainable', 'mainable_type', 'mainable_id');
         }
         
-        /**
-         * TO define an  inverse one to one relation
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-         */
-        public function hourlyStat() {
-            
-            return $this->belongsTo('App\WeatherHourlyStat', 'weather_hourly_id','id');
-        }
 }

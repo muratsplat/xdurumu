@@ -51,7 +51,7 @@ class WeatherList extends CacheAble
          */
         public function conditions()
         {
-            return $this->morphToMany('App\WeatherCondition', 'weather_condition_able', 'weather_condition_ables');            
+            return $this->morphToMany('App\WeatherCondition', 'weather_condition_able', 'weather_condition_ables');       
         }    
         
         /**

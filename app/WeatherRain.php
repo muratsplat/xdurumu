@@ -42,16 +42,5 @@ class WeatherRain extends Model
         public function rainable()
         {
             return $this->morphTo('rainable', 'rainable_type', 'rainable_id');
-        }
-        
-        /**
-         * Defining an inverse one to many relation
-         * 
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-         */
-        public function hourlyStat()
-        {
-            return $this->belongsTo('App\WeatherHourlyStat', 'weather_hourly_id', 'id');        
-        }
-    
+        }    
 }
