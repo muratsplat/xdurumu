@@ -6,7 +6,8 @@ use App\City                                    as Model;
 use App\Repositories\CacheAble;
 use App\Contracts\Repository\ICity;
 use Illuminate\Contracts\Cache\Repository       as Cache;
-use \Illuminate\Contracts\Config\Repository     as Config;
+use Illuminate\Contracts\Config\Repository      as Config;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * City Repository Class
@@ -133,5 +134,134 @@ class City extends CacheAble implements ICity
                 
                 return $this->onModel()->get();            
             });            
+        }  
+        
+        /**
+         * To delete old hourly weather lists belongs to given City  model
+         * 
+         * @param \App\City $city $city
+         * @return int|null
+         */
+        public function deleteOldHourlyLists(Model $city)
+        {
+            $lists = $this->getAllHourlyListByCity($city);
+            
+            if ( $lists->isEmpty() ) { return; }
+            
+            $numberOflist = $lists->count();
+            
+            /*
+             * 37 number weather list models creates foreach a city at least
+             */
+            if ( $numberOflist > 37) {
+                
+                $length = $numberOflist - 37;
+                
+                $lists->slice(0, $length)->each(function($item){
+                    
+                    $item->delete();
+                });
+                
+                return $length; // Number of delected models
+            }    
         }
+        
+        /**
+         * To get WeatherList model belongs to Weather HourlyStat by given city model
+         * 
+         * @param \App\City $city
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllHourlyListByCity(Model $city)
+        {
+            $hourlyStat = $this->getHourlyStatByCity($city);
+            
+            if (is_null($hourlyStat)) {
+                
+                return new Collection();
+            }
+            
+            return $hourlyStat->weatherLists()->getResults();            
+        }   
+
+        /**
+         * To get Weather Hourly Stat model belengs to given model
+         * 
+         * @param  \App\City $city
+         * @return \App\WeatherHourlyStat
+         */
+        public function getHourlyStatByCity(Model $city)
+        {
+            return $city->weatherHourlyStat;      
+        }
+        
+        /**
+         * To get Weather Daily Stat model belengs to given model
+         * 
+         * @param  \App\City $city
+         * @return \App\WeatherDailyStat
+         */
+        public function getDailyStatByCity(Model $city)
+        {
+            return $city->weatherDailyStat;     
+        }
+        
+        
+         /**
+         * To get WeatherList model belongs to Weather Daily Stat by given city model
+         * 
+         * @param \App\City $city
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllDailyListByCity(Model $city)
+        {
+            $dailyStat = $this->getDailyStatByCity($city);
+            
+            if (is_null($dailyStat)) { return new Collection(); }
+            
+            return $dailyStat->weatherLists()->getResults();            
+        } 
+        
+        /**
+         * To delete old  daily weather lists belongs to given City  model
+         * 
+         * @param \App\City $city $city
+         * @return int|null
+         */
+        public function deleteOldDailyLists(Model $city)
+        {
+            $lists = $this->getAllDailyListByCity($city);
+            
+            if ( $lists->isEmpty() ) { return; }
+            
+            $numberOflist = $lists->count();
+            
+            /*
+             * 16 number weather list models creates foreach a city at least
+             */
+            if ( $numberOflist > 16) {
+                
+                $length = $numberOflist - 16;
+                
+                $lists->slice(0, $length)->each(function($item){
+                    
+                    $item->delete();
+                });
+                
+                return $length; // Number of delected models
+            }    
+        }
+        
+        
+        /**
+         * To deletes old  hourly and daily weather list models
+         * 
+         * @param App\City $city
+         * @return int  deletes records
+         */
+        public function deleteOldListsByCity(Model $city)
+        {            
+            return (int) $this->deleteOldDailyLists($city)  + (int) $this->deleteOldHourlyLists($city);            
+        }
+        
 }

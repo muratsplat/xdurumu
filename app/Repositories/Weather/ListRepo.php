@@ -270,7 +270,7 @@ class ListRepo extends CacheAble implements IList, ICacheAble
          * @return \App\WeatherList
          */
         private function createNewListByWeatherHourlyStat(HourlyStatModel $hourly)
-        {
+        {           
             return $hourly->weatherLists()->create(array());          
         }
         
@@ -347,8 +347,5 @@ class ListRepo extends CacheAble implements IList, ICacheAble
             return $this->onModel()->newQuery()->where('listable_type', 'App\Weather\DailyStat')->get();
         }
         
-        private function deleteOldDailyList()
-        {
-            
-        }
+   
 }

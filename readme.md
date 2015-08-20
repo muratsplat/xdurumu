@@ -9,7 +9,7 @@ Yapılacaklar
 - [x] openweathermap.org'dan saatlik hava durumunu alacak servis yazılacak.
 - [x] openweathermap.org'dan günlük hava durumu alacak olan servis yazılacak.
 - [x] Servis tesleri yapılacak.
-- [x] otomatik sitemap.xml oluşturacak servis yazılacak.
+- [ ] otomatik sitemap.xml oluşturacak servis yazılacak.
 - [ ] Subdoman tanımlaması yapılacak.
 - [ ] Anasayfa yolu tanımlanıp temayla birlikte denetleyicisi yazılacak.
 - [ ] hava.xdurumu.com anasayafası hazırlanacak..

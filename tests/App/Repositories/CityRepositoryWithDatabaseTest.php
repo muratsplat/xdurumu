@@ -158,4 +158,145 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertEquals($current2->id, $current->id);            
         }  
+        
+        
+        public function testGetHourlyStatByCity()
+        {            
+            $city = $this->createCity();
+            
+            $hourly = factory(App\WeatherHourlyStat::class)->create(['city_id' => $city->id]);
+            
+            $city->weatherHourlyStat()->save($hourly);      
+            
+            $repo = $this->getCityRepository();        
+            
+            $this->assertEquals($hourly->id, $repo->getHourlyStatByCity($city)->id);          
+        }
+        
+        public function testDeleteOldHourlyLists()
+        {            
+            $city = $this->createCity();
+            
+            $hourly = factory(App\WeatherHourlyStat::class)->create(['city_id' => $city->id]);
+            
+            $city->weatherHourlyStat()->save($hourly);      
+            
+            $allWeatherlist = $this->createWeatherList(120);
+            
+            $some = $allWeatherlist->take(50);
+            
+            $stat = $city->weatherHourlyStat;
+                      
+            $stat->weatherLists()->saveMany($some);
+            
+            $this->assertCount(50, $stat->weatherLists);            
+           
+            $repo = $this->getCityRepository();        
+            
+            $deletes = $repo->deleteOldHourlyLists($city);
+            
+            $this->assertEquals($deletes, $some->count() - 37);
+            
+            $this->assertEquals($allWeatherlist->count() - $deletes, \App\WeatherList::all()->count());            
+            
+            $this->assertCount(37, $repo->getAllHourlyListByCity($city));
+        }        
+        
+        
+        public function testGetDailyStatByCity()
+        {            
+            $city = $this->createCity();
+            
+            $daily = factory(App\Weather\DailyStat::class)->create(['city_id' => $city->id]);
+            
+            $city->weatherDailyStat()->save($daily);      
+            
+            $repo = $this->getCityRepository();        
+            
+            $this->assertEquals($daily->id, $repo->getDailyStatByCity($city)->id);          
+        }
+        
+        public function testDeleteOldDailyLists()
+        {            
+            $city = $this->createCity();
+            
+            $daily = factory(App\Weather\DailyStat::class)->create(['city_id' => $city->id]);
+            
+            $city->weatherDailyStat()->save($daily);      
+            
+            $allWeatherlist = $this->createWeatherList(120);
+            
+            $some = $allWeatherlist->take(50);
+            
+            $stat = $city->weatherDailyStat;
+                      
+            $stat->weatherLists()->saveMany($some);
+            
+            $this->assertCount(50, $stat->weatherLists);            
+           
+            $repo = $this->getCityRepository();        
+            
+            $deletes = $repo->deleteOldDailyLists($city);
+            
+            $this->assertEquals($deletes, $some->count() - 16);
+            
+            $this->assertEquals($allWeatherlist->count() - $deletes, \App\WeatherList::all()->count());            
+            
+            $this->assertCount(16, $repo->getAllDailyListByCity($city));
+        }        
+        
+        public function testDeleteOldLists()
+        {            
+            $city = $this->createCity();
+            
+            $daily = factory(App\Weather\DailyStat::class)->create(['city_id' => $city->id]);
+            
+            $hourly = factory(App\WeatherHourlyStat::class)->create(['city_id' => $city->id]);
+            
+            $city->weatherHourlyStat()->save($hourly);      
+            
+            $city->weatherDailyStat()->save($daily);      
+            
+            $allWeatherlist = $this->createWeatherList(120);
+            
+            $fordaily       = $allWeatherlist->take(60);
+            
+            $forHourly      = $allWeatherlist->take(-60);
+            
+            $statDaily      = $city->weatherDailyStat;
+            $statHourly     = $city->weatherHourlyStat;            
+                      
+            $statDaily->weatherLists()->saveMany($fordaily);             
+            $statHourly->weatherLists()->saveMany($forHourly);  
+            
+            $repo = $this->getCityRepository();           
+            
+            $deletes = $repo->deleteOldListsByCity($city);
+            
+            $this->assertEquals((60-16) + (60-37), $deletes);
+            
+            $this->assertEquals(120 - ((60-16) + (60-37)),  \App\WeatherList::all()->count() );
+         
+        } 
+        
+        
+        /**
+         * 
+         * @param int $count
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        private function createWeatherList($count)
+        {            
+            return factory(\App\WeatherList::class,$count)->create();            
+        }
+        
+        
+        /**
+         * 
+         * @return \App\City
+         */
+        private function createCity()
+        {
+            return factory(\App\City::class)->create();        
+        }
 }
