@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\Weather\UpdateCurrent::class,
         \App\Console\Commands\Weather\UpdateHourly::class,
-        \App\Console\Commands\Weather\UpdateDaily::class
+        \App\Console\Commands\Weather\UpdateDaily::class,
+        \App\Console\Commands\Weather\DeleteOldData::class
     ];
 
     /**
