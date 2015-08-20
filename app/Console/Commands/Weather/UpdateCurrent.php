@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\Queue;
  *  
  */
 class UpdateCurrent extends TestAbleCommand
-{
+{   
     /**
      * The name and signature of the console command.
      *
@@ -49,7 +49,8 @@ class UpdateCurrent extends TestAbleCommand
             
             $this->cityRepo     = $city; 
             
-            $this->queue        = $queue;            
+            $this->queue        = $queue;       
+           
         }
 
         /**
@@ -101,7 +102,7 @@ class UpdateCurrent extends TestAbleCommand
          */
         protected function pushJob($job)
         {
-            $this->queue->push($job);
+            $this->queue->pushOn('db-medium', $job);
         }
     
 }

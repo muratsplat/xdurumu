@@ -101,6 +101,6 @@ class UpdateHourly extends TestAbleCommand
          */
         protected function pushJob($job)
         {
-            $this->queue->push($job);
-        }  
+            $this->queue->pushOn('db-medium', $job);
+        } 
 }

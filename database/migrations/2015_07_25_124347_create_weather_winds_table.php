@@ -21,8 +21,7 @@ class CreateWeatherWindsTable extends Migration
             $t->bigInteger('windable_id')->unsigned();
             $t->string('windable_type');
             $t->float('speed')->unsigned()->nullable();
-            $t->float('deg')->nullable();  
-
+            $t->float('deg')->nullable(); 
         });       
     }
 

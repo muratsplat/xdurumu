@@ -72,7 +72,7 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
             $repo->shouldReceive('get')->andReturn($cities);                        
             
             $queue = $this->getMockedQueue();             
-            $queue->shouldReceive('push')->andReturnSelf();                    
+            $queue->shouldReceive('pushOn')->andReturnSelf();                    
             
             $job = new ConsoleUpdate($queue, $repo);
             
@@ -80,6 +80,6 @@ class ConsoleCommandsWeatherUpdateCurrentTest extends \TestCase
             
             $job->handle();
             
-            $queue->shouldHaveReceived('push')->times(10);
+            $queue->shouldHaveReceived('pushOn')->times(10);
         }         
 }

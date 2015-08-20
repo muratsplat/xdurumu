@@ -158,8 +158,5 @@ class HourlyStat extends Base implements IHourly, ICacheAble
         public function getMainModel()                 
         {
             return $this->current;            
-        }     
-        
-    
-       
+        }
 }

@@ -35,12 +35,36 @@ return [
             'driver' => 'sync',
         ],
 
+        'db-low' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'db-low',
+            'expire' => 60,
+        ],
+        
+        
+        'db-medium' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'db-medium',
+            'expire' => 60,
+        ],
+        
+        
+        'db-high' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'db-high',
+            'expire' => 60,
+        ],      
+        
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default',
             'expire' => 60,
         ],
+
 
         'beanstalkd' => [
             'driver' => 'beanstalkd',

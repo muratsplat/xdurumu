@@ -97,10 +97,10 @@ class UpdateDaily extends TestAbleCommand
         /**
          * To push job
          * 
-         * @param \App\Jobs\Weather\UpdateDaily $job
+         * @param Object $job
          */
-        protected function pushJob(Job $job)
+        protected function pushJob($job)
         {
-            $this->queue->push($job);
-        }  
+            $this->queue->pushOn('db-medium', $job);
+        } 
 }

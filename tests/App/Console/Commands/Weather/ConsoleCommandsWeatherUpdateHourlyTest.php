@@ -69,7 +69,7 @@ class ConsoleCommandsWeatherUpdateHourlyTest extends \TestCase
             
             $queue = $this->getMockedQueue(); 
             
-            $queue->shouldReceive('push')->andReturnSelf();
+            $queue->shouldReceive('pushOn')->andReturnSelf();
    
             $job = new ConsoleHourly($queue, $repo);
             
@@ -77,7 +77,7 @@ class ConsoleCommandsWeatherUpdateHourlyTest extends \TestCase
             
             $job->handle();
             
-            $queue->shouldHaveReceived('push')->times(10);
+            $queue->shouldHaveReceived('pushOn')->times(10);
         }    
       
 }

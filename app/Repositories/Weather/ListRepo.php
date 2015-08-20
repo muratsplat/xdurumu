@@ -325,4 +325,34 @@ class ListRepo extends CacheAble implements IList, ICacheAble
         {
             ;
         }
+        
+        
+        
+        public function deleteOldLists()
+        {
+            
+        }
+        
+        private function deleteOldHourlyList()
+        {
+            $lists = $this->onModel()->hourlyStats()->getResults();
+            
+            if ( $lists->count() > 36) {                
+                
+                $deletes = $lists->take(-36)->filter(function($item){
+                    
+                    return $item->delete();
+                            
+                });
+                
+                
+                
+            }
+            
+        }
+        
+        private function deleteOldDailyList()
+        {
+            
+        }
 }
