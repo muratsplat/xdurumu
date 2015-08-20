@@ -193,8 +193,8 @@ $factory->define(App\WeatherSys::class, function (Faker\Generator $faker) {
 //    $t->double('snow', 15,8)->unsigned()->nullable();
 $factory->define(App\WeatherSnow::class, function (Faker\Generator $faker) {
     return [
-        'weather_current_id'    => null,
-        'weather_hourly_id'     => null,         
+        'snowable_id'            => rand(1, 100),
+        'snowable_type'          => str_random(),
         '3h'                    => 2.225,
         'snow'                  => 187.002,    
     ];
