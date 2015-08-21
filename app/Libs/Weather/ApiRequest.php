@@ -11,6 +11,7 @@ use UnexpectedValueException;
 use App\WeatherForeCastResource as Source;
 use App\Events\Weather\ApiCalled; 
 use App\Contracts\Weather\Accessor;
+use Psr\Http\Message\ResponseInterface as Response;
 
 /**
  * An converter for  the JSON responses Open Weather Map API
@@ -566,12 +567,13 @@ abstract class ApiRequest
         /**
          * To fire Api Called Event
          * 
+         * @param \Psr\Http\Message\ResponseInterface $response
          * @return void
          */
-        public function fireApiCalled()
+        public function fireApiCalled(Response $response)
         {
             $source = $this->getSource();       
             
-            event(new ApiCalled($source));
+            event(new ApiCalled($source, $response));
         }
 }

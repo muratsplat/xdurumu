@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Weather\Repository\IHourly as HourlyRepo;
+
 /**
  * This Job make update to weather hourly data via injected city model
  * 
@@ -58,7 +59,7 @@ class UpdateHourly extends Job implements SelfHandling, ShouldQueue
             
             $city       = $this->getCity();
             
-            $accessor   = $client->selectCity($city)->hourly()->sendRequest();
+            $accessor   = $client->selectCity($city)->hourly()->sendRequest();            
             
             $model      = $this->importData($city, $accessor);
             

@@ -128,7 +128,7 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
                 
                 $content    = $response->getBody()->getContents();
                 
-                $this->fireApiCalled();
+                $this->fireApiCalled($response);
                 
                 return $this->createNewAccessor($content);
                 
