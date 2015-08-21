@@ -3,12 +3,14 @@
 namespace App\Libs\Weather;
 
 use App\City;
-use App\Contracts\Weather\Accessor;
-use App\WeatherForeCastResource as Source;
+
 use LogicException;
+use GuzzleHttp\Client;
 use InvalidArgumentException;
 use UnexpectedValueException;
-use GuzzleHttp\Client;
+use App\WeatherForeCastResource as Source;
+use App\Events\Weather\ApiCalled; 
+use App\Contracts\Weather\Accessor;
 
 /**
  * An converter for  the JSON responses Open Weather Map API
@@ -559,5 +561,17 @@ abstract class ApiRequest
             
             throw new LogicException('Firsty should be select the type of weather data '
                     . 'like as "currently", "daily" and "hourly" !');
+        }        
+        
+        /**
+         * To fire Api Called Event
+         * 
+         * @return void
+         */
+        public function fireApiCalled()
+        {
+            $source = $this->getSource();       
+            
+            event(new ApiCalled($source));
         }
 }

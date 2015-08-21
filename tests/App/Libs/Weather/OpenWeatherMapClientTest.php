@@ -91,6 +91,8 @@ class OpenWeatherMapClientTest extends \TestCase
         {
             $source = $this->getMockedResourceModel();
             
+            $source->shouldReceive('increaseNumberOfApiCall')->andReturn(1);
+            
             $source->shouldReceive('getAttribute')->andReturn('http://api.openweathermap.org/data/2.5/');
             
             $city   = $this->getMockedCityModel();
@@ -106,7 +108,9 @@ class OpenWeatherMapClientTest extends \TestCase
             $city->shouldReceive('getAttribute')->andReturn(2172797);
             $client = new Client(new Accessor(), $source); 
             
-            $weatherCurrent = $client->selectCity($city)->current()->sendRequest();
+            $this->expectsEvents(App\Events\Weather\ApiCalled::class);
+            
+            $weatherCurrent = $client->selectCity($city)->current()->sendRequest();      
             
             $this->assertInstanceOf('App\Libs\Weather\OpenWeatherMap', $weatherCurrent);
             

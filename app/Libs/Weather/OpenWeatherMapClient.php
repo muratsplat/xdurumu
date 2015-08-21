@@ -2,14 +2,14 @@
 
 namespace App\Libs\Weather;
 
-use App\Contracts\Weather\ApiClient;
+use App\WeatherForeCastResource;  
 use App\Contracts\Weather\Accessor;
-use App\WeatherForeCastResource;
+use App\Contracts\Weather\ApiClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\ConnectException;
-    
+
 /**
  * The class send get request to access weather data from Open Weather Map API
  * 
@@ -127,6 +127,8 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
                 $response   = $this->sendGetRequest();
                 
                 $content    = $response->getBody()->getContents();
+                
+                $this->fireApiCalled();
                 
                 return $this->createNewAccessor($content);
                 
@@ -252,5 +254,6 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
             $this->addQuery('id', $id);
             
             return array_merge($this->queries, $this->shouldBeQueries); 
-        }    
+        }       
+       
 }    

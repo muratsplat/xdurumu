@@ -130,5 +130,16 @@ class WeatherForeCastResource extends CacheAble
         public function scopeApiable($query)
         {
             return $query->where('apiable', 1);
-        }       
+        } 
+        
+        
+        /**
+         * To increase number of api calls
+         * 
+         * @return int
+         */
+        public function increaseNumberOfApiCall()
+        {
+            return $this->increment('api_calls_count', 1);
+        }
 }
