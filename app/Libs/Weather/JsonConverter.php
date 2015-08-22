@@ -5,7 +5,7 @@ namespace App\Libs\Weather;
 use LogicException;
 use InvalidArgumentException;
 use RuntimeException;
-
+use UnexpectedValueException;
 
 /**
  * An converter for  the JSON responses Open Weather Map API
@@ -256,10 +256,17 @@ abstract class JsonConverter
         {
             $cod = $this->getPropertyOnJSONObject('cod');
             
-            if ( is_null($cod) || (integer) $cod !== 200) {
+            if ((integer) $cod === 404) {
                 
-                throw new RuntimeException('JSON data is empty or the resource is not found! ');                
-            }       
+                throw new RuntimeException('City is not found! ');                
+            }  
+            
+            if ((integer) $cod !== 200) {
+                
+                throw new RuntimeException("Unknown response! Response code is [$cod]");                
+            }           
+            
+            throw new UnexpectedValueException("Unknown response! JSON data is unexpected type..");                    
         }
 
 }
