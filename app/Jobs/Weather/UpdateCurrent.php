@@ -4,6 +4,7 @@ namespace App\Jobs\Weather;
 
 use App\City;
 use App\Jobs\Job;
+use App\Jobs\ReConnectDB;
 use App\Contracts\Weather\Accessor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,7 +18,7 @@ use App\Contracts\Weather\Repository\ICurrent as CurrentRepo;
  */
 class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, SerializesModels, ReConnectDB;
     
     /**
      * @var \App\City 
@@ -43,6 +44,8 @@ class UpdateCurrent extends Job implements SelfHandling, ShouldQueue
          */
         public function __construct(City $city)
         {
+            parent::__construct();
+            
             $this->city             = $city;          
         }
 

@@ -17,5 +17,37 @@ abstract class Job
     |
     */
 
-    use Queueable;
+    use Queueable;    
+    
+        /**
+         * Create A Job
+         * 
+         */
+        public function __construct()
+        {
+            $this->refreshConnectionIfNeeded();            
+        }        
+        
+        /**
+         * To determine if the job needs to refreshed DB connection
+         * 
+         * @return bool
+         */
+        public function isNeededRefreshConnectionOnDB()
+        {            
+            return method_exists($this, 'reConnectDB');
+        }
+        
+        /**
+         * To determine if the job needs to refreshed DB connection
+         * 
+         * @return \Illuminate\Database\Connection|null
+         */
+        public function refreshConnectionIfNeeded()
+        {            
+           if ( $this->isNeededRefreshConnectionOnDB() ) {
+               
+               return $this->reConnectDB();
+           }
+        }       
 }
