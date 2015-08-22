@@ -141,7 +141,8 @@ return [
          * Added Extentions
          */        
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,      
+        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,     
+        Spatie\Backup\BackupServiceProvider::class,
 
         /*
          * Application Service Providers...

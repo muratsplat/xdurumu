@@ -105,5 +105,6 @@ class UpdateHourly extends TestAbleCommand
         protected function pushJob($job)
         {
             $this->queue->pushOn('medium', $job);
-        } 
+        }      
+        
 }
