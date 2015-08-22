@@ -27,6 +27,7 @@ $factory->define(App\City::class, function (Faker\Generator $faker) {
         'country'               => $faker->country,
         'latitude'              => $faker->latitude,
         'longitude'             => $faker->longitude,
+        'priority'              => rand(0, 3),
         'open_weather_map_id'   => rand(1, 200000),       
     ];
 });
