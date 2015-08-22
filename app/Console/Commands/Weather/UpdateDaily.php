@@ -101,6 +101,6 @@ class UpdateDaily extends TestAbleCommand
          */
         protected function pushJob($job)
         {
-            $this->queue->pushOn('db-medium', $job);
+            $this->queue->pushOn('medium', $job);
         } 
 }

@@ -23,6 +23,7 @@ class HavaCreateCitiesTable extends Migration
             $t->string('country',10)->index();         
             $t->double('latitude', 15,8);
             $t->double('longitude',15,8);
+            $t->tinyInteger('priority')->unsigned()->default(3);
             $t->tinyInteger('enable')->default(0);
             $t->string('slug', 200)->nullable()->unique()->index();
             $t->integer('sort_order')->unsigned()->default(0);

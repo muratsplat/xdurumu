@@ -101,6 +101,6 @@ class DeleteOldData extends TestAbleCommand
          */
         protected function pushJob($job)
         {
-            $this->queue->pushOn('db-slow', $job);
+            $this->queue->pushOn('low', $job);
         } 
 }

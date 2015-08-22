@@ -266,7 +266,11 @@ abstract class JsonConverter
                 throw new RuntimeException("Unknown response! Response code is [$cod]");                
             }           
             
-            throw new UnexpectedValueException("Unknown response! JSON data is unexpected type..");                    
+            if (is_null($cod)) {
+                
+                throw new UnexpectedValueException("Unknown response! JSON data is unexpected type..");                    
+            }
+           
         }
 
 }

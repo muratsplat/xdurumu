@@ -37,7 +37,7 @@ class City extends Model implements SluggableInterface
      *
      * @var array
      */
-    protected $fillable = ['name', 'latitude', 'longitude', 'country', 'open_weather_map_id'];
+    protected $fillable = ['name', 'latitude', 'longitude', 'country', 'open_weather_map_id', 'priority'];
     
     /**
      * The attributes excluded from the model's JSON form.
@@ -105,8 +105,47 @@ class City extends Model implements SluggableInterface
         public function scopeOfCountry($query, $code)
         {
             return $query->where('country', $code);
-        }
+        }        
         
+        /**
+         * To set Priority attribute
+         * 
+         * @param int $value
+         * @return int
+         */
+        public function setAttributePriority($value)
+        {
+            $num = (integer) $value;
+            
+            switch($num) {
+                
+                case $num < 0 : return $this->attributes['priority'] = 0;
+                    
+                case $num >= 3 : return $this->attributes['priority'] = 3;             
+            }
+            
+            return $this->attributes['priority'] = $num;
+       }
+       
+       /**
+        * To increase priority attribute by one
+        * 
+        * @return type
+        */
+       public function incPriority()
+       {
+           return $this->increment('priority');
+       }
+       
+       /**
+        * To decrease priority attribute by one
+        * 
+        * @return type
+        */
+       public function decPriority()
+       {
+           return $this->decrement('priority');
+       }
         
     
 }

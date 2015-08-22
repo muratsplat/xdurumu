@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Weather;
 
 use App\Console\TestAbleCommand;
+//use App\Jobs\ReConnectDB;
 use App\Jobs\Weather\UpdateHourly as Hourly;
 use Illuminate\Contracts\Queue\Queue;
 use App\Contracts\Repository\ICity as CityRepo;
@@ -12,7 +13,8 @@ use App\Contracts\Repository\ICity as CityRepo;
  *  
  */
 class UpdateHourly extends TestAbleCommand
-{
+{   
+    
     /**
      * The name and signature of the console command.
      *
@@ -49,7 +51,8 @@ class UpdateHourly extends TestAbleCommand
                        
             $this->queue        = $queue;   
             
-            $this->cityRepo     = $city; 
+            $this->cityRepo     = $city;           
+         
         }
 
         /**
@@ -101,6 +104,6 @@ class UpdateHourly extends TestAbleCommand
          */
         protected function pushJob($job)
         {
-            $this->queue->pushOn('db-medium', $job);
+            $this->queue->pushOn('medium', $job);
         } 
 }
