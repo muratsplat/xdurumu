@@ -12,7 +12,8 @@
         "cviebrock/eloquent-sluggable": "^3.0",
 	"guzzlehttp/guzzle": "~5.3|~6.0",        
         "predis/predis": "^1.0",
-        "spatie/laravel-backup": "^2.5"
+        "spatie/laravel-backup": "^2.5",
+        "almasaeed2010/adminlte": "~2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

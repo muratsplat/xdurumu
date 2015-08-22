@@ -9,6 +9,7 @@ Yapılacaklar
 - [x] openweathermap.org'dan saatlik hava durumunu alacak servis yazılacak.
 - [x] openweathermap.org'dan günlük hava durumu alacak olan servis yazılacak.
 - [x] Servis tesleri yapılacak.
+- [ ] Şehir ve bazı verileri kontrol etmek için admin panel entegre edilecek.
 - [ ] otomatik sitemap.xml oluşturacak servis yazılacak.
 - [ ] Subdoman tanımlaması yapılacak.
 - [ ] Anasayfa yolu tanımlanıp temayla birlikte denetleyicisi yazılacak.
@@ -16,5 +17,4 @@ Yapılacaklar
 - [ ] Domain alınacak ve site yayına sokulacak.
 - [ ] Google Analytics entegrasyonu yapılacak.
 - [ ] Şehirler için saatlik ve günlük sayfaları hazırlanacak.. 
-- [ ] Şehir ve bazı verileri kontrol etmek için admin panel entegre edilecek.
 
