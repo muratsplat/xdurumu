@@ -121,7 +121,7 @@ class City extends Model implements SluggableInterface
                 
                 case $num < 0 : return $this->attributes['priority'] = 0;
                     
-                case $num >= 3 : return $this->attributes['priority'] = 3;             
+                case $num >= 4 : return $this->attributes['priority'] = 4;             
             }
             
             return $this->attributes['priority'] = $num;

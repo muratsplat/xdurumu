@@ -3,9 +3,11 @@
 namespace App\Console\Commands\Weather;
 
 use App\Console\TestAbleCommand;
+use App\Contracts\QueuePriority;
 use App\Jobs\Weather\DeleteOldData as Job;
-use Illuminate\Contracts\Queue\Queue;
 use App\Contracts\Repository\ICity as CityRepo;
+use App\Contracts\Commands\PushQueue;
+use Illuminate\Contracts\Queue\Queue;
 
 /**
  * This command make update to weather forecast Daily data of all cities
@@ -13,6 +15,7 @@ use App\Contracts\Repository\ICity as CityRepo;
  */
 class DeleteOldData extends TestAbleCommand
 {
+    use PushQueue, QueuePriority;
     /**
      * The name and signature of the console command.
      *
@@ -31,11 +34,7 @@ class DeleteOldData extends TestAbleCommand
      * @var \App\Contracts\Repository\ICity
      */
     private $cityRepo;    
-    
-    /**
-     * @var \Illuminate\Contracts\Queue\Queue 
-     */
-    private $queue;
+
             
         /**
          * Create a new command instance.
@@ -47,7 +46,7 @@ class DeleteOldData extends TestAbleCommand
         {
             parent::__construct();
                        
-            $this->queue        = $queue;   
+            $this->setQueue($queue);
             
             $this->cityRepo     = $city; 
         }
@@ -93,14 +92,5 @@ class DeleteOldData extends TestAbleCommand
                 return array();
             }
         }
-        
-        /**
-         * To push job
-         * 
-         * @param Object $job
-         */
-        protected function pushJob($job)
-        {
-            $this->queue->pushOn('low', $job);
-        } 
+
 }

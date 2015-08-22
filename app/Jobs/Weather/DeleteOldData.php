@@ -23,13 +23,7 @@ class DeleteOldData extends Job implements SelfHandling, ShouldQueue
      * @var \App\City 
      */
     private $city;    
-  
     
-    /**
-     * @var \App\Libs\Weather\ApiServiceFactory
-     */
-    private $weatherApiFactory;
-
         /**
          * Create a new job instance.
          *
@@ -39,7 +33,9 @@ class DeleteOldData extends Job implements SelfHandling, ShouldQueue
          */
         public function __construct(City $city)
         {
-            $this->city             = $city;          
+            parent::__construct();
+            
+            $this->city             = $city;       
         }
 
         /**

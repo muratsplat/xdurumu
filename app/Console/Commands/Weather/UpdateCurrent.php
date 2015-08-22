@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands\Weather;
 
+use App\Contracts\QueuePriority;
 use App\Console\TestAbleCommand;
 use App\Contracts\Repository\ICity                  as CityRepo;
 use App\Jobs\Weather\UpdateCurrent                  as Current;
 use Illuminate\Contracts\Queue\Queue;
+use App\Contracts\Commands\PushQueue;
 
 /**
  * This command make update to weather forecast current data of all cities
@@ -13,6 +15,7 @@ use Illuminate\Contracts\Queue\Queue;
  */
 class UpdateCurrent extends TestAbleCommand
 {   
+    use PushQueue, QueuePriority;
     /**
      * The name and signature of the console command.
      *
@@ -30,13 +33,8 @@ class UpdateCurrent extends TestAbleCommand
     /**
      * @var \App\Contracts\Repository\ICity
      */
-    private $cityRepo;    
+    private $cityRepo;  
     
-    /**
-     * @var \Illuminate\Contracts\Queue\Queue 
-     */
-    private $queue;
-            
         /**
          * Create a new command instance.
          * 
@@ -49,8 +47,7 @@ class UpdateCurrent extends TestAbleCommand
             
             $this->cityRepo     = $city; 
             
-            $this->queue        = $queue;       
-           
+            $this->setQueue($queue);           
         }
 
         /**
@@ -66,9 +63,11 @@ class UpdateCurrent extends TestAbleCommand
                 
                 $no++;
                 
-                $job = new Current($city);
+                $job    = new Current($city);
                 
-                $this->pushJob($job);               
+                $queue  = $this->createQueueName($city->priority);
+                
+                $this->pushJob($job, $queue);
             }
        
             $this->writeInfo("$no number of city update request job is queued.");
@@ -94,15 +93,4 @@ class UpdateCurrent extends TestAbleCommand
                 return array();
             }
         }
-        
-        /**
-         * To push job
-         * 
-         * @param Object $job
-         */
-        protected function pushJob($job)
-        {
-            $this->queue->pushOn('medium', $job);
-        }
-    
 }

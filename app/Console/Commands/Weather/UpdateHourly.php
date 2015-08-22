@@ -3,10 +3,11 @@
 namespace App\Console\Commands\Weather;
 
 use App\Console\TestAbleCommand;
-//use App\Jobs\ReConnectDB;
+use App\Contracts\QueuePriority;
 use App\Jobs\Weather\UpdateHourly as Hourly;
 use Illuminate\Contracts\Queue\Queue;
 use App\Contracts\Repository\ICity as CityRepo;
+use App\Contracts\Commands\PushQueue;
 
 /**
  * This command make update to weather forecast hourly data of all cities
@@ -14,6 +15,7 @@ use App\Contracts\Repository\ICity as CityRepo;
  */
 class UpdateHourly extends TestAbleCommand
 {   
+    use PushQueue, QueuePriority;
     
     /**
      * The name and signature of the console command.
@@ -32,12 +34,7 @@ class UpdateHourly extends TestAbleCommand
     /**
      * @var \App\Contracts\Repository\ICity
      */
-    private $cityRepo;    
-    
-    /**
-     * @var \Illuminate\Contracts\Queue\Queue 
-     */
-    private $queue;
+    private $cityRepo;        
             
         /**
          * Create a new command instance.
@@ -49,10 +46,9 @@ class UpdateHourly extends TestAbleCommand
         {
             parent::__construct();
                        
-            $this->queue        = $queue;   
+            $this->setQueue($queue);
             
-            $this->cityRepo     = $city;           
-         
+            $this->cityRepo     = $city;                    
         }
 
         /**
@@ -68,9 +64,11 @@ class UpdateHourly extends TestAbleCommand
                 
                 $no++;
                 
-                $job = new Hourly($city);
+                $job    = new Hourly($city);
                 
-                $this->pushJob($job);               
+                $queue  = $this->createQueueName($city->priority);
+                
+                $this->pushJob($job, $queue);
             }
        
             $this->writeInfo("$no number of city update request job is queued.");
@@ -96,15 +94,4 @@ class UpdateHourly extends TestAbleCommand
                 return array();
             }
         }
-        
-        /**
-         * To push job
-         * 
-         * @param Object $job
-         */
-        protected function pushJob($job)
-        {
-            $this->queue->pushOn('medium', $job);
-        }      
-        
 }

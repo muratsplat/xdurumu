@@ -34,7 +34,7 @@ abstract class Job
          * @return bool
          */
         public function isNeededRefreshConnectionOnDB()
-        {            
+        {       
             return method_exists($this, 'reConnectDB');
         }
         
