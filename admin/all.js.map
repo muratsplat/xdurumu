@@ -1,0 +1,1 @@
+{"version":3,"sources":["test.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"all.js","sourcesContent":["\n\nclass test {\n\n\n\tconstructor() {\n\n\t\tconsole.log('hello');\n\t}\n\n\n\n}\n\n\nlet hello = new test();\n\n\n"],"sourceRoot":"/source/"}
