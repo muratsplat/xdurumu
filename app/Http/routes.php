@@ -14,3 +14,22 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+/**
+ * Admin Panel
+ */
+Route::group(['prefix' => 'back'], function(){    
+    
+    /**
+     * Static index page for AngularJS
+     */
+    Route::get('index', function(){
+        
+        return view('back.indexAngular', array());
+    });
+    
+    
+});
+
+
