@@ -62,7 +62,7 @@ elixir(function(mix) {
 
 elixir(function(mix) {
 	    
-	mix.babel(['/admin/*'], 'public/js/back');
+	mix.babel(['admin/*'], 'public/js/back');
 });
 
 

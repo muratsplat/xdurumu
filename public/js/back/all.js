@@ -1,1 +1,19 @@
-"use strict";function _classCallCheck(l,s){if(!(l instanceof s))throw new TypeError("Cannot call a class as a function")}var test=function l(){_classCallCheck(this,l),console.log("hello")},hello=new test;
+
+/**
+ * Angular 1.4.x App
+ */
+
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var myApp = angular.module('panelApp', []);
+
+var test = function test() {
+	_classCallCheck(this, test);
+
+	console.log('hello');
+};
+
+var hello = new test();
+//# sourceMappingURL=all.js.map
