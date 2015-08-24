@@ -6,3 +6,4 @@ Homestead.yaml
 .env_testing
 nbproject
 _ide_helper.php
+bower_components

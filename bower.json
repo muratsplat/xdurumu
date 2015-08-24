@@ -1,0 +1,29 @@
+{
+  "name": "xdurumu",
+  "version": "0.0.1",
+  "authors": [
+    "Murat Ödünç <murat.asya@gmail.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "es6",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-mocks": "1.4.x",
+    "angular-route": "~1.4.0"
+  },
+  "devDependencies": {
+    "angular-resource": "~1.4.4"
+  }
+}
