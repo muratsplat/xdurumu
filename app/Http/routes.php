@@ -26,19 +26,18 @@ Route::group(['prefix' => 'back'], function(){
     Route::get('index', function(){
         
         return view('back.indexAngular', array());
-    });
+    });    
     
     
-    /**
-     * City Resource
-     */
-    Route::get('city', function(){
+    Route::group(['namespace' => 'Admin'], function() {
+
+        /**
+         * City Resource
+         */
+        Route::resource('city', 'CityCtrl');  
         
-        return view('back.indexAngular', array());
     });
-    
-    
-    
+   
     
 });
 
