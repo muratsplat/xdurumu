@@ -41,7 +41,7 @@ elixir(function(mix) {
 	 */	
 	mix.styles(
 		[
-		'adminlte/bootstrap/css/bootstrap.min.css',
+		//'adminlte/bootstrap/css/bootstrap.min.css',
 		'adminlte/AdminLTE.min.css',
 		'adminlte/skins/skin-blue.min.css',
 		'adminlte/plugins/iCheck/flat/blue.css',
@@ -50,6 +50,7 @@ elixir(function(mix) {
 		'adminlte/plugins/datepicker/datepicker3.css',
 		'adminlte/plugins/daterangepicker/daterangepicker-bs3.css',
 		'adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css',
+		'adminlte/plugins/datatables/dataTables.bootstrap.css',
 
 		],
 
@@ -62,16 +63,26 @@ elixir(function(mix) {
 	mix.copy('vendor/almasaeed2010/adminlte/bootstrap/js/bootstrap.min.js', 'resources/assets/js/libs');
 	mix.copy('vendor/almasaeed2010/adminlte/dist/js/app.min.js', 'resources/assets/js/libs/adminlte');
 
+	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/jquery.dataTables.min.js', 'resources/assets/js/libs');
+	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.min.js', 'resources/assets/js/libs');
+	mix.copy('vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js', 'resources/assets/js/libs');
+	mix.copy('vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js', 'resources/assets/js/libs');
+
+
 /**
  * Mergin all js scripts
  */
 
 	mix.
 		scripts(
-		[	'../../../bower_components/angular-route/angular-route.js',
-			'../../../bower_components/angular-resource/angular-resource.js',
-			'libs/jQuery-2.1.4.min.js',
+		[	'libs/jQuery-2.1.4.min.js',
 	 		'libs/bootstrap.min.js',
+			'libs/jquery.dataTables.min.js',
+			'../../../bower_components/angular-route/angular-route.js',
+			'../../../bower_components/angular-resource/angular-resource.js',
+			'libs/dataTables.bootstrap.min.js',
+			'libs/jquery.slimscroll.min.js',
+			'libs/fastclick.min.js',
 			'libs/adminlte/app.min.js',
 		
 

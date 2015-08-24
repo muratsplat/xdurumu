@@ -15,7 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 /**
  * Admin Panel
  */
@@ -28,6 +27,17 @@ Route::group(['prefix' => 'back'], function(){
         
         return view('back.indexAngular', array());
     });
+    
+    
+    /**
+     * City Resource
+     */
+    Route::get('city', function(){
+        
+        return view('back.indexAngular', array());
+    });
+    
+    
     
     
 });

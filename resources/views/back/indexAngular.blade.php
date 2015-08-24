@@ -228,9 +228,15 @@
 
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
-            <li class="header">HEADER</li>
+            <li class="header">SubDomainler</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+            <li class=""><a href="#/weather">
+                <i class="fa fa-link"></i> <span>Hava</span></a>
+                <ul class="treeview-menu">
+                    <li><a href="#/cities">Şehirler</a></li>
+                    <li><a href="#">Başka Bir link</a></li>
+              </ul>
+            </li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
             <li class="treeview">
               <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -246,24 +252,7 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper" ng-view>
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Page Header << $scope >>
-            <small>Optional description</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
-          </ol>
-        </section>
 
-        <!-- Main content -->
-        <section class="content">
-
-          <!-- Your Page Content Here -->
-
-        </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
       <!-- Main Footer -->
@@ -349,6 +338,8 @@
             <!-- Font Awesome -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ elixir('assets/back/css/all.css') }}">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Scripts -->
