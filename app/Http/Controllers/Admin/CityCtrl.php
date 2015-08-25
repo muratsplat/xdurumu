@@ -65,7 +65,7 @@ class CityCtrl extends Controller
          */
         public function show($id)
         {
-            //
+            return $this->city->find($id);
         }
 
         /**

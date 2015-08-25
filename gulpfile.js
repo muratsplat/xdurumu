@@ -43,6 +43,7 @@ elixir(function(mix) {
 		[
 		//'adminlte/bootstrap/css/bootstrap.min.css',
 		'adminlte/AdminLTE.min.css',
+		'adminlte/fixes.css',
 		'adminlte/skins/skin-blue.min.css',
 		'adminlte/plugins/iCheck/flat/blue.css',
 		'adminlte/plugins/morris/morris.css',
@@ -63,10 +64,10 @@ elixir(function(mix) {
 	mix.copy('vendor/almasaeed2010/adminlte/bootstrap/js/bootstrap.min.js', 'resources/assets/js/libs');
 	mix.copy('vendor/almasaeed2010/adminlte/dist/js/app.min.js', 'resources/assets/js/libs/adminlte');
 
-	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/jquery.dataTables.min.js', 'resources/assets/js/libs');
-	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.min.js', 'resources/assets/js/libs');
-	mix.copy('vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js', 'resources/assets/js/libs');
-	mix.copy('vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js', 'resources/assets/js/libs');
+//	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/jquery.dataTables.min.js', 'resources/assets/js/libs');
+//	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.min.js', 'resources/assets/js/libs');
+//	mix.copy('vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js', 'resources/assets/js/libs');
+//	mix.copy('vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js', 'resources/assets/js/libs');
 
 
 /**
@@ -80,6 +81,8 @@ elixir(function(mix) {
 			'libs/jquery.dataTables.min.js',
 			'../../../bower_components/angular-route/angular-route.js',
 			'../../../bower_components/angular-resource/angular-resource.js',
+			'../../../bower_components/lodash/lodash.min.js',
+			'../../../bower_components/angular-google-maps/dist/angular-google-maps.min.js',
 		//	'libs/dataTables.bootstrap.min.js',
 		//	'libs/jquery.slimscroll.min.js',
 		//	'libs/fastclick.min.js',

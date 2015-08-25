@@ -14,7 +14,7 @@ import City			from './app/resources/city.js';
 /**
  * create  Angular App Instance
  */
-let  myApp = angular.module('panelApp',['ngRoute', 'ngResource']);
+let  myApp = angular.module('panelApp',['ngRoute', 'ngResource','uiGmapgoogle-maps']);
 
 /**
  * Directives
@@ -34,12 +34,14 @@ myApp.factory('City', ['$resource', ($resource) => new City($resource)]);
 myApp
 	.controller('PanelCtrl', ['$scope',  PanelCtrl])
   	.controller('CityCtrl',['$scope','$filter', 'City', CityCtrl])
-  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams', CityEditCtrl] );
+  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi',  CityEditCtrl] );
 
 /**
  * Setting Angular APP
+ *
+ * Google MAP API Key : AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8
  */
-myApp.config( ($interpolateProvider, $routeProvider) =>  {
+myApp.config( ($interpolateProvider, $routeProvider, uiGmapGoogleMapApiProvider) =>  {
 
 	/*
 	 * Change  Angular default interpolote Symbol to avoid 
@@ -58,6 +60,7 @@ myApp.config( ($interpolateProvider, $routeProvider) =>  {
 			controller: PanelCtrl,
 		})
 		.when('/cities', {
+
 			templateUrl: '/assets/back/app/views/cities.html',
 			controller: CityCtrl,
 		})
@@ -65,12 +68,24 @@ myApp.config( ($interpolateProvider, $routeProvider) =>  {
 			
 			templateUrl: '/assets/back/app/views/cityEdit.html',
 			controller: CityEditCtrl,
+
 					
 		}).
 		otherwise({
 
-			redirectTo: '/'
+			redirectTo: '/cities'
 		});
+	
+	/**
+	 * Google MAP Angular Plugins Configurations
+	 * Look at: http://angular-ui.github.io/angular-google-maps/#!/api/GoogleMapApi
+	 */
+	 uiGmapGoogleMapApiProvider.configure({
+		    
+		 key: 'AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8',
+		 v: '3.17',
+	 	 //libraries: 'weather,geometry,visualization'
+	 });
 			  
 });
 

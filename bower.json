@@ -20,9 +20,9 @@
   "private": true,
   "dependencies": {
     "angular": "1.4.x",
+    "angular-google-maps": "~2.1.5",
     "angular-mocks": "1.4.x",
-    "angular-route": "~1.4.0",
-	"angular-resource": "~1.4.4"
-
+    "angular-resource": "~1.4.4",
+    "angular-route": "~1.4.0"
   }
 }

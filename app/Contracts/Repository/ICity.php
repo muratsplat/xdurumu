@@ -90,4 +90,20 @@ interface ICity extends ICacheAble
          * @return int  deletes records
          */
         public function deleteOldListsByCity(City $city);
+        
+         /***
+         * To find city by given ID
+         * 
+         * @param int $cityId 
+         * @return \App\City|null
+         */
+        public function find($cityId);
+        
+        /**
+         * To get model by given slug
+         * 
+         * @param string $citySlug
+         * @return \App\City|null
+         */
+        public function findBySlug($citySlug);
 }
