@@ -80,9 +80,9 @@ elixir(function(mix) {
 			'libs/jquery.dataTables.min.js',
 			'../../../bower_components/angular-route/angular-route.js',
 			'../../../bower_components/angular-resource/angular-resource.js',
-			'libs/dataTables.bootstrap.min.js',
-			'libs/jquery.slimscroll.min.js',
-			'libs/fastclick.min.js',
+		//	'libs/dataTables.bootstrap.min.js',
+		//	'libs/jquery.slimscroll.min.js',
+		//	'libs/fastclick.min.js',
 			'libs/adminlte/app.min.js',
 		
 

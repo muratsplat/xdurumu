@@ -7,10 +7,14 @@
 
 import PanelCtrl 	from './app/controllers/panelCtrl.js';
 import CityCtrl 	from './app/controllers/cityCtrl.js';
+import CityEditCtrl	from './app/controllers/cityEditCtrl.js';
 import dataTable	from './app/directives/dataTable.js';
+import City			from './app/resources/city.js';
 
-
-let  myApp = angular.module('panelApp',['ngRoute']);
+/**
+ * create  Angular App Instance
+ */
+let  myApp = angular.module('panelApp',['ngRoute', 'ngResource']);
 
 /**
  * Directives
@@ -19,18 +23,18 @@ myApp.directive('jqDataTable', dataTable);
 
 
 /**
- * Services
+ * Services*
  */
+myApp.factory('City', ['$resource', ($resource) => new City($resource)]);
 
 
 /**
  * Controllers
  */
-myApp.controller('PanelCtrl', ['$scope',  PanelCtrl])
-  	.controller('CityCtrl',['$scope', CityCtrl]);
-  	//.controller('bookShelf.archiveController', ArchiveController);;
-
-
+myApp
+	.controller('PanelCtrl', ['$scope',  PanelCtrl])
+  	.controller('CityCtrl',['$scope','$filter', 'City', CityCtrl])
+  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams', CityEditCtrl] );
 
 /**
  * Setting Angular APP
@@ -56,6 +60,12 @@ myApp.config( ($interpolateProvider, $routeProvider) =>  {
 		.when('/cities', {
 			templateUrl: '/assets/back/app/views/cities.html',
 			controller: CityCtrl,
+		})
+		.when('/cities/:cityId', {
+			
+			templateUrl: '/assets/back/app/views/cityEdit.html',
+			controller: CityEditCtrl,
+					
 		}).
 		otherwise({
 

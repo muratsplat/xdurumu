@@ -32,7 +32,7 @@ class CityCtrl extends Controller
          * @return Response
          */
         public function index()
-        {
+        {                
             return $this->city->enableCache()->all();
         }
 

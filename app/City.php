@@ -44,7 +44,7 @@ class City extends Model implements SluggableInterface
      *
      * @var array
      */
-    protected $hidden = ['open_weather_map_id', 'id'];
+    protected $hidden = ['open_weather_map_id'];
     
     /**
      * Slug options

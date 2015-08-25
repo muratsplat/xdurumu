@@ -129,10 +129,10 @@ class City extends CacheAble implements ICity
         public function onCache()
         {
             list($key, $time) =  $this->getCachingParameters();
-            
-            return $this->getCache()->remember($key, $time, function(){
-                
-                return $this->onModel()->get();            
+                        
+            return $this->getCache()->remember($key, $time, function(){                
+          
+                return $this->onModel()->all();    
             });            
         }  
         

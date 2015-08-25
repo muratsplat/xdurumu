@@ -148,7 +148,7 @@ abstract class CacheAble
         {            
             if ($this->isEnabledCache()) {                
                 
-                return $this->onCache();
+                return $this->onCache()->all();
             }
             
             return $this->onModel()->all();            
