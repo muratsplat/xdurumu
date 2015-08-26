@@ -74,7 +74,7 @@ class City extends  CacheAbleEloquent implements SluggableInterface
          */
         public function weatherHourlyStat()
         {
-            return  $this->hasOne('App\WeatherHourlyStat', 'city_id', 'id');        
+            return  $this->hasOne('App\WeatherHourlyStat', 'city_id', 'id');      
         }
         
        /**
