@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
-//use App\Http\Requests\Request;
+use App\Http\Requests\Admin\CityUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Contracts\Repository\ICity;
 
@@ -82,13 +81,38 @@ class CityCtrl extends Controller
         /**
          * Update the specified resource in storage.
          *
-         * @param  Request  $request
+         * @param  \App\Http\Requests\Admin\CityUpdateRequest  $request
          * @param  int  $id
          * @return Response
          */
-        public function update(Request $request, $id)
+        public function update(CityUpdateRequest $request, $id)
         {
-            //
+           $attributes = $this->getUpdateData($request);           
+           
+           $result  = $this->city->update($id, $attributes);    
+           
+           return $result
+                   
+                   ? response()->json([], 204) 
+                   
+                   : response()->json(['code' => '500', 'msg' => 'City is not updated'], 500);
+        }        
+        
+        /**
+         * To get only  update attributes
+         * 
+         * @param \App\Http\Requests\Admin\CityUpdateRequest $request
+         * @return array
+         */
+        private function getUpdateData(CityUpdateRequest $request)
+        {               
+            return $request->only([
+                
+                'name',
+                'slug',
+                'enable',
+                'priority',                
+            ]);
         }
 
         /**

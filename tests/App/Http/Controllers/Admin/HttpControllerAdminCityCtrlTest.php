@@ -1,6 +1,6 @@
 <?php
 
-//use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -10,7 +10,7 @@ use Mockery as m;
 class HttpControllerAdminCityCtrlTest extends TestCase
 {
     
-    
+    use WithoutMiddleware;
     
     /**
      * 
@@ -60,6 +60,69 @@ class HttpControllerAdminCityCtrlTest extends TestCase
         $this->assertResponseOk();
     }
     
-   
+    /**
+     *
+     * @return void
+     */
+    public function testUpdateCity()
+    {
+        $app = app();
+        
+        
+        $data = [           
+            'name'      => 'FooBar',
+            'slug'      => 'foo-bar',
+            'enable'    => '1',
+            'priority'  => '3',
+        ];
+        
+        $cityRepo = $this->getCityRep();                       
+        
+        $cityRepo->shouldReceive('update')->andReturn(1);
+        
+        $app['App\Contracts\Repository\ICity'] = $cityRepo;              
+        
+
+        \Validator::shouldReceive('make')->andReturnSelf();
+        \Validator::shouldReceive('passes')->andReturn($data);
+                
+        $res = $this->action('PUT', '\App\Http\Controllers\Admin\CityCtrl@update', 1, $data);
+        
+        $this->assertEquals('', $res->getContent());
+        
+        $this->assertResponseStatus(204);      
+    }
+    
+    
+    /**
+     *
+     * @return void
+     */
+    public function testUpdateCityFail()
+    {
+        $app = app();
+        
+        
+        $data = [           
+            'name'      => 'FooBar',
+            'slug'      => 'foo-bar',
+            'enable'    => '1',
+            'priority'  => '3',
+        ];
+        
+        $cityRepo = $this->getCityRep();                       
+        
+        $cityRepo->shouldReceive('update')->andReturn(false);
+        
+        $app['App\Contracts\Repository\ICity'] = $cityRepo;                  
+
+        \Validator::shouldReceive('make')->andReturnSelf();
+        \Validator::shouldReceive('passes')->andReturn($data);                
+                
+        $res = $this->action('PUT', '\App\Http\Controllers\Admin\CityCtrl@update', 1, $data);
+        
+        $this->assertEquals('{"code":"500","msg":"City is not updated"}', $res->getContent());        
+        $this->assertResponseStatus(500);      
+    }  
     
 }

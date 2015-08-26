@@ -36,15 +36,30 @@ class City extends CacheAble implements ICity
         }
  
         
-        public function create(array $current)
+        public function create(array $attributes)
         {
             
             
         }        
         
-        public function update($cityID, array $current)
+        /**
+         * To update City
+         * 
+         * @param int $cityID
+         * @param array $attributes
+         * @return bool|int
+         * @throws \InvalidArgumentException
+         */
+        public function update($cityID, array $attributes)
         {
+            $model = $this->find($cityID);
+                    
+            if ($model) {
+
+               return $model->update($attributes);
+            }
             
+            throw new \InvalidArgumentException('Model is not found by passed primary key !');           
         }
         
         public function delete($cityID)

@@ -105,5 +105,16 @@ interface ICity extends ICacheAble
          * @param string $citySlug
          * @return \App\City|null
          */
-        public function findBySlug($citySlug);
+        public function findBySlug($citySlug);        
+        
+        /**
+         * To update City
+         * 
+         * 
+         * @param int $cityID
+         * @param array $attributes
+         * @return bool|int
+         * @throws \InvalidArgumentException
+         */
+        public function update($cityID, array $attributes);
 }
