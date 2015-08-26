@@ -1,3 +1,5 @@
+import Base  from './baseCtrl.js';
+
 /**
  * City Edit  Controller
  *
@@ -5,11 +7,11 @@
  * @param {object} $filter  Angular Filter
  * @param {object} service to access city data via ajax.
  */
-class CityEditCtrl  {
+class CityEditCtrl extends Base {
 
-	constructor($scope, City, $routeParams, uiGmapGoogleMapApi ) {
+	constructor($scope, City, $routeParams, uiGmapGoogleMapApi, ngNotify ) {
 
-		this._scope = $scope;
+		super($scope, ngNotify);
 
 		this._resource = City.resource();
 
@@ -24,29 +26,102 @@ class CityEditCtrl  {
 			{id: '1', name: 'Yüksek'},
 			{id: '2', name: 'Normal'},
 			{id: '3', name: 'Düşük'}
-		];
-
-
+		];	
+		
 	}
 
-	show(cityId) {
+	/**
+	 * SHow City
+	 */
+	showCity() {
 
-		let city =  this._resource;
+		this.showProcess();
 
-		return city.show( { id: cityId});
-	}
-
-
-	init() {
-
-		let request  =  this.show(this._wantedID);
+		let city 	= this._resource;
+		let id 		= this._wantedID; 
+		let request =city.show( { id: id});
 
 		request.$promise.then( (res) => {
 			
 			this._scope.city = res;
 
-			this.mapInit(res);		
+			this.mapInit(res);
+
+			this.hideProcess();
+		
+		},(res) => {
+
+			this.hideProcess();
+
+			this.sendErrorNotify('Sunucuya erişirken bir hata oldu! Sayfayı yenilemeyi deneyin.');		
 		});
+	}
+
+	/**
+	 * Update City
+	 *
+	 */
+	update() {
+
+		this.showProcess();
+
+		let resource = this._resource;
+
+		let city = this._scope.city;
+
+		let request = resource.update(city);
+
+		this.sendSuccessNotify('Your error message goes here!');
+		
+		/**
+		 * Success Response
+		 */	
+		let success =  (res) => {
+
+			this.hideProcess();
+
+			this.sendSuccessNotify( city.name +  ' konum bilgisi başarıyla güncellendi.')	
+		};
+
+		/**
+		 * Error Response
+		 */
+		let error = (res) => {
+
+			this.hideProcess();
+
+			let code	= new String(res.status);
+
+			let text 	= res.statusText;
+
+			let srvMsg	= JSON.stringify(res.data);
+
+			let msg =  '"' + city.name + '"' + ' konum bilgisi güncellenemedi. Hata Kodu: ' + code + ', Hata mesajı: ' + text + ', Sunucu cevabı: ' + srvMsg  ; 
+
+			this.sendErrorNotify( msg );
+		};
+
+		request.$promise.then( success, error );	
+	}	
+
+	/**
+	 * First jobs
+	 */
+	init() {
+
+		this.showCity();
+
+			// adding city update methods for clicking
+		this._scope.update = () => {
+
+			this.update();		
+		};
+
+		/*
+		 * If it is true, it shows overlay div 
+		 * for user
+		 */
+		this._scope.proccess = false;
 	}
 	
 	/**

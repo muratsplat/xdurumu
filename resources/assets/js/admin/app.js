@@ -8,18 +8,18 @@
 import PanelCtrl 	from './app/controllers/panelCtrl.js';
 import CityCtrl 	from './app/controllers/cityCtrl.js';
 import CityEditCtrl	from './app/controllers/cityEditCtrl.js';
-import dataTable	from './app/directives/dataTable.js';
+//import dataTable	from './app/directives/dataTable.js';
 import City			from './app/resources/city.js';
 
 /**
  * create  Angular App Instance
  */
-let  myApp = angular.module('panelApp',['ngRoute', 'ngResource','uiGmapgoogle-maps']);
+let  myApp = angular.module('panelApp',['ngRoute', 'ngResource','uiGmapgoogle-maps', 'ngNotify']);
 
 /**
  * Directives
  */
-myApp.directive('jqDataTable', dataTable);
+//myApp.directive('jqDataTable', dataTable);
 
 
 /**
@@ -33,8 +33,8 @@ myApp.factory('City', ['$resource', ($resource) => new City($resource)]);
  */
 myApp
 	.controller('PanelCtrl', ['$scope',  PanelCtrl])
-  	.controller('CityCtrl',['$scope','$filter', 'City', CityCtrl])
-  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi',  CityEditCtrl] );
+  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
+  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
 
 /**
  * Setting Angular APP

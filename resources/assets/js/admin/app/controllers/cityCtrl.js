@@ -1,25 +1,43 @@
+import Base  from './baseCtrl.js';
+
+
 /**
  * City Controller
  *
  * @param {object} $scope 	Angular $scope
  */
-class CityCtrl  {
+class CityCtrl extends Base {
 
-	constructor($scope, $filter, City) {
+	constructor($scope, $filter, City, ngNotify) {
 
-		this._$scope = $scope;
-
-		this._$scope.name = 'I am Panel Controller';
+		super($scope, ngNotify);	
 
 		this._city = City;
 
 		this.init();
 
-		this._$scope.predicate = 'priority';
-		this._$scope.reverse = true;
+		this._scope.predicate = 'priority';
+		this._scope.reverse = true;
+
+		
+		this._scope.incPriority = (event, cityId)  => {
+
+			event.stopPropagation();
+
+			console.log(cityId);
+		};
+
+		this._scope.decrPriority= (event, cityId)  => {
+
+			event.stopPropagation();
+
+			console.log(cityId);
+		};
 	}
 
 	index() {
+
+		this.showProcess();
 
 		let city =  this._city.resource();
 
@@ -31,9 +49,15 @@ class CityCtrl  {
 
 		let cities = this.index();
 
-		let _scope = this._$scope;
+		cities.$promise.then( (res) => {		
+		
+			_scope.cities = res;
 
-		_scope.cities = cities;	
+			this.hideProcess();
+
+		});
+
+		let _scope = this._scope;
 
 		/**
 		 * Adding method to $scope
@@ -44,8 +68,8 @@ class CityCtrl  {
 				? !_scope.reverse 
 				: false;
 			_scope.predicate = predicate;
-		};
-	}
+		}
+	}	
 
 
 

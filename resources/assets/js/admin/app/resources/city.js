@@ -12,6 +12,20 @@ class City {
 		this._url = '/back/city/:id';
 		
 	}
+
+	/**
+	 * City Update Resonse Example
+	 * 
+	 * When if it is failed! 
+	 *
+	 *  http code: 500
+	 *  response: 	{"code":"500","msg":"City is not updated"} 
+	 *
+	 *  When it is successed!
+	 *
+	 *  http code: 204
+	 *  response: '' (empty string)
+	 *
 	
 	/**
 	 * To get index resource
@@ -22,8 +36,9 @@ class City {
 
 		return this._$resource(url, {}, {
 		
-			'index' : { method: 'GET', params:{}, isArray:true, cache:false},
-			'show'	: { method: 'GET', params:{}, isArray:false, cache: false},
+			'index' 	: { method: 'GET',  isArray:true, cache:false},
+			'show'		: { method: 'GET',  isArray:false, cache: false},
+			'update'	: { method: 'PUT', params: {id:'@id'},  isArray: false, cache: false},  
 		});
 
 	}

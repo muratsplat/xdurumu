@@ -26,11 +26,16 @@ class CityUpdateRequest extends Request
      * @return array
      */
     public function rules()
-    {
+    {   
+        /**
+         * array('id' => array('id' => '1321'))
+         */
+        $id = $this->only('id');            
+        
         return [
             
             'name'      => 'required|min:3',
-            'slug'      => 'required|unique:cities,slug',
+            'slug'      => 'required|unique:cities,slug,' . $id['id'],
             'enable'    => 'boolean',
             'priority'  => 'numeric|digits_between:1,3',
         ];
