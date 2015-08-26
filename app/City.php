@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use App\CacheAbleEloquent;
 
 
 /**
@@ -13,7 +13,7 @@ use Cviebrock\EloquentSluggable\SluggableTrait;
  *
  * 
  */
-class City extends Model implements SluggableInterface
+class City extends  CacheAbleEloquent implements SluggableInterface
 {
     
     use SoftDeletes, SluggableTrait;
@@ -113,7 +113,7 @@ class City extends Model implements SluggableInterface
          * @param int $value
          * @return int
          */
-        public function setAttributePriority($value)
+        public function setPriorityAttribute($value)
         {
             $num = (integer) $value;
             

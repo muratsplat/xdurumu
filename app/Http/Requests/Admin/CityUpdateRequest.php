@@ -37,7 +37,7 @@ class CityUpdateRequest extends Request
             'name'      => 'required|min:3',
             'slug'      => 'required|unique:cities,slug,' . $id['id'],
             'enable'    => 'boolean',
-            'priority'  => 'numeric|digits_between:1,3',
+            'priority'  => 'numeric|integer|between:1,3',
         ];
     }
 }

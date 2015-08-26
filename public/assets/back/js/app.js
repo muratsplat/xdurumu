@@ -193,6 +193,8 @@ var CityCtrl = (function (_Base) {
 	_inherits(CityCtrl, _Base);
 
 	function CityCtrl($scope, $filter, City, ngNotify) {
+		var _this = this;
+
 		_classCallCheck(this, CityCtrl);
 
 		_get(Object.getPrototypeOf(CityCtrl.prototype), 'constructor', this).call(this, $scope, ngNotify);
@@ -204,22 +206,63 @@ var CityCtrl = (function (_Base) {
 		this._scope.predicate = 'priority';
 		this._scope.reverse = true;
 
-		this._scope.incPriority = function (event, cityId) {
+		this._scope.incPriority = function (event, city) {
 
 			event.stopPropagation();
 
-			console.log(cityId);
+			_this.incrementsPriority('inc', city);
 		};
 
-		this._scope.decrPriority = function (event, cityId) {
+		this._scope.decrPriority = function (event, city) {
 
 			event.stopPropagation();
 
-			console.log(cityId);
+			_this.incrementsPriority('decr', city);
 		};
 	}
 
+	/**
+  * To increment City Priority
+  */
+
 	_createClass(CityCtrl, [{
+		key: 'incrementsPriority',
+		value: function incrementsPriority(type, city) {
+			var _this2 = this;
+
+			if (type === undefined) type = 'inc';
+
+			var resource = this._city.resource();
+
+			var beforePriority = city.priority;
+
+			if ('inc' === type) {
+
+				city.priority--;
+			} else {
+
+				city.priority++;
+			}
+
+			var request = resource.update(city);
+
+			request.$promise.then(function (res) {
+
+				_this2.sendSuccessNotify(city.name + ' başarıyla güncellendi.');
+			}, function (res) {
+
+				_this2.sendErrorNotify(city.name + ' güncellenirken bir hata oluştu!');
+
+				city.priority = beforePriority;
+
+				console.error(res);
+			});
+		}
+
+		/**
+   * To get all
+   */
+	}, {
 		key: 'index',
 		value: function index() {
 
@@ -232,7 +275,7 @@ var CityCtrl = (function (_Base) {
 	}, {
 		key: 'init',
 		value: function init() {
-			var _this = this;
+			var _this3 = this;
 
 			var cities = this.index();
 
@@ -240,7 +283,7 @@ var CityCtrl = (function (_Base) {
 
 				_scope.cities = res;
 
-				_this.hideProcess();
+				_this3.hideProcess();
 			});
 
 			var _scope = this._scope;

@@ -19,22 +19,59 @@ class CityCtrl extends Base {
 		this._scope.predicate = 'priority';
 		this._scope.reverse = true;
 
-		
-		this._scope.incPriority = (event, cityId)  => {
+			
+		this._scope.incPriority = (event, city)  => {
 
 			event.stopPropagation();
 
-			console.log(cityId);
+			this.incrementsPriority('inc', city);
 		};
 
-		this._scope.decrPriority= (event, cityId)  => {
+		this._scope.decrPriority= (event, city)  => {
 
 			event.stopPropagation();
 
-			console.log(cityId);
+			this.incrementsPriority('decr', city);
 		};
 	}
 
+	/**
+	 * To increment City Priority
+	 */
+	incrementsPriority(type='inc', city) {
+
+		let resource = this._city.resource();
+
+		var  beforePriority = city.priority;
+
+		if ('inc' === type) {
+
+			city.priority--;
+
+		} else {
+
+			city.priority++;
+		}
+
+		let request = resource.update(city);
+
+		request.$promise.then( (res) => {		
+
+			this.sendSuccessNotify( city.name + ' başarıyla güncellendi.');
+			
+		}, (res) => {
+
+			this.sendErrorNotify(city.name + ' güncellenirken bir hata oluştu!');
+			
+			city.priority = beforePriority;
+			
+			console.error(res);	
+		});
+	}
+
+	/**
+	 * To get all
+	 */
 	index() {
 
 		this.showProcess();
