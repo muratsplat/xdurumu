@@ -1,6 +1,8 @@
 {
   "assets/back/css/all.css": "assets/back/css/all-facc60b4.css",
+  "assets/back/css/login/all.css": "assets/back/css/login/all-40cbe1b9.css",
   "css/app.css": "css/app-eb99c26c.css",
   "assets/back/js/app.js": "assets/back/js/app-9070cea8.js",
-  "assets/back/js/libs/libs.js": "assets/back/js/libs/libs-61a4c37d.js"
+  "assets/back/js/libs/libs.js": "assets/back/js/libs/libs-99a71703.js",
+  "assets/back/js/libs/login/libs.js": "assets/back/js/libs/login/libs-2f0c1d0d.js"
 }

@@ -335,15 +335,15 @@
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
-            <!-- Font Awesome -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- Angular Notify Pugin -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
-    <link rel="stylesheet" href="{{ elixir('assets/back/css/all.css') }}">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Angular Notify Pugin -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
+    <link rel="stylesheet" href="{{ elixir('assets/back/css/all.css') }}">
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>            
     <script src="{{ elixir('assets/back/js/libs/libs.js') }}"></script>

@@ -58,10 +58,26 @@ elixir(function(mix) {
 		'public/assets/back/css');
 
 	/**
+	 * CSS files that is about only login page, register page
+	 */	
+	mix.styles(
+		[
+	
+		'adminlte/AdminLTE.min.css',
+		'adminlte/fixes.css',
+		'adminlte/skins/skin-blue.min.css',
+		],
+
+		'public/assets/back/css/login');
+
+
+
+	/**
  	* Template's JS Files
  	*/	
 	mix.copy('vendor/almasaeed2010/adminlte/plugins/jQuery/jQuery-2.1.4.min.js', 'resources/assets/js/libs');
 	mix.copy('vendor/almasaeed2010/adminlte/bootstrap/js/bootstrap.min.js', 'resources/assets/js/libs');
+	mix.copy('vendor/almasaeed2010/adminlte/plugins/iCheck/icheck.min.js', 'resources/assets/js/libs');
 	mix.copy('vendor/almasaeed2010/adminlte/dist/js/app.min.js', 'resources/assets/js/libs/adminlte');
 
 //	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/jquery.dataTables.min.js', 'resources/assets/js/libs');
@@ -70,43 +86,57 @@ elixir(function(mix) {
 //	mix.copy('vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js', 'resources/assets/js/libs');
 
 
-/**
- * Mergin all js scripts
- */
-
+	/**
+ 	* Mergin all js scripts
+ 	*/
 	mix.
 		scripts(
 		[	'libs/jQuery-2.1.4.min.js',
 	 		'libs/bootstrap.min.js',
-			'libs/jquery.dataTables.min.js',
+			//'libs/jquery.dataTables.min.js',
 			'../../../bower_components/angular-route/angular-route.js',
 			'../../../bower_components/angular-resource/angular-resource.js',
 			'../../../bower_components/lodash/lodash.min.js',
 			'../../../bower_components/angular-google-maps/dist/angular-google-maps.min.js',
-		//	'libs/dataTables.bootstrap.min.js',
-		//	'libs/jquery.slimscroll.min.js',
-		//	'libs/fastclick.min.js',
 			'libs/adminlte/app.min.js',
 		
 
 		], 
-		'public/assets/back/js/libs/libs.js').
+		'public/assets/back/js/libs/libs.js');
 		
 	  	/**
 		 * ECMA Script 6-7
 		 */
 		//babel(['admin/*'], 'public/assets/back/js/app.js').
 	
-		browserify('admin/app.js', 'public/assets/back/js/app.js');
-
-					   
-/**
- * Cache Busting
- */
+		mix.browserify('admin/app.js', 'public/assets/back/js/app.js');
 	
+	/**
+ 	* Mergin all js scripts
+ 	*/
+	mix.
+		scripts(
+		[	'libs/jQuery-2.1.4.min.js',
+	 		'libs/bootstrap.min.js',
+		],
+
+		'public/assets/back/js/libs/login/libs.js');
+
+	/*
+	 * Front Template Assets are coping..
+	 */
+	mix.copy('vendor/almasaeed2010/adminlte/dist/css', 'public/assets/front/dist');;
+	mix.copy('vendor/almasaeed2010/adminlte/plugins', 'public/assets/front/dist/plugins');
+					   
+	/**
+ 	* Cache Busting
+	*/	
 	mix.version([ 
-		"assets/back/css/all.css", 
+		'assets/back/css/all.css',
+	   	'assets/back/css/login/all.css',	
 		'css/app.css', 
 		'assets/back/js/app.js', 
-		'assets/back/js/libs/libs.js']);
+		'assets/back/js/libs/libs.js',
+		'assets/back/js/libs/login/libs.js',
+		]);
 });
