@@ -99,5 +99,6 @@
         });
       });
     </script>
+    @include('_ga')
   </body>
 </html>

@@ -6,5 +6,7 @@
   "assets/back/js/libs/libs.js": "assets/back/js/libs/libs-99a71703.js",
   "assets/back/js/libs/login/libs.js": "assets/back/js/libs/login/libs-2f0c1d0d.js",
   "assets/front/main/js/libs.js": "assets/front/main/js/libs-1576def7.js",
-  "assets/front/main/css/all.css": "assets/front/main/css/all-ca820943.css"
+  "assets/front/main/css/all.css": "assets/front/main/css/all-ca820943.css",
+  "assets/front/weather/js/libs.js": "assets/front/weather/js/libs-1576def7.js",
+  "assets/front/weather/css/all.css": "assets/front/weather/css/all-6c440ec1.css"
 }

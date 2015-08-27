@@ -21,20 +21,17 @@ $domain = config('app.domain');
 /**
  * hava.durumum.net   
  */
-Route::group(['domain' => "hava.$domain"], function () {
+Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function () {
     
-    Route::get('user/{id}', function ($id) {
+    /**
+     * Namespace : App\Http\Controllers\Weather
+     */    
+    Route::get('konum/{id}', function ($id) {
         
-        return $id;
-        
-        
-        
+        return $id;        
     });
     
-    Route::get('/', function() {
-        
-        return 'hava durumu';
-    });
+    Route::get('/', 'Home@index');
     
 });
 

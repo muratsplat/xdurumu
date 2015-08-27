@@ -1,7 +1,4 @@
 var elixir = require('laravel-elixir');
-//var htmlmin = require('gulp-htmlmin');
-//var gulp = require('gulp');
-
 
 /*
  |--------------------------------------------------------------------------
@@ -80,12 +77,6 @@ elixir(function(mix) {
 	mix.copy('vendor/almasaeed2010/adminlte/plugins/iCheck/icheck.min.js', 'resources/assets/js/libs');
 	mix.copy('vendor/almasaeed2010/adminlte/dist/js/app.min.js', 'resources/assets/js/libs/adminlte');
 
-//	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/jquery.dataTables.min.js', 'resources/assets/js/libs');
-//	mix.copy('vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.min.js', 'resources/assets/js/libs');
-//	mix.copy('vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js', 'resources/assets/js/libs');
-//	mix.copy('vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js', 'resources/assets/js/libs');
-
-
 	/**
  	* Mergin all js scripts
  	*/
@@ -146,10 +137,22 @@ elixir(function(mix) {
 	};
 
 	/**
-	 * hava.durumum.net
+	 * Vendor Paths
 	 */
-	var weather = {
+	var vendors = {
 
+		js : {
+
+			jSlimScroll : '../../../vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js',
+			fastClick	: '../../../vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js',
+			adminlte	: '../../../vendor/almasaeed2010/adminlte/dist/js/app.min.js'
+		},
+
+		css : {
+			adminlte	: '../../../vendor/almasaeed2010/adminlte/dist/css/AdminLTE.min.css',
+			skin_black	: '../../../vendor/almasaeed2010/adminlte/dist/css/skins/skin-black-light.min.css',
+			skin_blue	: '../../../vendor/almasaeed2010/adminlte/dist/css/skins/skin-blue.min.css',
+		}
 	};
 
 	/**
@@ -157,31 +160,72 @@ elixir(function(mix) {
 	 */
 	mix.scripts([
 
-			'../../../vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js',
-			'../../../vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js',
-			'../../../vendor/almasaeed2010/adminlte/dist/js/app.min.js'
+			vendors.js.jSlimScroll,
+			vendors.js.fastClick,
+			vendors.js.adminlte,
 			],
 			main.jsLibs
 			);
-
 	
 	/**
-	 * Sass
+	 * Sass For Main Domains
 	 */
 	mix.sass('front/main.scss', main.homePageCss);
 
 	/**
 	 * CSS files that is about only login page, register page
 	 */	
-	mix.styles(
-		[
-	
-		'../../../vendor/almasaeed2010/adminlte/dist/css/AdminLTE.min.css',
-		'../../../vendor/almasaeed2010/adminlte/dist/css/skins/skin-black-light.min.css',
-		'front/homepage.css',
+	mix.styles([
+			
+			vendors.css.adminlte,
+			vendors.css.skin_black,
+			'front/homepage.css',
 		],
 
 		main.cssAll);
+
+
+	/**
+	 * hava.durumum.net
+	 */
+	var weather = {
+
+		jsLibs		: 'public/assets/front/weather/js/libs.js',
+		cssAll		: 'public/assets/front/weather/css/all.css',
+		homePageCss : 'resources/assets/css/front/weather/homepage.css'
+	};
+
+	/**
+	 * Merged Some JS Plugins
+	 */
+	mix.scripts([
+
+				vendors.js.jSlimScroll,
+				vendors.js.fastClick,
+				vendors.js.adminlte
+			],
+			weather.jsLibs		
+			);
+
+
+	/**
+	 * Sass For hava.durumu.net
+	 */
+	mix.sass('front/weather/main.scss', weather.homePageCss);
+
+
+	/**
+	 * CSS files that is about only login page, register page
+	 */	
+	mix.styles([
+			
+			vendors.css.adminlte,
+			vendors.css.skin_blue,
+			weather.homePageCss,
+		],
+
+			weather.cssAll
+		);
 
 
 					   
@@ -197,5 +241,7 @@ elixir(function(mix) {
 		'assets/back/js/libs/login/libs.js',
 		main.jsLibs,
 		main.cssAll,
+		weather.jsLibs,
+		weather.cssAll,
 		]);
 });
