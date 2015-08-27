@@ -11,6 +11,40 @@
 |
 */
 
+
+/**
+ * To avoid domain conflicts when 
+ * the app runs on test, local, production env.. 
+ */
+$domain = config('app.domain');
+
+/**
+ * hava.durumum.net   
+ */
+Route::group(['domain' => "hava.$domain"], function () {
+    
+    Route::get('user/{id}', function ($id) {
+        
+        return $id;
+        
+        
+        
+    });
+    
+    Route::get('/', function() {
+        
+        return 'hava durumu';
+    });
+    
+});
+
+
+/**
+ * Main Domain Routes
+ * 
+ * All main domain routes should be defined befor sub-domain routes !!
+ * 
+ */
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,7 +57,7 @@ Route::group(['prefix' => 'auth'], function(){
     // Authentication routes...
     Route::get('login', 'Auth\AuthController@getLogin');
     Route::post('login', 'Auth\AuthController@postLogin');
-//        Route::get('auth/logout', 'Auth\AuthController@getLogout');
+    Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 
     // Registration routes...
@@ -35,9 +69,7 @@ Route::group(['prefix' => 'auth'], function(){
 /**
  * Admin Panel
  */
-Route::group(['prefix' => 'back'], function(){    
-    
-    
+Route::group(['prefix' => 'back', 'middleware' => 'auth'], function() {       
 
     /**
      * Static index page for AngularJS
@@ -45,19 +77,17 @@ Route::group(['prefix' => 'back'], function(){
     Route::get('index', function(){
         
         return view('back.indexAngular', array());
-    });    
+    });   
     
-    
+    /**
+     * Resfull Routes For AngularJS
+     */
     Route::group(['namespace' => 'Admin'], function() {
 
         /**
          * City Resource
          */
-        Route::resource('city', 'CityCtrl');  
-        
-    });
-   
+        Route::resource('city', 'CityCtrl');          
+    });   
     
 });
-
-

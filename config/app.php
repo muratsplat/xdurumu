@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://durumum.net',
 
     /*
     |--------------------------------------------------------------------------
@@ -200,5 +200,10 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
     ],
+    
+    /**
+     * The application's domain
+     */    
+    'domain' => env('APP_DOMAIN', 'durumum.dev'),
 
 ];

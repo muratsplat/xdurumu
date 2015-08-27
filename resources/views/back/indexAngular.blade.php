@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Laravel</title> 
+    <title>durumum.Net</title> 
 
    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -230,14 +230,22 @@
           <ul class="sidebar-menu">
             <li class="header">SubDomainler</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class=""><a href="#/weather">
-                <i class="fa fa-link"></i> <span>Hava</span></a>
+            <li class="">
+                <a href="#/weather">
+                    <i class="fa fa-fw fa-cloud"></i> 
+                    <span>Hava</span>
+                </a>
                 <ul class="treeview-menu">
-                    <li><a href="#/cities">Şehirler</a></li>
+                    <li>                       
+                        <a href="#/cities">
+                            <i class="fa  fa-map-marker"></i>
+                            Şehirler
+                        </a>
+                    </li>
                     <li><a href="#">Başka Bir link</a></li>
               </ul>
             </li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+            <li><a href="{{action('Auth\AuthController@getLogout')}}"><i class="fa fa-fw fa-sign-out"></i> <span>Çıkış</span></a></li>
             <li class="treeview">
               <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
@@ -338,7 +346,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Angular Notify Pugin -->

@@ -3,7 +3,8 @@
   "devDependencies": {
     "babelify": "^6.2.0",
     "bower": "^1.5.1",
-    "gulp": "^3.8.8"
+    "gulp": "^3.8.8",
+    "gulp-htmlmin": "^1.1.4"
   },
   "dependencies": {
     "laravel-elixir": "^2.0.0",

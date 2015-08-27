@@ -1,0 +1,146 @@
+/* Bu dosya ana domain sitilleri için
+ * oluşturuldu */
+
+.iconic-font-big-navigate {
+
+    font-size: 29px;
+    margin-right: 5px;
+    position: absolute;
+    left: 8px;
+    top: 7px;	
+}
+
+.left-space-30 {
+
+	padding-left: 31px !important;
+}
+
+/**
+ * Erhanın temasından alıntı
+ */
+ ul.flatflipbuttons{
+	margin:0;
+	padding:0;
+	list-style:none;
+	-webkit-perspective: 10000px; /* larger the value, the less pronounced the 3D effect */
+	-moz-perspective: 10000px;
+	perspective: 10000px;
+}
+
+ul.flatflipbuttons li{
+	margin:0;
+	display: inline-block;
+	width: 300px; /* dimensions of buttons. */
+	height: 300px;
+	margin-right: 15px; /* spacing between buttons */
+	background: white;
+	text-align: center;
+}
+
+ul.flatflipbuttons li a{
+	display:table;
+	font: bold 150px Arial; /* font size, pertains to icon fonts specifically */
+	width: 100%;
+	height: 100%;
+	margin-bottom: 4px;
+	color: black; 
+	background: #3B9DD5;
+	text-decoration: none;
+	outline: none;
+	-webkit-transition:all 300ms ease-out; /* CSS3 transition. Last value is pause before transition play */
+	-moz-transition:all 300ms ease-out;
+	transition:all 300ms ease-out;
+}
+
+ul.flatflipbuttons li:nth-of-type(1) a{
+color: white;
+background: #3B9DD5;
+}
+
+ul.flatflipbuttons li:nth-of-type(2) a{
+background: #A1CD3A;
+}
+
+ul.flatflipbuttons li:nth-of-type(3) a{
+background: #80C5EC;
+}
+
+ul.flatflipbuttons li:nth-of-type(4) a{
+color: white;
+background: #635746;
+}
+
+ul.flatflipbuttons li:nth-of-type(5) a{
+background: #F2C96D;
+}
+
+ul.flatflipbuttons li a span{
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+display: table-cell;
+vertical-align: middle;
+width: 100%;
+height: 100%;
+-webkit-transition: all 300ms ease-out; /* CSS3 transition. */
+-moz-transition: all 300ms ease-out;
+transition: all 300ms ease-out;
+}
+
+ul.flatflipbuttons li b{ /* CSS for text beneath button */
+display: block;
+position: relative;
+width: 100%;
+opacity: 0;
+-webkit-transition: all 300ms ease-out 0.2s; /* CSS3 transition. 0.2s delay */
+-moz-transition: all 300ms ease-out 0.2s;
+transition: all 300ms ease-out 0.2s;
+}
+
+
+ul.flatflipbuttons li a img{ /* CSS for image if defined inside button */
+border-width: 0;
+vertical-align: middle;
+}
+
+
+ul.flatflipbuttons li:hover a{
+-webkit-transform: rotateY(180deg); /* flip horizontally 180deg*/
+-moz-transform: rotateY(180deg);
+transform: rotateY(180deg);
+background: #c1e4ec; /* bgcolor of button onMouseover*/
+-webkit-transition-delay: 0.3s;
+-moz-transition-delay: 0.3s;
+transition-delay: 0.3s;
+}
+
+ul.flatflipbuttons li:hover a i{
+color: black ; /* color of icon font onMouseover */
+-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg); /* flip horizontally 180deg*/
+transform: rotateY(180deg);
+-webkit-transition-delay: 0.3s;
+-moz-transition-delay: 0.3s;
+transition-delay: 0.3s;
+}
+
+
+ul.flatflipbuttons li:hover b{
+opacity: 1;
+}
+
+/* CSS for 2nd menu below specifically */
+
+ul.second li a{
+background: #eee !important;
+}
+
+ul.second li a:hover{
+background: #ddd !important;
+}
+
+.homepage-big-ion-font {
+
+    font-size: 194pt;
+
+}

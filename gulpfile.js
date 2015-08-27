@@ -1,4 +1,7 @@
 var elixir = require('laravel-elixir');
+//var htmlmin = require('gulp-htmlmin');
+//var gulp = require('gulp');
+
 
 /*
  |--------------------------------------------------------------------------
@@ -12,12 +15,10 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    
+	mix.sass('app.scss');
 
-/**
- * Admin LTE css files and images are coping...
- */
-	
+		
 	/**
 	 * CSS
 	 */
@@ -42,12 +43,11 @@ elixir(function(mix) {
 	mix.styles(
 		[
 		//'adminlte/bootstrap/css/bootstrap.min.css',
-		'adminlte/AdminLTE.min.css',
+		'../../../vendor/almasaeed2010/adminlte/dist/css/AdminLTE.min.css',
 		'adminlte/fixes.css',
-		'adminlte/skins/skin-blue.min.css',
-		'adminlte/plugins/iCheck/flat/blue.css',
-		'adminlte/plugins/morris/morris.css',
-		'adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css',
+		'../../../vendor/almasaeed2010/adminlte/dist/css/skins/skin-blue.min.css',
+		'../../../vendor/almasaeed2010/adminlte/plugins/morris/morris.css',
+		'../../../vendor/almasaeed2010/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css',
 		'adminlte/plugins/datepicker/datepicker3.css',
 		'adminlte/plugins/daterangepicker/daterangepicker-bs3.css',
 		'adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css',
@@ -127,6 +127,63 @@ elixir(function(mix) {
 	 */
 	mix.copy('vendor/almasaeed2010/adminlte/dist/css', 'public/assets/front/dist');;
 	mix.copy('vendor/almasaeed2010/adminlte/plugins', 'public/assets/front/dist/plugins');
+	
+	/*	
+ 	|--------------------------------------------------------------------------
+ 	| Only Tasks for Front-End !!!
+ 	|--------------------------------------------------------------------------.
+	|
+ 	*/
+
+	/**
+	 * durumum.net
+	 */
+	var main = { 
+
+		jsLibs 		: 'public/assets/front/main/js/libs.js',
+		cssAll 		: 'public/assets/front/main/css/all.css',
+		homePageCss : 'resources/assets/css/front/homepage.css',
+	};
+
+	/**
+	 * hava.durumum.net
+	 */
+	var weather = {
+
+	};
+
+	/**
+	 * Merged Some JS Plugins
+	 */
+	mix.scripts([
+
+			'../../../vendor/almasaeed2010/adminlte/plugins/slimScroll/jquery.slimscroll.min.js',
+			'../../../vendor/almasaeed2010/adminlte/plugins/fastclick/fastclick.min.js',
+			'../../../vendor/almasaeed2010/adminlte/dist/js/app.min.js'
+			],
+			main.jsLibs
+			);
+
+	
+	/**
+	 * Sass
+	 */
+	mix.sass('front/main.scss', main.homePageCss);
+
+	/**
+	 * CSS files that is about only login page, register page
+	 */	
+	mix.styles(
+		[
+	
+		'../../../vendor/almasaeed2010/adminlte/dist/css/AdminLTE.min.css',
+		'../../../vendor/almasaeed2010/adminlte/dist/css/skins/skin-black-light.min.css',
+		'front/homepage.css',
+		],
+
+		main.cssAll);
+
+
 					   
 	/**
  	* Cache Busting
@@ -138,5 +195,7 @@ elixir(function(mix) {
 		'assets/back/js/app.js', 
 		'assets/back/js/libs/libs.js',
 		'assets/back/js/libs/login/libs.js',
+		main.jsLibs,
+		main.cssAll,
 		]);
 });
