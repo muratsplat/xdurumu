@@ -39,12 +39,10 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
 /**
  * Main Domain Routes
  * 
- * All main domain routes should be defined befor sub-domain routes !!
+ * All main domain routes should be defined after sub-domain routes !!
  * 
  */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Home@index');
 
 /**
  * Authentication

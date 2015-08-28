@@ -31,7 +31,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
-                <li><a href="#" class="left-space-30"><i class="ion ion-ios-rainy iconic-font-big-navigate";></i> Hava</a></li>
+                <li><a href="{{action('Weather\Home@index')}}" class="left-space-30"><i class="ion ion-ios-rainy iconic-font-big-navigate";></i> Hava</a></li>
                 <!--<li><a href="#">Link</a></li> -->
               </ul>
             </div><!-- /.navbar-collapse -->
