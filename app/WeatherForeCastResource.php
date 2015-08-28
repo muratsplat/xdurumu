@@ -41,7 +41,9 @@ class WeatherForeCastResource extends CacheAble
      *
      * @var array
      */
-    protected $hidden = ['id', 'api_calls_count'];    
+    protected $hidden = ['id', 'api_calls_count', 'source_updated_at', 'created_at', 'updated_at'];      
+
+   
         
         /**
          * Defining one to many relations 

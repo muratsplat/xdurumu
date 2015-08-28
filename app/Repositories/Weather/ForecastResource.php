@@ -50,9 +50,9 @@ class ForecastResource extends CacheAble implements IForecastResource
         public function onCache()
         {
             list($key, $minitues) = $this->getCachingParameters();
-            
+          
             return $this->getCache()->remember($key, $minitues, function() {
-                
+               
                 return $this->onModel()->enable()->priority()->get();
             }); 
         }     

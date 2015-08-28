@@ -185,8 +185,8 @@ class ApiServiceFactory
          * 
          * @return \Illuminate\Database\Eloquent\Collection|static[]
          */
-        private function getResourcesByHighestPriority()
-        {
+        private function getResourcesByHighestPriority() {
+            
             return $this->getForeCastResource()->enableCache()->all();
         }
         

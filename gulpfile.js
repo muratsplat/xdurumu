@@ -228,6 +228,33 @@ elixir(function(mix) {
 		);
 
 
+	/*
+	 |--------------------------
+	 | hava.durumu.net
+	 | Home Page AngularJS app
+	 |--------------------------
+	 */
+
+	/**
+ 	* Mergin all js scripts
+ 	*/
+	mix.
+		scripts(
+		[
+			'../../../bower_components/angular-resource/angular-resource.js',
+			'../../../bower_components/angular-route/angular-route.js',
+			'../../../bower_components/lodash/lodash.min.js',
+			'../../../bower_components/angular-google-maps/dist/angular-google-maps.min.js',
+
+		], 
+
+		'public/assets/front/weather/js/home/libs.js');
+		
+	  	/**
+		 * ECMA Script 6-7
+		 */	
+		mix.browserify('front/weather/home/app.js', 'public/assets/front/weather/js/home/app.js');
+	
 					   
 	/**
  	* Cache Busting
@@ -243,5 +270,8 @@ elixir(function(mix) {
 		main.cssAll,
 		weather.jsLibs,
 		weather.cssAll,
+		'assets/front/weather/js/home/libs.js',
+		'assets/front/weather/js/home/app.js',
 		]);
 });
+

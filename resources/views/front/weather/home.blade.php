@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:ng="http://angularjs.org" ng-app="weatherHome">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,9 +12,11 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
   </head>
   <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
-  <body class="hold-transition skin-blue layout-top-nav">
+  <body class="hold-transition skin-blue layout-top-nav" ng-controller="HomeCtrl">
     <div class="wrapper">
 
       <header class="main-header">
@@ -45,11 +47,6 @@
                   </ul>
                 </li>
               </ul>
-              <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
-                </div>
-              </form>
             </div><!-- /.navbar-collapse -->
 
           </div><!-- /.container-fluid -->
@@ -61,34 +58,40 @@
           <!-- Content Header (Page header) -->
           <section class="content-header">
             <h1>
-              Top Navigation
-              <small>Example 2.0</small>
+              Türkiye             
             </h1>
             <ol class="breadcrumb">
-              <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-              <li><a href="#">Layout</a></li>
-              <li class="active">Top Navigation</li>
+              <li><a href="{{action('Home@index')}}"><i class="fa fa-dashboard"></i> Hava Durumu</a></li>
+              <li><a href="{{action('Home@index')}}">Türkiye</a></li>              
             </ol>
           </section>
-
           <!-- Main content -->
           <section class="content">
-            <div class="callout callout-info">
-              <h4>Tip!</h4>
-              <p>Add the layout-top-nav class to the body tag to get this layout. This feature can also be used with a sidebar! So use this class if you want to remove the custom dropdown menus from the navbar and use regular links instead.</p>
+
+             <!-- COLOR PALETTE -->
+          <div class="box box-default color-palette-box">
+            <div class="box-header with-border">
+              <h3 class="box-title"><i class="fa fa-tag"></i> Tükiye'nin Hava Durumu</h3>
             </div>
-            <div class="callout callout-danger">
-              <h4>Warning!</h4>
-              <p>The construction of this layout differs from the normal one. In other words, the HTML markup of the navbar and the content will slightly differ than that of the normal layout.</p>
-            </div>
-            <div class="box box-default">
-              <div class="box-header with-border">
-                <h3 class="box-title">Blank Box</h3>
-              </div>
-              <div class="box-body">
-                The great content goes here
-              </div><!-- /.box-body -->
-            </div><!-- /.box -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">                
+                  <!--  Google Map-->
+                  <div id="map_canvas" >
+                    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
+                      <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+                      </ui-gmap-marker>
+                    </ui-gmap-google-map>
+                  </div>
+
+                   <!--  ./ Google Map-->
+                </div><!-- /.col -->             
+              </div><!-- /.row -->
+
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+
+
           </section><!-- /.content -->
         </div><!-- /.container -->
       </div><!-- /.content-wrapper -->
@@ -101,14 +104,21 @@
         </div><!-- /.container -->
       </footer>
     </div><!-- ./wrapper -->
-    
-    @include('front._cdn_boostrap_font_awesome_jquery');
+
+    <!-- ALL CDN  -->
+    @include('front._cdn_boostrap_font_awesome_jquery')
+    @include('front._cdn_angular')
+    <!-- END OF ALL CDN -->;
 
     <!-- Theme style and Other independent css files -->
     <link rel="stylesheet" href="{{ elixir('assets/front/weather/css/all.css') }}">   
     <!-- JS -->
     <!-- SlimScroll, FastClick, AdminLTE App -->    
-    <script src="{{ elixir('assets/front/weather/js/libs.js') }}"></script>      
+    <script src="{{ elixir('assets/front/weather/js/libs.js') }}"></script>    
+    <!-- JS Application -->
+    <script src="{{ elixir('assets/front/weather/js/home/libs.js') }}"></script>    
+    <script src="{{ elixir('assets/front/weather/js/home/app.js') }}"></script>    
+    <!-- ./JS Application -->
 
     @include('_ga')    
   </body>

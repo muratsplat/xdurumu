@@ -24,8 +24,14 @@ class WeatherCurrent extends CacheAble
      *
      * @var array
      */            
-    protected $fillable = ['enable', 'source_updated_at'];    
-    
+    protected $fillable = ['enable', 'source_updated_at'];       
+     
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['city_id','weather_forecast_resource_id','created_at','source_updated_at'];    
     
         /**
          * To define an inverse one-to-one relationship 
@@ -107,6 +113,25 @@ class WeatherCurrent extends CacheAble
             return $this->morphOne('App\WeatherCloud', 'cloudsable', 'cloudsable_type', 'cloudsable_id');
         }
         
+        
+        /**
+         * To get names of all relations 
+         * 
+         * @return array
+         */
+        public function getNameOfRelations()
+        {
+            return [
+                'clouds',
+                'main',
+                'wind',
+                'snow',
+                'rain',
+                'conditions',
+                'city'
+            ];
+        }
+        
         /**
          * TO define an one to one relationship
          * 
@@ -115,5 +140,15 @@ class WeatherCurrent extends CacheAble
         public function sys() 
         {            
             return $this->morphOne('App\WeatherSys', 'sysable','sysable_type', 'sysable_id');
+        }
+        
+        /**
+        * Scope a query to only enebled.
+        *
+        * @return \Illuminate\Database\Eloquent\Builder
+        */
+        public function scopeEnable($query)
+        {
+           return $query;
         }
 }

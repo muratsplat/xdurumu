@@ -63,11 +63,12 @@
                 <center>
                 <ul class="flatflipbuttons">
                     <li>
-                        <a href="hava-durumu.html" title="Hava Durumu">
+                        <a href="{{action('Weather\Home@index')}}" title="Hava Durumu">
                             <i class="ion ion-ios-rainy homepage-big-ion-font";></i>
                         </a> 
-                        <h1>Hava Durumu </h1>                        
+                                    
                     </li> 
+                    <a href="{{action('Weather\Home@index')}}"><h1>Hava Durumu </h1></a> 
                 </ul>
             </center>
                 </div>

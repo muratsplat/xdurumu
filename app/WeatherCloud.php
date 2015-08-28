@@ -33,9 +33,14 @@ class WeatherCloud extends Model
      *
      * @var array
      */            
-    protected $fillable = [
-            'all',         
-        ];    
+    protected $fillable = ['all'];    
+    
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [ 'cloudsable_type', 'cloudsable_id'];    
         
         /**
          * Define a polymorphic, inverse one-to-one or many relationship.

@@ -33,6 +33,13 @@ class WeatherWind extends Model
      */            
     protected $fillable = ['speed', 'deg'];
     
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['windable_type', 'windable_id'];   
+    
     
         /**
          * Define a polymorphic, inverse one-to-one or many relationship.

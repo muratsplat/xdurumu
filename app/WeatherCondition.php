@@ -43,8 +43,8 @@ class WeatherCondition extends Model implements SluggableInterface
      *
      * @var array
      */
-    protected $hidden = ['id', 'open_weather_map_id', 'updated_at', 'created_at'];
-    
+    protected $hidden = ['id', 'open_weather_map_id', 'updated_at', 'created_at', 'pivot', 'deleted_at',];
+
     /**
      * Slug options
      *
@@ -84,5 +84,6 @@ class WeatherCondition extends Model implements SluggableInterface
         public function currents()
         {
             return $this->morphedByMany('App\WeatherCurrent', 'weather_condition_able', 'weather_condition_ables');            
-        }
+        }                
+
    }

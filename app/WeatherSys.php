@@ -31,7 +31,15 @@ class WeatherSys extends Model
      *
      * @var array
      */            
-    protected $fillable = ['country', 'sunrise', 'sunset'];    
+    protected $fillable = ['country', 'sunrise', 'sunset']; 
+    
+        
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['sysable_type', 'sysable_id'];
             
         /**
          * Define a polymorphic, inverse one-to-one or many relationship.

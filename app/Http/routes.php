@@ -33,6 +33,8 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
     
     Route::get('/', 'Home@index');
     
+    Route::resource('anlik', 'Current@index');
+    
 });
 
 

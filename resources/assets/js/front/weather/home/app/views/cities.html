@@ -1,0 +1,107 @@
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Konum Yönetimi
+            <small>Sistemde kayıtlı tüm konumlar buradan yönetilir.</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Konumlar</a></li>
+            <li class="active">Here</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+<div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Konumlar([[cities.length ]])</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+            <div class="col-sm-6">
+            <div class="dataTables_filter" style="text-align: left;">
+              <label>Arama:<input type="search" class="form-control input-sm" placeholder="" aria-controls="DataTables_Table_0" ng-model="searchText"></label>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+            <div class="dataTables_filter" >
+              Listenen yer sayısı : <b>[[ cities.length ]] </b> 
+              </div>
+            </div>
+
+              <div class="col-sm-12">
+                  <table  class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                    <thead>
+                      <tr role="row">
+                        <th class="" ng-class="predicate === 'name' ? 'sorting_asc' : null " tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 245px;">
+                          <a href="" ng-click="order('name')">İsim</a>
+                        </th>
+                        <th class="" ng-class="predicate === 'latitude' ? 'sorting_asc' : null"  tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 150px;">
+                          <a href="" ng-click="order('latitude')">Enlem</a>
+                        </th>
+                        <th class="" ng-class="predicate === 'longitude' ? 'sorting_asc' : null" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 150px;">
+                          <a href="" ng-click="order('longitude')">Boylam</a>
+                        </th>
+                        <th class="" ng-class="predicate === 'priority' ? 'sorting_asc' : null" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > 
+                          <a href="" ng-click="order('priority')">Öncelik</a>
+                        </th>
+                        <th class="" ng-class="predicate === 'enable' ? 'sorting_asc' : null" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">
+                          <a href="" ng-click="order('enable')">Durum</a>
+                        </th>
+                         <th class="" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">
+                          <a href="">İşlemler</a>
+                        </th>
+                       </tr>
+                    </thead>
+                    <tbody>                 
+                   <tr ng-repeat="city in cities | filter:searchText |  orderBy:predicate:reverse" role="row">                  
+                        <td class="sorting_1">[[ city.name]]</td>
+                        <td>[[ city.latitude]]</td>
+                        <td>[[ city.longitude ]]</td>
+                        <td>[[ city.priority ]]</td>
+                        <td><span class="label" ng-class="city.enable === '0' ? 'label-danger' : 'label-success'">[[ city.enable === '1' ? 'aktif' : 'pasif' ]] </span></td>
+                        <td>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-info">İşlemler</button>
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#/cities/[[city.id]]"><i class="fa fa-fw fa-edit"></i>Düzenle</a></li>
+                              <li><a href="#" ng-click="incPriority($event, city )" ><i class="fa fa-fw fa-thumbs-o-up" ></i>Önceliği Artır</a></li>
+                              <li><a href="#" ng-click="decrPriority($event, city )" ><i class="fa fa-fw fa-thumbs-o-down" ></i>Önceliği Azalt</a></li>
+                              <li><a href="#"><i class="fa fa-fw fa-trash"></i>Sil</a></li>                         
+                            </ul>
+                            </div>
+                          </td>
+                      </tr>
+                   </tbody>
+                    <tfoot>
+                      <tr>
+                        <th rowspan="1" colspan="1">İsim</th>
+                        <th rowspan="1" colspan="1">Enlem</th>
+                        <th rowspan="1" colspan="1">Boylam</th>
+                        <th rowspan="1" colspan="1">Öncelik</th>
+                        <th rowspan="1" colspan="1">Durum</th>
+                        <th rowspan="1" colspan="1">İşlemler</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  </div>
+                  </div>
+                  </div>
+
+                </div><!-- /.box-body -->
+                    <!-- Loading (remove the following to stop the loading)-->
+                   <div class="overlay" ng-if="process">
+                    <i class="fa fa-refresh fa-spin"></i>
+                  </div>
+              </div>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section>

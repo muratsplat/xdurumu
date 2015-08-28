@@ -1,6 +1,39 @@
 @charset "UTF-8";
 /* Bu dosya hava.* sub-domaini sitilleri için
  * oluşturuldu */
+/*
+    let me google that for you (many ways to skin this cat)
+    http://stackoverflow.com/questions/10209704/set-google-maps-container-div-width-and-height-100 (implemented here)
+    http://stackoverflow.com/questions/2821596/100-height-with-fixed-footer-and-embedded-google-map
+    */
+body, html {
+  height: 100%;
+  width: 100%; }
+
+.angular-google-map-container {
+  /*@extend  .col-md-12;  */
+  height: 100%;
+  width: 96%;
+  left: 16px;
+  position: absolute; }
+  @media screen and (max-width: 453px) {
+    .angular-google-map-container {
+      width: 90%;
+      left: 18px; } }
+  @media screen and (min-width: 1110px) {
+    .angular-google-map-container {
+      width: 97%;
+      left: 12px; } }
+
+.middle {
+  display: table;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; }
+
+#map_canvas {
+  height: 400px; }
+
 .iconic-font-big-navigate {
   font-size: 29px;
   margin-right: 5px;

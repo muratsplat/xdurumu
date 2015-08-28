@@ -46,6 +46,14 @@ class WeatherMain extends Model
             'temp_kf',
         ];
     
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['mainable_id', 'mainable_type'];
+    
+    
         /**
          * Define a polymorphic, inverse one-to-one or many relationship.
          * 

@@ -31,7 +31,14 @@ class WeatherRain extends Model
      *
      * @var array
      */            
-    protected $fillable = ['3h', 'rain'];    
+    protected $fillable = ['3h', 'rain'];  
+    
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['rainable_id', 'rainable_type'];
     
     
         /**

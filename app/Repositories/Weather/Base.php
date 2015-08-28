@@ -219,6 +219,7 @@ abstract class Base extends CacheAble
             list($key, $minitues) = $this->getCachingParameters();
             
             return $this->getCache()->remember($key, $minitues, function() {
+               
                 
                 return $this->onModel()->enable()->get();
             }); 

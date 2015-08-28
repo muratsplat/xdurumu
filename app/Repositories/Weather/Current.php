@@ -9,7 +9,6 @@ use Illuminate\Contracts\Cache\Repository                   as Cache;
 use Illuminate\Contracts\Config\Repository                  as Config;
 use App\Contracts\Repository\ICity                          as City;
 use App\Libs\Weather\DataType\WeatherDataAble;
-use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\Condition; 
 use App\Contracts\Weather\Repository\ICurrent;
 use App\Contracts\Weather\Repository\Importable; 
@@ -19,7 +18,7 @@ use App\Contracts\Weather\Repository\Importable;
  * 
  * @package WeatherForcast
  */
-class Current extends Base implements ICurrent, ICacheAble, Importable
+class Current extends Base implements ICurrent, Importable
 {    
     /**
      * @var \App\WeatherCurrent 
@@ -322,5 +321,52 @@ class Current extends Base implements ICurrent, ICacheAble, Importable
         {
             ;
         }
+        
+        
+        /**
+         * To get all models
+         * 
+         * @param bool $cache
+         * @return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        public function all()
+        {            
+            if ($this->isEnabledCache() ) {                
+                
+                return $this->onCache();
+            }          
+            
+            return $this->allWithAllRelations();
+        }  
+        
+        /**
+         * To get all models from cache drive
+         * 
+         * return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        public function onCache()
+        {
+            list($key, $minitues) = $this->getCachingParameters();
+            
+            return $this->getCache()->remember($key, $minitues, function() {               
+                
+                return $this->allWithAllRelations();
+                
+            }); 
+        }        
+        
+        /**
+         * To get model with all relations
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        public function allWithAllRelations()
+        {
+            $relations = $this->onModel()->getNameOfRelations();        
+            
+            return $this->onModel()->with($relations)->get();            
+        }
+        
+          
        
 }

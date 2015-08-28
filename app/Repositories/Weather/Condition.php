@@ -6,7 +6,6 @@ use App\WeatherCondition                                    as Model;
 use App\Repositories\CacheAble                              as CacheAble;
 use Illuminate\Contracts\Cache\Repository                   as Cache;
 use Illuminate\Contracts\Config\Repository                  as Config;
-use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\Condition              as ICondition;
 
 /**
@@ -14,7 +13,7 @@ use App\Contracts\Weather\Repository\Condition              as ICondition;
  * 
  * @package WeatherForcast
  */
-class Condition extends CacheAble implements ICondition, ICacheAble
+class Condition extends CacheAble implements ICondition
 {    
     /**
      * @var \App\WeatherCondition 

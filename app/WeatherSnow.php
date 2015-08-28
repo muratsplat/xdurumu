@@ -33,6 +33,14 @@ class WeatherSnow extends Model
      */            
     protected $fillable = ['3h', 'snow'];
     
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['snowable_type', 'snowable_id'];
+    
+    
         /**
          * Define a polymorphic, inverse one-to-one or many relationship.
          * 
