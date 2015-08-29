@@ -7,29 +7,34 @@
 
 import HomeCtrl		from './app/controllers/homeCtrl.js';
 import City 		from './app/resources/city.js';
-//import Map			from './app/directives/openWeatherMap.js';
+import Current		from './app/resources/current.js';
+import GoMap		from './app/directives/googlaMap.js';
+import GoMapSrv		from './app/factories/googleMap.js';
 /**
  * create  Angular App Instance
  */
-let  myApp = angular.module('weatherHome',['ngResource','ngRoute', 'uiGmapgoogle-maps']);
+let  myApp = angular.module('weatherHome',['ngResource','ngRoute', 'ngNotify']);
 
 /**
  * Directives
  */
-//myApp.directive('map', Map);
+myApp.directive('goMap', GoMap);
 
 
 /**
  * Services*
  */
-myApp.factory('City', ['$resource', ($resource) => new City($resource)]);
+myApp
+	.factory('City', ['$resource', ($resource) => new City($resource)])
+	.factory('Current', ['$resource', ($resource) => new Current($resource)])
+	.factory('goMapSrv', ['$window', '$q', ($window, $q) => new GoMapSrv($window, $q)]);
 
 
 /**
  * Controllers
  */
 myApp
-	.controller('HomeCtrl', ['$scope', 'uiGmapGoogleMapApi','City',  HomeCtrl]);
+	.controller('HomeCtrl', ['$scope','City','Current','ngNotify','goMapSrv', '$q', HomeCtrl]);
 //  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
 //  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
 
@@ -38,7 +43,7 @@ myApp
  *
  * 
  */
-myApp.config( ($interpolateProvider, uiGmapGoogleMapApiProvider ) =>  {
+myApp.config( ($interpolateProvider ) =>  {
 
 	/*
 	 * Change  Angular default interpolote Symbol to avoid 
@@ -47,17 +52,6 @@ myApp.config( ($interpolateProvider, uiGmapGoogleMapApiProvider ) =>  {
 	$interpolateProvider.startSymbol('[[');
 	$interpolateProvider.endSymbol(']]');
 
-	
-	/**
-	 * Google MAP Angular Plugins Configurations
-	 * Look at: http://angular-ui.github.io/angular-google-maps/#!/api/GoogleMapApi
-	 */
-	  uiGmapGoogleMapApiProvider.configure({
-		    
-		 key: 'AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8',
-		 v: '3.17',
-	 	 //libraries: 'weather,geometry,visualization'
-	 });
 	 
 
 });

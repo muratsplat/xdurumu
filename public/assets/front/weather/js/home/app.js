@@ -16,31 +16,46 @@ var _appControllersHomeCtrlJs2 = _interopRequireDefault(_appControllersHomeCtrlJ
 
 var _appResourcesCityJs = require('./app/resources/city.js');
 
-//import Map			from './app/directives/openWeatherMap.js';
+var _appResourcesCityJs2 = _interopRequireDefault(_appResourcesCityJs);
+
+var _appResourcesCurrentJs = require('./app/resources/current.js');
+
+var _appResourcesCurrentJs2 = _interopRequireDefault(_appResourcesCurrentJs);
+
+var _appDirectivesGooglaMapJs = require('./app/directives/googlaMap.js');
+
+var _appDirectivesGooglaMapJs2 = _interopRequireDefault(_appDirectivesGooglaMapJs);
+
+var _appFactoriesGoogleMapJs = require('./app/factories/googleMap.js');
+
 /**
  * create  Angular App Instance
  */
 
-var _appResourcesCityJs2 = _interopRequireDefault(_appResourcesCityJs);
+var _appFactoriesGoogleMapJs2 = _interopRequireDefault(_appFactoriesGoogleMapJs);
 
-var myApp = angular.module('weatherHome', ['ngResource', 'ngRoute', 'uiGmapgoogle-maps']);
+var myApp = angular.module('weatherHome', ['ngResource', 'ngRoute', 'ngNotify']);
 
 /**
  * Directives
  */
-//myApp.directive('map', Map);
+myApp.directive('goMap', _appDirectivesGooglaMapJs2['default']);
 
 /**
  * Services*
  */
 myApp.factory('City', ['$resource', function ($resource) {
-	return new _appResourcesCityJs2['default']($resource);
+  return new _appResourcesCityJs2['default']($resource);
+}]).factory('Current', ['$resource', function ($resource) {
+  return new _appResourcesCurrentJs2['default']($resource);
+}]).factory('goMapSrv', ['$window', '$q', function ($window, $q) {
+  return new _appFactoriesGoogleMapJs2['default']($window, $q);
 }]);
 
 /**
  * Controllers
  */
-myApp.controller('HomeCtrl', ['$scope', 'uiGmapGoogleMapApi', 'City', _appControllersHomeCtrlJs2['default']]);
+myApp.controller('HomeCtrl', ['$scope', 'City', 'Current', 'ngNotify', 'goMapSrv', '$q', _appControllersHomeCtrlJs2['default']]);
 //  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
 //  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
 
@@ -49,30 +64,243 @@ myApp.controller('HomeCtrl', ['$scope', 'uiGmapGoogleMapApi', 'City', _appContro
  *
  * 
  */
-myApp.config(function ($interpolateProvider, uiGmapGoogleMapApiProvider) {
+myApp.config(function ($interpolateProvider) {
 
-	/*
-  * Change  Angular default interpolote Symbol to avoid 
-  * Laravel blade interpolate symbol
-  */
-	$interpolateProvider.startSymbol('[[');
-	$interpolateProvider.endSymbol(']]');
+  /*
+   * Change  Angular default interpolote Symbol to avoid 
+   * Laravel blade interpolate symbol
+   */
+  $interpolateProvider.startSymbol('[[');
+  $interpolateProvider.endSymbol(']]');
+});
+
+},{"./app/controllers/homeCtrl.js":3,"./app/directives/googlaMap.js":4,"./app/factories/googleMap.js":5,"./app/resources/city.js":6,"./app/resources/current.js":7}],2:[function(require,module,exports){
+/**
+ * Base Controller
+ *
+ * @param {object} $scope 	Angular $scope
+ */
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var BaseCtrl = (function () {
+	function BaseCtrl($scope, ngNotify) {
+		_classCallCheck(this, BaseCtrl);
+
+		this._scope = $scope;
+		this._notify = ngNotify;
+		this._scope.process = false;
+	}
 
 	/**
-  * Google MAP Angular Plugins Configurations
-  * Look at: http://angular-ui.github.io/angular-google-maps/#!/api/GoogleMapApi
+  * To send error notify
   */
-	uiGmapGoogleMapApiProvider.configure({
 
-		key: 'AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8',
-		v: '3.17'
-	});
-});
-//libraries: 'weather,geometry,visualization'
+	_createClass(BaseCtrl, [{
+		key: 'sendErrorNotify',
+		value: function sendErrorNotify(msg) {
 
-},{"./app/controllers/homeCtrl.js":2,"./app/resources/city.js":3}],2:[function(require,module,exports){
+			this._notify.set(msg, 'error');
+		}
+
+		/**
+   * To send success notify
+   */
+	}, {
+		key: 'sendSuccessNotify',
+		value: function sendSuccessNotify(msg) {
+
+			this._notify.set(msg, 'success');
+		}
+
+		/**
+   * Show Procces
+   *
+   */
+	}, {
+		key: 'showProcess',
+		value: function showProcess() {
+
+			this._scope.process = true;
+		}
+
+		/**
+   * Hide Procces
+   */
+	}, {
+		key: 'hideProcess',
+		value: function hideProcess() {
+
+			this._scope.process = false;
+		}
+	}]);
+
+	return BaseCtrl;
+})();
+
+module.exports = BaseCtrl;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _baseCtrlJs = require('./baseCtrl.js');
+
 /**
  * Panel Controller
+ */
+
+var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
+
+var Home = (function (_Base) {
+	_inherits(Home, _Base);
+
+	function Home($scope, City, Current, ngNotify, goMapSrv, $q) {
+		_classCallCheck(this, Home);
+
+		_get(Object.getPrototypeOf(Home.prototype), 'constructor', this).call(this, $scope, ngNotify);
+
+		this._scope = $scope;
+
+		this._city = City;
+
+		this._current = Current;
+
+		this._map = goMapSrv;
+
+		this._q = $q;
+
+		this.showProcess();
+
+		this.initMap();
+	}
+
+	/**
+  * To get current resource
+  *
+  * Look at ../resources/current.js
+  *
+  */
+
+	_createClass(Home, [{
+		key: 'getCurrent',
+		value: function getCurrent() {
+
+			var request = this._current.resource();
+
+			return request.indexRandom({ cnt: 150 });
+		}
+
+		/**
+   * Create Map Markers
+   */
+	}, {
+		key: 'createMarkers',
+		value: function createMarkers() {
+
+			this._scope.markers = [];
+
+			var currents = this.getCurrent();
+
+			var defer = this._q.defer();
+
+			currents.$promise.then(function (res) {
+
+				var markers = [];
+
+				angular.forEach(res, function (v, k) {
+
+					var marker = {
+
+						latitude: Number(v.city.latitude),
+
+						longitude: Number(v.city.longitude),
+
+						title: v.city.name,
+
+						icon: v.conditions[0].icon,
+
+						options: {
+							draggable: false
+						}
+					};
+
+					markers.push(marker);
+				});
+
+				defer.resolve(markers);
+			}, function (res) {
+
+				defer.reject(res);
+			});
+
+			return defer.promise;
+		}
+
+		/**
+   * Google Map
+   */
+	}, {
+		key: 'initMap',
+		value: function initMap() {
+			var _this = this;
+
+			var map = this._map.getMap();
+
+			var markers = this.createMarkers();
+
+			markers.then(function (items) {
+
+				map.$promise.then(function (instanceMap) {
+
+					_this._map.addMarkers(items, instanceMap);
+				});
+
+				_this.hideProcess();
+			}, function (res) {
+
+				console.error('Weather Currents can not reached !');
+				console.error(res);
+				_this.hideProcess();
+			});
+		}
+	}]);
+
+	return Home;
+})(_baseCtrlJs2['default']);
+
+module.exports = Home;
+
+},{"./baseCtrl.js":2}],4:[function(require,module,exports){
+/**
+ * A directive For Google Maps
+ */
+'use strict';
+
+module.exports = function () {
+
+	return {
+		restrict: 'A',
+		link: function link(scope, element, attrs) {}
+	};
+};
+
+},{}],5:[function(require,module,exports){
+
+/**
+ * A resource to access city  restful services server-side
  */
 
 'use strict';
@@ -81,84 +309,154 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var Home = (function () {
-	function Home($scope, uiGmapGoogleMapApi, City) {
-		_classCallCheck(this, Home);
+var GoogleMap = (function () {
+	function GoogleMap($window, $q) {
+		var _this = this;
 
-		this._scope = $scope;
+		_classCallCheck(this, GoogleMap);
 
-		this._scope.name = 'I am Panel Controller';
+		this._defer = $q.defer();
 
-		this._map = uiGmapGoogleMapApi;
+		this._q = $q;
 
-		this._city = City;
+		$window.googleInitMap = function () {
+
+			_this._defer.resolve();
+		};
+
+		this._dom = $window.document;
+
+		/**
+   * Todo:
+   * Adds new mothods to configure google map api
+   */
+		this._url = '//maps.googleapis.com/maps/api/js?key=AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8&callback=googleInitMap';
+		this._iconBase = 'http://openweathermap.org/img/w/';
+		this._map = {};
 
 		this.mapInit();
 	}
 
 	/**
-  * Google Map
+  * Load Google Map Library by creating
+  * script element
   */
 
-	_createClass(Home, [{
+	_createClass(GoogleMap, [{
+		key: 'createScrElm',
+		value: function createScrElm() {
+
+			var script = this._dom.createElement('script');
+
+			script.src = this._url;
+
+			this._dom.body.appendChild(script);
+
+			return this._defer.promise;
+		}
+
+		/**
+   * Initial Google Map
+   */
+	}, {
 		key: 'mapInit',
-		value: function mapInit(res) {
-			var _this = this;
+		value: function mapInit() {
+			var _this2 = this;
 
-			/**
-    * Example Response
-    * {
-    * 	id: "1327", 
-    * 	name: "Karaçalı", 
-    * 	country: "TR", 
-    * 	latitude: "41.10810900", 
-    * 	longitude: "30.31860900"
-    * 	}
-    */
+			var includeMap = this.createScrElm();
 
-			this._scope.map = {
+			var defer = this._q.defer();
 
-				center: {
+			includeMap.then(function (res) {
+				;
 
-					latitude: 39, /*res.latitude, */
-					longitude: 35 },
+				var latlng = new google.maps.LatLng(39, 35);
 
-				/*res.longitude */
-				zoom: 6
+				var elem = _this2._dom.getElementById('map_canvas');
+
+				var map = new google.maps.Map(elem, {
+
+					zoom: 6,
+					center: latlng,
+					scrollwheel: false,
+					disableDefaultUI: true,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				});
+
+				defer.resolve(map);
+			}, function () {
+
+				defer.reject();
+			});
+
+			this._map.$promise = defer.promise;
+		}
+
+		/**
+   * To get initialized Map with $promise
+   */
+	}, {
+		key: 'getMap',
+		value: function getMap() {
+
+			return this._map;
+		}
+
+		/**
+   * To create a icon for Google Map
+   */
+	}, {
+		key: 'createWeatherIcon',
+		value: function createWeatherIcon(icon) {
+
+			return {
+
+				url: this._iconBase + icon + '.png',
+				// This marker is 20 pixels wide by 32 pixels high.
+				size: new google.maps.Size(50, 50),
+				// The origin for this image is (0, 0).
+				origin: new google.maps.Point(0, 0),
+				// The anchor for this image is the base of the flagpole at (0, 32).
+				anchor: new google.maps.Point(0, 32)
 			};
+		}
 
-			/**
-    * Map Options
-    */
-			this._scope.options = { scrollwheel: true };
+		/**
+   * To add markers to initialed map
+   */
+	}, {
+		key: 'addMarkers',
+		value: function addMarkers(markers, map) {
 
-			/**
-    * Adds Location Markes on map
-    */
-			this._map.then(function (maps) {
+			for (var i = 0; i < markers.length; i++) {
 
-				console.log('map is loaded! ');
-				_this._scope.marker = {
+				var city = markers[i];
 
-					id: 0,
-					coords: {
+				console.log(city);
 
-						latitude: 38,
-						longitude: 33
+				var marker = new google.maps.Marker({
+
+					position: {
+
+						lat: city.latitude,
+						lng: city.longitude
 					},
 
-					options: { draggable: true }
-				};
-			});
+					map: map,
+					icon: this.createWeatherIcon(city.icon),
+					//shape: shape,
+					title: city.title
+				});
+			}
 		}
 	}]);
 
-	return Home;
+	return GoogleMap;
 })();
 
-module.exports = Home;
+module.exports = GoogleMap;
 
-},{}],3:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 
 /**
  * A resource to access city  restful services server-side
@@ -216,5 +514,51 @@ var City = (function () {
 })();
 
 module.exports = City;
+
+},{}],7:[function(require,module,exports){
+
+/**
+ * A resource to access current weather data restful services server-side
+ *
+ *  This resource class for only front-end !
+ */
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var Current = (function () {
+	function Current($resource) {
+		_classCallCheck(this, Current);
+
+		this._$resource = $resource;
+
+		this._url = '/anlik/:id';
+	}
+
+	/**
+  * Restfull services
+  */
+
+	_createClass(Current, [{
+		key: 'resource',
+		value: function resource() {
+
+			var url = this._url;
+
+			return this._$resource(url, {}, {
+
+				'index': { method: 'GET', isArray: true, cache: true },
+				'indexRandom': { method: 'GET', params: { mode: 'rand', cnt: ':cnt' }, isArray: true, cache: true }
+
+			});
+		}
+	}]);
+
+	return Current;
+})();
+
+module.exports = Current;
 
 },{}]},{},[1]);

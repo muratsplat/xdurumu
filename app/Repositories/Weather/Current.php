@@ -6,6 +6,7 @@ use ErrorException;
 use App\WeatherCurrent                                      as Model;
 use App\WeatherForeCastResource                             as Resource;
 use Illuminate\Contracts\Cache\Repository                   as Cache;
+//use Illuminate\Database\Eloquent\Collection                 as Collection;
 use Illuminate\Contracts\Config\Repository                  as Config;
 use App\Contracts\Repository\ICity                          as City;
 use App\Libs\Weather\DataType\WeatherDataAble;
@@ -365,8 +366,51 @@ class Current extends Base implements ICurrent, Importable
             $relations = $this->onModel()->getNameOfRelations();        
             
             return $this->onModel()->with($relations)->get();            
+        }        
+        
+        /**
+         * To get items randomly passed amount
+         * 
+         * @param int $count
+         * @return array
+         */
+        public function takeRandomOnAll($count)
+        {            
+            $minitues   = 10;
+                
+            $key        = createUniqueKeyFromObj($this->onModel(), 'take.random.' . $count);
+                        
+            $callback   = function() use ($count) {
+                
+                return $this->random($count);                
+            };
+            
+            return $this->remember($key, $minitues, $callback);                       
         }
         
-          
-       
+        /**
+         * To get randomly items
+         * 
+         * @param int $amount
+         * @return array
+         */
+        public function random($amount)
+        {
+            $random = $this->allWithAllRelations()->random($amount);
+            
+            return array_values($random->toArray());
+        }
+        
+        /**
+         * To remember value during passed time
+         * 
+         * @param string $key
+         * @param int $minitues
+         * @param \Closure $callback
+         * @return mixed
+         */
+        public function remember($key, $minitues, \Closure $callback) 
+        {                        
+            return $this->getCache()->remember($key, $minitues, $callback);                              
+        }  
 }

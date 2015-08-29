@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Weather;
 
 use Illuminate\Http\Request;
 use App\Contracts\Weather\Repository\ICurrent;
-
-use App\Http\Requests;
+//use App\Http\Requests\Front\Weather\CurrentIndexRequest;
 use App\Http\Controllers\Controller;
 
 class Current extends Controller
@@ -25,15 +24,38 @@ class Current extends Controller
         {
             $this->current = $current;
         }
+        
         /**
          * Display a listing of the resource.
          *
          * @return Response
          */
-        public function index()
-        {          
+        public function index(Request $request)
+        {   
+            $mode   = $request->get('mode', null);
+            $cnt    = $request->get('cnt', null);           
+            
+            if ( ! is_null($mode) && $mode === 'rand' ) {
+                
+                return $this->random($cnt);
+            }
+            
             return $this->current->enableCache()->all();
-        }
+        }        
+        
+        /**
+         * To get randomly a listing of the resource
+         * 
+         * 
+         * @param int $amount default  value is 10
+         * @return \Illuminate\Database\Eloquent\Collection|static[]
+         */
+        protected function random($amount=10) 
+        {            
+            $number = is_numeric($amount) && $amount > 0 ? $amount : 1;
+            
+            return $this->current->takeRandomOnAll($number);        
+        }      
 
         /**
          * Show the form for creating a new resource.

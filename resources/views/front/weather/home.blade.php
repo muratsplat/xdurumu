@@ -71,25 +71,60 @@
              <!-- COLOR PALETTE -->
           <div class="box box-default color-palette-box">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-tag"></i> Tükiye'nin Hava Durumu</h3>
+              <h3 class="box-title"><i class="fa fa-tag"></i> Tükiye'nin Anlık Hava Durumu</h3>
             </div>
             <div class="box-body">
               <div class="row">
-                <div class="col-md-12">                
+                <div class="col-md-12">   
+                <p class="text-center">
+                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                      </p>             
                   <!--  Google Map-->
-                  <div id="map_canvas" >
-                    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
-                      <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-                      </ui-gmap-marker>
-                    </ui-gmap-google-map>
-                  </div>
+                  <div  id="map_canvas" go-map=""></div>
 
                    <!--  ./ Google Map-->
                 </div><!-- /.col -->             
               </div><!-- /.row -->
+              <div class="box-footer">
+                  <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                        <h5 class="description-header">$35,210.43</h5>
+                        <span class="description-text">TOTAL REVENUE</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                        <h5 class="description-header">$10,390.90</h5>
+                        <span class="description-text">TOTAL COST</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                        <h5 class="description-header">$24,813.53</h5>
+                        <span class="description-text">TOTAL PROFIT</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block">
+                        <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                        <h5 class="description-header">1200</h5>
+                        <span class="description-text">GOAL COMPLETIONS</span>
+                      </div><!-- /.description-block -->
+                    </div>
+                  </div><!-- /.row -->
+                </div>
 
             </div><!-- /.box-body -->
+              <!-- Loading (remove the following to stop the loading)-->
+                 <div class="overlay" ng-if="process">
+                    <i class="fa fa-refresh fa-spin"></i>
+                 </div>
           </div><!-- /.box -->
+
 
 
           </section><!-- /.content -->
@@ -108,6 +143,11 @@
     <!-- ALL CDN  -->
     @include('front._cdn_boostrap_font_awesome_jquery')
     @include('front._cdn_angular')
+    <!--<script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8&callback=angular">
+    </script> -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
+    <!-- Angular Notify Pugin -->
+    <script src="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.js"></script>
     <!-- END OF ALL CDN -->;
 
     <!-- Theme style and Other independent css files -->

@@ -13,5 +13,12 @@ use App\Contracts\Weather\Repository\IBase;
 interface ICurrent extends IBase
 {         
      
+        /**
+         * To get items randomly passed amount
+         * 
+         * @param int $count
+         * @return array
+         */
+        public function takeRandomOnAll($count);
     
 }

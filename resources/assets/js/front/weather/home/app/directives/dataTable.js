@@ -1,5 +1,5 @@
 /**
- * A directive jQuery DataTables Plugins
+ * A directive For Google Maps
  */
 module.exports = () =>  {
 
@@ -7,14 +7,7 @@ module.exports = () =>  {
 		restrict: 'A',
 		link: (scope, element, attrs) => {								
 			
-			scope.cities.$promise.then(() => {
-				/**
-				 * DataTable plugins not working well now!
-				 */
-				//$(element).DataTable();	
-			});
-			
-				
+			console.log(element);				
 
 		}
 	};
