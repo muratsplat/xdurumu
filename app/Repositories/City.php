@@ -279,4 +279,10 @@ class City extends CacheAble implements ICity
             return (int) $this->deleteOldDailyLists($city)  + (int) $this->deleteOldHourlyLists($city);            
         }
         
+        
+        public function getAllOnlyOnesHasWeatherData()
+        {
+            
+        }
+        
 }

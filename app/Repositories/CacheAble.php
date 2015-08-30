@@ -163,4 +163,18 @@ abstract class CacheAble
         {
             return $this->cache;            
         }
+        
+        
+         /**
+         * To remember value during passed time
+         * 
+         * @param string $key
+         * @param int $minitues
+         * @param \Closure $callback
+         * @return mixed
+         */
+        public function remember($key, $minitues, \Closure $callback) 
+        {                        
+            return $this->getCache()->remember($key, $minitues, $callback);                              
+        }     
 }

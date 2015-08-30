@@ -10,7 +10,7 @@ use Illuminate\Contracts\Cache\Repository                   as Cache;
 use Illuminate\Contracts\Config\Repository                  as Config;
 use App\Contracts\Repository\ICity                          as City;
 use App\Libs\Weather\DataType\WeatherDataAble;
-//use App\Contracts\Weather\Repository\Condition; 
+use App\Contracts\Weather\Repository\Condition              as ConditionRep; 
 use App\Contracts\Weather\Repository\ICurrent;
 use App\Contracts\Weather\Repository\Importable; 
 
@@ -47,12 +47,12 @@ class Current extends Base implements ICurrent, Importable
          * @param \App\WeatherCurrent                                   $current
          */
         public function __construct(
-                Cache       $cache, 
-                Config      $config,
-                City        $city, 
-                Condition   $condition, 
-                Resource    $resource, 
-                Model       $current) {
+                Cache           $cache, 
+                Config          $config,
+                City            $city, 
+                ConditionRep    $condition, 
+                Resource        $resource, 
+                Model           $current) {
             
             parent::__construct($cache, $config, $city, $condition, $resource);
             
@@ -409,19 +409,6 @@ class Current extends Base implements ICurrent, Importable
             $random = $this->allWithAllRelations()->random($amount);
             
             return array_values($random->toArray());
-        }
-        
-        /**
-         * To remember value during passed time
-         * 
-         * @param string $key
-         * @param int $minitues
-         * @param \Closure $callback
-         * @return mixed
-         */
-        public function remember($key, $minitues, \Closure $callback) 
-        {                        
-            return $this->getCache()->remember($key, $minitues, $callback);                              
-        }         
+        }       
 
 }
