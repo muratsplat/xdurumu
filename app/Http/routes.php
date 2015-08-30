@@ -18,6 +18,26 @@
  */
 $domain = config('app.domain');
 
+
+/**
+ * api.durumum.net   
+ */
+Route::group(['domain' => "api.$domain", 'namespace' => 'Api'], function() use($domain) { 
+
+    
+    Route::get('/', function() use ($domain) {
+        
+        return redirect($domain);                
+    });
+    
+    
+     /**
+     *  Restful Paths of City Resource
+     */
+    Route::resource('city', 'City', ['only' => ['index']]);   
+    
+});
+
 /**
  * hava.durumum.net   
  */
@@ -33,24 +53,17 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
     
     Route::get('/', 'Home@index');
     
-    Route::resource('anlik', 'Current');
-    
-    
     /**
-     * City 
+     * Weather Current Restful Paths
      */
-    
-    //Route::resource('/sehir/restfull', '');
-   
+    Route::resource('anlik', 'Current', ['only' => ['index']]);
     
 });
-
 
 /**
  * Main Domain Routes
  * 
  * All main domain routes should be defined after sub-domain routes !!
- * 
  */
 Route::get('/', 'Home@index');
 
@@ -92,7 +105,7 @@ Route::group(['prefix' => 'back', 'middleware' => 'auth'], function() {
         /**
          * City Resource
          */
-        Route::resource('city', 'CityCtrl');          
+        Route::resource('city', 'CityCtrl', ['only' => ['index', 'update']]);          
     });   
     
 });

@@ -265,8 +265,7 @@ class City extends CacheAble implements ICity
                 
                 return $length; // Number of delected models
             }    
-        }
-        
+        }        
         
         /**
          * To deletes old  hourly and daily weather list models
@@ -277,12 +276,39 @@ class City extends CacheAble implements ICity
         public function deleteOldListsByCity(Model $city)
         {            
             return (int) $this->deleteOldDailyLists($city)  + (int) $this->deleteOldHourlyLists($city);            
-        }
+        }        
         
-        
+        /**
+         * To get all cities has weather data
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
         public function getAllOnlyOnesHasWeatherData()
         {
+            $time = 10;
             
-        }
+            $key  = createUniqueKeyFromObj($this->onModel(), 'all.onesHasWeatherData');
+            
+            $enableCities = $this->getEnableAllCities();            
+            
+            $callback = function() use ($enableCities) {
+                
+                return $enableCities->filter(function($one){
+                    
+                    return $one->weatherDataIsReady();
+                });                
+            };
+            
+            return $this->remember($key, $time, $callback);
+        }        
         
+        /**
+         * To get only enabled cities
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        protected function getEnableAllCities()
+        {          
+            return $this->onModel()->enable()->get();
+        }        
 }

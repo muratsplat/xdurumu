@@ -299,4 +299,25 @@ class CityRepositoryWithDatabaseTest extends \TestCase
         {
             return factory(\App\City::class)->create();        
         }
+        
+        public function testAllOnlyOnesHasWeatherData()
+        {            
+            $cityNumber = 10;
+            
+            $cities = factory(App\City::class, $cityNumber)->create();
+            
+            $cities->random(3)->each(function($city){
+                
+                $city->weatherDailyStat()->create([]);
+                $city->weatherCurrent()->create([]);
+                $city->weatherHourlyStat()->create([]);                
+            });
+            
+            $repo = $this->getCityRepository();
+            
+            
+            $all = $repo->getAllOnlyOnesHasWeatherData();     
+            
+            $this->assertCount(3, $all);         
+        } 
 }

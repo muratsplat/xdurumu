@@ -117,4 +117,11 @@ interface ICity extends ICacheAble
          * @throws \InvalidArgumentException
          */
         public function update($cityID, array $attributes);
+        
+        /**
+         * To get all cities has weather data
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getAllOnlyOnesHasWeatherData();
 }

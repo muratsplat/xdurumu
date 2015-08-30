@@ -24,17 +24,8 @@ class Current extends Base implements ICurrent, Importable
     /**
      * @var \App\WeatherCurrent 
      */
-    private $current;
-    
-    
-    /**
-     * Remember time for cached values
-     *
-     * Duration is minute
-     * 
-     * @var int
-     */
-    private $rememberTime = 10;
+    private $current;    
+
 
         /**
          * Constructer
