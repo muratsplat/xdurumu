@@ -27,7 +27,7 @@ Route::group(['domain' => "api.$domain", 'namespace' => 'Api'], function() use($
     
     Route::get('/', function() use ($domain) {
         
-        return redirect($domain);                
+        return redirect('http://'  . $domain);                
     });
     
     

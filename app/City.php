@@ -44,7 +44,7 @@ class City extends  CacheAbleEloquent implements SluggableInterface
      *
      * @var array
      */
-    protected $hidden = ['open_weather_map_id', 'deleted_at'];
+    protected $hidden = ['open_weather_map_id', 'deleted_at', 'enable', 'priority', 'created_at', 'updated_at', 'sort_order'];
     
     /**
      * Slug options
