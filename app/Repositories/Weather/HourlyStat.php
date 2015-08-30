@@ -9,7 +9,6 @@ use App\WeatherForeCastResource                             as Resource;
 use Illuminate\Contracts\Cache\Repository                   as Cache;
 use Illuminate\Contracts\Config\Repository                  as Config;
 use App\Contracts\Repository\ICity                          as CityRepo;
-use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Weather\Repository\IHourly;
 use App\Contracts\Weather\Repository\Condition;
@@ -19,7 +18,7 @@ use App\Contracts\Weather\Repository\Condition;
  * 
  * @package WeatherForcast
  */
-class HourlyStat extends Base implements IHourly, ICacheAble
+class HourlyStat extends Base implements IHourly
 {    
     /**
      * @var \App\WeatherHourlyStat 

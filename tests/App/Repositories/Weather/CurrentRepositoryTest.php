@@ -290,7 +290,11 @@ class CurrentRepositoryTest extends \TestCase
             
             $current->shouldReceive('getAttribute')->andReturnSelf();
             
-            $current->shouldReceive('get')->andReturn($currents);                   
+            $current->shouldReceive('get')->andReturn($currents);  
+            
+            $current->shouldReceive('getNameOfRelations')->andReturn(array());
+            
+            $current->shouldReceive('with')->andReturnSelf();
             
             $condition  = $this->getConditionRepoMock();
                  

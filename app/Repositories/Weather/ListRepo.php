@@ -12,7 +12,6 @@ use Illuminate\Contracts\Config\Repository      as Config;
 use App\Libs\Weather\DataType\WeatherHourly     as HourlyData;
 use App\Libs\Weather\DataType\WeatherDaily      as DailyData;
 use App\Contracts\Weather\Repository\IList;
-use App\Contracts\Repository\ICacheAble;
 use App\Contracts\Weather\Repository\Condition  as ICondition;
 
 
@@ -21,7 +20,7 @@ use App\Contracts\Weather\Repository\Condition  as ICondition;
  * 
  * @package WeatherForcast
  */
-class ListRepo extends CacheAble implements IList, ICacheAble
+class ListRepo extends CacheAble implements IList
 {    
     /**
      * @var \App\WeatherList
