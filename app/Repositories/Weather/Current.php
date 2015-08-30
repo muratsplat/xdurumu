@@ -10,7 +10,7 @@ use Illuminate\Contracts\Cache\Repository                   as Cache;
 use Illuminate\Contracts\Config\Repository                  as Config;
 use App\Contracts\Repository\ICity                          as City;
 use App\Libs\Weather\DataType\WeatherDataAble;
-use App\Contracts\Weather\Repository\Condition; 
+//use App\Contracts\Weather\Repository\Condition; 
 use App\Contracts\Weather\Repository\ICurrent;
 use App\Contracts\Weather\Repository\Importable; 
 
@@ -25,6 +25,16 @@ class Current extends Base implements ICurrent, Importable
      * @var \App\WeatherCurrent 
      */
     private $current;
+    
+    
+    /**
+     * Remember time for cached values
+     *
+     * Duration is minute
+     * 
+     * @var int
+     */
+    private $rememberTime = 10;
 
         /**
          * Constructer
@@ -377,7 +387,7 @@ class Current extends Base implements ICurrent, Importable
         public function takeRandomOnAll($count)
         {            
             $minitues   = 10;
-                
+            
             $key        = createUniqueKeyFromObj($this->onModel(), 'take.random.' . $count);
                         
             $callback   = function() use ($count) {
@@ -412,5 +422,6 @@ class Current extends Base implements ICurrent, Importable
         public function remember($key, $minitues, \Closure $callback) 
         {                        
             return $this->getCache()->remember($key, $minitues, $callback);                              
-        }  
+        }         
+
 }

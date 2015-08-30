@@ -35,6 +35,14 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
     
     Route::resource('anlik', 'Current');
     
+    
+    /**
+     * City 
+     */
+    
+    //Route::resource('/sehir/restfull', '');
+   
+    
 });
 
 

@@ -3,12 +3,10 @@
 //use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use App\Repositories\Weather\Current as Repository;
 use App\Libs\Weather\OpenWeatherMap;
 use App\WeatherCurrent;
 use App\WeatherForeCastResource;
-
 use Mockery as m;
 
 /**
@@ -18,14 +16,16 @@ use Mockery as m;
  */
 class CurrentRepositoryWithDatabaseTest extends \TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-    
+
+    use DatabaseMigrations,
+        DatabaseTransactions;
+
     /**
      * Example of json response
      *
      * @var string JSON 
      */
-    private $jsonExample ='{
+    private $jsonExample = '{
                     "coord":{"lon":139,"lat":35},
                     "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},
                     "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}], 
@@ -45,164 +45,160 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
                     "name":"Shuzenji",
                     "cod":200
                 }';
-    
-    
-        public function setUp()
-        {
-            parent::setUp();               
-            
-           \Config::set('database.default', 'sqlite');  
-        }
-        
-        public function tearDown()
-        {
-            parent::tearDown();
-            
-            m::close();
-        }
-        
-        
-        private function createCities($count=2)
-        {
-            return factory(App\City::class, $count)->create();   
-        }
-        
-        /**
-         * 
-         * @return \App\Contracts\Repository\ICityRepository
-         */
-        private function getCityRepo()
-        {                    
-            return app('App\Contracts\Repository\ICity');
-        }
 
-        /**
-         * 
-         * @return \App\WeatherCurrent
-         */
-        private function getCurrent()
-        {
-            return new  WeatherCurrent();
-        }
-        
-        /**
-         * 
-         * @return \App\WeatherForeCastResource
-         */
-        private function getResource()
-        {
-            return new WeatherForeCastResource();
-        }
+    public function setUp()
+    {
+        parent::setUp();
 
-        /**
-         * 
-         * @return \App\WeatherCondition
-         */
-        private function getCondition()
-        {
-            return app('App\Contracts\Weather\Repository\Condition');
-        }
-        
-                /**
-         * Mocked Cache
-         *  
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedCache()
-        {
-            return m::mock('Illuminate\Contracts\Cache\Repository');            
-        }
-        
-        /**
-         * Mocked Config
-         *  
-         * @return \Mockery\MockInterface
-         */
-        private function getMockedConfig()
-        {
-            return m::mock('Illuminate\Contracts\Config\Repository');            
-        }
+        \Config::set('database.default', 'sqlite');
+    }
 
-        public function testSimple()
-        {   
-            $cities = $this->createCities(3);
-            
-            $this->assertCount(3, $cities);
-            
-            $cityRepo   = $this->getCityRepo();
-            
-            $condition  = $this->getCondition();
-            
-            $resource = $this->getResource();
-            
-            $current  = $this->getCurrent();
-            
-            $cache      = $this->getMockedCache();           
-            
-            $config     = $this->getMockedConfig();
-            
-            $config->shouldReceive('get')->andReturn(30);
-            
-            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
-          
-        }
-        
-        
-        public function testSelectCity()
-        {   
-            $cities = $this->createCities(3);
-            
-            $this->assertCount(3, $cities);
-            
-            $cityRepo   = $this->getCityRepo();
-            
-            $condition = $this->getCondition();
-            
-            $resource = $this->getResource();
-            
-            $current  = $this->getCurrent();
-            
-            $cache      = $this->getMockedCache();           
-            
-            $config     = $this->getMockedConfig();
-            
-            $config->shouldReceive('get')->andReturn(30);
-            
-            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
-            
-            $one->selectCity($cities->random());          
-        }
-        
-        public function testImport()
-        {   
-            
-            $weatherData = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherData();  
-            
-            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current();  
-            
-            $cities = $this->createCities(3);
-            
-            $this->assertCount(3, $cities);
-            
-            $cityRepo   = $this->getCityRepo();
-            
-            $condition = $this->getCondition();
-            
-            $resource = $this->getResource();
-            
-            $current  = $this->getCurrent();
-            
-            $cache      = $this->getMockedCache();           
-            
-            $config     = $this->getMockedConfig();
-            
-            $config->shouldReceive('get')->andReturn(30);
-            
-            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
-            
-            $selectCity = $cities->random();
-            
-            $model = $one->selectCity($selectCity)->import($weatherCurrent);
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        m::close();
+    }
+
+    private function createCities($count = 2)
+    {
+        return factory(App\City::class, $count)->create();
+    }
+
+    /**
+     * 
+     * @return \App\Contracts\Repository\ICityRepository
+     */
+    private function getCityRepo()
+    {
+        return app('App\Contracts\Repository\ICity');
+    }
+
+    /**
+     * 
+     * @return \App\WeatherCurrent
+     */
+    private function getCurrent()
+    {
+        return new WeatherCurrent();
+    }
+
+    /**
+     * 
+     * @return \App\WeatherForeCastResource
+     */
+    private function getResource()
+    {
+        return new WeatherForeCastResource();
+    }
+
+    /**
+     * 
+     * @return \App\WeatherCondition
+     */
+    private function getCondition()
+    {
+        return app('App\Contracts\Weather\Repository\Condition');
+    }
+
+    /**
+     * Mocked Cache
+     *  
+     * @return \Mockery\MockInterface
+     */
+    private function getMockedCache()
+    {
+        return m::mock('Illuminate\Contracts\Cache\Repository');
+    }
+
+    /**
+     * Mocked Config
+     *  
+     * @return \Mockery\MockInterface
+     */
+    private function getMockedConfig()
+    {
+        return m::mock('Illuminate\Contracts\Config\Repository');
+    }
+
+    public function testSimple()
+    {
+        $cities = $this->createCities(3);
+
+        $this->assertCount(3, $cities);
+
+        $cityRepo = $this->getCityRepo();
+
+        $condition = $this->getCondition();
+
+        $resource = $this->getResource();
+
+        $current = $this->getCurrent();
+
+        $cache = $this->getMockedCache();
+
+        $config = $this->getMockedConfig();
+
+        $config->shouldReceive('get')->andReturn(30);
+
+        $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $current);
+    }
+
+    public function testSelectCity()
+    {
+        $cities = $this->createCities(3);
+
+        $this->assertCount(3, $cities);
+
+        $cityRepo = $this->getCityRepo();
+
+        $condition = $this->getCondition();
+
+        $resource = $this->getResource();
+
+        $current = $this->getCurrent();
+
+        $cache = $this->getMockedCache();
+
+        $config = $this->getMockedConfig();
+
+        $config->shouldReceive('get')->andReturn(30);
+
+        $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $current);
+
+        $one->selectCity($cities->random());
+    }
+
+    public function testImport()
+    {
+
+        $weatherData = (new OpenWeatherMap($this->jsonExample))->current()->getWeatherData();
+
+        $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current();
+
+        $cities = $this->createCities(3);
+
+        $this->assertCount(3, $cities);
+
+        $cityRepo = $this->getCityRepo();
+
+        $condition = $this->getCondition();
+
+        $resource = $this->getResource();
+
+        $current = $this->getCurrent();
+
+        $cache = $this->getMockedCache();
+
+        $config = $this->getMockedConfig();
+
+        $config->shouldReceive('get')->andReturn(30);
+
+        $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $current);
+
+        $selectCity = $cities->random();
+
+        $model = $one->selectCity($selectCity)->import($weatherCurrent);
 //            
 //           
 //              "coord":{"lon":139,"lat":35},
@@ -223,88 +219,183 @@ class CurrentRepositoryWithDatabaseTest extends \TestCase
 //                    "id":1851632,
 //                    "name":"Shuzenji",
 //                    "cod":200
-        
-            $this->assertEquals($model->sys->sunrise, $weatherData['weather_sys']->sunrise);
-            $this->assertEquals($model->sys->sunset, $weatherData['weather_sys']->sunset);
-            $this->assertEquals($model->sys->country, $weatherData->weather_sys->country);        
-            $this->assertEquals($model->conditions->first()->open_weather_map_id, $weatherData['weather_condition'][0]->open_weather_map_id);  
-            $this->assertEquals($model->conditions->first()->name, $weatherData['weather_condition'][0]->name);
-            $this->assertEquals($model->conditions->first()->description, $weatherData['weather_condition'][0]->description);
-            $this->assertEquals($model->conditions->first()->orgin_description, $weatherData['weather_condition'][0]->description);
-            $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
-            $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
-            $this->assertEquals($model->main->humidity, $weatherData['weather_main']->humidity);
-            $this->assertEquals($model->main->pressure, $weatherData['weather_main']->pressure);
-            $this->assertEquals($model->main->temp_min, $weatherData['weather_main']->temp_min);
-            $this->assertEquals($model->main->temp_max, $weatherData['weather_main']->temp_max);
-           
-            $this->assertEquals($model->wind->speed, $weatherData['weather_wind']->speed);
-            $this->assertEquals($model->wind->deg, $weatherData['weather_wind']->deg);
-            $this->assertEquals($model->rain->first()->{'3h'}, $weatherData['weather_rain']['3h']);
-            $this->assertEquals($model->snow->first()->{'3h'}, $weatherData['weather_snow']['3h']);            
-            $this->assertEquals($model->clouds->all, $weatherData['weather_clouds']->all);            
-            $this->assertEquals($model['source_updated_at'], $weatherData['source_updated_at']);
-            $this->assertEquals($model->city->name, $selectCity->name); 
+
+        $this->assertEquals($model->sys->sunrise, $weatherData['weather_sys']->sunrise);
+        $this->assertEquals($model->sys->sunset, $weatherData['weather_sys']->sunset);
+        $this->assertEquals($model->sys->country, $weatherData->weather_sys->country);
+        $this->assertEquals($model->conditions->first()->open_weather_map_id, $weatherData['weather_condition'][0]->open_weather_map_id);
+        $this->assertEquals($model->conditions->first()->name, $weatherData['weather_condition'][0]->name);
+        $this->assertEquals($model->conditions->first()->description, $weatherData['weather_condition'][0]->description);
+        $this->assertEquals($model->conditions->first()->orgin_description, $weatherData['weather_condition'][0]->description);
+        $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
+        $this->assertEquals($model->main->temp, $weatherData['weather_main']->temp);
+        $this->assertEquals($model->main->humidity, $weatherData['weather_main']->humidity);
+        $this->assertEquals($model->main->pressure, $weatherData['weather_main']->pressure);
+        $this->assertEquals($model->main->temp_min, $weatherData['weather_main']->temp_min);
+        $this->assertEquals($model->main->temp_max, $weatherData['weather_main']->temp_max);
+
+        $this->assertEquals($model->wind->speed, $weatherData['weather_wind']->speed);
+        $this->assertEquals($model->wind->deg, $weatherData['weather_wind']->deg);
+        $this->assertEquals($model->rain->first()->{'3h'}, $weatherData['weather_rain']['3h']);
+        $this->assertEquals($model->snow->first()->{'3h'}, $weatherData['weather_snow']['3h']);
+        $this->assertEquals($model->clouds->all, $weatherData['weather_clouds']->all);
+        $this->assertEquals($model['source_updated_at'], $weatherData['source_updated_at']);
+        $this->assertEquals($model->city->name, $selectCity->name);
+    }
+
+    public function testImportTwentyTimes()
+    {
+        $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current();
+
+        $cities = $this->createCities(10);
+
+        $this->assertCount(10, $cities);
+
+        $cityRepo = $this->getCityRepo();
+
+        $condition = $this->getCondition();
+
+        $resource = $this->getResource();
+
+        $current = $this->getCurrent();
+
+        $cache = $this->getMockedCache();
+
+        $config = $this->getMockedConfig();
+
+        $config->shouldReceive('get')->andReturn(30);
+
+        $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $current);
+
+        $selectCity = $cities->random();
+
+        $weatherCurrents = [];
+
+        foreach ($cities as $eachCity) {
+
+            $weatherCurrents[] = $one->selectCity($eachCity)->import($weatherCurrent);
         }
-        
-        public function testImportTwentyTimes()
-        {               
-            $weatherCurrent = (new OpenWeatherMap($this->jsonExample))->current();         
-            
-            $cities = $this->createCities(10);
-            
-            $this->assertCount(10, $cities);
-            
-            $cityRepo   = $this->getCityRepo();
-            
-            $condition = $this->getCondition();
-            
-            $resource = $this->getResource();
-            
-            $current  = $this->getCurrent();
-            
-            $cache      = $this->getMockedCache();           
-            
-            $config     = $this->getMockedConfig();
-            
-            $config->shouldReceive('get')->andReturn(30);
-            
-            $one = new Repository($cache, $config, $cityRepo,$condition, $resource, $current);
-            
-            $selectCity = $cities->random();
-            
-            $weatherCurrents = [];
-            
-            foreach ($cities as $eachCity) {                
-                
-                $weatherCurrents[] = $one->selectCity($eachCity)->import($weatherCurrent);                                
-            }
-            
-            $this->assertCount(10,$weatherCurrents);            
-            $this->assertCount(10, App\WeatherCurrent::all());
-            $this->assertCount(10, App\WeatherMain::all());
-            $this->assertCount(10, App\WeatherSnow::all());
-            $this->assertCount(10, App\WeatherRain::all());
-            $this->assertCount(10, App\WeatherSys::all());
-            $this->assertCount(1, App\WeatherCondition::all());
-            $this->assertCount(1, App\WeatherForeCastResource::all());
-            $this->assertCount(10, App\WeatherWind::all());
-            $this->assertCount(10, App\WeatherCloud::all());
-            
-            foreach ($cities as $eachCity) {                
-                
-                $weatherCurrents[] = $one->selectCity($eachCity)->import($weatherCurrent);                                
-            }
-            
-            $this->assertCount(20, $weatherCurrents);            
-            $this->assertCount(10, App\WeatherCurrent::all());
-            $this->assertCount(10, App\WeatherMain::all());
-            $this->assertCount(10, App\WeatherSnow::all());
-            $this->assertCount(10, App\WeatherRain::all());
-            $this->assertCount(10, App\WeatherSys::all());
-            $this->assertCount(1, App\WeatherCondition::all());
-            $this->assertCount(1, App\WeatherForeCastResource::all());
-            $this->assertCount(10, App\WeatherWind::all());
-            $this->assertCount(10, App\WeatherCloud::all());
+
+        $this->assertCount(10, $weatherCurrents);
+        $this->assertCount(10, App\WeatherCurrent::all());
+        $this->assertCount(10, App\WeatherMain::all());
+        $this->assertCount(10, App\WeatherSnow::all());
+        $this->assertCount(10, App\WeatherRain::all());
+        $this->assertCount(10, App\WeatherSys::all());
+        $this->assertCount(1, App\WeatherCondition::all());
+        $this->assertCount(1, App\WeatherForeCastResource::all());
+        $this->assertCount(10, App\WeatherWind::all());
+        $this->assertCount(10, App\WeatherCloud::all());
+
+        foreach ($cities as $eachCity) {
+
+            $weatherCurrents[] = $one->selectCity($eachCity)->import($weatherCurrent);
         }
+
+        $this->assertCount(20, $weatherCurrents);
+        $this->assertCount(10, App\WeatherCurrent::all());
+        $this->assertCount(10, App\WeatherMain::all());
+        $this->assertCount(10, App\WeatherSnow::all());
+        $this->assertCount(10, App\WeatherRain::all());
+        $this->assertCount(10, App\WeatherSys::all());
+        $this->assertCount(1, App\WeatherCondition::all());
+        $this->assertCount(1, App\WeatherForeCastResource::all());
+        $this->assertCount(10, App\WeatherWind::all());
+        $this->assertCount(10, App\WeatherCloud::all());
+    }
+
+    /**
+     * 
+     * @param int $count
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function makeCurrents($count)
+    {
+        return factory(App\WeatherCurrent::class, $count)->make();
+    }
+
+    public function testRandom()
+    {
+        $cities = $this->createCities(10);
+
+        $this->assertCount(10, $cities);
+
+        $cityRepo = $this->getCityRepo();
+
+        $condition = $this->getCondition();
+
+        $resource = $this->getResource();
+
+        $current = m::mock('App\WeatherCurrent');
+
+        $current->shouldReceive('getNameOfRelations')->andReturn(array());
+        $current->shouldReceive('with')->andReturnSelf();
+
+        $currentModels = $this->makeCurrents(10);
+
+        $current->shouldReceive('get')->andReturn($currentModels);
+
+        $cache = $this->getMockedCache();
+
+        $config = $this->getMockedConfig();
+
+        $config->shouldReceive('get')->andReturn(30);
+
+        $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $current);
+
+        $randoms = $one->random(3);
+
+        $this->assertCount(3, $randoms);
+
+        $this->assertCount(3, $one->random(3));
+
+        $this->assertCount(3, $one->random(3));
+
+        $current->shouldHaveReceived('get')->times(3);
+    }
+
+    public function testTakeRandomOnAll()
+    {
+        $cities = $this->createCities(10);
+
+        $this->assertCount(10, $cities);
+
+        $cityRepo = $this->getCityRepo();
+
+        $condition = $this->getCondition();
+
+        $resource = $this->getResource();
+
+        $current = m::mock('App\WeatherCurrent');
+
+        $current->shouldReceive('getNameOfRelations')->andReturn(array());
+        $current->shouldReceive('with')->andReturnSelf();
+
+        $currentModels = $this->makeCurrents(10);
+
+        $current->shouldReceive('get')->andReturn($currentModels);
+
+        $cache = $this->getMockedCache();
+
+        $config = $this->getMockedConfig();
+
+        $cache->shouldReceive('remember')->andReturn($currentModels->take(3));
+
+        $config->shouldReceive('get')->andReturn(30);
+
+        $app = app();
+
+        $one = new Repository($cache, $config, $cityRepo, $condition, $resource, $current);
+
+        $amount = 3;
+
+        $this->assertCount($amount, $one->takeRandomOnAll($amount));
+
+        $this->assertCount($amount, $one->takeRandomOnAll($amount));
+
+        $this->assertCount($amount, $one->takeRandomOnAll($amount));
+        
+        $cache->shouldHaveReceived('remember')->times(3);                   
+    }
+
 }

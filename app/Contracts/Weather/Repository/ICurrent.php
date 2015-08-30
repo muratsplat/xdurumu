@@ -20,5 +20,13 @@ interface ICurrent extends IBase
          * @return array
          */
         public function takeRandomOnAll($count);
+        
+        /**
+         * To get randomly items
+         * 
+         * @param int $amount
+         * @return array
+         */
+        public function random($amount);
     
 }
