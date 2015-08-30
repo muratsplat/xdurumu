@@ -20,18 +20,17 @@ var _appControllersCityCtrlJs2 = _interopRequireDefault(_appControllersCityCtrlJ
 
 var _appControllersCityEditCtrlJs = require('./app/controllers/cityEditCtrl.js');
 
-//import dataTable	from './app/directives/dataTable.js';
-
 var _appControllersCityEditCtrlJs2 = _interopRequireDefault(_appControllersCityEditCtrlJs);
 
+//import dataTable	from './app/directives/dataTable.js';
+
 var _appResourcesCityJs = require('./app/resources/city.js');
+
+var _appResourcesCityJs2 = _interopRequireDefault(_appResourcesCityJs);
 
 /**
  * create  Angular App Instance
  */
-
-var _appResourcesCityJs2 = _interopRequireDefault(_appResourcesCityJs);
-
 var myApp = angular.module('panelApp', ['ngRoute', 'ngResource', 'uiGmapgoogle-maps', 'ngNotify']);
 
 /**
@@ -181,13 +180,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _baseCtrlJs = require('./baseCtrl.js');
 
+var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
+
 /**
  * City Controller
  *
  * @param {object} $scope 	Angular $scope
  */
-
-var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
 
 var CityCtrl = (function (_Base) {
 	_inherits(CityCtrl, _Base);
@@ -319,6 +318,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _baseCtrlJs = require('./baseCtrl.js');
 
+var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
+
 /**
  * City Edit  Controller
  *
@@ -326,8 +327,6 @@ var _baseCtrlJs = require('./baseCtrl.js');
  * @param {object} $filter  Angular Filter
  * @param {object} service to access city data via ajax.
  */
-
-var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
 
 var CityEditCtrl = (function (_Base) {
 	_inherits(CityEditCtrl, _Base);

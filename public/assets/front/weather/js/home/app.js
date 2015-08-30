@@ -10,52 +10,51 @@
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _appControllersHomeCtrlJs = require('./app/controllers/homeCtrl.js');
+var _appControllersHomeCtrl = require('./app/controllers/homeCtrl');
 
-var _appControllersHomeCtrlJs2 = _interopRequireDefault(_appControllersHomeCtrlJs);
+var _appControllersHomeCtrl2 = _interopRequireDefault(_appControllersHomeCtrl);
 
-var _appResourcesCityJs = require('./app/resources/city.js');
+var _appResourcesCity = require('./app/resources/city');
 
-var _appResourcesCityJs2 = _interopRequireDefault(_appResourcesCityJs);
+var _appResourcesCity2 = _interopRequireDefault(_appResourcesCity);
 
-var _appResourcesCurrentJs = require('./app/resources/current.js');
+var _appResourcesCurrent = require('./app/resources/current');
 
-var _appResourcesCurrentJs2 = _interopRequireDefault(_appResourcesCurrentJs);
+var _appResourcesCurrent2 = _interopRequireDefault(_appResourcesCurrent);
 
-var _appDirectivesGooglaMapJs = require('./app/directives/googlaMap.js');
+//import GoMap		from './app/directives/googlaMap.js';
 
-var _appDirectivesGooglaMapJs2 = _interopRequireDefault(_appDirectivesGooglaMapJs);
+var _appFactoriesGoogleMap = require('./app/factories/googleMap');
 
-var _appFactoriesGoogleMapJs = require('./app/factories/googleMap.js');
+var _appFactoriesGoogleMap2 = _interopRequireDefault(_appFactoriesGoogleMap);
 
 /**
  * create  Angular App Instance
  */
-
-var _appFactoriesGoogleMapJs2 = _interopRequireDefault(_appFactoriesGoogleMapJs);
-
 var myApp = angular.module('weatherHome', ['ngResource', 'ngRoute', 'ngNotify']);
 
 /**
  * Directives
  */
-myApp.directive('goMap', _appDirectivesGooglaMapJs2['default']);
+//myApp.directive('goMap', GoMap);
 
 /**
- * Services*
+ * Services
  */
 myApp.factory('City', ['$resource', function ($resource) {
-  return new _appResourcesCityJs2['default']($resource);
+  return new _appResourcesCity2['default']($resource);
 }]).factory('Current', ['$resource', function ($resource) {
-  return new _appResourcesCurrentJs2['default']($resource);
+  return new _appResourcesCurrent2['default']($resource);
 }]).factory('goMapSrv', ['$window', '$q', function ($window, $q) {
-  return new _appFactoriesGoogleMapJs2['default']($window, $q);
+  return new _appFactoriesGoogleMap2['default']($window, $q);
 }]);
 
 /**
  * Controllers
  */
-myApp.controller('HomeCtrl', ['$scope', 'City', 'Current', 'ngNotify', 'goMapSrv', '$q', _appControllersHomeCtrlJs2['default']]);
+myApp.controller('HomeCtrl', ['$scope', 'City', 'Current', 'ngNotify', 'goMapSrv', '$q', function ($scope, City, Current, ngNotify, goMapSrv, $q) {
+  return new _appControllersHomeCtrl2['default']($scope, City, Current, ngNotify, goMapSrv, $q);
+}]);
 //  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
 //  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
 
@@ -74,7 +73,7 @@ myApp.config(function ($interpolateProvider) {
   $interpolateProvider.endSymbol(']]');
 });
 
-},{"./app/controllers/homeCtrl.js":3,"./app/directives/googlaMap.js":4,"./app/factories/googleMap.js":5,"./app/resources/city.js":6,"./app/resources/current.js":7}],2:[function(require,module,exports){
+},{"./app/controllers/homeCtrl":3,"./app/factories/googleMap":4,"./app/resources/city":5,"./app/resources/current":6}],2:[function(require,module,exports){
 /**
  * Base Controller
  *
@@ -158,11 +157,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _baseCtrlJs = require('./baseCtrl.js');
 
+var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
+
 /**
  * Panel Controller
  */
-
-var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
 
 var Home = (function (_Base) {
 	_inherits(Home, _Base);
@@ -284,20 +283,6 @@ var Home = (function (_Base) {
 module.exports = Home;
 
 },{"./baseCtrl.js":2}],4:[function(require,module,exports){
-/**
- * A directive For Google Maps
- */
-'use strict';
-
-module.exports = function () {
-
-	return {
-		restrict: 'A',
-		link: function link(scope, element, attrs) {}
-	};
-};
-
-},{}],5:[function(require,module,exports){
 
 /**
  * A resource to access city  restful services server-side
@@ -456,7 +441,7 @@ var GoogleMap = (function () {
 
 module.exports = GoogleMap;
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 
 /**
  * A resource to access city  restful services server-side
@@ -515,7 +500,7 @@ var City = (function () {
 
 module.exports = City;
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 
 /**
  * A resource to access current weather data restful services server-side
@@ -561,4 +546,7 @@ var Current = (function () {
 
 module.exports = Current;
 
-},{}]},{},[1]);
+},{}]},{},[1])
+
+
+//# sourceMappingURL=bundle.js.map

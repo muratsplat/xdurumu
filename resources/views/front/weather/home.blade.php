@@ -143,8 +143,7 @@
     <!-- ALL CDN  -->
     @include('front._cdn_boostrap_font_awesome_jquery')
     @include('front._cdn_angular')
-    <!--<script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8&callback=angular">
-    </script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
     <!-- Angular Notify Pugin -->
     <script src="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.js"></script>
@@ -157,7 +156,7 @@
     <script src="{{ elixir('assets/front/weather/js/libs.js') }}"></script>    
     <!-- JS Application -->
     <script src="{{ elixir('assets/front/weather/js/home/libs.js') }}"></script>    
-    <script src="{{ elixir('assets/front/weather/js/home/app.js') }}"></script>    
+    <script src="{{ elixir('assets/front/weather/js/home/bundle.js') }}"></script>    
     <!-- ./JS Application -->
 
     @include('_ga')    

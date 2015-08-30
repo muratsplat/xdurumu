@@ -11,6 +11,13 @@ var elixir = require('laravel-elixir');
  |
  */
 
+
+/**
+ * My Special Extentions
+ */
+require('./babelAngularExtention');
+
+
 elixir(function(mix) {
     
 	mix.sass('app.scss');
@@ -243,18 +250,29 @@ elixir(function(mix) {
 		[
 			'../../../bower_components/angular-resource/angular-resource.js',
 			'../../../bower_components/angular-route/angular-route.js',
-//			'../../../bower_components/lodash/lodash.min.js',
-//			'../../../bower_components/angular-google-maps/dist/angular-google-maps.min.js',
-
+			'../../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		], 
 
 		'public/assets/front/weather/js/home/libs.js');
 		
+		var weatherHomeAngular = {
+
+			src 	: './resources/assets/js/front/weather/home/app.js',
+			dist	: './resources/assets/dist/front/weather/home/dist',
+		};
+
 	  	/**
 		 * ECMA Script 6-7
 		 */	
-		mix.browserify('front/weather/home/app.js', 'public/assets/front/weather/js/home/app.js');
-	
+		mix.angularPlusBabel({
+
+				src : weatherHomeAngular.src,
+				dist: weatherHomeAngular.dist,		
+			});
+		
+		mix.copy(weatherHomeAngular.dist + '/bundle.js', './public/assets/front/weather/js/home');
+		mix.copy(weatherHomeAngular.dist + '/bundle.js.map',  './public/assets/front/weather/js/home');
+
 					   
 	/**
  	* Cache Busting
@@ -271,7 +289,7 @@ elixir(function(mix) {
 		weather.jsLibs,
 		weather.cssAll,
 		'assets/front/weather/js/home/libs.js',
-		'assets/front/weather/js/home/app.js',
+		'assets/front/weather/js/home/bundle.js',
 		]);
 });
 

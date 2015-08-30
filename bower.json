@@ -20,6 +20,7 @@
   "private": true,
   "dependencies": {
     "angular": "1.4.x",
+    "angular-bootstrap": "~0.13.3",
     "angular-google-maps": "~2.1.5",
     "angular-mocks": "1.4.x",
     "angular-resource": "~1.4.4",

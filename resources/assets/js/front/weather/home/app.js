@@ -5,11 +5,11 @@
  * This file writes with ECMA Script 6-7
  */
 
-import HomeCtrl		from './app/controllers/homeCtrl.js';
-import City 		from './app/resources/city.js';
-import Current		from './app/resources/current.js';
-import GoMap		from './app/directives/googlaMap.js';
-import GoMapSrv		from './app/factories/googleMap.js';
+import HomeCtrl		from './app/controllers/homeCtrl';
+import City 		from './app/resources/city';
+import Current		from './app/resources/current';
+//import GoMap		from './app/directives/googlaMap.js';
+import GoMapSrv		from './app/factories/googleMap';
 /**
  * create  Angular App Instance
  */
@@ -18,11 +18,11 @@ let  myApp = angular.module('weatherHome',['ngResource','ngRoute', 'ngNotify']);
 /**
  * Directives
  */
-myApp.directive('goMap', GoMap);
+//myApp.directive('goMap', GoMap);
 
 
 /**
- * Services*
+ * Services
  */
 myApp
 	.factory('City', ['$resource', ($resource) => new City($resource)])
@@ -34,7 +34,13 @@ myApp
  * Controllers
  */
 myApp
-	.controller('HomeCtrl', ['$scope','City','Current','ngNotify','goMapSrv', '$q', HomeCtrl]);
+	.controller('HomeCtrl', [
+
+			'$scope','City','Current','ngNotify','goMapSrv', '$q',
+			
+			($scope,City,Current,ngNotify,goMapSrv, $q) => new HomeCtrl($scope,City,Current,ngNotify,goMapSrv, $q)
+			
+			]);
 //  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
 //  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
 
