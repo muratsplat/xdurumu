@@ -146,6 +146,36 @@ class City extends  CacheAbleEloquent implements SluggableInterface
        {
            return $this->decrement('priority');
        }
+       
+       /**
+        * Determine if it has weather current data
+        * 
+        * @return bool
+        */
+       public function hasWeatherCurrent()
+       {           
+           return ! $this->weatherCurrent()->getQuery()->get()->isEmpty();
+       }
+       
+       /**
+        * Determine if it has weather hourly data
+        * 
+        * @return bool
+        */
+       public function hasWeatherHourlyStat()
+       {           
+           return ! $this->weatherHourlyStat()->getQuery()->get()->isEmpty();
+       }
+       
+       /**
+        * Determine if it has weather daily data
+        * 
+        * @return bool
+        */
+       public function hasWeatherDailyStat()
+       {           
+           return ! $this->weatherDailyStat()->getQuery()->get()->isEmpty();
+       }
         
     
 }

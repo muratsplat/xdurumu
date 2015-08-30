@@ -100,6 +100,38 @@ class CityModelTest extends TestCase
             
             $this->assertTrue($one->save());
         }
+        
+        
+        public function testHasRelations()
+        {
+            $one = $this->createNewCity();
+            
+            $this->assertTrue($one->save());            
+            
+            $this->assertFalse($one->hasWeatherCurrent());
+            
+            $this->assertFalse($one->hasWeatherHourlyStat());
+            
+            $this->assertFalse($one->hasWeatherDailyStat());        
+            
+            $current  = $one->weatherCurrent()->create([]);
+            
+            $this->assertNotNull($current);
+            
+            $this->assertTrue($one->hasWeatherCurrent());
+            
+            $hourly = $one->weatherDailyStat()->create([]);
+            
+            $this->assertNotNull($hourly);
+            
+            $this->assertTrue($one->hasWeatherDailyStat());
+            
+            $daily = $one->weatherHourlyStat()->create([]);
+            
+            $this->assertNotNull($daily);
+            
+            $this->assertTrue($one->hasWeatherHourlyStat());
+        }
 
         
 }
