@@ -84,6 +84,17 @@ class WeatherCondition extends Model implements SluggableInterface
         public function currents()
         {
             return $this->morphedByMany('App\WeatherCurrent', 'weather_condition_able', 'weather_condition_ables');            
-        }                
+        }    
+        
+        /**
+         * Get the user's first name.
+         *
+         * @param  string  $value
+         * @return string
+         */
+        public function getIconAttribute($value)
+        {           
+            return str_limit($value, 2, '');
+        }       
 
    }

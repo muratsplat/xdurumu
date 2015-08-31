@@ -43,7 +43,7 @@ class WeatherConditionTest extends TestCase
                 'orgin_name'            => 'Rain',                
                 'description'           => 'Sağnak yağışlı',
                 'orgin_description'     => 'moderate rain',
-                'icon'                  => 'rain',
+                'icon'                  => 'ra',
                 'open_weather_map_id'   => 200,              
             ];
             
@@ -81,6 +81,21 @@ class WeatherConditionTest extends TestCase
             $one = $this->createNewWeatherCondition();
             
             $this->assertTrue($one->save());
+        }
+        
+        
+        public function testIconAccessor()
+        {
+            $one = factory(App\WeatherCondition::class)->make();
+            
+            $one->icon = '01n';
+            
+            $this->assertTrue($one->save());
+            
+            var_dump($one->icon);
+            
+            
+            $this->assertEquals('01', $one->icon);           
         }
         
       
