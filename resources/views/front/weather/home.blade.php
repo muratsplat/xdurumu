@@ -74,13 +74,32 @@
               <h3 class="box-title"><i class="fa fa-tag"></i> Tükiye'nin Anlık Hava Durumu</h3>
             </div>
             <div class="box-body">
+            <!-- Search Field -->
               <div class="row">
-                <div class="col-md-12">   
-                <p class="text-center">
-                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                      </p>             
+                <div class="col-md-4  col-md-offset-4">  
+                  <div class="location-search">   
+                    <p class="text-center">
+                      <br>
+                      <p>Bulunduğunuz konumu, il ve içle bazında arayabilirsiniz.</p>
+                    </p>                   
+                    <div class="input-group">
+                      <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="selected" typeahead="city for city in cities | filter:$viewValue | limitTo:8" ng-change="callCities()" >
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-flat">Ara</button>
+                      </span>
+                    </div>                
+                  </div>
+                 </div><!-- /.col -->             
+               </div><!-- /.row -->
+                <!-- ./Search Field -->
+              <div class="row">
+                <div class="col-md-12">                   
                   <!--  Google Map-->
                   <div  id="map_canvas" go-map=""></div>
+                   <p class="text-center">
+                      <br>
+                      <i>Türkiye resmi sınırları içinde <b>1000</b>'e aşkın konumun hava durumum bilgisine ulaşabilirsiniz.</i>
+                    </p>         
 
                    <!--  ./ Google Map-->
                 </div><!-- /.col -->             

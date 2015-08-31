@@ -88,13 +88,36 @@ class GoogleMap {
 	}
 
 	/**
+	 * Get URL for weather condition 
+	 * icons file name
+	 *
+	 * @param {string} 
+	 * @param {string}
+	 */
+	getIconUrl(icon) {
+
+		let today 	= new Date();
+
+		let hour 	= today.getHours();
+
+		let url		= this._iconBase; 
+
+		if (hour > 6 && hour < 20) {
+			// day
+			return url + icon + 'd.png';	   
+		}
+		// night
+		return url + icon + 'n.png';
+	}
+
+	/**
 	 * To create a icon for Google Map
 	 */
 	createWeatherIcon(icon) {
 
 		 return  {
 
-			  url: this._iconBase + icon + '.png',
+			  url: this.getIconUrl(icon),
 			   // This marker is 20 pixels wide by 32 pixels high.
 			  size: new google.maps.Size(50, 50),
 			   // The origin for this image is (0, 0).
@@ -112,8 +135,6 @@ class GoogleMap {
 		for (let  i = 0; i < markers.length; i++) {
 
 			    var city = markers[i];
-
-				console.log(city);
 
 				var  marker = new google.maps.Marker({
 								

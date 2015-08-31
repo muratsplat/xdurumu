@@ -5,43 +5,82 @@
 
 class City {
 
-	constructor($resource) {
+	constructor($resource, $location) {
 
-		this._$resource = $resource;
+		this._$resource = $resource;	
 
-		this._url = '/back/city/:id';
-		
+		this._$location	= $location;
 	}
 
 	/**
-	 * City Update Resonse Example
-	 * 
-	 * When if it is failed! 
-	 *
-	 *  http code: 500
-	 *  response: 	{"code":"500","msg":"City is not updated"} 
-	 *
-	 *  When it is successed!
-	 *
-	 *  http code: 204
-	 *  response: '' (empty string)
-	 *
-	
-	/**
-	 * To get index resource
+	 * City Api Resful Services
 	 */
-	resource() {
+	api() {
 
-		let url = this._url;
+		let url = this.getUrl();
 
 		return this._$resource(url, {}, {
 		
-			'index' 	: { method: 'GET',  isArray:true, cache:false},
-			'show'		: { method: 'GET',  isArray:false, cache: false},
-			'update'	: { method: 'PUT', params: {id:'@id'},  isArray: false, cache: false},  
+			'index' 	: { method: 'GET',  isArray:true, cache:true },
+			//'show'		: { method: 'GET',  isArray:false, cache: false},
+			//'update'	: { method: 'PUT', params: {id:'@id'},  isArray: false, cache: false},  
 		});
-
 	}
+
+	/**
+	 * To get url for $resource object
+	 *
+	 * return {string} 'http://api.foo.com/bar/:id'
+	 */
+	getUrl() {
+
+		/**
+		 * $location
+		 * 	https://docs.angularjs.org/api/ng/service/$location
+		 */
+		let host 		= this.getHost();
+
+		console.log(host);
+
+		let port 		= this._$location.port();
+
+		port  = port === 80 ? null : ':' + port;
+
+		let subdomain 	= 'api';
+
+		let path 		= 'city/:id';
+
+		let url			= 'http://' + subdomain + '.' +  host + port + '/' + path;
+
+		return url;
+	}
+
+	/**
+	 * To get only main host name
+	 *
+	 * @return {string} 'foo.com'
+	 */
+	getHost() {
+
+		let mixedHost = this._$location.host();
+
+		var segments = mixedHost.split('.'); 
+		var tmp = [];
+		
+		angular.forEach(segments, function(value, key) {
+			
+			if ( key >  0 ) {
+
+				this.push(value);
+			}
+
+		}, tmp);
+		
+		return tmp.join('.');
+	}
+
+
+
 }
 
 module.exports = City; 

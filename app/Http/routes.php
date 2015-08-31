@@ -18,11 +18,10 @@
  */
 $domain = config('app.domain');
 
-
 /**
  * api.durumum.net   
  */
-Route::group(['domain' => "api.$domain", 'namespace' => 'Api'], function() use($domain) { 
+Route::group(['domain' => "api.$domain", 'namespace' => 'Api' ,'middleware' => 'aca:hava'], function() use($domain) { 
 
     
     Route::get('/', function() use ($domain) {

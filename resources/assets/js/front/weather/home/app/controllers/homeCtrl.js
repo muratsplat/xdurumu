@@ -3,14 +3,24 @@ import Base 	from './baseCtrl.js';
 /**
  * Panel Controller
  */
-
-class Home extends Base {
+class HomeCtrl extends Base {
 
 	constructor($scope, City, Current, ngNotify, goMapSrv, $q) {
 
 		super($scope, ngNotify);
 
 		this._scope 	= $scope;
+
+		this._cities	= [];
+
+		/**
+		 * ui-boostrap typeahead
+		 */
+		this._scope.search = {
+
+			selected: undefined,
+			cities	: [],
+		};
 
 		this._city  	= City;
 
@@ -23,7 +33,60 @@ class Home extends Base {
 		this.showProcess();
 
 		this.initMap();
+
+		this.init();
 	}
+
+	/**
+	 * For initial jobs
+	 */
+	init() {
+
+		this._scope.callCities = () => {
+
+			if ( this._cities.length > 0 ) {
+
+				this._scope.search.cities = this._cities;
+
+				return;
+			}
+		
+			this.getCities();
+
+			this._scope.search.cities = this._cities;
+		};
+
+	}
+
+	/**
+	 * To get all cities
+	 *
+	 */
+	getCities() {
+
+		let request = this._city.api().index();
+		
+		console.log(request);	
+		/**
+		 * When failed response, it will called!
+		 */	
+		let failed  = (res) => {
+	
+			console.error('Cit List not reached !');
+		};
+
+		/**
+		 * When response is successed, 
+		 * it will called!
+		 */	
+		let success  = (res) => {
+	
+			this._cities = res;
+		};
+
+		request.$promise.then(success, failed);
+	}
+
 
 	/**
 	 * To get current resource
@@ -116,4 +179,4 @@ class Home extends Base {
 }
 
 
-module.exports = Home;
+module.exports = HomeCtrl;
