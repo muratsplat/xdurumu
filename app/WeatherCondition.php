@@ -87,14 +87,14 @@ class WeatherCondition extends Model implements SluggableInterface
         }    
         
         /**
-         * Get the user's first name.
+         * Get first two characters.
          *
          * @param  string  $value
-         * @return string
+         * @return string:
          */
         public function getIconAttribute($value)
         {           
             return str_limit($value, 2, '');
-        }       
+        }      
 
    }

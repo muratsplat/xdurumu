@@ -92,12 +92,6 @@ class WeatherConditionTest extends TestCase
             
             $this->assertTrue($one->save());
             
-            var_dump($one->icon);
-            
-            
             $this->assertEquals('01', $one->icon);           
-        }
-        
-      
-        
+        }       
 }
