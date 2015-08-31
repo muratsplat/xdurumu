@@ -91,9 +91,8 @@ elixir(function(mix) {
 		scripts(
 		[	'libs/jQuery-2.1.4.min.js',
 	 		'libs/bootstrap.min.js',
-			//'libs/jquery.dataTables.min.js',
-			'../../../bower_components/angular-route/angular-route.js',
-			'../../../bower_components/angular-resource/angular-resource.js',
+			'../../../bower_components/angular-route/angular-route.min.js',
+			'../../../bower_components/angular-resource/angular-resource.min.js',
 			'../../../bower_components/lodash/lodash.min.js',
 			'../../../bower_components/angular-google-maps/dist/angular-google-maps.min.js',
 			'libs/adminlte/app.min.js',
@@ -102,12 +101,23 @@ elixir(function(mix) {
 		], 
 		'public/assets/back/js/libs/libs.js');
 		
-	  	/**
+	   	/**
 		 * ECMA Script 6-7
-		 */
-		//babel(['admin/*'], 'public/assets/back/js/app.js').
-	
-		mix.browserify('admin/app.js', 'public/assets/back/js/app.js');
+		 */	
+		var backAngular = {
+
+			src 	: './resources/assets/js/admin/app.js',
+			dist	: './resources/assets/dist/back',
+		};
+
+		mix.angularPlusBabel({
+
+				src : backAngular.src,
+				dist: backAngular.dist,		
+			});
+		
+		mix.copy(backAngular.dist + '/bundle.js', './public/assets/back/js');
+		mix.copy(backAngular.dist + '/bundle.js.map',  './public/assets/back/js');	
 	
 	/**
  	* Mergin all js scripts
@@ -248,8 +258,8 @@ elixir(function(mix) {
 	mix.
 		scripts(
 		[
-			'../../../bower_components/angular-resource/angular-resource.js',
-			'../../../bower_components/angular-route/angular-route.js',
+			'../../../bower_components/angular-resource/angular-resource.min.js',
+			'../../../bower_components/angular-route/angular-route.min.js',
 			'../../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		], 
 
@@ -281,7 +291,7 @@ elixir(function(mix) {
 		'assets/back/css/all.css',
 	   	'assets/back/css/login/all.css',	
 		'css/app.css', 
-		'assets/back/js/app.js', 
+		'assets/back/js/bundle.js', 
 		'assets/back/js/libs/libs.js',
 		'assets/back/js/libs/login/libs.js',
 		main.jsLibs,

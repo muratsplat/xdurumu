@@ -357,7 +357,7 @@
     <script src="{{ elixir('assets/back/js/libs/libs.js') }}"></script>
     <!-- Angular Notify Pugin -->
     <script src="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.js"></script>
-    <script src="{{ elixir('assets/back/js/app.js') }}"></script>
+    <script src="{{ elixir('assets/back/js/bundle.js') }}"></script>
   </body>
   
 </html>

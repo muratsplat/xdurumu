@@ -14,7 +14,7 @@ import City			from './app/resources/city.js';
 /**
  * create  Angular App Instance
  */
-let  myApp = angular.module('panelApp',['ngRoute', 'ngResource','uiGmapgoogle-maps', 'ngNotify']);
+let  myApp = angular.module('panelApp',['ngRoute','ngResource','uiGmapgoogle-maps', 'ngNotify']);
 
 /**
  * Directives
@@ -32,21 +32,29 @@ myApp.factory('City', ['$resource', ($resource) => new City($resource)]);
  * Controllers
  */
 myApp
-	.controller('PanelCtrl', ['$scope',  PanelCtrl])
-  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
-  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
+	.controller('PanelCtrl', 
+			['$scope',($scope) => 
+			new  PanelCtrl($scope)])
+
+ 	.controller('CityCtrl',	
+			['$scope',	'$filter', 	'City', 'ngNotify',	($scope,$filter, City, ngNotify) => 
+			new CityCtrl($scope,$filter, City, ngNotify)])
+
+  	.controller('CityEditCtrl', 
+			['$scope', 'City', '$routeParams','uiGmapGoogleMapApi', 'ngNotify', ($scope, City, $routeParams, uiGmapGoogleMapApi, ngNotify) => 
+			new CityEditCtrl( $scope, City, $routeParams, uiGmapGoogleMapApi, ngNotify )] );
 
 /**
  * Setting Angular APP
  *
  * Google MAP API Key : AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8
  */
-myApp.config( ($interpolateProvider, $routeProvider, uiGmapGoogleMapApiProvider) =>  {
+myApp.config( ($interpolateProvider, $routeProvider ,uiGmapGoogleMapApiProvider) =>  {
 
 	/*
 	 * Change  Angular default interpolote Symbol to avoid 
 	 * Laravel blade interpolate symbol
-	 */
+	 */	
 	$interpolateProvider.startSymbol('[[');
 	$interpolateProvider.endSymbol(']]');
 
@@ -57,17 +65,17 @@ myApp.config( ($interpolateProvider, $routeProvider, uiGmapGoogleMapApiProvider)
 
 		when('/', {
 			templateUrl: '/assets/back/app/views/panel.html',
-			controller: PanelCtrl,
+			controller: 'PanelCtrl',
 		})
 		.when('/cities', {
 
 			templateUrl: '/assets/back/app/views/cities.html',
-			controller: CityCtrl,
+			controller: 'CityCtrl',
 		})
 		.when('/cities/:cityId', {
 			
 			templateUrl: '/assets/back/app/views/cityEdit.html',
-			controller: CityEditCtrl,
+			controller: 'CityEditCtrl',
 
 					
 		}).
@@ -86,7 +94,7 @@ myApp.config( ($interpolateProvider, $routeProvider, uiGmapGoogleMapApiProvider)
 		 v: '3.17',
 	 	 //libraries: 'weather,geometry,visualization'
 	 });
-			  
+		  
 });
 
 

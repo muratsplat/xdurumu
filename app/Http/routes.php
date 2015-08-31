@@ -105,7 +105,7 @@ Route::group(['prefix' => 'back', 'middleware' => 'auth'], function() {
         /**
          * City Resource
          */
-        Route::resource('city', 'CityCtrl', ['only' => ['index', 'update']]);          
+        Route::resource('city', 'CityCtrl', ['only' => ['index', 'update', 'show']]);          
     });   
     
 });

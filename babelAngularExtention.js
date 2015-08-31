@@ -5,17 +5,16 @@ var Elixir = require('laravel-elixir');
  * These for Angular + Babel + Uglify + Avoid issues of the Dependency Injection  
  */
 var sourcemaps	= require('gulp-sourcemaps');
-var babel		= require('gulp-babel');;
-var rename		= require("gulp-rename");
+var babel	= require('gulp-babel');;
+var rename	= require("gulp-rename");
 var babelify	= require('babelify');
 var browserify	= require('browserify');
-var source		= require('vinyl-source-stream');
-var buffer		= require('gulp-buffer');
-var gutil		= require('gulp-util');
-var jshint		= require('gulp-jshint');
-var stylish		= require('jshint-stylish');
-var babel		= require('babel/register');
-var uglify		= require('gulp-uglify');
+var source	= require('vinyl-source-stream');
+var buffer	= require('gulp-buffer');
+var gutil	= require('gulp-util');
+var jshint	= require('gulp-jshint');
+var stylish	= require('jshint-stylish');
+var babel	= require('babel/register');
 var ngAnnotate  = require('gulp-ng-annotate');
 
 var $ = Elixir.Plugins;
