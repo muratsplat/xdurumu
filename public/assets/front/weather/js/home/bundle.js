@@ -52,8 +52,8 @@ myApp.factory('City', ['$resource', '$location', function ($resource, $location)
 /**
  * Controllers
  */
-myApp.controller('HomeCtrl', ['$scope', 'City', 'Current', 'ngNotify', 'goMapSrv', '$q', function ($scope, City, Current, ngNotify, goMapSrv, $q) {
-	return new _appControllersHomeCtrl2['default']($scope, City, Current, ngNotify, goMapSrv, $q);
+myApp.controller('HomeCtrl', ['$scope', 'City', 'Current', 'ngNotify', 'goMapSrv', '$q', '$location', '$window', function ($scope, City, Current, ngNotify, goMapSrv, $q, $location, $window) {
+	return new _appControllersHomeCtrl2['default']($scope, City, Current, ngNotify, goMapSrv, $q, $location, $window);
 }]);
 //  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])
 //  	.controller('CityEditCtrl', ['$scope', 'City','$routeParams','uiGmapGoogleMapApi', 'ngNotify',  CityEditCtrl] );
@@ -166,12 +166,16 @@ var _baseCtrlJs2 = _interopRequireDefault(_baseCtrlJs);
 var HomeCtrl = (function (_Base) {
 	_inherits(HomeCtrl, _Base);
 
-	function HomeCtrl($scope, City, Current, ngNotify, goMapSrv, $q) {
+	function HomeCtrl($scope, City, Current, ngNotify, goMapSrv, $q, $location, $window) {
 		_classCallCheck(this, HomeCtrl);
 
 		_get(Object.getPrototypeOf(HomeCtrl.prototype), 'constructor', this).call(this, $scope, ngNotify);
 
 		this._scope = $scope;
+
+		this._location = $location;
+
+		this._window = $window;
 
 		this._cities = [];
 
@@ -208,19 +212,87 @@ var HomeCtrl = (function (_Base) {
 		value: function init() {
 			var _this = this;
 
+			var search = this._scope.search;
+
 			this._scope.callCities = function () {
 
 				if (_this._cities.length > 0) {
 
-					_this._scope.search.cities = _this._cities;
+					search.cities = _this._cities;
 
 					return;
 				}
 
 				_this.getCities();
 
-				_this._scope.search.cities = _this._cities;
+				search.cities = _this._cities;
 			};
+
+			this._scope.iconSuffix = this.nightOrDay();
+
+			/**
+    * Weather Conditions Counts
+    */
+			this._scope.conditions = [];
+
+			/**
+    * Weather Condition Counter Method
+    */
+			this._scope.conditionCounter = function (elem) {
+
+				return _this._scope.conditions.filter(function (e) {
+
+					return elem === e;
+				}).length;
+			};
+
+			/**
+    * Determine if passed value is in cities array
+    * 
+    * @return bool
+    */
+			this._scope.inCities = function () {
+
+				return search.cities.filter(function (e) {
+
+					return search.selected === e.name;
+				}).length > 0;
+			};
+
+			this._scope.findCity = function () {
+
+				if (_this._scope.inCities()) {
+
+					_this._window.location = '/konum/'.search.selected;
+
+					return;
+				}
+
+				console.log('şehir geçersiz');
+			};
+		}
+
+		/**
+   * To return day or night code
+   *
+   * @return {string}
+   */
+	}, {
+		key: 'nightOrDay',
+		value: function nightOrDay() {
+
+			var today = new Date();
+
+			var hour = today.getHours();
+
+			var url = this._iconBase;
+
+			if (hour > 6 && hour < 20) {
+				// day
+				return 'd';
+			}
+			// night
+			return 'n';
 		}
 
 		/**
@@ -234,13 +306,14 @@ var HomeCtrl = (function (_Base) {
 
 			var request = this._city.api().index();
 
-			console.log(request);
 			/**
     * When failed response, it will called!
     */
 			var failed = function failed(res) {
 
 				console.error('Cit List not reached !');
+
+				_this2.sendErrorNotify('Konumlara erişilemedi ! Sayfayı yenilemeyi deneyin..');
 			};
 
 			/**
@@ -276,6 +349,7 @@ var HomeCtrl = (function (_Base) {
 	}, {
 		key: 'createMarkers',
 		value: function createMarkers() {
+			var _this3 = this;
 
 			this._scope.markers = [];
 
@@ -305,6 +379,8 @@ var HomeCtrl = (function (_Base) {
 					};
 
 					markers.push(marker);
+
+					_this3._scope.conditions.push(v.conditions[0].icon);
 				});
 
 				defer.resolve(markers);
@@ -322,7 +398,7 @@ var HomeCtrl = (function (_Base) {
 	}, {
 		key: 'initMap',
 		value: function initMap() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var map = this._map.getMap();
 
@@ -332,15 +408,15 @@ var HomeCtrl = (function (_Base) {
 
 				map.$promise.then(function (instanceMap) {
 
-					_this3._map.addMarkers(items, instanceMap);
+					_this4._map.addMarkers(items, instanceMap);
 				});
 
-				_this3.hideProcess();
+				_this4.hideProcess();
 			}, function (res) {
 
 				console.error('Weather Currents can not reached !');
 				console.error(res);
-				_this3.hideProcess();
+				_this4.hideProcess();
 			});
 		}
 	}]);
@@ -585,8 +661,6 @@ var City = (function () {
     * 	https://docs.angularjs.org/api/ng/service/$location
     */
 			var host = this.getHost();
-
-			console.log(host);
 
 			var port = this._$location.port();
 

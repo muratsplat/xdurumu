@@ -52,8 +52,8 @@
           </div><!-- /.container-fluid -->
         </nav>
       </header>
-      <!-- Full Width Column -->
-      <div class="content-wrapper">
+'      <!-- Full Width Column -->
+      02'      <div class="content-wrapper">
         <div class="container">
           <!-- Content Header (Page header) -->
           <section class="content-header">
@@ -71,7 +71,7 @@
              <!-- COLOR PALETTE -->
           <div class="box box-default color-palette-box">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-tag"></i> Tükiye'nin Anlık Hava Durumu</h3>
+              <h3 class="box-title"><i class="fa fa-fw fa-cloud"></i> Tükiye'nin Anlık Hava Durumu</h3>
             </div>
             <div class="box-body">
             <!-- Search Field -->
@@ -82,15 +82,17 @@
                       <br>
                       <p>Bulunduğunuz konumu, il ve içle bazında arayabilirsiniz.</p>
                     </p>                   
-                    <div class="input-group">
-                      <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="selected" typeahead="city for city in cities | filter:$viewValue | limitTo:8" ng-change="callCities()" >
+                    <div id="autocomlate-list-location" class="input-group" >                   
+                      <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" >
                       <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary btn-flat">Ara</button>
+                        <button type="button" class="btn btn-primary btn-flat" ng-click="findCity()">Ara</button>
                       </span>
                     </div>                
                   </div>
                  </div><!-- /.col -->             
                </div><!-- /.row -->
+                <!-- ./Search Field -->
+
                 <!-- ./Search Field -->
               <div class="row">
                 <div class="col-md-12">                   
@@ -104,38 +106,64 @@
                    <!--  ./ Google Map-->
                 </div><!-- /.col -->             
               </div><!-- /.row -->
-              <div class="box-footer">
+            </div><!-- /.box-body -->
+              <!-- Loading (remove the following to stop the loading)-->
+                 <div class="overlay" ng-if="process">
+                    <i class="fa fa-refresh fa-spin"></i>
+                 </div>
+          </div><!-- /.box -->
+
+          <!-- COLOR PALETTE -->
+          <div class="box box-success color-palette-box ">
+            <div class="box-header with-border">
+              <h3 class="box-title"><i class="fa fa-fw fa-calculator"></i> Konumların Sahip Olduğu Hava Durumları</h3>
+            </div>
+            <div class="box-body ">
                   <div class="row">
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-2 col-xs-4">
                       <div class="description-block border-right">
-                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                        <h5 class="description-header">$35,210.43</h5>
-                        <span class="description-text">TOTAL REVENUE</span>
+                        <img src="http://openweathermap.org/img/w/01[[iconSuffix]].png">
+                        <h5 class="description-header">[[ conditionCounter('01') ]]</h5>
+                        <span class="description-text">Açık</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-2 col-xs-4">
                       <div class="description-block border-right">
-                        <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                        <h5 class="description-header">$10,390.90</h5>
-                        <span class="description-text">TOTAL COST</span>
+                        <img src="http://openweathermap.org/img/w/02[[iconSuffix]].png">
+                        <h5 class="description-header">[[ conditionCounter('02') ]]</h5>
+                        <span class="description-text">Az Bulutlu</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-2 col-xs-4">
                       <div class="description-block border-right">
-                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                        <h5 class="description-header">$24,813.53</h5>
-                        <span class="description-text">TOTAL PROFIT</span>
+                        <img src="http://openweathermap.org/img/w/03[[iconSuffix]].png">
+                        <h5 class="description-header">[[ conditionCounter('03') ]]</h5>
+                        <span class="description-text">Parçalı Az Bulutlu</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-2 col-xs-4">
+                      <div class="description-block border-right">
+                        <img src="http://openweathermap.org/img/w/04[[iconSuffix]].png">
+                        <h5 class="description-header">[[ conditionCounter('04') ]]</h5>
+                        <span class="description-text">Kapalı</span>
+                      </div><!-- /.description-block -->
+                    </div>
+                   <div class="col-sm-2 col-xs-4">
+                      <div class="description-block border-right">
+                        <img src="http://openweathermap.org/img/w/10[[iconSuffix]].png">
+                        <h5 class="description-header">[[ conditionCounter('10') ]]</h5>
+                        <span class="description-text">Orta Şiddetli Yağmur</span>
+                      </div><!-- /.description-block -->
+                    </div>
+                    <div class="col-sm-2 col-xs-4">
                       <div class="description-block">
-                        <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
-                        <h5 class="description-header">1200</h5>
-                        <span class="description-text">GOAL COMPLETIONS</span>
+                        <img src="http://openweathermap.org/img/w/11[[iconSuffix]].png">
+                        <h5 class="description-header">[[ conditionCounter('11') ]]</h5>
+                        <span class="description-text">Sağanak</span>
                       </div><!-- /.description-block -->
                     </div>
                   </div><!-- /.row -->
-                </div>
+          
 
             </div><!-- /.box-body -->
               <!-- Loading (remove the following to stop the loading)-->
@@ -166,8 +194,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
     <!-- Angular Notify Pugin -->
     <script src="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.js"></script>
-    <!-- END OF ALL CDN -->;
-
+    <!-- END OF ALL CDN -->
     <!-- Theme style and Other independent css files -->
     <link rel="stylesheet" href="{{ elixir('assets/front/weather/css/all.css') }}">   
     <!-- JS -->
@@ -175,9 +202,8 @@
     <script src="{{ elixir('assets/front/weather/js/libs.js') }}"></script>    
     <!-- JS Application -->
     <script src="{{ elixir('assets/front/weather/js/home/libs.js') }}"></script>    
-    <script src="{{ elixir('assets/front/weather/js/home/bundle.js') }}"></script>    
+    <script src="{{ elixir('assets/front/weather/js/home/bundle.js') }}"></script>
     <!-- ./JS Application -->
-
     @include('_ga')    
   </body>
 </html>

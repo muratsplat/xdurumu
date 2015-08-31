@@ -39,9 +39,9 @@ myApp
 myApp
 	.controller('HomeCtrl', [
 
-			'$scope','City','Current','ngNotify','goMapSrv', '$q',
+			'$scope','City','Current','ngNotify','goMapSrv', '$q', '$location', '$window',
 			
-			($scope,City,Current,ngNotify,goMapSrv, $q ) => new HomeCtrl($scope,City,Current,ngNotify,goMapSrv, $q)
+			($scope,City,Current,ngNotify,goMapSrv, $q, $location, $window) => new HomeCtrl($scope,City,Current,ngNotify,goMapSrv, $q, $location, $window)
 			
 			]);
 //  	.controller('CityCtrl',['$scope','$filter', 'City', 'ngNotify', CityCtrl])

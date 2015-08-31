@@ -5,11 +5,15 @@ import Base 	from './baseCtrl.js';
  */
 class HomeCtrl extends Base {
 
-	constructor($scope, City, Current, ngNotify, goMapSrv, $q) {
+	constructor($scope, City, Current, ngNotify, goMapSrv, $q, $location, $window) {
 
 		super($scope, ngNotify);
 
 		this._scope 	= $scope;
+
+		this._location	= $location;
+
+		this._window	= $window;
 
 		this._cities	= [];
 
@@ -42,21 +46,93 @@ class HomeCtrl extends Base {
 	 */
 	init() {
 
+		var search = this._scope.search;
+
+
 		this._scope.callCities = () => {
 
 			if ( this._cities.length > 0 ) {
 
-				this._scope.search.cities = this._cities;
+				search.cities = this._cities;
 
 				return;
 			}
 		
 			this.getCities();
 
-			this._scope.search.cities = this._cities;
+			search.cities = this._cities;
 		};
 
+		this._scope.iconSuffix = this.nightOrDay();
+		
+		/**
+		 * Weather Conditions Counts
+		 */
+		this._scope.conditions = [];
+		
+		/**
+		 * Weather Condition Counter Method
+		 */
+		this._scope.conditionCounter = (elem) => {
+
+			return this._scope.conditions.filter((e) => {
+
+				return elem === e;		
+			
+			}).length;		
+		};
+		
+		/**
+		 * Determine if passed value is in cities array
+		 * 
+		 * @return bool
+		 */
+		this._scope.inCities = () => {			
+
+			return search.cities.filter((e) => {
+
+				return search.selected === e.name;		
+
+			}).length > 0;	
+		};
+
+
+		this._scope.findCity = () => {
+
+			if ( this._scope.inCities() ) {
+
+				this._window.location = '/konum/' . search.selected;
+				
+				return;
+			}
+
+			console.log('şehir geçersiz');
+		
+		};
 	}
+
+
+	/**
+	 * To return day or night code
+	 *
+	 * @return {string}
+	 */
+	nightOrDay() {
+	
+		let today 	= new Date();
+
+		let hour 	= today.getHours();
+
+		let url		= this._iconBase; 
+
+		if (hour > 6 && hour < 20) {
+			// day
+			return 'd';	   
+		}
+		// night
+		return 'n';
+	}
+
 
 	/**
 	 * To get all cities
@@ -65,14 +141,15 @@ class HomeCtrl extends Base {
 	getCities() {
 
 		let request = this._city.api().index();
-		
-		console.log(request);	
+			
 		/**
 		 * When failed response, it will called!
 		 */	
 		let failed  = (res) => {
 	
 			console.error('Cit List not reached !');
+
+			this.sendErrorNotify('Konumlara erişilemedi ! Sayfayı yenilemeyi deneyin..');
 		};
 
 		/**
@@ -135,6 +212,7 @@ class HomeCtrl extends Base {
 
 				markers.push(marker);
 
+				this._scope.conditions.push(v.conditions[0].icon);
 			});	
 
 			defer.resolve(markers);

@@ -39,9 +39,7 @@ class City {
 		 * 	https://docs.angularjs.org/api/ng/service/$location
 		 */
 		let host 		= this.getHost();
-
-		console.log(host);
-
+		
 		let port 		= this._$location.port();
 
 		port  = port === 80 ? null : ':' + port;

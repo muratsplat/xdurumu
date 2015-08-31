@@ -34,7 +34,8 @@ body, html {
       left: 12px; } }
 
 .location-search {
-  padding-bottom: 20px; }
+  padding-bottom: 20px;
+  margin-top: -32px; }
 
 .middle {
   display: table;
@@ -44,6 +45,9 @@ body, html {
 
 #map_canvas {
   height: 400px; }
+
+#autocomlate-list-location .dropdown-menu {
+  top: 31px !important; }
 
 .iconic-font-big-navigate {
   font-size: 29px;
