@@ -134,9 +134,15 @@ class DailyStat extends Base implements IDaily
         }    
         
         
+        /**
+         * To find model with the relations
+         * 
+         * @param int $id
+         * @return \App\Weather\DailyStat
+         */
         public function find($id)
-        {
-            ;
+        {           
+            return $this->onModel()->find($id);                    
         }
       
         /**
@@ -152,13 +158,12 @@ class DailyStat extends Base implements IDaily
         /**
          * To get Weather Current model
          * 
-         * @return \App\WeatherCurrent 
+         * @return \App\Weather\DailyStat
          */
         public function getMainModel()                 
         {
-            return $this->current;            
-        }     
-        
+            return $this->mainModel;            
+        }            
     
        
 }

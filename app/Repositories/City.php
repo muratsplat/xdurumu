@@ -38,8 +38,8 @@ class City extends CacheAble implements ICity
         
         public function create(array $attributes)
         {
-            
-            
+         
+            throw new \Exception('This method is under constructer! ');            
         }        
         
         /**
@@ -111,7 +111,7 @@ class City extends CacheAble implements ICity
          * @return \App\City|null
          */
         public function find($cityID)
-        {           
+        {             
             return $this->onModel()->find($cityID);
         }
         
@@ -122,9 +122,9 @@ class City extends CacheAble implements ICity
          * @return \App\City|null
          */
         public function findBySlug($citySlug)
-        {            
-            return $this->onModel()->findBySlug($citySlug);                      
-        }        
+        {           
+            return $this->onModel()->findBySlug($citySlug);          
+        }  
 
         /**
          * To get main model which is injected

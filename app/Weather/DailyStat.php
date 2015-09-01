@@ -27,6 +27,15 @@ class DailyStat extends CacheAbleEloquent
     protected $fillable = ['enable'];    
     
     
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['city_id','weather_forecast_resource_id','created_at'];  
+    
+    
+    
         /**
          * To define an inverse one-to-one relationship 
          * 
@@ -57,4 +66,17 @@ class DailyStat extends CacheAbleEloquent
         {
             return $this->belongsTo('App\WeatherForeCastResource', 'weather_forecast_resource_id', 'id');
         } 
+        
+        /**
+         * To get names of all relations 
+         * 
+         * @return array
+         */
+        public function getNameOfRelations()
+        {
+            return [
+                
+                'weatherLists',               
+            ];
+        }
 }

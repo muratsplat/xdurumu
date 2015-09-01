@@ -43,17 +43,16 @@ Route::group(['domain' => "api.$domain", 'namespace' => 'Api' ,'middleware' => '
 Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function () {
     
     /**
-     * Namespace : App\Http\Controllers\Weather
+     * Controller Namespace : App\Http\Controllers\Forecast
      */    
-    Route::get('konum/{id}', function ($id) {
-        
-        return $id;        
-    });
+    Route::resource('havadurumu', 'Forecast', ['only' => ['index', 'show']]);
     
     Route::get('/', 'Home@index');
     
     /**
      * Weather Current Restful Paths
+     * 
+     * This rule will move to into api sub-domian groups !!
      */
     Route::resource('anlik', 'Current', ['only' => ['index']]);
     

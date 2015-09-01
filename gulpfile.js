@@ -283,7 +283,23 @@ elixir(function(mix) {
 		mix.copy(weatherHomeAngular.dist + '/bundle.js', './public/assets/front/weather/js/home');
 		mix.copy(weatherHomeAngular.dist + '/bundle.js.map',  './public/assets/front/weather/js/home');
 
-					   
+
+		/**
+		 * Show City Forecast 
+		 */
+		var weatherShowCitForecast = {
+			src : './resources/assets/js/front/weather/forecast/show.js',
+			dist: './resources/assets/dist/front/weather/forecast',
+		};		
+		
+		mix.angularPlusBabel({
+
+				src : weatherShowCitForecast.src,
+				dist: weatherShowCitForecast.dist,		
+			});
+		
+		mix.copy(weatherShowCitForecast.dist + '/bundle.js', './public/assets/front/weather/js/forecast');
+		mix.copy(weatherShowCitForecast.dist + '/bundle.js.map',  './public/assets/front/weather/js/forecast');					   
 	/**
  	* Cache Busting
 	*/	
@@ -300,6 +316,7 @@ elixir(function(mix) {
 		weather.cssAll,
 		'assets/front/weather/js/home/libs.js',
 		'assets/front/weather/js/home/bundle.js',
+		'assets/front/weather/js/forecast/bundle.js',
 		]);
 });
 

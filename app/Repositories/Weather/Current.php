@@ -319,11 +319,18 @@ class Current extends Base implements ICurrent, Importable
             return $results;                       
         }
         
+        /**
+         * To get Current model with all relations 
+         * 
+         * @param int $id
+         * @return \App\WeatherCurrent
+         */
         public function find($id)
         {
-            ;
-        }
-        
+           $relations = $this->onModel()->getNameOfRelations();
+           
+           return $this->onModel()->with($relations)->get()->find($id);
+        }        
         
         /**
          * To get all models

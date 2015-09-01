@@ -48,3 +48,28 @@ if (!function_exists('getProperty')) {
         return isset($object->{$property}) ? $object->{$property} : $default;
     }
 }
+
+
+if (!function_exists('transDirectionFromNumber')) {    
+    
+    /**
+     * To get property on given object
+     * 
+     * @param \stdClass $object
+     * @param string $property
+     * @param mixed $default
+     * @return mixed
+     */
+    function transDirectionFromNumber($number)                
+    {            
+       /**
+        * 
+        * TODO
+        * 
+        * 
+        * http://stackoverflow.com/questions/11526277/how-to-show-wind-direction-on-a-compass
+        * http://climate.umn.edu/snow_fence/components/winddirectionanddegreeswithouttable3.htm
+        */
+        
+    }
+}

@@ -31,7 +31,7 @@ class WeatherCurrent extends CacheAble
      *
      * @var array
      */
-    protected $hidden = ['city_id','weather_forecast_resource_id','created_at','source_updated_at'];    
+    protected $hidden = ['city_id','weather_forecast_resource_id','created_at','source_updated_at', 'enable'];    
     
         /**
          * To define an inverse one-to-one relationship 
@@ -151,4 +151,5 @@ class WeatherCurrent extends CacheAble
         {
            return $query;
         }
+        
 }

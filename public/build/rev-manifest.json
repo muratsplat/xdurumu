@@ -2,13 +2,14 @@
   "assets/back/css/all.css": "assets/back/css/all-b5b54891ec.css",
   "assets/back/css/login/all.css": "assets/back/css/login/all-40cbe1b961.css",
   "assets/back/js/bundle.js": "assets/back/js/bundle-dec71329b5.js",
-  "assets/back/js/libs/libs.js": "assets/back/js/libs/libs-0e06ce8dea.js",
+  "assets/back/js/libs/libs.js": "assets/back/js/libs/libs-77fdfd50fb.js",
   "assets/back/js/libs/login/libs.js": "assets/back/js/libs/login/libs-2f0c1d0de9.js",
   "assets/front/main/css/all.css": "assets/front/main/css/all-ca8209431c.css",
   "assets/front/main/js/libs.js": "assets/front/main/js/libs-1576def706.js",
   "assets/front/weather/css/all.css": "assets/front/weather/css/all-0df6f8b2b0.css",
-  "assets/front/weather/js/home/bundle.js": "assets/front/weather/js/home/bundle-ea6defc680.js",
-  "assets/front/weather/js/home/libs.js": "assets/front/weather/js/home/libs-65660e245a.js",
+  "assets/front/weather/js/forecast/bundle.js": "assets/front/weather/js/forecast/bundle-4e576b8a29.js",
+  "assets/front/weather/js/home/bundle.js": "assets/front/weather/js/home/bundle-aac612479c.js",
+  "assets/front/weather/js/home/libs.js": "assets/front/weather/js/home/libs-d590d615c0.js",
   "assets/front/weather/js/libs.js": "assets/front/weather/js/libs-1576def706.js",
   "css/app.css": "css/app-eb99c26c65.css"
 }

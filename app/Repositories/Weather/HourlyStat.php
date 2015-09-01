@@ -134,15 +134,21 @@ class HourlyStat extends Base implements IHourly
         }    
         
         
+        /**
+         * To find model 
+         * 
+         * @param int $id
+         * @return \App\WeatherHourlyStat
+         */
         public function find($id)
-        {
-            ;
+        {         
+           return $this->onModel()->find($id);
         }
       
         /**
-         * To get Weather Current model
+         * To get Weather Hourly model
          * 
-         * @return \App\WeatherCurrent  
+         * @return \App\WeatherHourlyStat
          */
         public function onModel()
         {
@@ -150,12 +156,12 @@ class HourlyStat extends Base implements IHourly
         }
         
         /**
-         * To get Weather Current model
+         * To get Weather Hourly model
          * 
-         * @return \App\WeatherCurrent 
+         * @return \App\WeatherHourlyStat
          */
         public function getMainModel()                 
         {
-            return $this->current;            
+            return $this->mainModel;            
         }
 }

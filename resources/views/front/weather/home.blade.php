@@ -32,20 +32,27 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
+                <li>
+                  <a href="{{action('Weather\Home@index')}}" class="active left-space-30">
+                    <i class="ion ion-ios-rainy iconic-font-big-navigate";></i> Hava</a>
+                </li>                
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-area-chart"></i> İstatislikler <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">Meraklısına İstatislikler</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
+                    <li><a href="#">En Sıcak Şehirler</a></li>
+                    <li><a href="#">En Yağışlı Şehirler</a></li>
+                    <li><a href="#">En Rüzgarlı Şehirler</a></li>
+                    <li><a href="#">En Soğuk Şehirler</a></li>
+                    <li class="divider"></li>                   
                   </ul>
                 </li>
+               <li>
+                  <a href="#">
+                    <i class="fa fa-fw fa-map-marker"></i>Hava Haritası</a>
+                </li>  
               </ul>
             </div><!-- /.navbar-collapse -->
 
@@ -61,15 +68,15 @@
               Türkiye             
             </h1>
             <ol class="breadcrumb">
-              <li><a href="{{action('Home@index')}}"><i class="fa fa-dashboard"></i> Hava Durumu</a></li>
-              <li><a href="{{action('Home@index')}}">Türkiye</a></li>              
+              <li><a href="http://{{config('app.domain')}}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+              <li><a href="{{action('Home@index')}}">Hava Durumu</a></li>              
             </ol>
           </section>
           <!-- Main content -->
           <section class="content">
 
              <!-- COLOR PALETTE -->
-          <div class="box box-default color-palette-box">
+          <div class="box box-info color-palette-box">
             <div class="box-header with-border">
               <h3 class="box-title"><i class="fa fa-fw fa-cloud"></i> Tükiye'nin Anlık Hava Durumu</h3>
             </div>
@@ -82,11 +89,11 @@
                       <br>
                       <p>Bulunduğunuz konumu, il ve içle bazında arayabilirsiniz.</p>
                     </p>                   
-                    <div id="autocomlate-list-location" class="input-group" >                   
-                      <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" >
+                    <div id="autocomlate-list-location" class="input-group" >                     
+                      <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" ng-keypress="($event.which === 13)?findCity():0" >
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-primary btn-flat" ng-click="findCity()">Ara</button>
-                      </span>
+                      </span>                     
                     </div>                
                   </div>
                  </div><!-- /.col -->             
@@ -116,7 +123,7 @@
           <!-- COLOR PALETTE -->
           <div class="box box-success color-palette-box ">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-fw fa-calculator"></i> Konumların Sahip Olduğu Hava Durumları</h3>
+              <h3 class="box-title"><i class="fa fa-fw fa-bar-chart"></i> Rastgele seçilmiş <b>[[conditions.length ]]</b> konumun Hava Durumu</h3>
             </div>
             <div class="box-body ">
                   <div class="row">
@@ -163,26 +170,21 @@
                       </div><!-- /.description-block -->
                     </div>
                   </div><!-- /.row -->
-          
-
-            </div><!-- /.box-body -->
+                </div><!-- /.box-body -->
               <!-- Loading (remove the following to stop the loading)-->
                  <div class="overlay" ng-if="process">
                     <i class="fa fa-refresh fa-spin"></i>
                  </div>
           </div><!-- /.box -->
-
-
-
           </section><!-- /.content -->
         </div><!-- /.container -->
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="container">
           <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.0
+            <b>Sürüm</b> 0.0.1a
           </div>
-          <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+          <strong>Copyright &copy; 2015 <a href="http://durumum.net">durumum.NET</a>.</strong> Tum Hakları Saklıdır.          
         </div><!-- /.container -->
       </footer>
     </div><!-- ./wrapper -->

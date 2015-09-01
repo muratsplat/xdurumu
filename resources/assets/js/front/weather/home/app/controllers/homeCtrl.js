@@ -101,12 +101,12 @@ class HomeCtrl extends Base {
 
 			if ( this._scope.inCities() ) {
 
-				this._window.location = '/konum/' . search.selected;
+				this._window.location.href = '/havadurumu/' + search.selected; 
 				
-				return;
+				this.sendErrorNotify('Url yönlendirme çalışmadı !');
 			}
 
-			console.log('şehir geçersiz');
+			this.sendErrorNotify('Aradığınız konum bulunamadı ! Benzer isimlerde arama yapmayı deneyin..');
 		
 		};
 	}

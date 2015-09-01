@@ -263,12 +263,12 @@ var HomeCtrl = (function (_Base) {
 
 				if (_this._scope.inCities()) {
 
-					_this._window.location = '/konum/'.search.selected;
+					_this._window.location.href = '/havadurumu/' + search.selected;
 
-					return;
+					_this.sendErrorNotify('Url yönlendirme çalışmadı !');
 				}
 
-				console.log('şehir geçersiz');
+				_this.sendErrorNotify('Aradığınız konum bulunamadı ! Benzer isimlerde arama yapmayı deneyin..');
 			};
 		}
 

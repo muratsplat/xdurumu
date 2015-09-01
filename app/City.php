@@ -86,6 +86,20 @@ class City extends  CacheAbleEloquent implements SluggableInterface
         {
             return  $this->hasOne('App\Weather\DailyStat', 'city_id', 'id');        
         }
+        
+        /**
+         * To get names of all relations 
+         * 
+         * @return array
+         */
+        public function getNameOfRelations()
+        {
+            return [
+                'weatherDailyStat',
+                'weatherHourlyStat',
+                'weatherCurrent',
+            ];
+        }
     
         /**
         * Scope a query to only enebled.
@@ -185,5 +199,6 @@ class City extends  CacheAbleEloquent implements SluggableInterface
        public function weatherDataIsReady()
        {
            return $this->hasWeatherCurrent() && $this->hasWeatherDailyStat();
-       }
+       }      
+
 }
