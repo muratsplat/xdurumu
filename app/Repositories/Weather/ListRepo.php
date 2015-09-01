@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Weather;
 
+
 use App\WeatherList;
 use App\WeatherHourlyStat                       as HourlyStatModel;
 use App\Weather\DailyStat                       as DailyStatModel;
+use InvalidArgumentException;
 use App\Repositories\CacheAble                  as CacheAble;
 use App\Libs\Weather\DataType\WeatherList       as ListData;
 use Illuminate\Contracts\Cache\Repository       as Cache;
@@ -344,6 +346,64 @@ class ListRepo extends CacheAble implements IList
         public function getAllDailyList()
         {           
             return $this->onModel()->newQuery()->where('listable_type', 'App\Weather\DailyStat')->get();
+        }        
+
+        /**
+         * To get last list models by given model
+         * 
+         * @param object $model
+         * @return \Illuminate\Database\Eloquent\Collection
+         * @throws \InvalidArgumentException
+         */
+        public function getLastListsByModel($model)
+        {
+            switch (true) {
+                
+                case $this->isHourlyStat($model): 
+                    
+                    return $this->getLastListByHourlyStat($model);
+                    
+                case $this->isDailyStat($model) :
+                    break;
+            }
+            
+            throw new InvalidArgumentException('Given model has a relation to Weather List model !');
+            
+        } 
+        
+        /**
+         * To get only last 37 models belong to passed  hourlystat model
+         * 
+         * @param \App\Weather\DailyStat $model
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getLastListByHourlyStat(HourlyStatModel $model) 
+        {
+            $name = get_class($model);
+            
+            return $this->onModel()->query()->orderBy('id', 'desc')->where('listable_type', $name)->take(37)->get();
+        }
+        
+        /**
+         * Determine if passed object is \App\WeatherHourlyStat instace
+         * 
+         * @param object $model
+         * @return bool
+         */
+        private function isHourlyStat($model) 
+        {                     
+            return $model instanceof \App\WeatherHourlyStat;        
+        }
+        
+        /**
+         * Determine if passed object is \App\Weather\DailyStat instace
+         * 
+         * @param object $model
+         * @return bool
+         */
+        private function isDailyStat($model) 
+        {                     
+            return $model instanceof \App\Weather\DailyStat;        
         }
         
    
