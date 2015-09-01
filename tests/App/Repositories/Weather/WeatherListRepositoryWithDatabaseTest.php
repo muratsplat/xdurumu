@@ -352,4 +352,78 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             return $no;       
         }
+        
+        
+        public function testGetLastListsByMode()
+        {              
+            $list       = $this->getWeatherListModel();
+            
+            $cache      = $this->getCache();
+            
+            $config     = $this->getConfig();      
+            
+            $condition  = $this->getConditionRepo();
+            
+            $repo = new Repository($cache, $config, $list, $condition);   
+            
+            $hourlyStat = $this->createWeatherHourlyStat();
+            
+            $hourlyData = $this->getHourlyData();            
+            
+            $creates = [];
+            
+            for ($i=0 ; $i < 2; $i++ ) {
+                
+                $creates[] = $repo->createListsByHourlyStat($hourlyStat, $hourlyData->getWeatherData());             
+            }
+            
+            $this->assertCount(2, $creates);     
+            
+            \DB::enableQueryLog();
+            
+            $hourlyLists = $repo->getLastListsByModel($hourlyStat);
+            
+            $this->assertCount(1, \DB::getQueryLog());
+            
+            $this->assertCount(37, $hourlyLists);
+            
+            $this->assertNotEquals(1, $hourlyLists->first()->id);
+            
+            $this->assertNotEquals(74, $hourlyLists->last()->id);
+            
+        } 
+        
+        public function testGetLastListsByModePassedDailyStat()
+        {              
+            $list       = $this->getWeatherListModel();
+            
+            $cache      = $this->getCache();
+            
+            $config     = $this->getConfig();      
+            
+            $condition  = $this->getConditionRepo();
+            
+            $repo = new Repository($cache, $config, $list, $condition);   
+            
+            $dailyStat = $this->createWeatherDailyStat();
+            
+            $data = $this->getDailyData();     
+            
+            //$numberOflistInJson = count($data->getWeatherData()->getAttribute('list'));      
+            
+            $creates = [];          
+            
+            for ($i=0 ; $i < 10; $i++ ) {
+                
+                $creates[] = $repo->createListsByDailyStat($dailyStat, $data->getWeatherData());             
+            }            
+            
+            \DB::enableQueryLog();
+             
+            $dailyLists = $repo->getLastListsByModel($dailyStat);
+            
+            $this->assertCount(16, $dailyLists);      
+            
+            $this->assertCount(1, \DB::getQueryLog());           
+        }      
 }

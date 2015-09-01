@@ -364,7 +364,8 @@ class ListRepo extends CacheAble implements IList
                     return $this->getLastListByHourlyStat($model);
                     
                 case $this->isDailyStat($model) :
-                    break;
+                    
+                    return $this->getLastListByDailyStat($model);
             }
             
             throw new InvalidArgumentException('Given model has a relation to Weather List model !');
@@ -372,16 +373,31 @@ class ListRepo extends CacheAble implements IList
         } 
         
         /**
-         * To get only last 37 models belong to passed  hourlystat model
+         * To get only last models belong to passed  hourlystat model
          * 
          * @param \App\Weather\DailyStat $model
+         * @param int $amount 37
          * @return \Illuminate\Database\Eloquent\Collection
          */
-        public function getLastListByHourlyStat(HourlyStatModel $model) 
+        public function getLastListByHourlyStat(HourlyStatModel $model, $amount = 37) 
         {
             $name = get_class($model);
             
-            return $this->onModel()->query()->orderBy('id', 'desc')->where('listable_type', $name)->take(37)->get();
+            return $this->onModel()->query()->orderBy('id', 'desc')->where('listable_type', $name)->take($amount)->get();
+        }
+        
+        /**
+         * To get only last models belong to passed  hourlystat model
+         * 
+         * @param \App\Weather\DailyStat $model
+         * @param int  $amount 16
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getLastListByDailyStat(DailyStatModel $model, $amount = 16) 
+        {
+            $name = get_class($model);
+            
+            return $this->onModel()->query()->orderBy('id', 'desc')->where('listable_type', $name)->take($amount)->get();
         }
         
         /**
@@ -391,7 +407,7 @@ class ListRepo extends CacheAble implements IList
          * @return bool
          */
         private function isHourlyStat($model) 
-        {                     
+        {           
             return $model instanceof \App\WeatherHourlyStat;        
         }
         
@@ -404,7 +420,6 @@ class ListRepo extends CacheAble implements IList
         private function isDailyStat($model) 
         {                     
             return $model instanceof \App\Weather\DailyStat;        
-        }
-        
+        }        
    
 }
