@@ -376,14 +376,23 @@ class ListRepo extends CacheAble implements IList
          * To get only last models belong to passed  hourlystat model
          * 
          * @param \App\Weather\DailyStat $model
-         * @param int $amount 37
+         * @param int $amount 39
          * @return \Illuminate\Database\Eloquent\Collection
          */
-        public function getLastListByHourlyStat(HourlyStatModel $model, $amount = 37) 
-        {
-            $name = get_class($model);
+        public function getLastListByHourlyStat(HourlyStatModel $model, $amount = 39) 
+        {      
+            $callback  = function() use ($model, $amount) {
+                
+                $relationsNames = $model->weatherLists()->getRelated()->getNameOfRelations();
+                
+                return $model->weatherLists()->getQuery()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get();                       
+            };
             
-            return $this->onModel()->query()->orderBy('id', 'desc')->where('listable_type', $name)->take($amount)->get();
+            $key    = createUniqueKeyFromObj($model, 'listRepo.HourlyStat');
+            
+            $time   = 10;
+            
+            return $this->remember($key, $time, $callback);
         }
         
         /**
@@ -394,10 +403,19 @@ class ListRepo extends CacheAble implements IList
          * @return \Illuminate\Database\Eloquent\Collection
          */
         public function getLastListByDailyStat(DailyStatModel $model, $amount = 16) 
-        {
-            $name = get_class($model);
+        {       
+            $callback  = function() use ($model, $amount) {
+                
+                $relationsNames = $model->weatherLists()->getRelated()->getNameOfRelations();
+                
+                return $model->weatherLists()->getQuery()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get();                       
+            };
             
-            return $this->onModel()->query()->orderBy('id', 'desc')->where('listable_type', $name)->take($amount)->get();
+            $key    = createUniqueKeyFromObj($model, 'listRepo.DailyStat');
+            
+            $time   = 10;
+            
+            return $this->remember($key, $time, $callback);
         }
         
         /**

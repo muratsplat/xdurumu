@@ -167,7 +167,7 @@ class Forecast extends Controller
          */
         private function getDailyLists(DailyStat $daily)
         {
-           return $this->list->getLastListByDailyStat($daily);            
+           return $this->list->getLastListByDailyStat($daily)->sort();         
         }  
         
         /**
@@ -192,7 +192,7 @@ class Forecast extends Controller
                
                $item->day =  $carbon->formatLocalized('%d');      
                
-           })->groupBy('day');       
+           })->sort()->groupBy('day');       
         } 
         
         /**

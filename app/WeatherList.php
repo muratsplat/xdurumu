@@ -216,9 +216,21 @@ class WeatherList extends CacheAble
             });       
         }
         
-        public function foo()
+        /**
+         * To get names of all relations 
+         * 
+         * @return array
+         */
+        public function getNameOfRelations()
         {
-            return 'test';
+            return [
+                'main',
+                'clouds',
+                'snow',
+                'rain',
+                'wind',
+                'conditions',
+            ];
         }
 }
 

@@ -1,80 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" ng-app="weatherHome">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Hava Durumu | durumum.NET | Hayatı Kolaylaştıran Uygulamalar</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">   
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+@extends('layouts.weather.master')
 
-    <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
-  </head>
-  <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
-  <body class="hold-transition skin-blue layout-top-nav" ng-controller="HomeCtrl">
-    <div class="wrapper">
+{{-- AngularJS App --}}
+@section('html_attribute', 'ng-app="weatherHome"')
 
-      <header class="main-header">
-        <nav class="navbar navbar-static-top">
-          <div class="container">
-            <div class="navbar-header">
-              <a href="http://{{config('app.domain')}}" class="navbar-brand"><b>durumum</b>.NET</a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <i class="fa fa-bars"></i>
-              </button>
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li>
-                  <a href="{{action('Weather\Home@index')}}" class="active left-space-30">
-                    <i class="ion ion-ios-rainy iconic-font-big-navigate";></i> Hava</a>
-                </li>                
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-area-chart"></i> İstatislikler <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li class="divider"></li>
-                    <li><a href="#">Meraklısına İstatislikler</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">En Sıcak Şehirler</a></li>
-                    <li><a href="#">En Yağışlı Şehirler</a></li>
-                    <li><a href="#">En Rüzgarlı Şehirler</a></li>
-                    <li><a href="#">En Soğuk Şehirler</a></li>
-                    <li class="divider"></li>                   
-                  </ul>
-                </li>
-               <li>
-                  <a href="#">
-                    <i class="fa fa-fw fa-map-marker"></i>Hava Haritası</a>
-                </li>  
-              </ul>
-            </div><!-- /.navbar-collapse -->
-
-          </div><!-- /.container-fluid -->
-        </nav>
-      </header>
-      <!-- Full Width Column -->
-         <div class="content-wrapper">
-        <div class="container">
-          <!-- Content Header (Page header) -->
-          <section class="content-header">
-            <h1>
-              Türkiye             
-            </h1>
-            <ol class="breadcrumb">
-              <li><a href="http://{{config('app.domain')}}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-              <li><a href="{{action('Home@index')}}">Hava Durumu</a></li>              
-            </ol>
-          </section>
-          <!-- Main content -->
-          <section class="content">
-
+{{-- Content --}}
+@section('content')
              <!-- COLOR PALETTE -->
           <div class="box box-info color-palette-box">
             <div class="box-header with-border">
@@ -89,7 +20,6 @@
                       <br>
                       <p>Bulunduğunuz konumu, il ve içle bazında arayabilirsiniz.</p>
                     </p>         
-
 
                     <div id="autocomlate-list-location" class="input-group" >                     
                       <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" ng-keypress="($event.which === 13)?findCity():0" >
@@ -180,21 +110,12 @@
                     <i class="fa fa-refresh fa-spin"></i>
                  </div>
           </div><!-- /.box -->
-          </section><!-- /.content -->
-        </div><!-- /.container -->
-      </div><!-- /.content-wrapper -->
-      <footer class="main-footer">
-        <div class="container">
-          <div class="pull-right hidden-xs">
-            <b>Sürüm</b> 0.0.1a
-          </div>
-          <strong>Copyright &copy; 2015 <a href="http://durumum.net">durumum.NET</a>.</strong> Tum Hakları Saklıdır.          
-        </div><!-- /.container -->
-      </footer>
-    </div><!-- ./wrapper -->
+@endsection
 
-    <!-- ALL CDN  -->
-    @include('front._cdn_boostrap_font_awesome_jquery')
+@section('cssScript')
+    {{-- CDN Boostrap Font Awesome jQuery --}}
+    @parent
+   
     @include('front._cdn_angular')
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
@@ -209,7 +130,4 @@
     <!-- JS Application -->
     <script src="{{ elixir('assets/front/weather/js/home/libs.js') }}"></script>    
     <script src="{{ elixir('assets/front/weather/js/home/bundle.js') }}"></script>
-    <!-- ./JS Application -->
-    @include('_ga')    
-  </body>
-</html>
+@endsection
