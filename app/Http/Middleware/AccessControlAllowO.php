@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Response;
+//use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 
 /**
@@ -17,7 +18,7 @@ class AccessControlAllowO
 {
     
     /**
-     * @var \Illuminate\Http\Response 
+     * @var \Illuminate\Http\JsonResponse
      */
     private $response;
 
@@ -74,9 +75,9 @@ class AccessControlAllowO
         /**
          * To set Response Object
          * 
-         * @param \Illuminate\Http\Response $response
+         * @param \Illuminate\Http\JsonResponse $response
          */
-        protected function setResponse(Response $response)
+        protected function setResponse(JsonResponse $response)
         {
             $this->response = $response;
         }

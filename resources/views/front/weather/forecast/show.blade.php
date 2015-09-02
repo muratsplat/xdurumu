@@ -34,7 +34,7 @@
               <ul class="nav navbar-nav">
                 <li>
                   <a href="{{action('Weather\Home@index')}}" class="active left-space-30">
-                    <i class="ion ion-ios-rainy iconic-font-big-navigate";></i> Hava</a>
+                    <i class="ion ion-ios-rainy iconic-font-big-navigate"></i> Hava</a>
                 </li>                
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-area-chart"></i> İstatislikler <span class="caret"></span></a>
@@ -62,15 +62,17 @@
       <!-- Full Width Column -->
         <div class="content-wrapper">
         <div class="container">
+
           <!-- Content Header (Page header) -->
           <section class="content-header">
             <h1>
               {{ $city->name }}             
             </h1>
+            <span class="direct-chat-timestamp ">güncelleme: {{ $data['currentStat']->updated_at->diffForHumans()}}</span>
             <ol class="breadcrumb">
               <li><a href="http://{{config('app.domain')}}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
               <li><a href="{{action('Home@index')}}">Hava Durumu</a></li>  
-              <li><a href="{{action('Home@index')}}">{{$city->name}}</a></li>              
+              <li><a href="{{action('Weather\Forecast@show', $city->slug)}}">{{$city->name}}</a></li>              
             </ol>
           </section>
           <!-- Main content -->
@@ -82,9 +84,9 @@
                 <span class="info-box-icon bg-aqua"><i class="ion ion-thermometer"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Sıcaklık</span>
-                  <span class="info-box-number"> {{$current->main->temp}} °C</span>
-                  <span class="description text-blue">En Yüksek: {{ $current->main->temp_max }} °C</span><br/>
-                  <span class="description text-red">En Düşük: {{ $current->main->temp_min }} °C</span>             
+                  <span class="info-box-number"> {{$data['currentStat']->main->temp}} °C</span>
+                  <span class="description text-blue" >En Yüksek: {{ $data['currentStat']->main->temp_max }} °C</span><br/>
+                  <span class="description text-red" >En Düşük: {{ $data['currentStat']->main->temp_min }} °C</span>             
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -93,7 +95,7 @@
                 <span class="info-box-icon bg-red"><i class="ion ion-waterdrop"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Nem Oranı</span>
-                  <span class="info-box-number"> % {{$current->main->humidity }} </span>
+                  <span class="info-box-number"> % {{$data['currentStat']->main->humidity }} </span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -106,8 +108,8 @@
                 <span class="info-box-icon bg-green"><i class="ion ion-flag"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Rüzgar</span>
-                  <span class="info-box-number">{{ $current->wind->speed}} m/s</span>
-                  <span class="info-box-number">{{ $current->wind->deg }}° </span>
+                  <span class="info-box-number">{{ $data['currentStat']->wind->speed}} m/s</span>
+                  <span class="info-box-number">{{ $data['currentStat']->wind->deg }}° </span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -116,7 +118,7 @@
                 <span class="info-box-icon bg-yellow"><i class="ion ion-speedometer"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Hava Basıncı</span>
-                  <span class="info-box-number">{{$current->main->pressure }} hpa</span>
+                  <span class="info-box-number">{{$data['currentStat']->main->pressure }} hpa</span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -129,9 +131,7 @@
             </div>
             <div class="box-body">
             <!-- Search Field -->
-
-
-                <!-- ./Search Field -->
+               <!-- ./Search Field -->
               <div class="row">
                 <div class="col-md-12">                   
                   <!--  Google Map-->
@@ -142,124 +142,188 @@
               </div><!-- /.row -->
             </div><!-- /.box-body -->
           </div><!-- /.box -->
-
+         
           <div class="row">
             <div class="col-xs-12">
+             @if( ! $data['hourlyList']->isEmpty() )
               <div class="box box-info">
                 <div class="box-header">
-                <h3 class="box-title"><span class="glyphicon glyphicon-time"></span> Saatlik Hava Durumu</h3>
+                <h3 class="box-title"><span class="glyphicon glyphicon-time"></span> {{ $city->name }} Saatlik Hava Durumu</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <div class="direct-chat-info clearfix">                        
-                     <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+                     <span class="direct-chat-timestamp "> güncelleme: {{ $data['hourlyStat']->updated_at->diffForHumans()}}</span>
                   </div>
-                  <table id="example2" class="table table-bordered table-hover">
+                  <table class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th>Saat</th>
-                        <th>Hava Durumu</th>
-                        <th>Sıcaklıklar</th>
-                        <th>3 saat içindeki yağmur hacmi(mm)</th>
-                        <th></th>
+                        <th><i class="fa fa-fw fa-clock-o iconic-font-20"></i>Saat(24)</th>
+                        <th><i class="fa fa-fw fa-cloud iconic-font-20"></i>Durum</th>
+                        <th><i class="ion ion-thermometer iconic-font-20" style="font-size: 20px;"></i> Sıcaklıklar</th>
+                        <th><i class="ion ion-waterdrop iconic-font-20"></i> Nem Oranı</th>
+                        <th><i class="ion ion-ios-rainy iconic-font-20" style="font-size: 20px;"></i> Yağış Miktarı</th>                       
+                        <th><i class="ion ion-ios-flag iconic-font-20" style="font-size: 20px;"></i> Rüzgar</th>
+                        <th><i class="ion ion-speedometer iconic-font-20" style="font-size: 20px;"></i> Basınç</th>                                                
                       </tr>
                     </thead>
                     <tbody>
+                    {{-- Weather Hourly Stat List --}}
+                    @foreach($data['hourlyList'] as $groupNameAsDayName =>  $hourlyDay)
+                      <tr class="well">
+                        <td colspan="7">
+                          <b>
+                            {{$hourlyDay[0]->date}}
+                          </b> 
+                        </td>
+                      </tr>                     
+                      @foreach($hourlyDay as $hList)
                       <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                        <td> 4</td>
-                        <td>X</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                        <td>5</td>
-                        <td>C</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.5</td>
-                        <td>Win 95+</td>
-                        <td>5.5</td>
-                        <td>A</td>
-                      </tr>                    
-                      
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Saat</th>
-                        <th>Hava Durumu</th>
-                        <th>Sıcaklıklar</th>
-                        <th>3 saat içindeki yağmur hacmi(mm)</th>
-                        <th></th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
+                        <td>
+                          {{ Carbon\Carbon::createFromTimestampUTC($hList->dt)->toTimeString() }}
+                        </td>
+                        <td>
+                          <img src="http://openweathermap.org/img/w/{{$hList->conditions[0]->icon}}d.png" alt="{{ $hList->conditions[0]->description }}">                        
+                        </td>
+                        <td>
+                          <div class="description-block border-right">
+                            <span class="badge bg-red"> {{ $hList->main->temp_max}} °C</span>
+                            <span class="badge bg-default"> {{  $hList->main->temp }} °C</span>
+                            <span class="badge bg-blue">{{ $hList->main->temp_min}} °C</span>
+                          </div>
+                        </td>
+                      <td>                                               
+                        {{$hList->main->humidity }}%</td>
+                      </td>
+                      <td>                                        
+                           <?php 
+                              $_rainVal = 0; 
+                              
+                              if(! is_null($hList->rain)) {
 
-              <div class="box box-info">
-                <div class="box-header">
-                  <h3 class="box-title"><span class="glyphicon glyphicon-calendar"></span> Günlük Hava Durumu</h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  <div class="direct-chat-info clearfix">                        
-                     <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                  </div>
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Gün</th>
-                        <th>Hava Durumu</th>
-                        <th>Sıcaklıklar</th>
-                        <th>Rüzgar</th>
-                        <th></th>
+                                $_rainVal = $hList->rain->getAttribute('3h');
+
+                              } elseif ( ! is_null($hList->snow) )   {
+
+                                $_rainVal = $hList->snow->getAttribute('3h');
+                              }
+                            ?>
+                            {{ $_rainVal }} mm
+                        </td>
+                        <td>                                               
+                           {{ $hList->wind->speed }} m/s, <br> <i class="fa fa-fw fa-arrows"></i> {{ $hList->wind->deg}} °
+                        </td>                        
+                        <td>                                               
+                           {{$hList->main->pressure }} hpa
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <tr class="well"><td colspan="2"><b>Tue Sep 01 2015</b> </td></tr>
+                      @endforeach              
+                    @endforeach
+                    {{-- ./Weather Hourly Stat List --}}                
                       
-                      <tr>
-                        <td>Misc</td>
-                        <td>IE Mobile</td>
-                        <td>Windows Mobile 6</td>
-                        <td>-</td>
-                        <td>C</td>
-                      </tr>
-                      <tr>
-                        <td>Misc</td>
-                        <td>PSP browser</td>
-                        <td>PSP</td>
-                        <td>-</td>
-                        <td>C</td>
-                      </tr>
-                      <tr>
-                        <td>Other browsers</td>
-                        <td>All others</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>U</td>
-                      </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                      <tr>
-                        <th>Gün</th>
-                        <th>Hava Durumu</th>
-                        <th>Sıcaklıklar</th>
-                        <th>Rüzgar</th>
-                        <th></th>
-                      </tr>
+                        <th><i class="fa fa-fw fa-clock-o iconic-font-20"></i>Saat(24)</th>
+                        <th><i class="fa fa-fw fa-cloud iconic-font-20"></i>Durum</th>
+                        <th><i class="ion ion-thermometer iconic-font-20" style="font-size: 20px;"></i> Sıcaklıklar</th>
+                        <th><i class="ion ion-waterdrop iconic-font-20"></i> Nem Oranı</th>
+                        <th><i class="ion ion-ios-rainy iconic-font-20" style="font-size: 20px;"></i> Yağış Miktarı</th>                       
+                        <th><i class="ion ion-ios-flag iconic-font-20" style="font-size: 20px;"></i> Rüzgar</th>
+                        <th><i class="ion ion-speedometer iconic-font-20" style="font-size: 20px;"></i> Basınç</th>    
                       </tr>
                     </tfoot>
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
+              @endif
+
+              {{-- Daily --}}
+              @if( ! $data['dailyList']->isEmpty())
+              <div class="box box-info">
+                <div class="box-header">
+                  <h3 class="box-title"><span class="glyphicon glyphicon-calendar"></span>  {{ $city->name }} Günlük Hava Durumu</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <div class="direct-chat-info clearfix">                        
+                      <span class="direct-chat-timestamp ">güncelleme: {{ $data['dailyStat']->updated_at->diffForHumans()}}</span>
+                  </div>
+                   <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th><i class="fa fa-fw fa-calendar-check-o"></i>Gün</th>
+                        <th><i class="fa fa-fw fa-cloud iconic-font-20"></i>Durum</th>
+                        <th><i class="ion ion-thermometer iconic-font-20" style="font-size: 20px;"></i> Sıcaklıklar</th>
+                        <th><i class="ion ion-waterdrop iconic-font-20"></i> Nem Oranı</th>
+                        <th><i class="ion ion-ios-rainy iconic-font-20" style="font-size: 20px;"></i> Yağış Miktarı</th>                       
+                        <th><i class="ion ion-ios-flag iconic-font-20" style="font-size: 20px;"></i> Rüzgar</th>
+                        <th><i class="ion ion-speedometer iconic-font-20" style="font-size: 20px;"></i> Basınç</th>                                                
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {{-- Weather Hourly Stat List --}}
+                    @foreach($data['dailyList'] as $dList)
+                   
+                      <tr>
+                        <td>
+                       
+                          {{ Carbon\Carbon::createFromTimestampUTC($dList->dt)->formatLocalized('%A %d %B') }}
+                        </td>
+                        <td>
+                          <img src="http://openweathermap.org/img/w/{{$dList->conditions[0]->icon}}d.png" alt="{{ $dList->conditions[0]->description }}">                        
+                        </td>
+                        <td>
+                          <div class="description-block border-right">
+                            <span class="badge bg-red"> {{ $dList->main->temp_max}} °C</span>
+                            <span class="badge bg-default"> {{  $dList->main->temp }} °C</span>
+                            <span class="badge bg-blue">{{ $dList->main->temp_min}} °C</span>
+                          </div>
+                        </td>
+                      <td>                                               
+                        {{$dList->main->humidity }}%</td>
+                      </td>
+                      <td>                                        
+                           <?php 
+                              $_rainVal = 0; 
+                              
+                              if(! is_null($dList->rain) ) {
+
+                                $_rainVal = $dList->rain->getAttribute('3h');
+
+                              } elseif ( ! is_null($dList->snow) )  {
+
+                                $_rainVal = $dList->snow->getAttribute('3h');
+                              }
+                            ?>
+                            {{ $_rainVal }} mm  
+                        </td>
+                        <td>                                               
+                           {{ $dList->wind->speed }} m/s, <br> <i class="fa fa-fw fa-arrows"></i> {{ $dList->wind->deg}} °
+                        </td>                        
+                        <td>                                               
+                           {{$dList->main->pressure }} hpa 
+                        </td>
+                      </tr>
+                               
+                    @endforeach
+                    {{-- ./Weather Hourly Stat List --}}                
+                      
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th><i class="fa fa-fw fa-calendar-check-o"></i>Gün</th>
+                        <th><i class="fa fa-fw fa-cloud iconic-font-20"></i>Durum</th>
+                        <th><i class="ion ion-thermometer iconic-font-20" style="font-size: 20px;"></i> Sıcaklıklar</th>
+                        <th><i class="ion ion-waterdrop iconic-font-20"></i> Nem Oranı</th>
+                        <th><i class="ion ion-ios-rainy iconic-font-20" style="font-size: 20px;"></i> Yağış Miktarı</th>                       
+                        <th><i class="ion ion-ios-flag iconic-font-20" style="font-size: 20px;"></i> Rüzgar</th>
+                        <th><i class="ion ion-speedometer iconic-font-20" style="font-size: 20px;"></i> Basınç</th>    
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+              @endif
+
             </div><!-- /.col -->
           </div><!-- /.row -->
 
@@ -303,4 +367,5 @@
     <!-- ./JS Application -->
     @include('_ga')    
   </body>
+  <!-- {{ count(\DB::getQueryLog() ) }}-->
 </html>

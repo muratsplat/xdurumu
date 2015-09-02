@@ -389,8 +389,7 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertNotEquals(1, $hourlyLists->first()->id);
             
-            $this->assertNotEquals(74, $hourlyLists->last()->id);
-            
+            $this->assertNotEquals(74, $hourlyLists->last()->id);            
         } 
         
         public function testGetLastListsByModePassedDailyStat()

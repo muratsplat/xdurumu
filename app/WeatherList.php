@@ -214,5 +214,12 @@ class WeatherList extends CacheAble
                 
                 $model->deleteAllRelations();
             });       
-        }   
+        }
+        
+        public function foo()
+        {
+            return 'test';
+        }
 }
+
+

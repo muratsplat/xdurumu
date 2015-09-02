@@ -165,5 +165,25 @@ class WeatherCurrentTest extends TestCase
            
         }
         
+        public function testHumenDate()
+        {
+            $currents = factory(App\WeatherCurrent::class, 2)
+                        ->make()
+                        ->each(function(\App\WeatherCurrent $cur){
+                            
+                            $cur->city()->associate(factory(\App\City::class)->create());
+                        }); 
+                        
+            $one = $currents->random();            
+            
+            $this->assertTrue($one->save());
+            
+            Carbon\Carbon::setLocale('tr');
+            
+            //dd($one->updated_at->diffForHumans());
+            
+       
+        }
+        
         
 }

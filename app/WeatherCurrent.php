@@ -150,6 +150,5 @@ class WeatherCurrent extends CacheAble
         public function scopeEnable($query)
         {
            return $query;
-        }
-        
+        }    
 }

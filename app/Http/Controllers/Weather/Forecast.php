@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Weather;
 
 use App\City;
+use Carbon\Carbon;
 use App\Http\Requests;
 use App\WeatherCurrent;
 use App\Weather\DailyStat;
@@ -10,8 +11,10 @@ use App\WeatherHourlyStat;
 use Illuminate\Http\Request;
 use App\Contracts\Repository\ICity;
 use App\Http\Controllers\Controller;
-use App\Contracts\Weather\Repository\IHourly;
+use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Weather\Repository\IDaily;
+use Illuminate\Database\Eloquent\Collection;
+use App\Contracts\Weather\Repository\IHourly;
 use App\Contracts\Weather\Repository\ICurrent;
 
 
@@ -38,9 +41,14 @@ class Forecast extends Controller
      */
     private $current;
     
+    /**
+     * @var \App\Contracts\Weather\Repository\IList 
+     */
+    private $list;
+    
     
         
-        public function __construct(ICity $city, IHourly $hourly, IDaily $daily,ICurrent $current )
+        public function __construct(ICity $city, IHourly $hourly, IDaily $daily,ICurrent $current,IList $list )
         {
             $this->city     = $city;
             
@@ -49,6 +57,10 @@ class Forecast extends Controller
             $this->daily    = $daily;
             
             $this->current  = $current;
+            
+            $this->list     = $list;
+            
+            Carbon::setLocale('tr');
         }
         
         /**
@@ -58,7 +70,7 @@ class Forecast extends Controller
          */
         public function index(Request $request)
         {
-
+                            
         }
 
         /**
@@ -89,17 +101,17 @@ class Forecast extends Controller
          * @return Response
          */
         public function show(Request $request, $name)
-        {                   
+        {   
+            \DB::enableQueryLog();
             $findsBySlug = $this->findCityBySlug($name);
             
             if ( ! $findsBySlug->isEmpty() ) {
                 
-                $city   = $findsBySlug->first();  
+                $city   = $findsBySlug->first(); 
                 
-                list($current, $hourly, $daily ) = $this->prepareShowBindedData($city);
-            
+                $data   = $this->getAllweatherDataForShow($city);                    
                 
-                return view('front.weather.forecast.show')->with(compact('city', 'current', 'hourly', 'daily' ));
+                return view('front.weather.forecast.show')->with(compact('city', 'data'));
             }
             
             
@@ -109,70 +121,79 @@ class Forecast extends Controller
         }      
         
         /**
-         * To prepare binded data for show action
+         * To get Weather data for show action
          * 
          * @param \App\City $city
          * @return array current, hourly, daily
          */
-        private function prepareShowBindedData(City $city)
+        private function getWeatherData(City $city)
         {               
-            return [           
-                
-                $this->findCurrent($city),
+            return [                
+                $city->weatherCurrent,
                 $city->weatherHourlyStat,                
-                $this->findDaily($city),
+                $city->weatherDailyStat,
            ];              
+        }  
+        
+        /**
+         * To get all weather data for show action 
+         * 
+         * @param \App\City $city
+         * @return array    current, hourly, daily, dailyList, hourlyList
+         */
+        private function getAllweatherDataForShow(City $city)
+        {
+            list($current, $hourly, $daily) = $this->getWeatherData($city);
+            
+            return [
+                
+                'currentStat'   => $current,
+                
+                'hourlyStat'    => $hourly,
+                
+                'dailyStat'     => $daily,
+                
+                'dailyList'     => ! is_null($daily) ? $this->getDailyLists($daily) : new Collection(),
+                
+                'hourlyList'    => ! is_null($hourly) ? $this->getHourlyLists($hourly) : new Collection(),           
+            ];           
         }
         
         /**
-         * To find Daily Model
+         * To get last lists by daily stat model
          * 
-         * @param \App\City $city
-         * @return \App\Weather\DailyStat
+         * @param   \App\Weather\DailyStat   $daily
+         * @return  \Illuminate\Database\Eloquent\Collection
          */
-        private function findDaily(City $city) 
+        private function getDailyLists(DailyStat $daily)
         {
-            $daily = $city->weatherDailyStat;
-            
-            if ( is_null($daily) ) { return null; }
-            
-            return $this->daily->find($daily->id);
-        }       
+           return $this->list->getLastListByDailyStat($daily);            
+        }  
         
         /**
-         * To find Hourly Model
+         * To get last lists by hourly stat model
          * 
-         * @param \App\City $city
-         * @return \App\WeatherHourlyStat
+         * @param   \App\WeatherHourlyStat   $hourly
+         * @return  \Illuminate\Database\Eloquent\Collection
          */
-        private function findHourly(City $city) 
+        private function getHourlyLists(WeatherHourlyStat $hourly)
         {
-            $daily = $city->weatherHourlyStat;
-            
-            if ( is_null($daily) ) { return null;  }
-            
-            return $this->hourly->find($daily->id);
-        }   
-        
-    
-        
-        /**
-         * To find Current Model
-         * 
-         * @param \App\City $city
-         * @return \App\WeatherCurrent
-
-         */
-        private function findCurrent(City $city) 
-        {
-            $daily = $city->weatherCurrent;
-            
-            if ( is_null($daily) ) { return null;  }
-            
-            return $this->current->find($daily->id);
-        }
-        
-        
+           $list = $this->list->getLastListByHourlyStat($hourly);            
+           
+           return $list->each(function($item) {
+               
+               if (is_null($item->dt) ) { return; }
+                             
+               $carbon = Carbon::createFromTimestampUTC($item->dt);          
+               
+               setlocale(LC_ALL, 'tr_TR.utf8');
+               
+               $item->date =  $carbon->formatLocalized('%A %d %B');      
+               
+               $item->day =  $carbon->formatLocalized('%d');      
+               
+           })->groupBy('day');       
+        } 
         
         /**
          * to Find City model by name attribute 
@@ -182,7 +203,7 @@ class Forecast extends Controller
          */
         protected function findCityByName($name)
         {
-            return $this->city->getAllOnlyOnesHasWeatherData()->filter(function($item) use ($name) {
+            return $this->getAllOnlyCitiesHasWeatherData()->filter(function($item) use ($name) {
                 
                 return $name === $item->name;                                
             });                    
@@ -196,10 +217,20 @@ class Forecast extends Controller
          */
         protected function findCityBySlug($slug)
         {
-            return $this->city->getAllOnlyOnesHasWeatherData()->filter(function($item) use ($slug) {
-                
+            return $this->getAllOnlyCitiesHasWeatherData()->filter(function($item) use ($slug) {                
+                      
                 return $slug === $item->slug;                                
             });                    
+        }        
+        
+        /**
+         * To get All cities which have weather data
+         * 
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        protected function getAllOnlyCitiesHasWeatherData()
+        {
+            return $this->city->getAllOnlyOnesHasWeatherData();              
         }
 
         /**

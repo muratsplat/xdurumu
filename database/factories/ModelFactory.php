@@ -272,7 +272,7 @@ $factory->define(App\WeatherList::class, function (Faker\Generator $faker) {
         'listable_id'                   => rand(1,10),    
         'listable_type'                 => str_random(),       
         'enable'                        => (boolean) rand(0, 1),
-        'date_time'             => $sourcUpdatedAt->format('Y-m-d H:m:s'),
+        'date_time'                     => $sourcUpdatedAt->format('Y-m-d H:m:s'),
         'dt'                            => $sourcUpdatedAt->getTimestamp(),
        
     ];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Contracts\Repository\ICity;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * City Controller
@@ -35,8 +36,24 @@ class City extends Controller
          */
         public function index(Request $request)
         {            
-            return $this->city->getAllOnlyOnesHasWeatherData();
-        }       
+            $collection =  $this->city->getAllOnlyOnesHasWeatherData();
+            
+            $array =  $this->convertToArrayList($collection);
+            
+            $deletesStringKeys = array_values($array);
+            
+            return response()->json($deletesStringKeys);
+        }      
+        
+        /**
+         * 
+         * @param \Illuminate\Database\Eloquent\Collection $collection
+         * @return array
+         */
+        protected function convertToArrayList(Collection $collection)
+        {
+            return $collection->toArray();
+        }
        
         /**
          * Show the form for creating a new resource.

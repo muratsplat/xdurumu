@@ -45,5 +45,32 @@ interface IList extends IBase
          * 
          * @return \Illuminate\Database\Eloquent\Collection
          */
-        public function getAllDailyList();
+        public function getAllDailyList();        
+        
+        /**
+         * To get last list models by given model
+         * 
+         * @param object $model
+         * @return \Illuminate\Database\Eloquent\Collection
+         * @throws \InvalidArgumentException
+         */
+        public function getLastListsByModel($model);
+        
+        /**
+         * To get only last models belong to passed  hourlystat model
+         * 
+         * @param \App\Weather\DailyStat $model
+         * @param int $amount 37
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getLastListByHourlyStat(HourlyStatModel $model, $amount = 37);
+        
+        /**
+         * To get only last models belong to passed  hourlystat model
+         * 
+         * @param \App\Weather\DailyStat $model
+         * @param int  $amount 16
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        public function getLastListByDailyStat(DailyStatModel $model, $amount = 16);
 }

@@ -21,7 +21,7 @@ class City {
 
 		return this._$resource(url, {}, {
 		
-			'index' 	: { method: 'GET',  isArray:true, cache:true },
+			'index' 	: { method: 'GET',  isArray:true, cache:true},
 			//'show'		: { method: 'GET',  isArray:false, cache: false},
 			//'update'	: { method: 'PUT', params: {id:'@id'},  isArray: false, cache: false},  
 		});

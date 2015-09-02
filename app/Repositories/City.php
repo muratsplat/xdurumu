@@ -296,9 +296,10 @@ class City extends CacheAble implements ICity
                 return $enableCities->filter(function($one){
                     
                     return $one->weatherDataIsReady();
-                });                
-            };
-            
+                    
+                });               
+            };   
+           
             return $this->remember($key, $time, $callback);
         }        
         

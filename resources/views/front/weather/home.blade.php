@@ -59,8 +59,8 @@
           </div><!-- /.container-fluid -->
         </nav>
       </header>
-'      <!-- Full Width Column -->
-      02'      <div class="content-wrapper">
+      <!-- Full Width Column -->
+         <div class="content-wrapper">
         <div class="container">
           <!-- Content Header (Page header) -->
           <section class="content-header">
@@ -88,13 +88,17 @@
                     <p class="text-center">
                       <br>
                       <p>Bulunduğunuz konumu, il ve içle bazında arayabilirsiniz.</p>
-                    </p>                   
+                    </p>         
+
+
                     <div id="autocomlate-list-location" class="input-group" >                     
                       <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" ng-keypress="($event.which === 13)?findCity():0" >
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-primary btn-flat" ng-click="findCity()">Ara</button>
                       </span>                     
-                    </div>                
+                    </div>  
+
+                                  
                   </div>
                  </div><!-- /.col -->             
                </div><!-- /.row -->
@@ -107,7 +111,7 @@
                   <div  id="map_canvas" go-map=""></div>
                    <p class="text-center">
                       <br>
-                      <i>Türkiye resmi sınırları içinde <b>1000</b>'e aşkın konumun hava durumum bilgisine ulaşabilirsiniz.</i>
+                      <i>Türkiye resmi sınırları içinde <b>1300</b>'ü aşkın konumun hava durumum bilgisine ulaşabilirsiniz.</i>
                     </p>         
 
                    <!--  ./ Google Map-->

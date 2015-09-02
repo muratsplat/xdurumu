@@ -3,6 +3,7 @@
 namespace App\Weather;
 
 use App\CacheAbleEloquent; 
+use Carbon\Carbon;
 
 /**
  * Weather Daily Data Stats
@@ -79,4 +80,5 @@ class DailyStat extends CacheAbleEloquent
                 'weatherLists',               
             ];
         }
+        
 }
