@@ -377,15 +377,11 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
                 $creates[] = $repo->createListsByHourlyStat($hourlyStat, $hourlyData->getWeatherData());             
             }
             
-            $this->assertCount(2, $creates);     
+            $this->assertCount(2, $creates);                 
+         
+            $hourlyLists = $repo->getLastListsByModel($hourlyStat);                      
             
-            \DB::enableQueryLog();
-            
-            $hourlyLists = $repo->getLastListsByModel($hourlyStat);
-            
-            $this->assertCount(1, \DB::getQueryLog());
-            
-            $this->assertCount(37, $hourlyLists);
+            $this->assertCount(39, $hourlyLists);
             
             $this->assertNotEquals(1, $hourlyLists->first()->id);
             
@@ -415,14 +411,11 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             for ($i=0 ; $i < 10; $i++ ) {
                 
                 $creates[] = $repo->createListsByDailyStat($dailyStat, $data->getWeatherData());             
-            }            
-            
-            \DB::enableQueryLog();
+            }         
              
             $dailyLists = $repo->getLastListsByModel($dailyStat);
             
-            $this->assertCount(16, $dailyLists);      
-            
-            $this->assertCount(1, \DB::getQueryLog());           
+            $this->assertCount(16, $dailyLists);                  
+               
         }      
 }
