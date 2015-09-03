@@ -69,7 +69,7 @@ class DailyStat extends Base implements IDaily
             
             $data = $this->getAccessor()->getWeatherData();            
             
-            $lists      = $this->listRepo->createListsByDailyStat($stat, $data);
+            $lists= $this->listRepo->createListsByDailyStat($stat, $data);
             
             if ( $lists->isEmpty()) {
                 
@@ -78,7 +78,12 @@ class DailyStat extends Base implements IDaily
             
             $associatedModel = $this->addResource($stat);
             
-            if ($associatedModel->save()) {  return $associatedModel; }            
+            if ($associatedModel->save()) {  
+                
+                $stat->touch();
+                
+                return $associatedModel;                 
+            }            
             
             throw new ErrorException('Weather DailyStat model is not saved correctly');                  
          }

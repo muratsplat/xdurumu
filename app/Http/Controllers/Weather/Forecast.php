@@ -37,7 +37,7 @@ class Forecast extends Controller
     private $daily;
     
     /**
-     * @var \App\WeatherCurrent; 
+     * @var \App\Contracts\Weather\Repository\ICurrent; 
      */
     private $current;
     
@@ -58,9 +58,9 @@ class Forecast extends Controller
             
             $this->current  = $current;
             
-            $this->list     = $list;
+            $this->list     = $list;            
             
-            Carbon::setLocale('tr');
+            \DB::enableQueryLog();           
         }
         
         /**
@@ -70,7 +70,21 @@ class Forecast extends Controller
          */
         public function index(Request $request)
         {
-                            
+            $name = $request->get('name', null);
+            
+            if (! is_null($name)) {
+                
+                $currents = $this->current->enableCache()->all()->filter(function($item) use ($name){
+                    
+                    return $item->city->name === $name;                   
+                });
+                
+                return view('front.weather.forecast.index')->with(compact('currents'));                  
+            }            
+           
+            $currents = $this->current->enableCache()->all();
+            
+            return view('front.weather.forecast.index')->with(compact('currents'));           
         }
 
         /**
@@ -102,7 +116,7 @@ class Forecast extends Controller
          */
         public function show(Request $request, $name)
         {   
-            \DB::enableQueryLog();
+            
             $findsBySlug = $this->findCityBySlug($name);
             
             if ( ! $findsBySlug->isEmpty() ) {
@@ -114,10 +128,7 @@ class Forecast extends Controller
                 return view('front.weather.forecast.show')->with(compact('city', 'data'));
             }
             
-            
-            return $request->all();
-           
-            
+            return redirect()->action('Weather\Forecast@index', ['name' => $name]);           
         }      
         
         /**

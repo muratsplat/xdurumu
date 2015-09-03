@@ -90,8 +90,8 @@ class HomeCtrl extends Base {
 		this._scope.inCities = () => {			
 
 			return search.cities.filter((e) => {
-
-				return search.selected === e.name;		
+		
+				return  search.selected && search.selected.toLowerCase()  === e.name.toLowerCase() || search.selected  === e.name;
 
 			}).length > 0;	
 		};
@@ -103,7 +103,8 @@ class HomeCtrl extends Base {
 
 				this._window.location.href = '/havadurumu/' + search.selected; 
 				
-				this.sendErrorNotify('Url yönlendirme çalışmadı !');
+				//this.sendErrorNotify('Url yönlendirme çalışmadı !');
+			 	return;
 			}
 
 			this.sendErrorNotify('Aradığınız konum bulunamadı ! Benzer isimlerde arama yapmayı deneyin..');

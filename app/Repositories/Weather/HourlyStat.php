@@ -78,7 +78,13 @@ class HourlyStat extends Base implements IHourly
             
             $associatedModel = $this->addResource($hourlyStat);
             
-            if ($associatedModel->save()) {  return $associatedModel; }            
+            if ($associatedModel->save()) {  
+                
+                $hourlyStat->touch();
+                
+                return $associatedModel; 
+                
+            }            
             
             throw new ErrorException('WeatherHourlyStat model is not saved correctly');                  
          }

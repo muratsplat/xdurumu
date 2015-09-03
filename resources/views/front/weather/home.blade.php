@@ -1,7 +1,14 @@
 @extends('layouts.weather.master')
 
 {{-- AngularJS App --}}
-@section('html_attribute', 'ng-app="weatherHome"')
+@section('html_attribute', 'xmlns:ng="http://angularjs.org"  ng-app="weatherHome"')
+
+{{-- BREADCRUMB--}}
+@section('breadcrumb')
+
+  @include('front.weather._home_breadcrumb')
+
+@endsection
 
 
 {{-- Content --}}

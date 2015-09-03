@@ -255,7 +255,7 @@ var HomeCtrl = (function (_Base) {
 
 				return search.cities.filter(function (e) {
 
-					return search.selected === e.name;
+					return search.selected && search.selected.toLowerCase() === e.name.toLowerCase() || search.selected === e.name;
 				}).length > 0;
 			};
 
@@ -265,7 +265,8 @@ var HomeCtrl = (function (_Base) {
 
 					_this._window.location.href = '/havadurumu/' + search.selected;
 
-					_this.sendErrorNotify('Url yönlendirme çalışmadı !');
+					//this.sendErrorNotify('Url yönlendirme çalışmadı !');
+					return;
 				}
 
 				_this.sendErrorNotify('Aradığınız konum bulunamadı ! Benzer isimlerde arama yapmayı deneyin..');
