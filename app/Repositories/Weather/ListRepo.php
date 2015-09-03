@@ -379,13 +379,13 @@ class ListRepo extends CacheAble implements IList
          * @param int $amount 39
          * @return \Illuminate\Database\Eloquent\Collection
          */
-        public function getLastListByHourlyStat(HourlyStatModel $model, $amount = 39) 
+        public function getLastListByHourlyStat(HourlyStatModel $model, $amount = 37) 
         {      
             $callback  = function() use ($model, $amount) {
                 
                 $relationsNames = $model->weatherLists()->getRelated()->getNameOfRelations();
                 
-                return $model->weatherLists()->getQuery()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get();                       
+                return $model->weatherLists()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get();                       
             };
             
             $key    = createUniqueKeyFromObj($model, 'listRepo.HourlyStat');
@@ -408,7 +408,9 @@ class ListRepo extends CacheAble implements IList
                 
                 $relationsNames = $model->weatherLists()->getRelated()->getNameOfRelations();
                 
-                return $model->weatherLists()->getQuery()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get();                       
+                //dd($model->weatherLists()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get());
+                
+                return $model->weatherLists()->with($relationsNames)->orderBy('id', 'desc')->take($amount)->get();                       
             };
             
             $key    = createUniqueKeyFromObj($model, 'listRepo.DailyStat');

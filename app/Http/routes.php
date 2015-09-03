@@ -22,19 +22,16 @@ $domain = config('app.domain');
  * api.durumum.net   
  */
 Route::group(['domain' => "api.$domain", 'namespace' => 'Api' ,'middleware' => 'aca:hava'], function() use($domain) { 
-
     
     Route::get('/', function() use ($domain) {
         
         return redirect('http://'  . $domain);                
-    });
-    
+    });    
     
      /**
      *  Restful Paths of City Resource
      */
-    Route::resource('city', 'City', ['only' => ['index']]);   
-    
+    Route::resource('city', 'City', ['only' => ['index']]);       
 });
 
 /**
@@ -47,7 +44,7 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
      */    
     Route::resource('havadurumu', 'Forecast', ['only' => ['index', 'show']]);
     
-    Route::get('/', 'Home@index');
+    Route::get('/', 'Home@index', ['only' => ['index']]);
     
     /**
      * Weather Current Restful Paths

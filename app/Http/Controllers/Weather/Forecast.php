@@ -58,7 +58,11 @@ class Forecast extends Controller
             
             $this->current  = $current;
             
-            $this->list     = $list;            
+            $this->list     = $list;       
+            
+            setlocale(LC_ALL, 'tr_TR.utf8');
+            
+            Carbon::setLocale('tr');
             
             \DB::enableQueryLog();           
         }
@@ -115,8 +119,7 @@ class Forecast extends Controller
          * @return Response
          */
         public function show(Request $request, $name)
-        {   
-            
+        {             
             $findsBySlug = $this->findCityBySlug($name);
             
             if ( ! $findsBySlug->isEmpty() ) {
@@ -178,7 +181,18 @@ class Forecast extends Controller
          */
         private function getDailyLists(DailyStat $daily)
         {
-           return $this->list->getLastListByDailyStat($daily)->sort();         
+            /**
+             * Todo: Daily lists includes repeated lists.
+             * It houlf be care later
+             * 
+             */
+           return $this->list->getLastListByDailyStat($daily)
+                   ->groupBy('dt')
+                   ->map(function($item){
+                       
+                       return $item[0];
+                   })
+                   ->sortBy('dt');
         }  
         
         /**
@@ -197,7 +211,7 @@ class Forecast extends Controller
                              
                $carbon = Carbon::createFromTimestampUTC($item->dt);          
                
-               setlocale(LC_ALL, 'tr_TR.utf8');
+               
                
                $item->date =  $carbon->formatLocalized('%A %d %B');      
                

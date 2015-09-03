@@ -71,6 +71,8 @@ class HourlyStat extends Base implements IHourly
             
             $lists      = $this->listRepo->createListsByHourlyStat($hourlyStat, $hourlyData);
             
+            $hourlyStat->touch();
+            
             if ( $lists->isEmpty()) {
                 
                 throw new ErrorException('There is any lists belongs to WeatherHourlyStat Model!');                              
@@ -78,13 +80,7 @@ class HourlyStat extends Base implements IHourly
             
             $associatedModel = $this->addResource($hourlyStat);
             
-            if ($associatedModel->save()) {  
-                
-                $hourlyStat->touch();
-                
-                return $associatedModel; 
-                
-            }            
+            if ($associatedModel->save()) {  return $associatedModel; }            
             
             throw new ErrorException('WeatherHourlyStat model is not saved correctly');                  
          }

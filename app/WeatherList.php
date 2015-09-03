@@ -32,7 +32,7 @@ class WeatherList extends CacheAble
      *
      * @var array
      */            
-    protected $fillable = ['source_updated_at', 'td'];
+    protected $fillable = ['source_updated_at', ''];
     
         /**
          * Define a polymorphic, inverse one-to-one or many relationship.
