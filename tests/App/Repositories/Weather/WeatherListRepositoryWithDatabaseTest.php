@@ -379,9 +379,11 @@ class WeatherListRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(2, $creates);                 
          
-            $hourlyLists = $repo->getLastListsByModel($hourlyStat);                      
+            $hourlyLists = $repo->getLastListsByModel($hourlyStat);   
             
-            $this->assertCount(39, $hourlyLists);
+            $numberOflistInJson = count($hourlyData->getWeatherData()->getAttribute('list'));      
+            
+            $this->assertCount($numberOflistInJson, $hourlyLists);
             
             $this->assertNotEquals(1, $hourlyLists->first()->id);
             

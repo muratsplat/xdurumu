@@ -143,6 +143,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,     
         Spatie\Backup\BackupServiceProvider::class,
+        Roumen\Sitemap\SitemapServiceProvider::class,
 
         /*
          * Application Service Providers...

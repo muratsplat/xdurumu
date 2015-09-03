@@ -13,6 +13,8 @@ use GuzzleHttp\Exception\ConnectException;
 /**
  * The class send get request to access weather data from Open Weather Map API
  * 
+ * Api Documentation : http://openweathermap.org/api
+ * 
  * @package WeatherForcast
  */
 class OpenWeatherMapClient extends ApiRequest implements ApiClient
@@ -252,6 +254,15 @@ class OpenWeatherMapClient extends ApiRequest implements ApiClient
             $id     = $this->getCityId();
             
             $this->addQuery('id', $id);
+            
+            if ( $this->isDaily() ) {
+                /**
+                 * You can seach 16 day weather forecast 
+                 * with daily average parameters by city name.
+                 * 
+                 */
+                $this->addQuery('cnt', 16);
+            }
             
             return array_merge($this->queries, $this->shouldBeQueries); 
         }       

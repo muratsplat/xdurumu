@@ -209,9 +209,7 @@ class Forecast extends Controller
                
                if (is_null($item->dt) ) { return; }
                              
-               $carbon = Carbon::createFromTimestampUTC($item->dt);          
-               
-               
+               $carbon = Carbon::createFromTimestampUTC($item->dt);             
                
                $item->date =  $carbon->formatLocalized('%A %d %B');      
                

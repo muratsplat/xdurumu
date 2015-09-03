@@ -44,6 +44,11 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
      */    
     Route::resource('havadurumu', 'Forecast', ['only' => ['index', 'show']]);
     
+     /**
+     * Controller Namespace : App\Http\Controllers\SiteMap
+     */    
+    Route::resource('sitemap', 'SiteMap', ['only' => ['index']]);
+    
     Route::get('/', 'Home@index', ['only' => ['index']]);
     
     /**

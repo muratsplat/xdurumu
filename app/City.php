@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\CacheAbleEloquent;
+use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
-use App\CacheAbleEloquent;
-
 
 /**
  * App\City
@@ -55,6 +55,28 @@ class City extends  CacheAbleEloquent implements SluggableInterface
             
             'build_from' => 'name',
             'save_to'    => 'slug',
+    ];
+    
+    
+    /**
+     * Tukish character to convert  the slug
+     * 
+     * @var array
+     */
+    protected $slugRules = [ 
+        
+            'Ö' => 'o',
+            'ö' => 'o',
+            'Ü' => 'u',                    
+            'ü' => 'u',                          
+            'Ğ' => 'G',
+            'İ' => 'I',
+            'Ş' => 'S',
+            'ç' => 'c',
+            'ğ' => 'g',
+            'ı' => 'i',
+            'ş' => 's',
+            'â' => 'a',
     ];
     
         /**
@@ -200,5 +222,21 @@ class City extends  CacheAbleEloquent implements SluggableInterface
        {
            return $this->hasWeatherCurrent() && $this->hasWeatherDailyStat();
        }      
+       
+       /**
+        * Addinf new rules by overloading method on the trait
+        * 
+        * @return \Cocur\Slugify\Slugify
+        */
+        protected function getSlugEngine() 
+        {
+           $engine  = new Slugify();
+           
+           $rules   = $this->slugRules;
+
+           $engine->addRules($rules);           
+
+           return $engine;
+        }
 
 }

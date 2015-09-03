@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e528eeb56c9b0adcc3e467d8d8bab15f",
+    "hash": "0ff426d909b6fffd63dd3402102b9e31",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -227,16 +227,16 @@
         },
         {
             "name": "cviebrock/eloquent-sluggable",
-            "version": "3.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cviebrock/eloquent-sluggable.git",
-                "reference": "eaf7b573d7c82f004fc3efde0e0f9f63200d4c32"
+                "reference": "39108118f0a53f2869cd98d9b3e1cafa50bc32a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/eaf7b573d7c82f004fc3efde0e0f9f63200d4c32",
-                "reference": "eaf7b573d7c82f004fc3efde0e0f9f63200d4c32",
+                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/39108118f0a53f2869cd98d9b3e1cafa50bc32a2",
+                "reference": "39108118f0a53f2869cd98d9b3e1cafa50bc32a2",
                 "shasum": ""
             },
             "require": {
@@ -273,7 +273,7 @@
                 "laravel",
                 "slug"
             ],
-            "time": "2015-07-06 15:09:35"
+            "time": "2015-09-02 03:16:59"
         },
         {
             "name": "danielstjules/stringy",
@@ -1827,6 +1827,54 @@
                 "shell"
             ],
             "time": "2015-07-16 15:26:57"
+        },
+        {
+            "name": "roumen/sitemap",
+            "version": "v2.5.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
+                "reference": "f29c465f2dbee562c354e79ba17ef7c0ae9f29fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/f29c465f2dbee562c354e79ba17ef7c0ae9f29fe",
+                "reference": "f29c465f2dbee562c354e79ba17ef7c0ae9f29fe",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Roumen\\Sitemap": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roumen Damianoff",
+                    "email": "roumen@dawebs.com",
+                    "homepage": "https://roumen.it",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple sitemap generator for Laravel.",
+            "homepage": "https://roumen.it/projects/laravel-sitemap",
+            "keywords": [
+                "Sitemap",
+                "generator",
+                "laravel"
+            ],
+            "time": "2015-06-12 16:49:42"
         },
         {
             "name": "spatie/laravel-backup",
@@ -3918,7 +3966,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cviebrock/eloquent-sluggable": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

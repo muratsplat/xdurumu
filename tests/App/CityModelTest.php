@@ -72,7 +72,7 @@ class CityModelTest extends TestCase
              *      https://github.com/cviebrock/eloquent-sluggable/issues/164
              *  
              */
-            //$this->assertEquals($city['slug'], 'gumushane');
+            $this->assertEquals($city['slug'], 'gumushane');
         }
         
         /**
