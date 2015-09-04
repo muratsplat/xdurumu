@@ -21,7 +21,7 @@ class DeleteOldData extends TestAbleCommand
      *
      * @var string
      */
-    protected $signature = 'weather:cleans';
+    protected $signature = 'weather:clean';
 
     /**
      * The console command description.

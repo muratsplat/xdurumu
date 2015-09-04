@@ -384,7 +384,7 @@ class Current extends Base implements ICurrent, Importable
          */
         public function takeRandomOnAll($count)
         {            
-            $minitues   = 10;
+            $minitues   = 30;
             
             $key        = createUniqueKeyFromObj($this->onModel(), 'take.random.' . $count);
                         

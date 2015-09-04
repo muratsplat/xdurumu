@@ -285,7 +285,7 @@ class City extends CacheAble implements ICity
          */
         public function getAllOnlyOnesHasWeatherData()
         {
-            $time = 10;
+            $time = 30;
             
             $key  = createUniqueKeyFromObj($this->onModel(), 'all.onesHasWeatherData');
             

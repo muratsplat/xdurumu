@@ -390,7 +390,7 @@ class ListRepo extends CacheAble implements IList
             
             $key    = createUniqueKeyFromObj($model, 'listRepo.HourlyStat');
             
-            $time   = 10;
+            $time   = 60;
             
             return $this->remember($key, $time, $callback);
         }
@@ -415,7 +415,7 @@ class ListRepo extends CacheAble implements IList
             
             $key    = createUniqueKeyFromObj($model, 'listRepo.DailyStat');
             
-            $time   = 10;
+            $time   = 60;
             
             return $this->remember($key, $time, $callback);
         }

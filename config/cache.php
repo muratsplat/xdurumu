@@ -81,7 +81,6 @@ return [
      * 
      * Time unit is minute.
      */
-    'duration'  => 60,
-    
+    'duration'  => 60,    
 
 ];
