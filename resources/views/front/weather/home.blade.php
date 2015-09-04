@@ -1,7 +1,7 @@
 @extends('layouts.weather.master')
 
 {{-- AngularJS App --}}
-@section('html_attribute', 'xmlns:ng="http://angularjs.org"  ng-app="weatherHome"')
+@section('html_attribute', 'xmlns:ng="http://angularjs.org" ng-app="weatherHome"')
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
@@ -10,6 +10,11 @@
 
 @endsection
 
+{{-- Meta --}}
+@section('meta')
+  <meta content="Türkiye'de bulunan 1300'e aşkın konumun hava durumu bilgilerini sunuyoruz. Hava Durumları, anlık, saatlik ve günlük olarak yayınlanır." name="description">
+  <meta content="hava durumu, meteoroloji, istanbul hava durumu, ankara hava durumu, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -124,7 +129,7 @@
     @parent
    
     @include('front._cdn_angular')
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.css">
     <!-- Angular Notify Pugin -->
     <script src="//cdn.jsdelivr.net/angular.ng-notify/0.6.3/ng-notify.min.js"></script>

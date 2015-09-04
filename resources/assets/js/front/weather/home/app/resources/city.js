@@ -42,7 +42,7 @@ class City {
 		
 		let port 		= this._$location.port();
 
-		port  = port === 80 ? null : ':' + port;
+		port  = port === 80 ? '' : ':' + port;
 
 		let subdomain 	= 'api';
 

@@ -8,9 +8,13 @@
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
-
   @include('front.weather.forecast._show_breadcrumb')
+@endsection
 
+{{-- Meta --}}
+@section('meta')
+  <meta content="{{$city->name}} konumunun hava durumu bilgilerini sunuyoruz. Hava Durumu, anlık, saatlik ve günlük olarak yayınlanır." name="description">
+  <meta content="{{$city->name}} hava durumu, meteoroloji, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
 @endsection
 
 {{-- Content --}}

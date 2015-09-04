@@ -8,10 +8,15 @@
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
-
  {{-- @include('front.weather.forecast._show_breadcrumb') --}}
-
 @endsection
+
+{{-- Meta --}}
+@section('meta')
+  <meta content="Türkiye'de {{$currents->count()}} konumunun hava durumu bilgilerini sunuyoruz. Hava Durumu, anlık, saatlik ve günlük olarak yayınlanır." name="description">
+  <meta content="hava durumu, şehirler, ilçeler, meteoroloji, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
+@endsection
+
 
 {{-- Content --}}
 @section('content')
