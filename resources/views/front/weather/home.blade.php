@@ -142,4 +142,6 @@
     <!-- JS Application -->
     <script src="{{ elixir('assets/front/weather/js/home/libs.js') }}"></script>    
     <script src="{{ elixir('assets/front/weather/js/home/bundle.js') }}"></script>
+        <!-- ./JS Application -->
+    @include('_ga', ['gaID' => env('GA_HAVA', null)] )    
 @endsection

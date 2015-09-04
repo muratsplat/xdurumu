@@ -166,8 +166,7 @@
                       </tr>
                       @endforeach              
                     @endforeach
-                    {{-- ./Weather Hourly Stat List --}}                
-                      
+                    {{-- ./Weather Hourly Stat List --}}                      
                     </tbody>
                     <tfoot>
                       <tr>
@@ -209,11 +208,10 @@
                     </thead>
                     <tbody>
                     {{-- Weather Hourly Stat List --}}
-                    @foreach($data['dailyList'] as $dList)
-                   
+                    @foreach($data['dailyList'] as $dList)                   
                       <tr>
                         <td>
-                       
+                        <?php setlocale(LC_ALL, 'tr_TR.utf8');  Carbon\Carbon::setLocale('tr'); ?>
                           {{ Carbon\Carbon::createFromTimestampUTC($dList->dt)->formatLocalized('%A %d %B') }}
                         </td>
                         <td>
@@ -295,4 +293,5 @@
     <script src="{{ elixir('assets/front/weather/js/forecast/bundle.js') }}"></script> 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8&callback=initMap"></script> 
     <!-- ./JS Application -->
+    @include('_ga', ['gaID' => env('GA_HAVA', null)] )   
 @endsection

@@ -35,7 +35,5 @@
     @section('cssScript')
       @include('front._cdn_boostrap_font_awesome_jquery')
     @show   
-    <!-- ./JS Application -->
-    @include('_ga')    
   </body>
 </html>

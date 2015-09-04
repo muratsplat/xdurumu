@@ -17,7 +17,6 @@
   <meta content="hava durumu, şehirler, ilçeler, meteoroloji, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
 @endsection
 
-
 {{-- Content --}}
 @section('content')
 
@@ -94,4 +93,5 @@
     <!-- SlimScroll, FastClick, AdminLTE App -->    
     <script src="{{ elixir('assets/front/weather/js/libs.js') }}"></script>    
     <!-- ./JS Application -->
+    @include('_ga', ['gaID' => env('GA_HAVA', null)] )   
 @endsection

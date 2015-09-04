@@ -58,13 +58,10 @@ class Forecast extends Controller
             
             $this->current  = $current;
             
-            $this->list     = $list;       
+            $this->list     = $list;   
             
             setlocale(LC_ALL, 'tr_TR.utf8');
-            
-            Carbon::setLocale('tr');
-            
-            \DB::enableQueryLog();           
+         
         }
         
         /**
@@ -186,13 +183,7 @@ class Forecast extends Controller
              * It houlf be care later
              * 
              */
-           return $this->list->getLastListByDailyStat($daily)
-                   ->groupBy('dt')
-                   ->map(function($item){
-                       
-                       return $item[0];
-                   })
-                   ->sortBy('dt');
+           return $this->list->getLastListByDailyStat($daily)->sortBy('dt');
         }  
         
         /**
@@ -207,9 +198,11 @@ class Forecast extends Controller
            
            return $list->each(function($item) {
                
-               if (is_null($item->dt) ) { return; }
+               if (is_null($item->dt) ) { return; }              
                              
-               $carbon = Carbon::createFromTimestampUTC($item->dt);             
+               $carbon = Carbon::createFromTimestampUTC($item->dt);  
+               
+               $carbon->setLocale('tr');               
                
                $item->date =  $carbon->formatLocalized('%A %d %B');      
                

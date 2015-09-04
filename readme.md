@@ -11,10 +11,10 @@ Yapılacaklar
 - [x] Servis tesleri yapılacak.
 - [x] Şehir ve bazı verileri kontrol etmek için admin panel entegre edilecek.
 - [x] Panel erişim yönetimi yapılacak.
-- [ ] otomatik sitemap.xml oluşturacak servis yazılacak.
+- [x] otomatik sitemap.xml oluşturacak servis yazılacak.
 - [x] Subdoman tanımlaması yapılacak.
 - [x] Anasayfa yolu tanımlanıp temayla birlikte denetleyicisi yazılacak.
 - [x] hava.xdurumu.com anasayafası hazırlanacak..
-- [ ] Domain alınacak ve site yayına sokulacak.
+- [x] Domain alınacak ve site yayına sokulacak.
 - [x] Google Analytics entegrasyonu yapılacak.
-- [ ] Şehirler için saatlik ve günlük sayfaları hazırlanacak.. 
+- [x] Şehirler için saatlik ve günlük sayfaları hazırlanacak.. 

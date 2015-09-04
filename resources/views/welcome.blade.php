@@ -6,6 +6,11 @@
     <title>durumum.NET | Hayatı Kolaylaştıran Uygulamar</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">   
+    <meta content="follow,index" name="robots">
+    <meta http-equiv="content-language" content="tr">
+    <meta name="copyright" content="Copyright © 2015 durumum.NET. Tum Hakları Saklıdır."/>
+    <meta content="Hayatı kolaylaştıran ve renklendiren servisler sunar" name="description">
+    <meta content="hava durumu" name="keywords">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -94,6 +99,6 @@
     <!-- SlimScroll, FastClick, AdminLTE App -->    
     <script src="{{ elixir('assets/front/main/js/libs.js') }}"></script>   
     <!-- END OF JS -->
-    @include('_ga')
+    @include('_ga', ['gaID' => env('GA', null)] )   
   </body>
 </html>
