@@ -73,3 +73,30 @@ if (!function_exists('transDirectionFromNumber')) {
         
     }
 }
+
+
+/**
+ * All helpers will be defined into the file
+ * 
+ * @author Murat Ödünç <murat.asya@gmail.com>
+ */
+
+if ( ! function_exists('activeUrl'))
+{
+    /**
+     * To determine given url  and if it is equals to current url
+     * return css class name
+     * 
+     * This helper is useful  for selected "li" element in html.
+     *
+     * @param  string  $url
+     * @param  string  $class default is null
+     * @return string  return default class or given class name
+     */
+    function activeUrl($url, $class = null) {
+
+        $class = is_null($class) ? 'active' : $class;
+
+        return app('request')->url() === $url ? $class : null; 
+    }
+}

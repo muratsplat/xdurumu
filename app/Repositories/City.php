@@ -33,8 +33,7 @@ class City extends CacheAble implements ICity
             parent::__construct($cache, $config);
             
             $this->mainModel    = $city;
-        }
- 
+        } 
         
         public function create(array $attributes)
         {
@@ -285,13 +284,13 @@ class City extends CacheAble implements ICity
          */
         public function getAllOnlyOnesHasWeatherData()
         {
-            $time = 30;
+            $time = 120;
             
-            $key  = createUniqueKeyFromObj($this->onModel(), 'all.onesHasWeatherData');
+            $key  = createUniqueKeyFromObj($this->onModel(), 'all.onesHasWeatherData');              
             
-            $enableCities = $this->getEnableAllCities();            
-            
-            $callback = function() use ($enableCities) {
+            $callback = function() {
+                
+                $enableCities = $this->getEnableAllCities();         
                 
                 return $enableCities->filter(function($one){
                     
@@ -302,6 +301,52 @@ class City extends CacheAble implements ICity
            
             return $this->remember($key, $time, $callback);
         }        
+        
+        /**
+         * To get all cities has weather data by filtering elements
+         * 
+         * @return array
+         */
+        public function getCitiesHasWeatherDataByFiteringInArray(array $elements)
+        {
+            $time   = 120;
+            
+            $suffix = json_encode($elements);
+            
+            $key  = createUniqueKeyFromObj($this->onModel(), 'all.onesHasWeatherData'. $suffix);
+            
+            $callback = function() use ($elements) {
+                
+                $enableCities = $this->getEnableAllCities();         
+                
+                $array = $enableCities->filter(function($one){
+                    
+                    return $one->weatherDataIsReady();
+                    
+                })->toArray();      
+                
+                return $this->onlyWantedElements($array, $elements);
+                
+            };   
+           
+            return $this->remember($key, $time, $callback);
+        }        
+        
+        /**
+         * To fiter elements have passed key in array
+         * 
+         * @param array $array
+         * @param array $keys
+         * @return array
+         */
+        private function onlyWantedElements(array $array, array $keys)
+        {                    
+            return array_map(function($item) use ( $keys ) {                
+                
+                return array_only($item, $keys);          
+                
+            }, $array);            
+        }
         
         /**
          * To get only enabled cities

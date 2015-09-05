@@ -87,7 +87,12 @@ class HomeCtrl extends Base {
 		 * 
 		 * @return bool
 		 */
-		this._scope.inCities = () => {			
+		this._scope.inCities = () => {
+
+			if (search.cities.length === 0 ) {
+
+				this._scope.callCities();
+			}	
 
 			return search.cities.filter((e) => {
 		
@@ -96,20 +101,21 @@ class HomeCtrl extends Base {
 			}).length > 0;	
 		};
 
-
+		
 		this._scope.findCity = () => {
 
 			if ( this._scope.inCities() ) {
 
 				this._window.location.href = '/havadurumu/' + search.selected; 
-				
-				//this.sendErrorNotify('Url yönlendirme çalışmadı !');
+
 			 	return;
 			}
 
 			this.sendErrorNotify('Aradığınız konum bulunamadı ! Benzer isimlerde arama yapmayı deneyin..');
 		
 		};
+
+		this._scope.callCities();
 	}
 
 

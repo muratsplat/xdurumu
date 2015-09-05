@@ -11,7 +11,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
-                <li>
+                <li class="{{activeUrl(action('Weather\Home@index'))}}">
                   <a href="{{action('Weather\Home@index')}}" class="active left-space-30">
                     <i class="ion ion-ios-rainy iconic-font-big-navigate"></i> Hava</a>
                 </li>                

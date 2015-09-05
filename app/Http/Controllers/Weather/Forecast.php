@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Weather;
 
 use App\City;
 use Carbon\Carbon;
-use App\Http\Requests;
-use App\WeatherCurrent;
+//use App\Http\Requests;
+//use App\WeatherCurrent;
 use App\Weather\DailyStat;
 use App\WeatherHourlyStat;
 use Illuminate\Http\Request;
@@ -58,10 +58,7 @@ class Forecast extends Controller
             
             $this->current  = $current;
             
-            $this->list     = $list;   
-            
-            setlocale(LC_ALL, 'tr_TR.utf8');
-         
+            $this->list     = $list;          
         }
         
         /**
@@ -71,21 +68,57 @@ class Forecast extends Controller
          */
         public function index(Request $request)
         {
-            $name = $request->get('name', null);
+            $name = $request->get('name', null);        
             
             if (! is_null($name)) {
                 
-                $currents = $this->current->enableCache()->all()->filter(function($item) use ($name){
-                    
-                    return $item->city->name === $name;                   
-                });
+                $founds     = $this->findCityByNameOnQuery($name);
                 
+                $currents   = $this->getCitiesByIds($founds);                                
+               
                 return view('front.weather.forecast.index')->with(compact('currents'));                  
             }            
            
             $currents = $this->current->enableCache()->all();
             
             return view('front.weather.forecast.index')->with(compact('currents'));           
+        }
+        
+        
+        /**
+         * To find city by its name usin sql where LIKE query
+         * 
+         * @param string $name
+         * @return \Illuminate\Database\Eloquent\Collection includes only ids..
+         */
+        private function findCityByNameOnQuery($name)
+        {
+            return $this->city->onModel()
+                        
+                        ->enable()
+                        
+                        ->where('name', 'like', '%'.$name.'%')
+                        
+                        ->get()->map(function($item) {
+                            
+                            if ($this->cityIsReady($item)) {                                
+                                
+                                return $item->id;                               
+                            }                           
+                            
+                        });     
+        }
+        
+        
+        /**
+         * Determine if it has weather data is ready to publish
+         * 
+         * @param \App\City $city
+         * @return bool
+         */
+        private function cityIsReady(City $city) 
+        {            
+            return $city->weatherDataIsReady();
         }
 
         /**
@@ -202,6 +235,8 @@ class Forecast extends Controller
                              
                $carbon = Carbon::createFromTimestampUTC($item->dt);  
                
+               setlocale(LC_ALL, 'tr_TR.utf8');
+               
                $carbon->setLocale('tr');               
                
                $item->date =  $carbon->formatLocalized('%A %d %B');      
@@ -237,7 +272,23 @@ class Forecast extends Controller
                       
                 return $slug === $item->slug;                                
             });                    
-        }        
+        }      
+        
+        /**
+         * to get City models by given ids
+         * 
+         * @param \Illuminate\Database\Eloquent\Collection $ids
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        protected function getCitiesByIds(Collection $ids)
+        {
+            return $this->current->enableCache()->all()
+                    
+                    ->filter(function($item) use ($ids) {                
+                        
+                        return in_array($item->city->id, $ids->toArray());                                               
+            });                    
+        }  
         
         /**
          * To get All cities which have weather data

@@ -11,7 +11,7 @@ use Illuminate\Contracts\Config\Repository                  as Config;
 use App\Contracts\Repository\ICity                          as CityRepo;
 use App\Contracts\Weather\Repository\IList;
 use App\Contracts\Weather\Repository\IHourly;
-use App\Contracts\Weather\Repository\Condition;
+use App\Contracts\Weather\Repository\Condition              as ICondition;     
 
 /**
  * Weather Hourly Stats Repository Class
@@ -45,7 +45,7 @@ class HourlyStat extends Base implements IHourly
                 Cache           $cache, 
                 Config          $config,
                 CityRepo        $cityRepo, 
-                Condition       $condition, 
+                ICondition       $condition, 
                 Resource        $resource, 
                 Hourly          $hourly,
                 IList           $listRepo) {

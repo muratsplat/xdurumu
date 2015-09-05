@@ -99,6 +99,20 @@ class WeatherListTest extends TestCase
             $this->assertCount(0, App\WeatherSnow::all());
             $this->assertCount(0, App\WeatherWind::all());  
             $this->assertCount(0, \DB::table('weather_condition_ables')->get());
-        }               
+        }   
+        
+        
+        public function testMethodsAboutTimeAndDate()
+        {
+            $one = $this->createNewWeatherList();
+            
+            $one->dt = 1442569900; // 09:00 // "Cuma 18 Eylül"
+            $this->assertTrue($one->save());    
+            
+            $this->assertEquals('09:00', $one->hourMinute());
+            
+            $this->assertEquals('Cuma 18 Eylül', $one->carbonForDt()->formatLocalized('%A %d %B'));
+        }
+        
      
 }

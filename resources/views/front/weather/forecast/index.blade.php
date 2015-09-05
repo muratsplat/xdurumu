@@ -4,7 +4,7 @@
 {{-- @section('html_attribute', '') --}}
 
 {{-- Title --}}
-@section('title', 'Şehirler')
+@section('title', '1000 Aşkın Konumun Hava Durumu - Günlük, Saatlik, Anlık')
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
@@ -19,8 +19,6 @@
 
 {{-- Content --}}
 @section('content')
-
-
     @if( ! $currents->isEmpty() )
            <!-- COLOR PALETTE -->
         <div class="box box-info color-palette-box">
@@ -42,7 +40,7 @@
                         <dl>
                           <dt>Konum</dt>
                           <dd itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
-                                Enlem: {{$one->city->latitude}}, Boylam: {{$one->city->longitude}}
+                                Enlem: {{(float)$one->city->latitude}}, Boylam: {{(float)$one->city->longitude}}
                                 <meta itemprop="latitude" content="{{$one->city->latitude}}" />
                                 <meta itemprop="longitude" content="{{$one->city->longitude}}" />
                           </dd>

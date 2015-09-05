@@ -32,9 +32,8 @@
                       <br>
                       <p>Bulunduğunuz konumu, il ve içle bazında arayabilirsiniz.</p>
                     </p>         
-
-                    <div id="autocomlate-list-location" class="input-group" >                     
-                      <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" ng-keypress="($event.which === 13)?findCity():0" >
+                    <div id="autocomlate-list-location" class="input-group" >
+                    <input type="text" name="message" placeholder="Şehir, konum, yer.." class="form-control" ng-model="search.selected" typeahead="city.name for city in search.cities | filter:$viewValue | limitTo:8" ng-change="callCities()" ng-keypress="($event.which === 13) ? findCity() : 0" >
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-primary btn-flat" ng-click="findCity()">Ara</button>
                       </span>                     

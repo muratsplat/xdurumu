@@ -124,4 +124,11 @@ interface ICity extends ICacheAble
          * @return \Illuminate\Database\Eloquent\Collection
          */
         public function getAllOnlyOnesHasWeatherData();
+        
+        /**
+         * To get all cities has weather data by filtering elements
+         * 
+         * @return array
+         */
+        public function getCitiesHasWeatherDataByFiteringInArray(array $elements);  
 }

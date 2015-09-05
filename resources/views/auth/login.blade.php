@@ -99,6 +99,6 @@
         });
       });
     </script>
-    @include('_ga')
+    @include('_ga', ['gaID' => env('GA', null)])
   </body>
 </html>

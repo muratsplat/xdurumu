@@ -47,7 +47,7 @@ class HttpControllerApiCityTest extends TestCase
         
         $cities = $this->getCities();
         
-        $cityRepo->shouldReceive('getAllOnlyOnesHasWeatherData')->andReturn($cities);       
+        $cityRepo->shouldReceive('getCitiesHasWeatherDataByFiteringInArray')->andReturn($cities->toArray());       
         
         $cities = $this->getCities();
     

@@ -234,10 +234,10 @@ class CityRepositoryWithDatabaseTest extends \TestCase
             
             $this->assertCount(50, $stat->weatherLists);            
            
-            $repo = $this->getCityRepository();        
+            $repo = $this->getCityRepository();            
             
-            $deletes = $repo->deleteOldDailyLists($city);
-            
+            $deletes = $repo->deleteOldDailyLists($city);            
+         
             $this->assertEquals($deletes, $some->count() - 16);
             
             $this->assertEquals($allWeatherlist->count() - $deletes, \App\WeatherList::all()->count());            

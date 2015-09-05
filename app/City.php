@@ -238,5 +238,4 @@ class City extends  CacheAbleEloquent implements SluggableInterface
 
            return $engine;
         }
-
 }

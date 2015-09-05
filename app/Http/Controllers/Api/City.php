@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Contracts\Repository\ICity;
 use App\Http\Controllers\Controller;
@@ -35,23 +36,28 @@ class City extends Controller
          * @return Response
          */
         public function index(Request $request)
-        {            
-            $collection =  $this->city->getAllOnlyOnesHasWeatherData();
+        {                       
+            $attributes     = $request->get('only', 'id,name,slug');
             
-            $array =  $this->convertToArrayList($collection);
+            $elements       = explode(',', $attributes);
             
-            $deletesStringKeys = array_values($array);
+            $cities         = $this->city->getCitiesHasWeatherDataByFiteringInArray($elements);             
             
-            return response()->json($deletesStringKeys);
-        }      
+            $removeStringKeys = array_values($cities);
+            
+            $date           = Carbon::now()->addHours(2);
+            
+            return response()->json($removeStringKeys)->setExpires($date);
+        }       
         
+
         /**
          * 
          * @param \Illuminate\Database\Eloquent\Collection $collection
          * @return array
          */
         protected function convertToArrayList(Collection $collection)
-        {
+        {           
             return $collection->toArray();
         }
        

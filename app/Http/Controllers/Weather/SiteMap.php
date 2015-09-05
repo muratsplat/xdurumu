@@ -51,6 +51,8 @@ class SiteMap extends Controller
             
             $this->addAllCitiesShowingPage();
             
+            $this->addCityIndexPage();
+            
             return $this->sitemap->render('xml');
         }
         
@@ -82,6 +84,27 @@ class SiteMap extends Controller
                 
         }
         
+        /**
+         * To add City Forecast Intex Url
+         * 
+         * @return void
+         */
+        protected function addCityIndexPage()
+        {          
+            $name   = '1000 Aşkın Konumun Hava Durumu - Günlük, Saatlik, Anlık';
+            
+            $url    = action('Weather\Forecast@index');
+          
+            $cities = $this->getAllOnlyCitiesHasWeatherData();
+            
+            if ( $cities->count() === 0 ) { return; }
+            
+            $random = $cities->random();
+            
+            $time = $random->weatherCurrent->updated_at->toIso8601String();            
+                
+            $this->sitemap->add($url, $time, 1.0, 'hourly', [], $name . 'hava durumu');                            
+        }        
         
         /**
          * To create url to access city forecast page

@@ -1,5 +1,4 @@
-             @if( ! $data['hourlyList']->isEmpty() )
-              <div class="box box-info">
+     <div class="box box-info">
                 <div class="box-header">
                 <h3 class="box-title"><span class="glyphicon glyphicon-time"></span> {{ $city->name }} Saatlik Hava Durumu</h3>
                 </div><!-- /.box-header -->
@@ -32,16 +31,18 @@
                       @foreach($hourlyDay as $hList)
                       <tr>
                         <td>
-                          {{ Carbon\Carbon::createFromTimestampUTC($hList->dt)->toTimeString() }}
+                          {{ $hList->hourMinute() }}
                         </td>
                         <td>
                           <img src="http://openweathermap.org/img/w/{{$hList->conditions[0]->icon}}d.png" alt="{{ $hList->conditions[0]->description }}">                        
                         </td>
                         <td>
                           <div class="description-block border-right">
-                            <span class="badge bg-red"> {{ $hList->main->temp_max}} °C</span>
-                            <span class="badge bg-default"> {{  $hList->main->temp }} °C</span>
-                            <span class="badge bg-blue">{{ $hList->main->temp_min}} °C</span>
+                            <ul class="list-group group-termal">
+                              <li class="list-group-item list-group-termal bg-red">{{ $hList->main->temp_max}} °C</li>
+                              <li class="list-group-item list-group-termal bg-gray">{{  $hList->main->temp }} °C</li>
+                              <li class="list-group-item list-group-termal bg-aqua-active">{{ $hList->main->temp_min}} °C</li>
+                            </ul>
                           </div>
                         </td>
                       <td>                                               
@@ -71,8 +72,7 @@
                       </tr>
                       @endforeach              
                     @endforeach
-                    {{-- ./Weather Hourly Stat List --}}                
-                      
+                    {{-- ./Weather Hourly Stat List --}}                      
                     </tbody>
                     <tfoot>
                       <tr>
@@ -88,4 +88,3 @@
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
-              @endif

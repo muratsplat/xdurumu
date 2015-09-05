@@ -2,7 +2,7 @@
 
 namespace App;
 
-
+use Carbon\Carbon;
 use App\CacheAbleEloquent as CacheAble;
 
 /**
@@ -231,6 +231,39 @@ class WeatherList extends CacheAble
                 'wind',
                 'conditions',
             ];
+        }
+        
+        /**
+         * To get hour:minute of time
+         * 
+         * @return string
+         */
+        public function hourMinute()
+        {
+            $time = Carbon::createFromTimestampUTC($this->dt);
+            
+            if ( $time->minute !== 0) {                
+            
+                $time->minute = 0;              
+            }
+            
+            return $time->format('h:i');            
+        }
+        
+        /**
+         * To get hour:minute of time
+         * 
+         * @return \Carbon\Carbon
+         */
+        public function carbonForDt()
+        {
+            $time = Carbon::createFromTimestampUTC($this->dt);
+            
+            setlocale(LC_ALL, 'tr_TR.utf8');  
+            
+            $time->setLocale('tr');                        
+           
+            return $time;            
         }
 }
 

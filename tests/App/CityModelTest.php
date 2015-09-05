@@ -98,7 +98,7 @@ class CityModelTest extends TestCase
         {
             $one = $this->createNewCity();
             
-            $this->assertTrue($one->save());
+            $this->assertTrue($one->save());     
         }
         
         
@@ -131,6 +131,26 @@ class CityModelTest extends TestCase
             $this->assertNotNull($daily);
             
             $this->assertTrue($one->hasWeatherHourlyStat());
+        }
+        
+        public function atestAccessorLatitudeLongitude()
+        {
+            $one =  new App\City();
+            
+            $one->name = 'Bla';
+            
+            $one->open_weather_map_id = 1;
+            
+            $one->country = 'TR';            
+            
+            $one->latitude = 39.91986800;
+            
+            $one->longitude = 32.85427100;
+            
+            $this->assertTrue($one->save()); 
+            
+            //var_dump((float) 39.91986800 );
+            $this->assertEquals('39.919868', (string) $one->latitude);                          
         }
 
         
