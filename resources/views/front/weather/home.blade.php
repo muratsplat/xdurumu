@@ -5,9 +5,7 @@
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
-
   @include('front.weather._home_breadcrumb')
-
 @endsection
 
 {{-- Meta --}}
@@ -37,14 +35,11 @@
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-primary btn-flat" ng-click="findCity()">Ara</button>
                       </span>                     
-                    </div>  
-
-                                  
+                    </div>                                 
                   </div>
                  </div><!-- /.col -->             
                </div><!-- /.row -->
                 <!-- ./Search Field -->
-
                 <!-- ./Search Field -->
               <div class="row">
                 <div class="col-md-12">                   

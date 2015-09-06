@@ -13,8 +13,8 @@
 
 {{-- Meta --}}
 @section('meta')
-  <meta content="{{$city->name}} konumunun hava durumu bilgilerini sunuyoruz. Hava Durumu, anlık, saatlik ve günlük olarak yayınlanır." name="description">
-  <meta content="{{$city->name}} hava durumu, meteoroloji, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
+  <meta content="{{$city->name}} konumunun hava durumu bilgilerini sunuyoruz. Hava Durumu; anlık, günlük olarak yayınlanır." name="description">
+  <meta content="{{$city->name}} hava durumu, meteoroloji, anlık, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
 @endsection
 
 {{-- Content --}}
@@ -67,11 +67,11 @@
             </div><!-- /.col -->
           </div><!-- /.row -->
 
-<div itemscope itemtype="http://schema.org/Place">  
-  <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">  
-    <meta itemprop="latitude" content="{{$city->latitude}}" />
-    <meta itemprop="longitude" content="{{$city->longitude}}" />
-  </div>
+    <div itemscope itemtype="http://schema.org/Place">  
+      <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">  
+        <meta itemprop="latitude" content="{{$city->latitude}}" />
+        <meta itemprop="longitude" content="{{$city->longitude}}" />
+      </div>
              <!-- COLOR PALETTE -->
           <div class="box box-info color-palette-box">
             <div class="box-header with-border">
@@ -83,28 +83,23 @@
               <div class="row">
                 <div class="col-md-12">                   
                   <!--  Google Map-->
-                  <div  id="map_canvas" ></div>        
-
+                  <div  id="map_canvas" ></div> 
                    <!--  ./ Google Map-->
                 </div><!-- /.col -->             
               </div><!-- /.row -->
             </div><!-- /.box-body -->
           </div><!-- /.box -->
-
           <div class="row">
             <div class="col-xs-12">
              {{-- Hourly --}}
-             @if( ! $data['hourlyList']->isEmpty() )
-
+             {{--@if( ! $data['hourlyList']->isEmpty() )
                @include('front.weather.forecast._hourlyList')
-
-             @endif
-
+             @endif --}}
               {{-- Daily --}}
               @if( ! $data['dailyList']->isEmpty())
 
-                @include('front.weather.forecast._dailyList')
- 
+                @include('front.weather.forecast._dailyList') 
+                
               @endif
             </div><!-- /.col -->
           </div><!-- /.row -->          

@@ -11,7 +11,8 @@
     <meta name="copyright" content="Copyright © 2015 durumum.NET. Tum Hakları Saklıdır."/>
     <meta content="Hayatı kolaylaştıran ve renklendiren servisler sunar" name="description">
     <meta content="hava durumu" name="keywords">
-
+    <meta name='yandex-verification' content='6eb5d2794af2b907' />
+    <meta name="msvalidate.01" content="4E90A269E38782F5A04AFBADABD8C2FB" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

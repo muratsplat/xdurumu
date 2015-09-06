@@ -54,6 +54,6 @@ class Kernel extends ConsoleKernel
         /**
          * Update weather current data at every two hours  
          */
-        $schedule->command('weather:hourly')->cron('0 */2 * * *');       
+       // $schedule->command('weather:hourly')->cron('0 */2 * * *');       
     }
 }

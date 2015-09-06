@@ -247,7 +247,9 @@ class WeatherList extends CacheAble
                 $time->minute = 0;              
             }
             
-            return $time->format('h:i');            
+            $timeStr = $time->toTimeString();  
+
+            return str_limit($timeStr, 5, '');
         }
         
         /**

@@ -174,7 +174,7 @@ class Forecast extends Controller
         {               
             return [                
                 $city->weatherCurrent,
-                $city->weatherHourlyStat,                
+                //$city->weatherHourlyStat,                
                 $city->weatherDailyStat,
            ];              
         }  
@@ -187,19 +187,19 @@ class Forecast extends Controller
          */
         private function getAllweatherDataForShow(City $city)
         {
-            list($current, $hourly, $daily) = $this->getWeatherData($city);
+            list($current,/* $hourly,*/ $daily) = $this->getWeatherData($city);
             
             return [
                 
                 'currentStat'   => $current,
                 
-                'hourlyStat'    => $hourly,
+               // 'hourlyStat'    => $hourly,
                 
                 'dailyStat'     => $daily,
                 
                 'dailyList'     => ! is_null($daily) ? $this->getDailyLists($daily) : new Collection(),
                 
-                'hourlyList'    => ! is_null($hourly) ? $this->getHourlyLists($hourly) : new Collection(),           
+                /*'hourlyList'    => ! is_null($hourly) ? $this->getHourlyLists($hourly) : new Collection(),           */
             ];           
         }
         

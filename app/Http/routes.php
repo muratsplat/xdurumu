@@ -21,17 +21,22 @@ $domain = config('app.domain');
 /**
  * api.durumum.net   
  */
-Route::group(['domain' => "api.$domain", 'namespace' => 'Api' ,'middleware' => 'aca:hava'], function() use($domain) { 
+Route::group(['domain' => "api.$domain", 'namespace' => 'Api'], function() use($domain) { 
     
-    Route::get('/', function() use ($domain) {
-        
-        return redirect('http://'  . $domain);                
-    });    
+    Route::get('/', 'Home@index');    
     
-     /**
-     *  Restful Paths of City Resource
+    
+    /**
+     * Restfull Services
      */
-    Route::resource('city', 'City', ['only' => ['index']]);       
+    Route::group(['middleware' => 'aca:hava'], function() {    
+        /**
+         *  Restful Paths of City Resource
+         */
+        Route::resource('city', 'City', ['only' => ['index']]);           
+        
+    });
+   
 });
 
 /**
@@ -87,25 +92,18 @@ Route::group(['prefix' => 'auth'], function(){
 /**
  * Admin Panel
  */
-Route::group(['prefix' => 'back', 'middleware' => 'auth'], function() {       
+Route::group(['prefix' => 'back', 'namespace' => 'Admin','middleware' => 'auth'], function() {       
 
     /**
      * Static index page for AngularJS
      */
-    Route::get('index', function(){
-        
-        return view('back.indexAngular', array());
-    });   
+    Route::get('index', 'Home@index');
     
+  
     /**
-     * Resfull Routes For AngularJS
+     * City Resource
      */
-    Route::group(['namespace' => 'Admin'], function() {
+    Route::resource('city', 'CityCtrl', ['only' => ['index', 'update', 'show']]);          
 
-        /**
-         * City Resource
-         */
-        Route::resource('city', 'CityCtrl', ['only' => ['index', 'update', 'show']]);          
-    });   
     
 });
