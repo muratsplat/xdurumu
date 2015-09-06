@@ -27,9 +27,12 @@ let  myApp = angular.module('weatherHome',['ngResource','ngRoute', 'ngNotify', '
 myApp
 	.factory('City', 
 			['$resource', '$location', 
-			($resource, $location) => 
-			new City($resource, $location)])
-	.factory('Current', ['$resource', ($resource) => new Current($resource)])
+			($resource, $location) => new City($resource, $location)])
+
+	.factory('Current', 
+			['$resource', '$location', ($resource, $location) =>
+		   	new Current($resource, $location)])
+
 	.factory('goMapSrv', ['$window', '$q', ($window, $q) => new GoMapSrv($window, $q)]);
 
 

@@ -22,6 +22,6 @@ class Home extends Controller
          */
         $domain = config('app.domain');
         
-        return redirect('http://'  . $domain);     
+        return redirect('http://' . $domain);     
     }
 }

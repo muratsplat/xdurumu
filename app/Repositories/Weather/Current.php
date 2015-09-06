@@ -406,7 +406,7 @@ class Current extends Base implements ICurrent, Importable
         {
             $random = $this->allWithAllRelations()->random($amount);
             
-            return array_values($random->toArray());
+            return count($random) > 1 ? array_values($random->toArray()) : [$random->toArray()];
         }       
 
 }

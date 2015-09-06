@@ -45,7 +45,7 @@ class Forecast extends Controller
      * @var \App\Contracts\Weather\Repository\IList 
      */
     private $list;
-    
+           
     
         
         public function __construct(ICity $city, IHourly $hourly, IDaily $daily,ICurrent $current,IList $list )
@@ -68,20 +68,40 @@ class Forecast extends Controller
          */
         public function index(Request $request)
         {
-            $name = $request->get('name', null);        
+            $name = $request->get('name', null);                          
             
             if (! is_null($name)) {
                 
-                $founds     = $this->findCityByNameOnQuery($name);
+                $founds     = $this->findCurrentsIdsByCityNameOnQuery($name);
                 
-                $currents   = $this->getCitiesByIds($founds);                                
+                $currents   = $this->getCurrents($founds);             
                
                 return view('front.weather.forecast.index')->with(compact('currents'));                  
-            }            
-           
-            $currents = $this->current->enableCache()->all();
+            }                       
+          
+            $currents = $this->current->onModel()->with(['main', 'conditions', 'city'])->paginate(6, ['*'], 'sayfa');     
             
             return view('front.weather.forecast.index')->with(compact('currents'));           
+        }
+        
+        
+        /**
+         * To get currents modem with relartions by given ids in array
+         * 
+         * @param Collection $ids
+         * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+         */
+        private function getCurrents(Collection $ids)
+        {
+            $toArray = $ids->toArray();
+            
+            return $this->current->onModel()
+                    
+                    ->with(['main', 'conditions', 'city'])
+                    
+                    ->whereIn('id',$toArray )
+                    
+                    ->paginate(6, ['*'], 'sayfa');  
         }
         
         
@@ -89,9 +109,9 @@ class Forecast extends Controller
          * To find city by its name usin sql where LIKE query
          * 
          * @param string $name
-         * @return \Illuminate\Database\Eloquent\Collection includes only ids..
+         * @return \Illuminate\Database\Eloquent\Collection includes only current ids..
          */
-        private function findCityByNameOnQuery($name)
+        private function findCurrentsIdsByCityNameOnQuery($name)
         {
             return $this->city->onModel()
                         
@@ -101,9 +121,9 @@ class Forecast extends Controller
                         
                         ->get()->map(function($item) {
                             
-                            if ($this->cityIsReady($item)) {                                
+                            if ($this->cityIsReady($item) ) {                                
                                 
-                                return $item->id;                               
+                                return $item->weatherCurrent->id;                                                        
                             }                           
                             
                         });     
@@ -333,4 +353,6 @@ class Forecast extends Controller
         {
             //
         }
+        
+        
 }

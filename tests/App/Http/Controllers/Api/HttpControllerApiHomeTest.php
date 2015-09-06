@@ -4,35 +4,17 @@
 //use Illuminate\Foundation\Testing\DatabaseMigrations;
 //use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Mockery as m;
+//use Mockery as m;
 
 
 /**
  * This test file is written for 'App\Http\Controllers\Api\City' Controller
  * 
  */
-class HttpControllerApiCityTest extends TestCase
+class HttpControllerApiHomeTest extends TestCase
 {
     
    // use WithoutMiddleware;
-    
-    /**
-     * 
-     * @return \Mockery\MockInterface
-     */
-    private function getCityRep()
-    {
-        return m::mock('App\Contracts\Repository\ICity');        
-    }
-    
-    /**
-     * 
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    private function getCities()
-    {
-        return factory(App\City::class, 10)->make();
-    }
     
     /**
      * A basic functional test example.
@@ -40,24 +22,12 @@ class HttpControllerApiCityTest extends TestCase
      * @return void
      */
     public function testBasicExample()
-    {
-        $app = app();
+    {                       
+        $res = $this->action('GET', 'Api\Home@index');
         
-        $cityRepo = $this->getCityRep();    
+        $this->assertResponseStatus(302);
         
-        $cities = $this->getCities();
-        
-        $cityRepo->shouldReceive('getCitiesHasWeatherDataByFiteringInArray')->andReturn($cities->toArray());       
-        
-        $cities = $this->getCities();
-    
-        $cityRepo->shouldReceive('all')->andReturn($cities);
-        
-        $app['App\Contracts\Repository\ICity'] = $cityRepo;        
-                
-        $res = $this->action('GET', 'Api\City@index');
-        
-        $this->assertResponseOk();
+        $this->assertRedirectedTo('http://durumum.dev');        
     }
     
     

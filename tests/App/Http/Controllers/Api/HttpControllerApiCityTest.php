@@ -47,15 +47,21 @@ class HttpControllerApiCityTest extends TestCase
         
         $cities = $this->getCities();
         
-        $cityRepo->shouldReceive('getCitiesHasWeatherDataByFiteringInArray')->andReturn($cities->toArray());       
-        
-        $cities = $this->getCities();
+        $cityRepo->shouldReceive('getCitiesHasWeatherDataByFiteringInArray')->andReturn($cities->toArray());              
     
         $cityRepo->shouldReceive('all')->andReturn($cities);
         
         $app['App\Contracts\Repository\ICity'] = $cityRepo;        
                 
         $res = $this->action('GET', 'Api\City@index');
+        
+        $this->assertTrue($res->isFresh());
+        
+        $content = $res->getContent();   
+        
+        $toArray = json_decode($content, true);
+        
+        $this->assertCount($cities->count(), $toArray);
         
         $this->assertResponseOk();
     }

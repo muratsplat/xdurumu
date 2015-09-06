@@ -23,17 +23,30 @@ $domain = config('app.domain');
  */
 Route::group(['domain' => "api.$domain", 'namespace' => 'Api'], function() use($domain) { 
     
-    Route::get('/', 'Home@index');    
-    
+    Route::get('/', 'Home@index');        
     
     /**
      * Restfull Services
      */
-    Route::group(['middleware' => 'aca:hava'], function() {    
+    Route::group(['middleware' => 'aca:hava'], function() {   
+        
         /**
          *  Restful Paths of City Resource
          */
         Route::resource('city', 'City', ['only' => ['index']]);           
+        
+        /**
+         * Weather Forecast
+         */
+        Route::group(['prefix' => 'weather'], function(){
+            
+            /**
+            * Weather Current Restful Paths         
+            */
+           Route::resource('current', 'Weather\Current', ['only' => ['index']]);            
+            
+        });      
+        
         
     });
    
@@ -97,8 +110,7 @@ Route::group(['prefix' => 'back', 'namespace' => 'Admin','middleware' => 'auth']
     /**
      * Static index page for AngularJS
      */
-    Route::get('index', 'Home@index');
-    
+    Route::get('index', 'Home@index');    
   
     /**
      * City Resource

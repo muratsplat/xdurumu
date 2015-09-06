@@ -7,7 +7,7 @@ use App\Contracts\Repository\ICacheAble;
 /**
  * Base Repository Interface
  * 
- * @package WeatherForcast
+ * 
  */
 interface IBase  extends ICacheAble {        
     

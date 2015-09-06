@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Weather;
+namespace App\Http\Controllers\Api\Weather;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Contracts\Weather\Repository\ICurrent;
 //use App\Http\Requests\Front\Weather\CurrentIndexRequest;
@@ -33,14 +34,18 @@ class Current extends Controller
         public function index(Request $request)
         {   
             $mode   = $request->get('mode', null);
-            $cnt    = $request->get('cnt', null);           
-            
+            $cnt    = $request->get('cnt', null);                              
+       
             if ( ! is_null($mode) && $mode === 'rand' ) {
                 
-                return $this->random($cnt);
+                $randoms =  $this->random($cnt);
+                
+                return $this->jsonResponse($randoms);
             }
             
-            return $this->current->enableCache()->all();
+            $collections =  $this->current->enableCache()->all();
+            
+            return $this->jsonResponse($collections->toArray());
         }        
         
         /**
@@ -52,74 +57,37 @@ class Current extends Controller
          */
         protected function random($amount=10) 
         {            
-            $number = is_numeric($amount) && $amount > 0 ? $amount : 1;
+            $number = is_numeric($amount) && $amount > 0 ? $amount : 1;         
             
-            return $this->current->takeRandomOnAll($number);        
-        }      
-
+            if ( $number < $this->currentsCount() ) {
+                
+                return $this->current->takeRandomOnAll($number);                   
+            }
+            
+            return  $this->current->enableCache()->all()->toArray();       
+        }   
+        
         /**
-         * Show the form for creating a new resource.
-         *
-         * @return Response
+         * To create JSON Response
+         * 
+         * @param \ArrayAccess $value
+         * @return Json Response
          */
-        public function create()
+        private function jsonResponse(array $value)
         {
-            //
+            $date           = Carbon::now()->addHour();
+            
+            return response()->json($value)->setExpires($date);
         }
-
+        
         /**
-         * Store a newly created resource in storage.
-         *
-         * @param  Request  $request
-         * @return Response
+         * To get number of weather currents models
+         * 
+         * @param int
          */
-        public function store(Request $request)
-        {
-            //
-        }
+        protected function currentsCount()
+        {            
+            return $this->current->enableCache()->all()->count();
+        }       
 
-        /**
-         * Display the specified resource.
-         *
-         * @param  int  $id
-         * @return Response
-         */
-        public function show($id)
-        {
-            //
-        }
-
-        /**
-         * Show the form for editing the specified resource.
-         *
-         * @param  int  $id
-         * @return Response
-         */
-        public function edit($id)
-        {
-            //
-        }
-
-        /**
-         * Update the specified resource in storage.
-         *
-         * @param  Request  $request
-         * @param  int  $id
-         * @return Response
-         */
-        public function update(Request $request, $id)
-        {
-            //
-        }
-
-        /**
-         * Remove the specified resource from storage.
-         *
-         * @param  int  $id
-         * @return Response
-         */
-        public function destroy($id)
-        {
-            //
-        }
 }

@@ -57,6 +57,19 @@
                   @endforeach
                 </ul>
           </div><!-- /.box-body -->
+          @if(! $currents->isEmpty() ) 
+            <div class="box-footer">
+                <div class="col-sm-5">                
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"> Toplam Kayıt: <b>{{$currents->total()}}</b> , Gösterilen:  <b>{{$currents->perPage() }} </b>
+                    </div>                  
+                </div>
+                <div class="col-sm-7">
+                    <div class="dataTables_paginate paging_simple_numbers pull-right" id="example1_paginate">
+                       {!! $currents->render() !!}                    
+                    </div>
+                </div>
+            </div>
+          @endif
         </div><!-- /.box --> 
     @else
       <div class="error-page">
@@ -71,7 +84,7 @@
                 <div class="input-group">
                   <input type="text" name="name" class="form-control" placeholder="Şehir, il, içe, bölge..">
                   <div class="input-group-btn">
-                    <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
+                    <button type="submit" name="" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
                   </div>
                 </div><!-- /.input-group -->
               </form>

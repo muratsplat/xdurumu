@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Weather;
 
 use App\City;
-use App\Http\Requests;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Contracts\Repository\ICity;
 //use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class SiteMap extends Controller
         {
             $this->sitemap = \App::make('sitemap');
             
-            $this->sitemap->setCache('hava.sitemap',1/*3600*2*/); // two day
+            $this->sitemap->setCache('hava.sitemap',3600*1); // one day
             
             $this->city = $city;
         }

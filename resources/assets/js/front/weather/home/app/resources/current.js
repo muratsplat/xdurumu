@@ -6,12 +6,13 @@
  */
 class Current {
 
-	constructor($resource) {
+	constructor($resource, $location) {
 
 		this._$resource = $resource;
 
 		this._url = '/anlik/:id';
-		
+
+		this._$location = $location;		
 	}
 	
 	/**
@@ -19,7 +20,7 @@ class Current {
 	 */
 	resource() {
 
-		let url = this._url;
+		let url = this.getUrl();
 
 		return this._$resource(url, {}, {
 		
@@ -29,6 +30,58 @@ class Current {
 		});
 
 	}
+
+	/**
+	 * To get url for $resource object
+	 *
+	 * return {string} 'http://api.foo.com/bar/:id'
+	 */
+	getUrl() {
+
+		/**
+		 * $location
+		 * 	https://docs.angularjs.org/api/ng/service/$location
+		 */
+		let host 		= this.getHost();
+		
+		let port 		= this._$location.port();
+
+		port  = port === 80 ? '' : ':' + port;
+
+		let subdomain 	= 'api';
+
+		let path 		= 'weather/current/:id';
+
+		let url			= 'http://' + subdomain + '.' +  host + port + '/' + path;
+
+		return url;
+	}
+
+	/**
+	 * To get only main host name
+	 *
+	 * @return {string} 'foo.com'
+	 */
+	getHost() {
+
+		let mixedHost = this._$location.host();
+
+		var segments = mixedHost.split('.'); 
+		var tmp = [];
+		
+		angular.forEach(segments, function(value, key) {
+			
+			if ( key >  0 ) {
+
+				this.push(value);
+			}
+
+		}, tmp);
+		
+		return tmp.join('.');
+	}
+
+
 }
 
 module.exports = Current; 

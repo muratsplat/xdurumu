@@ -1,7 +1,6 @@
  	  <meta content="follow,index" name="robots">
  	  <meta http-equiv="content-language" content="tr">
  	  <meta name="copyright" content="Copyright © 2015 durumum.NET. Tum Hakları Saklıdır."/>
- 	  <meta name='yandex-verification' content='596ff3f8165705ec' />
  	  <!-- Tell the browser to be responsive to screen width -->
       <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">   
       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
