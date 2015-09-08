@@ -53,6 +53,8 @@ class SiteMap extends Controller
             
             $this->addCityIndexPage();
             
+            $this->addAllCitiesShowingWeekendPage();
+            
             return $this->sitemap->render('xml');
         }
         
@@ -80,6 +82,24 @@ class SiteMap extends Controller
                 $priority = $this->createPriority($city);
                 
                 $this->sitemap->add($url, $city->weatherCurrent->updated_at->toIso8601String(), $priority, 'hourly', [], $city->name . 'hava durumu');           
+            }
+                
+        }
+        
+        /**
+         * To add City Forecast Urls For Weekend
+         * 
+         * @return void
+         */
+        protected function addAllCitiesShowingWeekendPage()
+        {           
+            foreach ($this->getAllOnlyCitiesHasWeatherData() as $city) {
+                
+                $url = $this->createShowWeekendCityUrl($city);
+                
+                $priority = $this->createPriority($city);
+                
+                $this->sitemap->add($url, $city->weatherCurrent->updated_at->toIso8601String(), $priority, 'hourly', [], $city->name . 'hafta sonu');           
             }
                 
         }
@@ -115,6 +135,17 @@ class SiteMap extends Controller
         private function createShowCityUrl(City $city) 
         {
             return action('Weather\Forecast@show', $city->slug);
+        }
+        
+        /**
+         * To create url to access city forecast page
+         * 
+         * @param \App\City $city
+         * @return string   url
+         */
+        private function createShowWeekendCityUrl(City $city) 
+        {
+            return action('Weather\Weekend@show', $city->slug);
         }
         
         /**

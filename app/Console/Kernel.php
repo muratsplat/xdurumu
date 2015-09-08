@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         /**
          * Delete old records at every midnight
          */
-        $schedule->command('weather:clean')->dailyAt('02:00');     
+        $schedule->command('weather:clean')->dailyAt('23:00');     
         
         /**
          * Update weather current data at every two hours  
@@ -49,7 +49,7 @@ class Kernel extends ConsoleKernel
         /**
          * Update weather current data at every two hours  
          */
-        $schedule->command('weather:daily')->cron('0 */2 * * *');
+        $schedule->command('weather:daily')->cron('0 */4 * * *');
        
         /**
          * Update weather current data at every two hours  

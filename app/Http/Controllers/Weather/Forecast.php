@@ -231,11 +231,6 @@ class Forecast extends Controller
          */
         private function getDailyLists(DailyStat $daily)
         {
-            /**
-             * Todo: Daily lists includes repeated lists.
-             * It houlf be care later
-             * 
-             */
            return $this->list->getLastListByDailyStat($daily)->sortBy('dt');
         }  
         
@@ -320,39 +315,7 @@ class Forecast extends Controller
             return $this->city->getAllOnlyOnesHasWeatherData();              
         }
 
-        /**
-         * Show the form for editing the specified resource.
-         *
-         * @param  int  $id
-         * @return Response
-         */
-        public function edit($id)
-        {
-            //
-        }
 
-        /**
-         * Update the specified resource in storage.
-         *
-         * @param  Request  $request
-         * @param  int  $id
-         * @return Response
-         */
-        public function update(Request $request, $id)
-        {
-            //
-        }
-
-        /**
-         * Remove the specified resource from storage.
-         *
-         * @param  int  $id
-         * @return Response
-         */
-        public function destroy($id)
-        {
-            //
-        }
         
         
 }

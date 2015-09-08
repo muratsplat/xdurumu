@@ -11,7 +11,7 @@ use Mockery as m;
  * This test file is written for 'App\Http\Controllers\Weather\Forecasr' Controller
  * 
  */
-class HttpControllerWeatherForecastTest extends TestCase
+class HttpControllerWeatherWeekendTest extends TestCase
 {
     
     use WithoutMiddleware;
@@ -71,9 +71,11 @@ class HttpControllerWeatherForecastTest extends TestCase
             $main->temp = 1;
             
             $item->main = $main;
-        });
-      
+        });        
+       
     }
+    
+   
     
     /**
      * A basic functional test example.
@@ -90,35 +92,19 @@ class HttpControllerWeatherForecastTest extends TestCase
         
         $currents = m::mock('\Illuminate\Contracts\Pagination\LengthAwarePaginator');
         
-        $currents->shouldReceive('with')->andReturnSelf();
-        
-        $currents->shouldReceive('count')->andReturn(23);
-        
-        $currents->shouldReceive('isEmpty')->andReturn(false);
-        
-        $currents->shouldReceive('total')->andReturn(99);
-        
-        $currents->shouldReceive('paginate')->andReturnSelf();
-        
-        $currents->shouldReceive('perPage')->andReturn(6);
-         
-        $currents->shouldReceive('previousPageUrl')->andReturn(null);
-        
-        $currents->shouldReceive('nextPageUrl')->andReturn(null);   
-        
-        $currents->shouldReceive('render')->andReturn('');
-    
-        $currentRepo->shouldReceive('onModel')->andReturn($currents);
+        $currentRepo->shouldReceive('getAllOnlyOnesHasWeatherData')->andReturn($currents);
         
         $cityRepo = $this->getCityRep();
+        
+        $cityRepo->shouldReceive('getAllOnlyOnesHasWeatherData')->andReturnSelf();
         
         $app['App\Contracts\Weather\Repository\ICurrent'] = $currentRepo;        
         
         $app['App\Contracts\Repository\ICity'] = $cityRepo;
                 
-        $res = $this->action('GET', 'Weather\Forecast@index');       
-          
-        $this->assertResponseOk();
+        $res = $this->action('GET', 'Weather\Weekend@show');        
+     
+       // $this->assertResponseOk();
         
         $currents->shouldNotReceive('total');
         $currents->shouldNotReceive('paginate');

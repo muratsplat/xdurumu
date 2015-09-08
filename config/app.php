@@ -206,5 +206,24 @@ return [
      * The application's domain
      */    
     'domain' => env('APP_DOMAIN', 'durumum.dev'),
-
+    
+    /**
+     * Delay duration for App\Jobs\Weather\DeleteOldData job
+     * 
+     * Value is second
+     */
+    'delete_worker_delay' => env('APP_DELETE_WORKER_DELAY', 20),    
+    
+     /**
+     * Job Delay in general use
+     * 
+     * Value is second
+     */
+    'job_delay' => env('APP_JOB_DELAY', 5),  
+    
+    /**
+     * App Version
+     * 
+     */
+    'version'   => '0.0.2a',
 ];

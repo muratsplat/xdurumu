@@ -59,13 +59,15 @@ class UpdateDaily extends TestAbleCommand
          */
         public function handle()
         {           
-            $no   = 0;
+            $no     = 0;
+            
+            $delay  = \Config::get('app.job_delay');
             
             foreach ($this->getAllCities() as $city) {              
                 
                 $no++;
                 
-                $job    = new Job($city);
+                $job    = (new Job($city))->delay($delay);
                 
                 $queue  = $this->createQueueName($city->priority); 
                                 

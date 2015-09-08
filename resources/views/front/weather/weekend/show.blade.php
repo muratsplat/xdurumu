@@ -8,24 +8,24 @@
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
-  @include('front.weather.forecast._show_breadcrumb')
+  @include('front.weather.weekend._show_breadcrumb')
 @endsection
 
 {{-- Meta --}}
 @section('meta')
     <meta name='date' content="{{ $data['currentStat']->updated_at->toIso8601String()}}">
-    <meta name="description" content="{{$city->name}} konumunun hava durumu bilgilerini sunuyoruz. Hava Durumu; anlık, günlük olarak yayınlanır." >
-    <meta name="keywords" content="{{$city->name}} hava durumu, meteoroloji, anlık, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı">
-    <meta name='subject' content="{{$city->name}} Hava Durumu">
+    <meta name="description" content="{{$city->name}} konumu için hafta sonu hava tahminleri. Hava Durumu; anlık, günlük olarak yayınlanır." >
+    <meta name="keywords" content="{{$city->name}} ,hafa sonu, nasıl, hava durumu, meteoroloji, anlık, günlük, şehirler, ilçeler, sıcaklık,  yağış miktarı">
+    <meta name='subject' content="{{$city->name}} hafta soru hava durumu">
     <meta name="geography" content="{{$city->name}}, Turkey">
-    <meta name="twitter:title" content="{{$city->name}} Hava Durumu">
-    <meta name="twitter:description" content="{{$city->name}} konumunun 16 günlük hava durumu bilgisi.">
+    <meta name="twitter:title" content="{{$city->name}} için Hafta Sonu Hava Durumu">
+    <meta name="twitter:description" content="{{$city->name}} konumu için hafta sonu hava tahminleri. Hava Durumu; anlık, günlük olarak yayınlanır.">
     <meta name="twitter:image" content="http://openweathermap.org/img/w/{{$data['currentStat']->conditions[0]->icon}}d.png">
     {{-- Open Graph  --}}
     <meta property="og:url" content="{{Request::url()}}" />
     <meta property="og:type" content="place" />
-    <meta property="og:title" content="{{$city->name}} Hava Durumu" />
-    <meta property="og:description" content="{{$city->name}} konumunun 16 günlük hava durumu bilgisi." />
+    <meta property="og:title" content="{{$city->name}} için Hafta Sonu Hava Durumu" />
+    <meta property="og:description" content="{{$city->name}} konumu için hafta sonu hava tahminleri. Hava Durumu; anlık, günlük olarak yayınlanır." />
     <meta property="og:image" content="http://openweathermap.org/img/w/{{$data['currentStat']->conditions[0]->icon}}d.png" />
     <meta property="place:location:latitude"  content="{{$city->latitude}}" /> 
     <meta property="place:location:longitude" content="{{$city->longitude}}" /> 
@@ -33,15 +33,15 @@
 
 {{-- Content --}}
 @section('content')
-    <!-- Info boxes -->          
+    <!-- Info boxes -->    
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="ion ion-thermometer"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Sıcaklık</span>
-                  <span class="info-box-number" > {{$data['currentStat']->main->temp}} °C</span>
-                  <span class="description text-blue font-size-12px" >Yüksek: {{ $data['currentStat']->main->temp_max }} °C</span><br/>
+                  <span class="info-box-number"> {{$data['currentStat']->main->temp}} °C</span>
+                  <span class="description text-blue font-size-12px">Yüksek: {{ $data['currentStat']->main->temp_max }} °C</span><br/>
                   <span class="description text-red font-size-12px" >Düşük: {{ $data['currentStat']->main->temp_min }} °C</span>             
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
@@ -111,7 +111,7 @@
               {{-- Daily --}}
               @if( ! $data['dailyList']->isEmpty())
 
-                @include('front.weather.forecast._dailyList') 
+                @include('front.weather.weekend._dailyList') 
                 
               @endif
             </div><!-- /.col -->

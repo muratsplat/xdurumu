@@ -59,11 +59,13 @@ class UpdateCurrent extends TestAbleCommand
         {           
             $no   = 0;
             
+            $delay  = \Config::get('app.job_delay');
+            
             foreach ($this->getAllCities() as $city) {              
                 
                 $no++;
                 
-                $job    = new Current($city);
+                $job    = ( new Current($city) )->delay($delay);
                 
                 $queue  = $this->createQueueName($city->priority);
                 

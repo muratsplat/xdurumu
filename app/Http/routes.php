@@ -45,11 +45,8 @@ Route::group(['domain' => "api.$domain", 'namespace' => 'Api'], function() use($
             */
            Route::resource('current', 'Weather\Current', ['only' => ['index']]);            
             
-        });      
-        
-        
-    });
-   
+        });                      
+    });   
 });
 
 /**
@@ -61,6 +58,11 @@ Route::group(['domain' => "hava.$domain", 'namespace' => 'Weather'], function ()
      * Controller Namespace : App\Http\Controllers\Forecast
      */    
     Route::resource('havadurumu', 'Forecast', ['only' => ['index', 'show']]);
+    
+     /**
+     * Controller Namespace : App\Http\Controllers\Weekend
+     */    
+    Route::resource('hafta-sonu-hava-durumu', 'Weekend', ['only' => ['show']]);
     
      /**
      * Controller Namespace : App\Http\Controllers\SiteMap

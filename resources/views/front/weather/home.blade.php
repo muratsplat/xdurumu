@@ -12,6 +12,7 @@
 @section('meta')
   <meta content="Türkiye'de bulunan 1300'e aşkın konumun hava durumu bilgilerini sunuyoruz. Hava Durumları, anlık, saatlik ve günlük olarak yayınlanır." name="description">
   <meta content="hava durumu, meteoroloji, istanbul hava durumu, ankara hava durumu, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
+  <meta name='subject' content='Hava Durumu'>
 @endsection
 
 {{-- Content --}}

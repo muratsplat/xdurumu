@@ -8,15 +8,23 @@
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
- {{-- @include('front.weather.forecast._show_breadcrumb') --}}
+  @include('front.weather.forecast._index_breadcrumb') 
 @endsection
-
 {{-- Meta --}}
 @section('meta')
   <meta content="Türkiye'de {{$currents->count()}} konumunun hava durumu bilgilerini sunuyoruz. Hava Durumu, anlık, saatlik ve günlük olarak yayınlanır." name="description">
   <meta content="hava durumu, şehirler, ilçeler, meteoroloji, anlık,saatlik, günlük, şehirler, ilçeler, sıcaklık, rüzgar, hava basıncı, yağış miktarı" name="keywords">
+  <meta name='subject' content="Türkiye'deki {{$currents->count()}} konumun hava durumu">  
+  {{-- http://googlewebmastercentral.blogspot.com.tr/2011/09/pagination-with-relnext-and-relprev.html --}}
+  @if(! $currents->isEmpty() && $currents->total() > 6 )     
+    @if( $currents->previousPageUrl() ) 
+      <link rel="prev" href="{{$currents->previousPageUrl()}}" />
+    @endif 
+    @if( $currents->nextPageUrl() )
+      <link rel="next" href="{{$currents->nextPageUrl()}}" />
+    @endif
+  @endif
 @endsection
-
 {{-- Content --}}
 @section('content')
     @if( ! $currents->isEmpty() )
@@ -26,10 +34,8 @@
             <h3 class="box-title"><i class="fa fa-fw fa-map-marker"></i> Konumlar</h3>
           </div>
           <div class="box-body">
-              <ul class="products-list product-list-in-box">                  
-
-                  @foreach($currents as $one)
-
+              <ul class="products-list product-list-in-box">   
+                 @foreach($currents as $one)
                   <li class="item" itemscope itemtype="http://schema.org/Place" >
                     <div class="product-img">
                       <img src="//openweathermap.org/img/w/{{$one->conditions[0]->icon}}d.png" alt="Product Image">
@@ -48,7 +54,7 @@
                           <dd>{{$one->conditions[0]->description}}</dd>                   
                         </dl>
                       </span>
-                       <a href="{{action('Weather\Forecast@show', $one->city->slug)}}" class="btn btn-success">Ayrıntılar</a>
+                       <a href="{{action('Weather\Forecast@show', $one->city->slug)}}" class="btn btn-success">Ayrıntılar</a>                       
                     </div>
                      <div class="direct-chat-info clearfix">
                         <span class="direct-chat-timestamp pull-right"> <i class="fa fa-fw fa-clock-o"></i> {{ $one->updated_at->diffForHumans()}}</span>
@@ -60,7 +66,7 @@
           @if(! $currents->isEmpty() ) 
             <div class="box-footer">
                 <div class="col-sm-5">                
-                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"> Toplam Kayıt: <b>{{$currents->total()}}</b> , Gösterilen:  <b>{{$currents->perPage() }} </b>
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"> Toplam Kayıt: <b>{{$currents->total()}}</b> @if($currents->total() > $currents->perPage() ),  Gösterilen:  <b>{{ $currents->perPage() }} </b> @endif
                     </div>                  
                 </div>
                 <div class="col-sm-7">
