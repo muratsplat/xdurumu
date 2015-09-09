@@ -18,7 +18,7 @@ Yapılacaklar
 - [x] Domain alınacak ve site yayına sokulacak.
 - [x] Google Analytics entegrasyonu yapılacak.
 - [x] Şehirler için saatlik ve günlük sayfaları hazırlanacak.. 
-- [ ] Sadece Haftasonu gösteren sayfalar yapılacak..
+- [x] Sadece Haftasonu gösteren sayfalar yapılacak..
 - [ ] Anlık İstatislik gösteren sayfa yapılacak..
 - [ ] Günlük hava durumu istatisliklerini gösteren sayfa yapılacak.
 
