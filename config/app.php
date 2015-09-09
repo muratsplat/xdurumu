@@ -212,14 +212,14 @@ return [
      * 
      * Value is second
      */
-    'delete_worker_delay' => env('APP_DELETE_WORKER_DELAY', 20),    
+    'delete_worker_delay' => env('APP_DELETE_WORKER_DELAY', 5),    
     
      /**
      * Job Delay in general use
      * 
      * Value is second
      */
-    'job_delay' => env('APP_JOB_DELAY', 5),  
+    'job_delay' => env('APP_JOB_DELAY', 0),  
     
     /**
      * App Version
