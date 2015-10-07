@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title') Hava Durumu | durumum.NET | Hayatı Kolaylaştıran Uygulamalar</title>
+    <title>@yield('title')</title>
     <meta name="msvalidate.01" content="4E90A269E38782F5A04AFBADABD8C2FB" />        
     <meta name='yandex-verification' content='596ff3f8165705ec' /> 
     @include('front._meta')    

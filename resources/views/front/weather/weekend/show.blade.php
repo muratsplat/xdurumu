@@ -4,7 +4,7 @@
 {{-- @section('html_attribute', '') --}}
 
 {{-- Title --}}
-@section('title', $city->name)
+@section('title') {{ $city->name }} Hafta Sonu Hava Durumu @endsection
 
 {{-- BREADCRUMB--}}
 @section('breadcrumb')

@@ -3,6 +3,9 @@
 {{-- AngularJS App --}}
 @section('html_attribute', 'xmlns:ng="http://angularjs.org" ng-app="weatherHome"')
 
+{{-- Title --}}
+@section('title')Hava Durumu | durumum.NET | Hayatı Kolaylaştıran Uygulamalar @endsection
+
 {{-- BREADCRUMB--}}
 @section('breadcrumb')
   @include('front.weather._home_breadcrumb')
