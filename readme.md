@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/muratsplat/xdurumu.svg?branch=master)](https://travis-ci.org/muratsplat/xdurumu)
 ### XDurum
 
 Hava.durumum.net's source codes.
