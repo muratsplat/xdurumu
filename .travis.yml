@@ -7,10 +7,9 @@ php:
   - hhvm
 
 before_script:
+  - ln -s .env_testing .env
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction --dev
 
 
-script: 
-  - ln -s .env_testing .env
-  - phpunit
+script: phpunit
