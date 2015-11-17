@@ -1,6 +1,12 @@
 ### XDurum
 
-Havadurumu, yol durumu, doviz kurları gibi bilgilendirici bilgiler veren bir web uygulamasıdır.
+Hava.durumum.net's source codes.
+
+This app uses Laravel framework.
+
+This app gets weather data infotmation from Open Weather Map API
+
+The development of this project is discontinued !!
 
 Yapılacaklar
 ------------
@@ -21,5 +27,3 @@ Yapılacaklar
 - [x] Sadece Haftasonu gösteren sayfalar yapılacak..
 - [ ] Anlık İstatislik gösteren sayfa yapılacak..
 - [ ] Günlük hava durumu istatisliklerini gösteren sayfa yapılacak.
-
-
