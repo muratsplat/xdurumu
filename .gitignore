@@ -1,8 +1,6 @@
 /vendor
 /node_modules
 Homestead.yaml
-.env
-.env_local
 .env_testing
 nbproject
 _ide_helper.php
