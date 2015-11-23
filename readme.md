@@ -37,6 +37,29 @@ Yapılacaklar
 - [ ] Anlık İstatislik gösteren sayfa yapılacak..
 - [ ] Günlük hava durumu istatisliklerini gösteren sayfa yapılacak.
 
+How To Install
+--------------
+```sh
+git clone https://github.com/muratsplat/xdurumu
+cd xdurumu
+composer install
+npm install
+gulp
+
+php artisan serve
+
+```
+You have to add this lines on /etc/hosts file  to access the app's hava.yourhost api.yourhost sub-domains.
+
+```sh
+127.0.0.1	durumum.dev
+127.0.0.1	hava.durumum.dev
+127.0.0.1 	api.durumum.dev
+
+```
+Now you can open http://hava.durumum.dev:8000/ via your browser.
+
+ 
 License
 --------
 Copyright (C) 2015 Murat ÖDÜNÇ  GPLv3
