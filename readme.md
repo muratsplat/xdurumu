@@ -11,11 +11,11 @@ The development of this project is discontinued !!
 
 ScreenShots
 -----------
-![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-49-03.png')
-![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-49-23.png')
-![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-49-46.png')
-![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-55-51.png')
-![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-56-07.png')
+![GitHub Logo](screenshots/Screenshot\ from\ 2015-11-23\ 22-49-03.png)
+![GitHub Logo](screenshots/Screenshot\ from\ 2015-11-23\ 22-49-23.png)
+![GitHub Logo](screenshots/Screenshot\ from\ 2015-11-23\ 22-49-46.png)
+![GitHub Logo](screenshots/Screenshot\ from\ 2015-11-23\ 22-55-51.png)
+![GitHub Logo](screenshots/Screenshot\ from\ 2015-11-23\ 22-56-07.png)
 
 Yapılacaklar
 ------------
