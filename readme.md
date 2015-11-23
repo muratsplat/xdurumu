@@ -9,6 +9,14 @@ This app gets weather data infotmation from Open Weather Map API
 
 The development of this project is discontinued !!
 
+ScreenShots
+-----------
+![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-49-03.png')
+![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-49-23.png')
+![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-49-46.png')
+![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-55-51.png')
+![GitHub Logo]('./screenshots/Screenshot\ from\ 2015-11-23\ 22-56-07.png')
+
 Yapılacaklar
 ------------
 - [x] Şehirler diye bir tablo oluşturulacak. openweathermap.org ait şehirler bilgisi sadece Türliye olanlar süzülerek veritabanı eklenecek. Elbette bunun için seeder ve migration sınıflar yazılacak. Basit testleri yapılacak.
