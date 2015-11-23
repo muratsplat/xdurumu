@@ -22,7 +22,7 @@ class GoogleMap {
 		 * Todo:
 		 * Adds new mothods to configure google map api
 		 */
-		this._url = '//maps.googleapis.com/maps/api/js?key=AIzaSyDEOgcVkpgwi7TuYxZqqFultIURU20lyk8&callback=googleInitMap';
+		this._url = '//maps.googleapis.com/maps/api/js?callback=googleInitMap';
 		this._iconBase = 'http://openweathermap.org/img/w/';
 		this._map = {};
 
