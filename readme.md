@@ -28,3 +28,7 @@ Yapılacaklar
 - [x] Sadece Haftasonu gösteren sayfalar yapılacak..
 - [ ] Anlık İstatislik gösteren sayfa yapılacak..
 - [ ] Günlük hava durumu istatisliklerini gösteren sayfa yapılacak.
+
+License
+--------
+Copyright (C) 2015 Murat ÖDÜNÇ  GPLv3
